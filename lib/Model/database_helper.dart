@@ -81,22 +81,18 @@ class DatabaseHelper {
   Future<int> insertBodyEntry(BodyEntry bodyEntry) async {
     Database db = await database;
     
-    // Convert the BodyEntry object to a flattened map for database storage
+    // Convert the BodyEntry object to a map for database storage
     Map<String, dynamic> row = {
       columnWeight: bodyEntry.weight,
       columnDate: bodyEntry.date.millisecondsSinceEpoch,
       columnFatPercentage: bodyEntry.fatPercentage,
+      columnNeckCircumference: bodyEntry.neckCircumference,
+      columnWaistCircumference: bodyEntry.waistCircumference,
+      columnHipCircumference: bodyEntry.hipCircumference,
       columnTags: bodyEntry.tags?.join(','),
       columnNotes: bodyEntry.notes,
       columnImagePath: bodyEntry.imagePath,
     };
-    
-    // Add measurements if they exist
-    if (bodyEntry.measurements != null) {
-      row[columnNeckCircumference] = bodyEntry.measurements!.neckCircumference;
-      row[columnWaistCircumference] = bodyEntry.measurements!.waistCircumference;
-      row[columnHipCircumference] = bodyEntry.measurements!.hipCircumference;
-    }
     
     return await db.insert(tableBodyEntries, row);
   }
@@ -108,24 +104,14 @@ class DatabaseHelper {
     List<Map<String, dynamic>> maps = await db.query(tableBodyEntries, orderBy: '$columnDate DESC');
     
     return List.generate(maps.length, (i) {
-      // Create a BodyMeasurements object if measurements exist
-      BodyMeasurements? measurements;
-      if (maps[i][columnNeckCircumference] != null || 
-          maps[i][columnWaistCircumference] != null || 
-          maps[i][columnHipCircumference] != null) {
-        measurements = BodyMeasurements(
-          neckCircumference: maps[i][columnNeckCircumference],
-          waistCircumference: maps[i][columnWaistCircumference],
-          hipCircumference: maps[i][columnHipCircumference],
-        );
-      }
-      
       // Create and return a BodyEntry object
       return BodyEntry(
         weight: maps[i][columnWeight],
         date: DateTime.fromMillisecondsSinceEpoch(maps[i][columnDate]),
         fatPercentage: maps[i][columnFatPercentage],
-        measurements: measurements,
+        neckCircumference: maps[i][columnNeckCircumference],
+        waistCircumference: maps[i][columnWaistCircumference],
+        hipCircumference: maps[i][columnHipCircumference],
         tags: maps[i][columnTags] != null ? maps[i][columnTags].split(',') : null,
         notes: maps[i][columnNotes],
         imagePath: maps[i][columnImagePath],
@@ -140,22 +126,18 @@ class DatabaseHelper {
   Future<int> updateBodyEntry(int id, BodyEntry bodyEntry) async {
     Database db = await database;
     
-    // Convert the BodyEntry object to a flattened map for database storage
+    // Convert the BodyEntry object to a map for database storage
     Map<String, dynamic> row = {
       columnWeight: bodyEntry.weight,
       columnDate: bodyEntry.date.millisecondsSinceEpoch,
       columnFatPercentage: bodyEntry.fatPercentage,
+      columnNeckCircumference: bodyEntry.neckCircumference,
+      columnWaistCircumference: bodyEntry.waistCircumference,
+      columnHipCircumference: bodyEntry.hipCircumference,
       columnTags: bodyEntry.tags?.join(','),
       columnNotes: bodyEntry.notes,
       columnImagePath: bodyEntry.imagePath,
     };
-    
-    // Add measurements if they exist
-    if (bodyEntry.measurements != null) {
-      row[columnNeckCircumference] = bodyEntry.measurements!.neckCircumference;
-      row[columnWaistCircumference] = bodyEntry.measurements!.waistCircumference;
-      row[columnHipCircumference] = bodyEntry.measurements!.hipCircumference;
-    }
     
     return await db.update(
       tableBodyEntries, 
