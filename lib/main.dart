@@ -3,18 +3,18 @@ import 'Model/database_helper.dart';
 import 'package:path_provider/path_provider.dart'; // Add this import
 
 void main() async {
-  // Ensure Flutter is initialized before using platform channels
+  // Ensure Flutter is initialized before using platform channelsl
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize the database
   await DatabaseHelper().database;
-  
+
   // Get the database path and print it
   final dbHelper = DatabaseHelper();
   final db = await dbHelper.database;
   final directory = await getApplicationDocumentsDirectory();
   print('Database path: ${directory.path}/weight_tracker.db');
-  
+
   runApp(MyApp());
 }
 
