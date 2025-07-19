@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // Add this import
 import 'Model/database_helper.dart';
-import 'package:path_provider/path_provider.dart'; // Add this import
+import 'package:path_provider/path_provider.dart';
+import 'View/weight_entry_sheet.dart';
+import 'Model/body_entry.dart';
 
 void main() async {
-  // Ensure Flutter is initialized before using platform channelsl
+  // Ensure Flutter is initialized before using platform channels
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize the database
@@ -15,7 +18,8 @@ void main() async {
   final directory = await getApplicationDocumentsDirectory();
   print('Database path: ${directory.path}/weight_tracker.db');
 
-  runApp(MyApp());
+  // Wrap the app with ProviderScope
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -35,7 +39,17 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Weight Tracker')),
-      body: Center(child: Text('Hello, Flutter!')),
+      body: Center(child: Text('Press the + button to add a new weight entry')),
+
+      // Add a FloatingActionButton to open the weight entry sheet
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Call the static show method of WeightEntrySheet
+          WeightEntrySheet.show(context: context);
+        },
+        child: Icon(Icons.add),
+        tooltip: 'Add Weight Entry',
+      ),
     );
   }
 }

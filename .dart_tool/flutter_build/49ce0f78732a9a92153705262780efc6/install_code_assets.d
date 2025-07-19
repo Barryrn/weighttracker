@@ -1,0 +1,1 @@
+ /Users/barryazihuwa/development/flutter/weighttracker/.dart_tool/flutter_build/49ce0f78732a9a92153705262780efc6/native_assets.json: 
