@@ -67,6 +67,8 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
   }
 }
 
-final bodyEntryProvider = StateNotifierProvider<BodyEntryNotifier, BodyEntry>((ref) {
+final bodyEntryProvider = StateNotifierProvider<BodyEntryNotifier, BodyEntry>((
+  ref,
+) {
   return BodyEntryNotifier();
 });
