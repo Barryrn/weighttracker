@@ -63,7 +63,7 @@ class _NotesEntryState extends ConsumerState<NotesEntry> {
             controller: _controller,
             onChanged: _onNotesChanged,
             decoration: InputDecoration(
-              hintText: 'Enter your weight',
+              hintText: 'Enter your Note',
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 12,

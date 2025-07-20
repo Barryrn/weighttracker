@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weigthtracker/Widget/notes_entry.dart';
+import 'package:weigthtracker/Widget/note_entry.dart';
+import 'package:weigthtracker/Widget/tag_entry.dart';
 import '../Widget/date_time_entry.dart';
 import '../Widget/weight_entry.dart';
 
@@ -38,8 +39,9 @@ class WeightEntrySheet {
                   SizedBox(height: 8),
                   const WeightEntry(),
                   SizedBox(height: 8),
-
                   const NotesEntry(),
+                  SizedBox(height: 8),
+                  const TagEntry(),
                 ],
               ),
             ),

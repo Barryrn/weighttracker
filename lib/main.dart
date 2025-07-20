@@ -4,6 +4,7 @@ import 'Model/database_helper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'View/weight_entry_sheet.dart';
 import 'Model/body_entry.dart';
+import 'View/home_page.dart';
 
 void main() async {
   // Ensure Flutter is initialized before using platform channels
@@ -30,26 +31,6 @@ class MyApp extends StatelessWidget {
       title: 'Weight Tracker',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Weight Tracker')),
-      body: Center(child: Text('Press the + button to add a new weight entry')),
-
-      // Add a FloatingActionButton to open the weight entry sheet
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Call the static show method of WeightEntrySheet
-          WeightEntrySheet.show(context: context);
-        },
-        child: Icon(Icons.add),
-        tooltip: 'Add Weight Entry',
-      ),
     );
   }
 }

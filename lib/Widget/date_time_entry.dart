@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:weigthtracker/theme.dart';
 import '../ViewModel/entry_form_provider.dart';
 
 /// A widget that displays the current date and allows the user to select a different date
@@ -19,15 +20,17 @@ class DateTimeEntry extends ConsumerWidget {
     // Get the current date from the provider
     final bodyEntry = ref.watch(bodyEntryProvider);
     final bodyEntryNotifier = ref.read(bodyEntryProvider.notifier);
-    
+
     // Format the date for display - using a simpler format that matches the design
     final dateFormat = DateFormat('EEEE, d. MMMM');
     final formattedDate = dateFormat.format(bodyEntry.date);
-    
+
     // Check if the selected date is today
     final isToday = _isToday(bodyEntry.date);
-    final displayText = isToday ? 'Heute, ${formattedDate.split(", ")[1]}' : formattedDate;
-    
+    final displayText = isToday
+        ? 'Heute, ${formattedDate.split(", ")[1]}'
+        : formattedDate;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
@@ -51,11 +54,7 @@ class DateTimeEntry extends ConsumerWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.blue,
-                  size: 28,
-                ),
+                const Icon(Icons.arrow_drop_down, color: Colors.blue, size: 28),
               ],
             ),
           ),
@@ -83,7 +82,7 @@ class DateTimeEntry extends ConsumerWidget {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: Colors.blue,
+              primary: AppColors.primaryLight,
               onPrimary: Colors.white,
               onSurface: Colors.black,
             ),
@@ -107,6 +106,8 @@ class DateTimeEntry extends ConsumerWidget {
   /// @return True if the date is today, false otherwise
   bool _isToday(DateTime date) {
     final now = DateTime.now();
-    return date.year == now.year && date.month == now.month && date.day == now.day;
+    return date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day;
   }
 }
