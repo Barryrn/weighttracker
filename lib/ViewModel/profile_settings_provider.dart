@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../Model/profile_settings.dart';
+import '../Model/profile_settings_storage.dart'; // Import the new storage class
 import 'dart:developer' as developer;
 
 /// A StateNotifier that manages the state of the user's profile settings.
@@ -8,7 +9,30 @@ import 'dart:developer' as developer;
 /// the Model (ProfileSettings) with the View (ProfileSettingsPage).
 class ProfileSettingsNotifier extends StateNotifier<ProfileSettings> {
   /// Creates a ProfileSettingsNotifier with default empty settings.
-  ProfileSettingsNotifier() : super(const ProfileSettings());
+  /// Loads saved settings from storage when initialized.
+  ProfileSettingsNotifier() : super(const ProfileSettings()) {
+    _loadSettings();
+  }
+
+  /// Loads settings from persistent storage
+  Future<void> _loadSettings() async {
+    try {
+      final settings = await ProfileSettingsStorage.loadProfileSettings();
+      state = settings;
+      _logState();
+    } catch (e) {
+      developer.log('Error loading profile settings: $e');
+    }
+  }
+
+  /// Saves the current settings to persistent storage
+  Future<void> _saveSettings() async {
+    try {
+      await ProfileSettingsStorage.saveProfileSettings(state);
+    } catch (e) {
+      developer.log('Error saving profile settings: $e');
+    }
+  }
 
   /// Logs the current state of the ProfileSettings
   /// This is called after each state update to help with debugging
@@ -24,6 +48,7 @@ class ProfileSettingsNotifier extends StateNotifier<ProfileSettings> {
   /// [birthday] is the new birthday to set.
   void updateBirthday(DateTime birthday) {
     state = state.copyWith(birthday: birthday);
+    _saveSettings(); // Save after update
     _logState();
   }
 
@@ -32,6 +57,7 @@ class ProfileSettingsNotifier extends StateNotifier<ProfileSettings> {
   /// [gender] is the new gender to set.
   void updateGender(String gender) {
     state = state.copyWith(gender: gender);
+    _saveSettings(); // Save after update
     _logState();
   }
 
@@ -40,6 +66,7 @@ class ProfileSettingsNotifier extends StateNotifier<ProfileSettings> {
   /// [height] is the new height to set in centimeters.
   void updateHeight(double height) {
     state = state.copyWith(height: height);
+    _saveSettings(); // Save after update
     _logState();
   }
 }
