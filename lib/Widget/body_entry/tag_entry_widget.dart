@@ -69,7 +69,7 @@ class _TagEntryState extends ConsumerState<TagEntry> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             border: Border.all(
-              color: AppColors.secondary.withOpacity(0.3),
+              color: AppColors.primary.withOpacity(0.3),
               width: 1,
             ),
           ),
@@ -101,13 +101,19 @@ class _TagEntryState extends ConsumerState<TagEntry> {
                         contentPadding: EdgeInsets.zero,
                       ),
                       onSubmitted: (value) {
-                        _addTag(value);
-                        _focusNode.requestFocus();
+                        if (value.trim().isEmpty) {
+                          // If the controller is empty when finish is pressed, unfocus to dismiss keyboard
+                          _focusNode.unfocus();
+                        } else {
+                          // Otherwise add the tag and keep focus
+                          _addTag(value);
+                          _focusNode.requestFocus();
+                        }
                       },
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.add, color: AppColors.secondary),
+                    icon: const Icon(Icons.add, color: AppColors.primary),
                     onPressed: () {
                       _addTag(_controller.text);
                       _focusNode.requestFocus();
@@ -131,10 +137,10 @@ class _TagEntryState extends ConsumerState<TagEntry> {
       label: Text(tag),
       deleteIcon: const Icon(Icons.close, size: 16),
       onDeleted: () => _removeTag(tag),
-      backgroundColor: AppColors.secondary.withOpacity(0.1),
+      backgroundColor: AppColors.primary.withOpacity(0.1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: AppColors.secondary.withOpacity(0.3)),
+        side: BorderSide(color: AppColors.primary.withOpacity(0.3)),
       ),
       labelStyle: const TextStyle(fontSize: 14),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),

@@ -3,14 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
   // Primary – Orange
-  static const Color primary = Color(0xFFFB8500);
-  static const Color primaryLight = Color(0xFFFFB347);
-  static const Color primaryVeryLight = Color(0xFFFFD699);
+  static const Color secondary = Color(0xFFFB8500);
+  static const Color secondaryLight = Color(0xFFFFB347);
+  static const Color secondaryVeryLight = Color(0xFFFFD699);
 
   // Secondary – Blue
-  static const Color secondary = Color(0xFF246EE9);
-  static const Color secondaryLight = Color(0xFF669DFF);
-  static const Color secondaryVeryLight = Color(0xFFB8D0FF);
+  static const Color primary = Color(0xFF246EE9);
+  static const Color primaryLight = Color(0xFF669DFF);
+  static const Color primaryVeryLight = Color(0xFFB8D0FF);
 
   // Backgrounds & Surfaces
   static const Color background = Color(0xFFFAFAFA); // Light gray

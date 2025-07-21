@@ -34,17 +34,21 @@ class Footer extends StatelessWidget {
         // First call the onTap callback to update the state
         onTap(index);
 
-        if (index == 0) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
-        } else if (index == 1) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MorePage()),
-          );
+        // Only navigate if the selected index is different from the current index
+        if (index != currentIndex) {
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
+          } else if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MorePage()),
+            );
+          }
         }
+        // If index == currentIndex, do nothing (stay on current page)
       },
       items: const [
         BottomNavigationBarItem(

@@ -78,7 +78,7 @@ class _FatPercentageEntryState extends ConsumerState<FatPercentageEntry> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.secondary.withOpacity(0.3)),
+            border: Border.all(color: AppColors.primary.withOpacity(0.3)),
           ),
           child: Row(
             children: [
@@ -130,13 +130,11 @@ class _FatPercentageEntryState extends ConsumerState<FatPercentageEntry> {
                 height: 56,
                 decoration: BoxDecoration(
                   border: Border(
-                    left: BorderSide(
-                      color: AppColors.secondary.withOpacity(0.3),
-                    ),
+                    left: BorderSide(color: AppColors.primary.withOpacity(0.3)),
                   ),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.calculate, color: AppColors.secondary),
+                  icon: const Icon(Icons.calculate, color: AppColors.primary),
                   onPressed: _openCalculator,
                   tooltip: 'Calculate body fat percentage',
                 ),

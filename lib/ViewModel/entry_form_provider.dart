@@ -128,14 +128,20 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
   /// Updates the side image path in the BodyEntry state
   /// @param imagePath The path to the side image file
   void updateSideImagePath(String? imagePath) {
-    state = state.copyWith(sideImagePath: imagePath);
+    state = state.copyWith(
+      sideImagePath: imagePath,
+      setSideImagePathNull: imagePath == null,
+    );
     _logState();
   }
 
   /// Updates the back image path in the BodyEntry state
   /// @param imagePath The path to the back image file
   void updateBackImagePath(String? imagePath) {
-    state = state.copyWith(backImagePath: imagePath);
+    state = state.copyWith(
+      backImagePath: imagePath,
+      setBackImagePathNull: imagePath == null,
+    );
     _logState();
   }
 
