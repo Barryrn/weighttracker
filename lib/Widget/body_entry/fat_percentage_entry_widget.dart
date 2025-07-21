@@ -78,7 +78,7 @@ class _FatPercentageEntryState extends ConsumerState<FatPercentageEntry> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.blue.withOpacity(0.3)),
+            border: Border.all(color: AppColors.secondary.withOpacity(0.3)),
           ),
           child: Row(
             children: [
@@ -130,7 +130,9 @@ class _FatPercentageEntryState extends ConsumerState<FatPercentageEntry> {
                 height: 56,
                 decoration: BoxDecoration(
                   border: Border(
-                    left: BorderSide(color: Colors.blue.withOpacity(0.3)),
+                    left: BorderSide(
+                      color: AppColors.secondary.withOpacity(0.3),
+                    ),
                   ),
                 ),
                 child: IconButton(

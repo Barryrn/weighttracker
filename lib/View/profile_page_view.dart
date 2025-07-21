@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weigthtracker/View/weight_entry_sheet_view.dart';
+import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import '../Widget/footer.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            WeightEntrySheet.show(context: context);
+            BodyEntrySheet.show(context: context);
           },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
