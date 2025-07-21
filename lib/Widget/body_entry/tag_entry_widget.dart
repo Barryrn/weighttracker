@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weigthtracker/theme.dart';
 import '../../ViewModel/entry_form_provider.dart';
 
 /// A widget that allows users to enter and manage tags for body entries.
@@ -67,7 +68,10 @@ class _TagEntryState extends ConsumerState<TagEntry> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            border: Border.all(color: Colors.blue.withOpacity(0.3), width: 1),
+            border: Border.all(
+              color: AppColors.secondary.withOpacity(0.3),
+              width: 1,
+            ),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Column(
@@ -103,7 +107,7 @@ class _TagEntryState extends ConsumerState<TagEntry> {
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.add, color: Colors.blue),
+                    icon: const Icon(Icons.add, color: AppColors.secondary),
                     onPressed: () {
                       _addTag(_controller.text);
                       _focusNode.requestFocus();
@@ -127,10 +131,10 @@ class _TagEntryState extends ConsumerState<TagEntry> {
       label: Text(tag),
       deleteIcon: const Icon(Icons.close, size: 16),
       onDeleted: () => _removeTag(tag),
-      backgroundColor: Colors.blue.withOpacity(0.1),
+      backgroundColor: AppColors.secondary.withOpacity(0.1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: Colors.blue.withOpacity(0.3)),
+        side: BorderSide(color: AppColors.secondary.withOpacity(0.3)),
       ),
       labelStyle: const TextStyle(fontSize: 14),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),

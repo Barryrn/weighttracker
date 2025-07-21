@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weigthtracker/theme.dart';
 import '../../ViewModel/entry_form_provider.dart';
 
 class NotesEntry extends ConsumerStatefulWidget {
@@ -56,7 +57,7 @@ class _NotesEntryState extends ConsumerState<NotesEntry> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.blue.withOpacity(0.3)),
+            border: Border.all(color: AppColors.secondary.withOpacity(0.3)),
           ),
           child: TextFormField(
             controller: _controller,

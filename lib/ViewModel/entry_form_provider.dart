@@ -18,7 +18,9 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
     developer.log('Hip Circumference: ${state.hipCircumference}');
     developer.log('Tags: ${state.tags}');
     developer.log('Notes: ${state.notes}');
-    developer.log('Image Path: ${state.imagePath}');
+    developer.log('Front Image Path: ${state.frontImagePath}');
+    developer.log('Side Image Path: ${state.sideImagePath}');
+    developer.log('Back Image Path: ${state.backImagePath}');
     developer.log('===================================');
   }
 
@@ -49,12 +51,17 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
   /// Updates the neck circumference, converting from display units to standard units (cm)
   /// @param neckCircumference The neck circumference in the current display unit (cm or inches)
   /// @param useMetric Whether the input is in metric units
-  void updateNeckCircumference(double? neckCircumference, {required bool useMetric}) {
+  void updateNeckCircumference(
+    double? neckCircumference, {
+    required bool useMetric,
+  }) {
     if (neckCircumference == null) {
       state = state.copyWith(neckCircumference: null);
     } else {
       // Convert to standard unit (cm) if needed
-      final standardValue = useMetric ? neckCircumference : neckCircumference * 2.54;
+      final standardValue = useMetric
+          ? neckCircumference
+          : neckCircumference * 2.54;
       state = state.copyWith(neckCircumference: standardValue);
     }
     _logState();
@@ -63,12 +70,17 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
   /// Updates the waist circumference, converting from display units to standard units (cm)
   /// @param waistCircumference The waist circumference in the current display unit (cm or inches)
   /// @param useMetric Whether the input is in metric units
-  void updateWaistCircumference(double? waistCircumference, {required bool useMetric}) {
+  void updateWaistCircumference(
+    double? waistCircumference, {
+    required bool useMetric,
+  }) {
     if (waistCircumference == null) {
       state = state.copyWith(waistCircumference: null);
     } else {
       // Convert to standard unit (cm) if needed
-      final standardValue = useMetric ? waistCircumference : waistCircumference * 2.54;
+      final standardValue = useMetric
+          ? waistCircumference
+          : waistCircumference * 2.54;
       state = state.copyWith(waistCircumference: standardValue);
     }
     _logState();
@@ -77,12 +89,17 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
   /// Updates the hip circumference, converting from display units to standard units (cm)
   /// @param hipCircumference The hip circumference in the current display unit (cm or inches)
   /// @param useMetric Whether the input is in metric units
-  void updateHipCircumference(double? hipCircumference, {required bool useMetric}) {
+  void updateHipCircumference(
+    double? hipCircumference, {
+    required bool useMetric,
+  }) {
     if (hipCircumference == null) {
       state = state.copyWith(hipCircumference: null);
     } else {
       // Convert to standard unit (cm) if needed
-      final standardValue = useMetric ? hipCircumference : hipCircumference * 2.54;
+      final standardValue = useMetric
+          ? hipCircumference
+          : hipCircumference * 2.54;
       state = state.copyWith(hipCircumference: standardValue);
     }
     _logState();
@@ -98,12 +115,38 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
     _logState();
   }
 
+  /// Updates the front image path in the BodyEntry state
+  /// @param imagePath The path to the front image file
+  void updateFrontImagePath(String? imagePath) {
+    state = state.copyWith(
+      frontImagePath: imagePath,
+      setFrontImagePathNull: imagePath == null,
+    );
+    _logState();
+  }
+
+  /// Updates the side image path in the BodyEntry state
+  /// @param imagePath The path to the side image file
+  void updateSideImagePath(String? imagePath) {
+    state = state.copyWith(sideImagePath: imagePath);
+    _logState();
+  }
+
+  /// Updates the back image path in the BodyEntry state
+  /// @param imagePath The path to the back image file
+  void updateBackImagePath(String? imagePath) {
+    state = state.copyWith(backImagePath: imagePath);
+    _logState();
+  }
+
   void reset() {
     state = BodyEntry(date: DateTime.now(), tags: []);
     _logState();
   }
 }
 
-final bodyEntryProvider = StateNotifierProvider<BodyEntryNotifier, BodyEntry>((ref) {
+final bodyEntryProvider = StateNotifierProvider<BodyEntryNotifier, BodyEntry>((
+  ref,
+) {
   return BodyEntryNotifier();
 });

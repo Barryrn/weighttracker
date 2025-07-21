@@ -30,7 +30,9 @@ class DatabaseHelper {
   static const String columnHipCircumference = 'hip_circumference';
   static const String columnTags = 'tags';
   static const String columnNotes = 'notes';
-  static const String columnImagePath = 'image_path';
+  static const String columnFrontImagePath = 'front_image_path';
+  static const String columnSideImagePath = 'side_front_image_path';
+  static const String columnBackImagePath = 'back_front_image_path';
 
   /// Get the database instance, creating it if it doesn't exist
   /// @return Future<Database> The database instance
@@ -70,7 +72,9 @@ class DatabaseHelper {
         $columnHipCircumference REAL,
         $columnTags TEXT,
         $columnNotes TEXT,
-        $columnImagePath TEXT
+        $columnFrontImagePath TEXT,
+        $columnSideImagePath TEXT,
+        $columnBackImagePath TEXT
       )
     ''');
   }
@@ -91,7 +95,9 @@ class DatabaseHelper {
       columnHipCircumference: bodyEntry.hipCircumference,
       columnTags: bodyEntry.tags?.join(','),
       columnNotes: bodyEntry.notes,
-      columnImagePath: bodyEntry.imagePath,
+      columnFrontImagePath: bodyEntry.frontImagePath,
+      columnSideImagePath: bodyEntry.sideImagePath,
+      columnBackImagePath: bodyEntry.backImagePath,
     };
 
     return await db.insert(tableBodyEntries, row);
@@ -119,7 +125,9 @@ class DatabaseHelper {
             ? maps[i][columnTags].split(',')
             : null,
         notes: maps[i][columnNotes],
-        imagePath: maps[i][columnImagePath],
+        frontImagePath: maps[i][columnFrontImagePath],
+        sideImagePath: maps[i][columnSideImagePath],
+        backImagePath: maps[i][columnBackImagePath],
       );
     });
   }
@@ -141,7 +149,9 @@ class DatabaseHelper {
       columnHipCircumference: bodyEntry.hipCircumference,
       columnTags: bodyEntry.tags?.join(','),
       columnNotes: bodyEntry.notes,
-      columnImagePath: bodyEntry.imagePath,
+      columnFrontImagePath: bodyEntry.frontImagePath,
+      columnSideImagePath: bodyEntry.sideImagePath,
+      columnBackImagePath: bodyEntry.backImagePath,
     };
 
     return await db.update(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weigthtracker/theme.dart';
 import '../../ViewModel/entry_form_provider.dart';
 import '../../ViewModel/unit_conversion_provider.dart';
 
@@ -20,9 +21,11 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
     // Initialize with the current weight, converting from standard unit (kg) if needed
     final weight = ref.read(bodyEntryProvider).weight;
     final unitPrefs = ref.read(unitConversionProvider);
-    
+
     if (weight != null) {
-      final displayWeight = unitPrefs.useMetricWeight ? weight : weight / 0.45359237;
+      final displayWeight = unitPrefs.useMetricWeight
+          ? weight
+          : weight / 0.45359237;
       _controller = TextEditingController(
         text: displayWeight.toStringAsFixed(1),
       );
@@ -40,7 +43,7 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
   void _onWeightChanged(String value) {
     final notifier = ref.read(bodyEntryProvider.notifier);
     final unitPrefs = ref.read(unitConversionProvider);
-    
+
     if (value.isEmpty) {
       notifier.updateWeight(null, useMetric: unitPrefs.useMetricWeight);
       return;
@@ -58,17 +61,17 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
     final unitNotifier = ref.read(unitConversionProvider.notifier);
     final currentPrefs = ref.read(unitConversionProvider);
     final currentWeight = ref.read(bodyEntryProvider).weight;
-    
+
     // Toggle the unit preference
     unitNotifier.setWeightUnit(useMetric: !currentPrefs.useMetricWeight);
-    
+
     // Update the text field with the converted value
     if (currentWeight != null) {
       final newUnitPrefs = ref.read(unitConversionProvider);
-      final displayWeight = newUnitPrefs.useMetricWeight 
-          ? currentWeight 
+      final displayWeight = newUnitPrefs.useMetricWeight
+          ? currentWeight
           : currentWeight / 0.45359237;
-      
+
       setState(() {
         _controller.text = displayWeight.toStringAsFixed(1);
       });
@@ -79,7 +82,7 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
   Widget build(BuildContext context) {
     final unitPrefs = ref.watch(unitConversionProvider);
     final unitSuffix = unitPrefs.useMetricWeight ? 'kg' : 'lb';
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,7 +99,10 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
               onPressed: _toggleUnit,
               child: Text(
                 'Switch to ${unitPrefs.useMetricWeight ? "lb" : "kg"}',
-                style: const TextStyle(fontSize: 14),
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColors.secondary,
+                ),
               ),
             ),
           ],
@@ -105,7 +111,7 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.blue.withOpacity(0.3)),
+            border: Border.all(color: AppColors.secondary.withOpacity(0.3)),
           ),
           child: TextFormField(
             controller: _controller,
@@ -138,7 +144,10 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
               border: InputBorder.none,
               suffixIcon: Padding(
                 padding: const EdgeInsets.only(right: 12.0),
-                child: Text(unitSuffix, style: const TextStyle(color: Colors.grey)),
+                child: Text(
+                  unitSuffix,
+                  style: const TextStyle(color: Colors.grey),
+                ),
               ),
               suffixIconConstraints: const BoxConstraints(
                 minWidth: 0,

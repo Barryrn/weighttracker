@@ -1,3 +1,6 @@
+// Add this at the top of your file, outside the class
+const _sentinel = Object();
+
 class BodyEntry {
   final DateTime date;
   final double? weight;
@@ -7,7 +10,9 @@ class BodyEntry {
   final double? hipCircumference;
   final List<String>? tags;
   final String? notes;
-  final String? imagePath;
+  final String? frontImagePath;
+  final String? sideImagePath;
+  final String? backImagePath;
 
   BodyEntry({
     required this.date,
@@ -18,7 +23,9 @@ class BodyEntry {
     this.hipCircumference,
     this.tags,
     this.notes,
-    this.imagePath,
+    this.frontImagePath,
+    this.sideImagePath,
+    this.backImagePath,
   });
 
   /// Creates a copy of this BodyEntry with the given fields replaced with new values
@@ -30,7 +37,7 @@ class BodyEntry {
   /// @param hipCircumference The new hip circumference value (optional)
   /// @param tags The new tags value (optional)
   /// @param notes The new notes value (optional)
-  /// @param imagePath The new image path value (optional)
+  /// @param frontImagePath The new image path value (optional)
   /// @return A new BodyEntry instance with the updated values
   BodyEntry copyWith({
     DateTime? date,
@@ -41,7 +48,12 @@ class BodyEntry {
     double? hipCircumference,
     List<String>? tags,
     String? notes,
-    String? imagePath,
+    bool setFrontImagePathNull = false,
+    String? frontImagePath,
+    bool setSideImagePathNull = false,
+    String? sideImagePath,
+    bool setBackImagePathNull = false,
+    String? backImagePath,
   }) {
     return BodyEntry(
       date: date ?? this.date,
@@ -52,7 +64,9 @@ class BodyEntry {
       hipCircumference: hipCircumference ?? this.hipCircumference,
       tags: tags ?? this.tags,
       notes: notes ?? this.notes,
-      imagePath: imagePath ?? this.imagePath,
+      frontImagePath: setFrontImagePathNull ? null : (frontImagePath ?? this.frontImagePath),
+      sideImagePath: setSideImagePathNull ? null : (sideImagePath ?? this.sideImagePath),
+      backImagePath: setBackImagePathNull ? null : (backImagePath ?? this.backImagePath),
     );
   }
 
@@ -68,7 +82,9 @@ class BodyEntry {
       'hipCircumference': hipCircumference,
       'tags': tags != null ? tags!.join(',') : null,
       'notes': notes,
-      'imagePath': imagePath,
+      'frontImagePath': frontImagePath,
+      'sideImagePath': sideImagePath,
+      'backImagePath': backImagePath,
     };
   }
 
@@ -85,7 +101,9 @@ class BodyEntry {
       hipCircumference: map['hipCircumference'],
       tags: map['tags'] != null ? map['tags'].split(',') : null,
       notes: map['notes'],
-      imagePath: map['imagePath'],
+      frontImagePath: map['frontImagePath'],
+      sideImagePath: map['sideImagePath'],
+      backImagePath: map['backImagePath'],
     );
   }
 }

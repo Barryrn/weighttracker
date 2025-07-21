@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weigthtracker/View/weight_entry_sheet_view.dart';
+import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/Widget/profile/profile_settings_widget.dart';
 import '../../Widget/footer.dart';
 
