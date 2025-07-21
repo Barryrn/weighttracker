@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../Model/profile_settings.dart';
-import '../Model/profile_settings_storage.dart'; // Import the new storage class
+import '../Model/profile_settings_model.dart';
+import '../Model/profile_settings_storage_model.dart'; // Import the new storage class
 import 'dart:developer' as developer;
 
 /// A StateNotifier that manages the state of the user's profile settings.
@@ -77,5 +77,5 @@ class ProfileSettingsNotifier extends StateNotifier<ProfileSettings> {
 /// that need to read or update profile settings.
 final profileSettingsProvider =
     StateNotifierProvider<ProfileSettingsNotifier, ProfileSettings>(
-  (ref) => ProfileSettingsNotifier(),
-);
+      (ref) => ProfileSettingsNotifier(),
+    );

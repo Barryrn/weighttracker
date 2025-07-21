@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weigthtracker/Widget/note_entry.dart';
-import 'package:weigthtracker/Widget/tag_entry.dart';
-import '../Widget/date_time_entry.dart';
-import '../Widget/weight_entry.dart';
+import 'package:weigthtracker/Widget/body_entry/fat_percentage_entry_widget.dart';
+import 'package:weigthtracker/Widget/body_entry/note_entry_widget.dart';
+import 'package:weigthtracker/Widget/body_entry/tag_entry_widget.dart';
+import '../Widget/body_entry/date_time_entry_widget.dart';
+import '../Widget/body_entry/weight_entry_widget.dart';
 
 class WeightEntrySheet {
   static Future<void> show({required BuildContext context}) async {
@@ -42,6 +43,8 @@ class WeightEntrySheet {
                   const NotesEntry(),
                   SizedBox(height: 8),
                   const TagEntry(),
+                  SizedBox(height: 8),
+                  const FatPercentageEntry(),
                 ],
               ),
             ),

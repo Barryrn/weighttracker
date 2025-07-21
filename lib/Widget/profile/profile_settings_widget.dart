@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../View/profile_settings_page.dart';
+import '../../View/profile_settings_page_view.dart';
 
 /// A widget that displays a profile settings option in the app.
 /// When tapped, it navigates to the profile settings page where users
@@ -29,10 +29,7 @@ class ProfileSettingsWidget extends StatelessWidget {
         'Profile',
         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
       ),
-      subtitle: const Text(
-        'Not set',
-        style: TextStyle(fontSize: 14, color: Colors.grey),
-      ),
+
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
         // Navigate to the profile settings page when tapped

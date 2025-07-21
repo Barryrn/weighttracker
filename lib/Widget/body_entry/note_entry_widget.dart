@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../ViewModel/entry_form_provider.dart';
+import '../../ViewModel/entry_form_provider.dart';
 
 class NotesEntry extends ConsumerStatefulWidget {
   const NotesEntry({Key? key}) : super(key: key);
@@ -31,13 +31,12 @@ class _NotesEntryState extends ConsumerState<NotesEntry> {
   void _onNotesChanged(String value) {
     final notifier = ref.read(bodyEntryProvider.notifier);
     if (value.isEmpty) {
-      notifier.updateWeight(null);
+      notifier.updateNotes(null);
       return;
     }
 
     try {
-      final parsed = double.parse(value.replaceAll(',', '.'));
-      notifier.updateWeight(parsed);
+      notifier.updateNotes(value);
     } catch (_) {
       // silently ignore
     }

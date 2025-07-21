@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:weigthtracker/theme.dart';
-import '../ViewModel/entry_form_provider.dart';
+import '../../ViewModel/entry_form_provider.dart';
 
 /// A widget that displays the current date and allows the user to select a different date
 /// using a calendar picker. The selected date is saved to the bodyEntryProvider.

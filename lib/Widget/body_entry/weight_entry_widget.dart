@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../ViewModel/entry_form_provider.dart';
+import '../../ViewModel/entry_form_provider.dart';
+import '../../ViewModel/unit_conversion_provider.dart';
 
 class WeightEntry extends ConsumerStatefulWidget {
   const WeightEntry({Key? key}) : super(key: key);
@@ -16,10 +17,18 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
   @override
   void initState() {
     super.initState();
+    // Initialize with the current weight, converting from standard unit (kg) if needed
     final weight = ref.read(bodyEntryProvider).weight;
-    _controller = TextEditingController(
-      text: weight != null ? weight.toString() : '',
-    );
+    final unitPrefs = ref.read(unitConversionProvider);
+    
+    if (weight != null) {
+      final displayWeight = unitPrefs.useMetricWeight ? weight : weight / 0.45359237;
+      _controller = TextEditingController(
+        text: displayWeight.toStringAsFixed(1),
+      );
+    } else {
+      _controller = TextEditingController(text: '');
+    }
   }
 
   @override
@@ -30,28 +39,67 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
 
   void _onWeightChanged(String value) {
     final notifier = ref.read(bodyEntryProvider.notifier);
+    final unitPrefs = ref.read(unitConversionProvider);
+    
     if (value.isEmpty) {
-      notifier.updateWeight(null);
+      notifier.updateWeight(null, useMetric: unitPrefs.useMetricWeight);
       return;
     }
 
     try {
       final parsed = double.parse(value.replaceAll(',', '.'));
-      notifier.updateWeight(parsed);
+      notifier.updateWeight(parsed, useMetric: unitPrefs.useMetricWeight);
     } catch (_) {
       // silently ignore
     }
   }
 
+  void _toggleUnit() {
+    final unitNotifier = ref.read(unitConversionProvider.notifier);
+    final currentPrefs = ref.read(unitConversionProvider);
+    final currentWeight = ref.read(bodyEntryProvider).weight;
+    
+    // Toggle the unit preference
+    unitNotifier.setWeightUnit(useMetric: !currentPrefs.useMetricWeight);
+    
+    // Update the text field with the converted value
+    if (currentWeight != null) {
+      final newUnitPrefs = ref.read(unitConversionProvider);
+      final displayWeight = newUnitPrefs.useMetricWeight 
+          ? currentWeight 
+          : currentWeight / 0.45359237;
+      
+      setState(() {
+        _controller.text = displayWeight.toStringAsFixed(1);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final unitPrefs = ref.watch(unitConversionProvider);
+    final unitSuffix = unitPrefs.useMetricWeight ? 'kg' : 'lb';
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        const Text(
-          'Weight (kg)',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Weight ($unitSuffix)',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+            // Unit toggle button
+            TextButton(
+              onPressed: _toggleUnit,
+              child: Text(
+                'Switch to ${unitPrefs.useMetricWeight ? "lb" : "kg"}',
+                style: const TextStyle(fontSize: 14),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 8),
         Container(
@@ -88,9 +136,9 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
                 vertical: 12,
               ),
               border: InputBorder.none,
-              suffixIcon: const Padding(
-                padding: EdgeInsets.only(right: 12.0),
-                child: Text('kg', style: TextStyle(color: Colors.grey)),
+              suffixIcon: Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: Text(unitSuffix, style: const TextStyle(color: Colors.grey)),
               ),
               suffixIconConstraints: const BoxConstraints(
                 minWidth: 0,

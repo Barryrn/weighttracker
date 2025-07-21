@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weigthtracker/View/weight_entry_sheet.dart';
+import 'package:weigthtracker/View/weight_entry_sheet_view.dart';
 import '../Widget/footer.dart';
 
 class HomePage extends StatelessWidget {
