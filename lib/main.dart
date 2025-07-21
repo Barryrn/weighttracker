@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'; // Add this import
 import 'Model/database_helper.dart';
 import 'package:path_provider/path_provider.dart';
-import 'View/weight_entry_sheet.dart';
-import 'Model/body_entry.dart';
-import 'View/home_page.dart';
+import 'View/weight_entry_sheet_view.dart';
+import 'Model/body_entry_model.dart';
+import 'View/footer_pages/home_page.dart';
 
 void main() async {
   // Ensure Flutter is initialized before using platform channels

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weigthtracker/View/weight_entry_sheet.dart';
+import 'package:weigthtracker/View/weight_entry_sheet_view.dart';
 import 'package:weigthtracker/Widget/profile/profile_settings_widget.dart';
-import '../Widget/footer.dart';
+import '../../Widget/footer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,7 +9,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('HomePage'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('HomePage'),
+        automaticallyImplyLeading: false, // This removes the back arrow
+        centerTitle: true,
+      ),
       body: Center(
         child: Column(
           children: [
@@ -28,7 +32,6 @@ class HomePage extends StatelessWidget {
               ),
               child: const Text('Click Me', style: TextStyle(fontSize: 18)),
             ),
-            ProfileSettingsWidget(),
           ],
         ),
       ),

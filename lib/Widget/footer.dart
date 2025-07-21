@@ -1,10 +1,11 @@
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:weigthtracker/View/profile_settings_page.dart';
+import 'package:weigthtracker/View/footer_pages/more_page.dart';
+import 'package:weigthtracker/View/profile_settings_page_view.dart';
 import 'package:weigthtracker/theme.dart';
 
 import 'package:flutter/material.dart';
-import 'package:weigthtracker/View/home_page.dart';
+import 'package:weigthtracker/View/footer_pages/home_page.dart';
 
 class Footer extends StatelessWidget {
   final int currentIndex;
@@ -21,9 +22,9 @@ class Footer extends StatelessWidget {
     );
     return BottomNavigationBar(
       currentIndex: currentIndex,
-      unselectedItemColor: AppColors.surface,
+      unselectedItemColor: AppColors.primaryVeryLight,
       selectedItemColor: currentIndex == 1
-          ? AppColors.primaryVeryLight
+          ? AppColors.primary
           : AppColors.primary,
       showUnselectedLabels: true,
       selectedFontSize: 12.0, // Same size as unselected
@@ -37,6 +38,11 @@ class Footer extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        } else if (index == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MorePage()),
           );
         }
       },
@@ -53,7 +59,6 @@ class Footer extends StatelessWidget {
           icon: HeroIcon(
             HeroIcons.ellipsisHorizontal,
             style: HeroIconStyle.outline,
-            color: Colors.grey,
             size: 30,
           ),
           label: 'More',

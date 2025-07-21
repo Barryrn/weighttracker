@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../Model/body_entry.dart';
+import '../Model/body_entry_model.dart';
 import 'dart:developer' as developer;
+import 'unit_conversion_provider.dart';
 
 class BodyEntryNotifier extends StateNotifier<BodyEntry> {
   BodyEntryNotifier() : super(BodyEntry(date: DateTime.now()));
@@ -21,8 +22,17 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
     developer.log('===================================');
   }
 
-  void updateWeight(double? weight) {
-    state = state.copyWith(weight: weight);
+  /// Updates the weight value, converting from display units to standard units (kg)
+  /// @param weight The weight value in the current display unit (kg or lb)
+  /// @param useMetric Whether the input is in metric units
+  void updateWeight(double? weight, {required bool useMetric}) {
+    if (weight == null) {
+      state = state.copyWith(weight: null);
+    } else {
+      // Convert to standard unit (kg) if needed
+      final standardWeight = useMetric ? weight : weight * 0.45359237;
+      state = state.copyWith(weight: standardWeight);
+    }
     _logState();
   }
 
@@ -36,18 +46,45 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
     _logState();
   }
 
-  void updateNeckCircumference(double? neckCircumference) {
-    state = state.copyWith(neckCircumference: neckCircumference);
+  /// Updates the neck circumference, converting from display units to standard units (cm)
+  /// @param neckCircumference The neck circumference in the current display unit (cm or inches)
+  /// @param useMetric Whether the input is in metric units
+  void updateNeckCircumference(double? neckCircumference, {required bool useMetric}) {
+    if (neckCircumference == null) {
+      state = state.copyWith(neckCircumference: null);
+    } else {
+      // Convert to standard unit (cm) if needed
+      final standardValue = useMetric ? neckCircumference : neckCircumference * 2.54;
+      state = state.copyWith(neckCircumference: standardValue);
+    }
     _logState();
   }
 
-  void updateWaistCircumference(double? waistCircumference) {
-    state = state.copyWith(waistCircumference: waistCircumference);
+  /// Updates the waist circumference, converting from display units to standard units (cm)
+  /// @param waistCircumference The waist circumference in the current display unit (cm or inches)
+  /// @param useMetric Whether the input is in metric units
+  void updateWaistCircumference(double? waistCircumference, {required bool useMetric}) {
+    if (waistCircumference == null) {
+      state = state.copyWith(waistCircumference: null);
+    } else {
+      // Convert to standard unit (cm) if needed
+      final standardValue = useMetric ? waistCircumference : waistCircumference * 2.54;
+      state = state.copyWith(waistCircumference: standardValue);
+    }
     _logState();
   }
 
-  void updateHipCircumference(double? hipCircumference) {
-    state = state.copyWith(hipCircumference: hipCircumference);
+  /// Updates the hip circumference, converting from display units to standard units (cm)
+  /// @param hipCircumference The hip circumference in the current display unit (cm or inches)
+  /// @param useMetric Whether the input is in metric units
+  void updateHipCircumference(double? hipCircumference, {required bool useMetric}) {
+    if (hipCircumference == null) {
+      state = state.copyWith(hipCircumference: null);
+    } else {
+      // Convert to standard unit (cm) if needed
+      final standardValue = useMetric ? hipCircumference : hipCircumference * 2.54;
+      state = state.copyWith(hipCircumference: standardValue);
+    }
     _logState();
   }
 
@@ -67,8 +104,6 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
   }
 }
 
-final bodyEntryProvider = StateNotifierProvider<BodyEntryNotifier, BodyEntry>((
-  ref,
-) {
+final bodyEntryProvider = StateNotifierProvider<BodyEntryNotifier, BodyEntry>((ref) {
   return BodyEntryNotifier();
 });

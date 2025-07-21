@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../ViewModel/entry_form_provider.dart';
+import '../../ViewModel/entry_form_provider.dart';
 
 /// A widget that allows users to enter and manage tags for body entries.
-/// 
+///
 /// Tags are displayed as chips in a wrap layout and can be removed individually.
 /// Users can add new tags by typing them in a text field and pressing enter or
 /// the add button.
@@ -31,15 +31,15 @@ class _TagEntryState extends ConsumerState<TagEntry> {
   /// Adds a new tag to the list if it's not empty and not already in the list
   void _addTag(String tag) {
     if (tag.isEmpty) return;
-    
+
     final trimmedTag = tag.trim();
     if (trimmedTag.isEmpty) return;
-    
+
     final currentTags = ref.read(bodyEntryProvider).tags ?? [];
-    
+
     // Don't add if the tag already exists
     if (currentTags.contains(trimmedTag)) return;
-    
+
     final updatedTags = List<String>.from(currentTags)..add(trimmedTag);
     ref.read(bodyEntryProvider.notifier).updateTags(updatedTags);
     _controller.clear();
@@ -55,7 +55,7 @@ class _TagEntryState extends ConsumerState<TagEntry> {
   @override
   Widget build(BuildContext context) {
     final tags = ref.watch(bodyEntryProvider).tags ?? [];
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -74,7 +74,7 @@ class _TagEntryState extends ConsumerState<TagEntry> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Display existing tags
-              if (tags.isNotEmpty) ...[  
+              if (tags.isNotEmpty) ...[
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
@@ -82,7 +82,7 @@ class _TagEntryState extends ConsumerState<TagEntry> {
                 ),
                 const SizedBox(height: 8),
               ],
-              
+
               // Input field for new tags
               Row(
                 children: [
