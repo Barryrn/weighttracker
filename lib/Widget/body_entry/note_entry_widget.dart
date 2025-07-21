@@ -57,7 +57,7 @@ class _NotesEntryState extends ConsumerState<NotesEntry> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.secondary.withOpacity(0.3)),
+            border: Border.all(color: AppColors.primary.withOpacity(0.3)),
           ),
           child: TextFormField(
             controller: _controller,

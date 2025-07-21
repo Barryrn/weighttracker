@@ -99,10 +99,7 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
               onPressed: _toggleUnit,
               child: Text(
                 'Switch to ${unitPrefs.useMetricWeight ? "lb" : "kg"}',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColors.secondary,
-                ),
+                style: const TextStyle(fontSize: 14, color: AppColors.primary),
               ),
             ),
           ],
@@ -111,7 +108,7 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.secondary.withOpacity(0.3)),
+            border: Border.all(color: AppColors.primary.withOpacity(0.3)),
           ),
           child: TextFormField(
             controller: _controller,

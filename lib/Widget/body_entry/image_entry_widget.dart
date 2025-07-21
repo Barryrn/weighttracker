@@ -7,6 +7,7 @@ import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
 import '../../ViewModel/entry_form_provider.dart';
 import '../../theme.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 /// Enum representing the different view types for body images
 enum ViewType { front, side, back }
@@ -88,6 +89,25 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
 
   Future<void> _getImage(ImageSource source, ViewType viewType) async {
     try {
+      // Request permissions before accessing camera or gallery
+      if (source == ImageSource.camera) {
+        var status = await Permission.camera.request();
+        if (status.isDenied) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Camera permission is required to take photos')),
+          );
+          return;
+        }
+      } else {
+        var status = await Permission.photos.request();
+        if (status.isDenied) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Photos permission is required to select images')),
+          );
+          return;
+        }
+      }
+      
       final XFile? pickedFile = await _picker.pickImage(
         source: source,
         imageQuality: 80,
@@ -271,7 +291,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
         height: 120,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.secondary.withOpacity(0.3)),
+          border: Border.all(color: AppColors.primary.withOpacity(0.3)),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
@@ -327,7 +347,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Icon(Icons.camera_alt, size: 40, color: AppColors.secondary),
+        const Icon(Icons.camera_alt, size: 40, color: AppColors.primary),
         const SizedBox(height: 8),
         Text(
           title,

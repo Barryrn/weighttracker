@@ -132,10 +132,7 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
     final notifier = ref.read(bodyEntryProvider.notifier);
 
     notifier.updateFatPercentage(_calculatedFatPercentage);
-    notifier.updateHipCircumference(
-      _hip,
-      useMetric: unitPrefs.useMetricHeight,
-    );
+    notifier.updateHipCircumference(_hip, useMetric: unitPrefs.useMetricHeight);
     notifier.updateNeckCircumference(
       _neck,
       useMetric: unitPrefs.useMetricHeight,
@@ -293,211 +290,100 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 16),
+          : GestureDetector(
+              onTap: () =>
+                  FocusScope.of(context).unfocus(), // dismiss keyboard on tap
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 16),
 
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Gender selection
-                        const Text(
-                          'Gender',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        DropdownButtonFormField<String>(
-                          value: _gender,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                          ),
-                          items: const [
-                            DropdownMenuItem(
-                              value: 'Male',
-                              child: Text('Male'),
-                            ),
-                            DropdownMenuItem(
-                              value: 'Female',
-                              child: Text('Female'),
-                            ),
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              _gender = value;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null) {
-                              return 'Please select your gender';
-                            }
-                            return null;
-                          },
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Height input
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Height ($lengthUnit)',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: _toggleMeasurementUnits,
-                              style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                backgroundColor: AppColors.primaryVeryLight,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 8,
-                                ),
-                              ),
-                              child: Text(
-                                'Switch to ${unitPrefs.useMetricHeight ? "inches" : "cm"}',
-                                style: const TextStyle(
-                                  color: AppColors.textPrimary,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 8),
-                        TextFormField(
-                          controller: _heightController,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                            suffixText: lengthUnit,
-                          ),
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp(r'[0-9.,]'),
-                            ),
-                          ],
-                          validator: _validateNumber,
-                          onChanged: (value) {
-                            try {
-                              _height = double.parse(
-                                value.replaceAll(',', '.'),
-                              );
-                            } catch (_) {}
-                          },
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Neck circumference input
-                        Text(
-                          'Neck Circumference ($lengthUnit)',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        TextFormField(
-                          controller: _neckController,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                            suffixText: lengthUnit,
-                          ),
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp(r'[0-9.,]'),
-                            ),
-                          ],
-                          validator: _validateNumber,
-                          onChanged: (value) {
-                            try {
-                              _neck = double.parse(value.replaceAll(',', '.'));
-                            } catch (_) {}
-                          },
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Waist circumference input
-                        Text(
-                          'Waist Circumference ($lengthUnit)',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        TextFormField(
-                          controller: _waistController,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                            suffixText: lengthUnit,
-                          ),
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp(r'[0-9.,]'),
-                            ),
-                          ],
-                          validator: _validateNumber,
-                          onChanged: (value) {
-                            try {
-                              _waist = double.parse(value.replaceAll(',', '.'));
-                            } catch (_) {}
-                          },
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Hip circumference input (only for women)
-                        if (_gender == 'Female') ...[
-                          Text(
-                            'Hip Circumference ($lengthUnit)',
-                            style: const TextStyle(
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Gender selection
+                          const Text(
+                            'Gender',
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           const SizedBox(height: 8),
+                          DropdownButtonFormField<String>(
+                            value: _gender,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                            ),
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'Male',
+                                child: Text('Male'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Female',
+                                child: Text('Female'),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                _gender = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please select your gender';
+                              }
+                              return null;
+                            },
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // Height input
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Height ($lengthUnit)',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: _toggleMeasurementUnits,
+                                style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  backgroundColor: AppColors.primaryVeryLight,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 8,
+                                  ),
+                                ),
+                                child: Text(
+                                  'Switch to ${unitPrefs.useMetricHeight ? "inches" : "cm"}',
+                                  style: const TextStyle(
+                                    color: AppColors.textPrimary,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 8),
                           TextFormField(
-                            controller: _hipController,
+                            controller: _heightController,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               contentPadding: const EdgeInsets.symmetric(
@@ -517,83 +403,207 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
                             validator: _validateNumber,
                             onChanged: (value) {
                               try {
-                                _hip = double.parse(value.replaceAll(',', '.'));
+                                _height = double.parse(
+                                  value.replaceAll(',', '.'),
+                                );
                               } catch (_) {}
                             },
                           ),
-                          const SizedBox(height: 16),
-                        ],
 
-                        // Calculate button
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _calculateFatPercentage,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
+                          const SizedBox(height: 16),
+
+                          // Neck circumference input
+                          Text(
+                            'Neck Circumference ($lengthUnit)',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          TextFormField(
+                            controller: _neckController,
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              suffixText: lengthUnit,
+                            ),
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9.,]'),
+                              ),
+                            ],
+                            validator: _validateNumber,
+                            onChanged: (value) {
+                              try {
+                                _neck = double.parse(
+                                  value.replaceAll(',', '.'),
+                                );
+                              } catch (_) {}
+                            },
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // Waist circumference input
+                          Text(
+                            'Waist Circumference ($lengthUnit)',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          TextFormField(
+                            controller: _waistController,
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              suffixText: lengthUnit,
+                            ),
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9.,]'),
+                              ),
+                            ],
+                            validator: _validateNumber,
+                            onChanged: (value) {
+                              try {
+                                _waist = double.parse(
+                                  value.replaceAll(',', '.'),
+                                );
+                              } catch (_) {}
+                            },
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // Hip circumference input (only for women)
+                          if (_gender == 'Female') ...[
+                            Text(
+                              'Hip Circumference ($lengthUnit)',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                            child: const Text('Calculate Body Fat'),
-                          ),
-                        ),
-
-                        // Display calculated result
-                        if (_calculatedFatPercentage != null) ...[
-                          const SizedBox(height: 24),
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryVeryLight,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Column(
-                              children: [
-                                const Text(
-                                  'Calculated Body Fat Percentage',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            const SizedBox(height: 8),
+                            TextFormField(
+                              controller: _hipController,
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
                                 ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  '${_calculatedFatPercentage!.toStringAsFixed(1)}%',
-                                  style: const TextStyle(
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primary,
+                                suffixText: lengthUnit,
+                              ),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                    decimal: true,
                                   ),
-                                ),
-                                const SizedBox(height: 16),
-                                // Add a save button below the result
-                                ElevatedButton(
-                                  onPressed: _saveFatPercentage,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.success,
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
-                                      horizontal: 12,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                  ),
-                                  child: const Text('Use This Result'),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9.,]'),
                                 ),
                               ],
+                              validator: _validateNumber,
+                              onChanged: (value) {
+                                try {
+                                  _hip = double.parse(
+                                    value.replaceAll(',', '.'),
+                                  );
+                                } catch (_) {}
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                          ],
+
+                          // Calculate button
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: _calculateFatPercentage,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              child: const Text('Calculate Body Fat'),
                             ),
                           ),
+
+                          // Display calculated result
+                          if (_calculatedFatPercentage != null) ...[
+                            const SizedBox(height: 24),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryVeryLight,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Column(
+                                children: [
+                                  const Text(
+                                    'Calculated Body Fat Percentage',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    '${_calculatedFatPercentage!.toStringAsFixed(1)}%',
+                                    style: const TextStyle(
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  // Add a save button below the result
+                                  ElevatedButton(
+                                    onPressed: _saveFatPercentage,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.success,
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 12,
+                                        horizontal: 12,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    child: const Text('Use This Result'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
     );

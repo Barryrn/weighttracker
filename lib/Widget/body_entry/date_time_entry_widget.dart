@@ -34,10 +34,7 @@ class DateTimeEntry extends ConsumerWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(
-          color: AppColors.secondary.withOpacity(0.3),
-          width: 1,
-        ),
+        border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 1),
       ),
       child: Material(
         color: Colors.transparent,
@@ -53,13 +50,13 @@ class DateTimeEntry extends ConsumerWidget {
                   displayText,
                   style: const TextStyle(
                     fontSize: 18,
-                    color: AppColors.secondary,
+                    color: AppColors.primary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 const Icon(
                   Icons.arrow_drop_down,
-                  color: AppColors.secondary,
+                  color: AppColors.primary,
                   size: 28,
                 ),
               ],
@@ -94,7 +91,7 @@ class DateTimeEntry extends ConsumerWidget {
               onSurface: Colors.black,
             ),
             textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(foregroundColor: AppColors.secondary),
+              style: TextButton.styleFrom(foregroundColor: AppColors.primary),
             ),
           ),
           child: child!,
