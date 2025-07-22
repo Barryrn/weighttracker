@@ -14,8 +14,11 @@ class MorePage extends StatelessWidget {
         automaticallyImplyLeading: false, // This removes the back arrow
         centerTitle: true,
       ),
-      body: Center(child: Column(children: [ProfileSettingsWidget()])),
-      bottomNavigationBar: Footer(currentIndex: 1, onTap: (index) {}),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(child: Column(children: [ProfileSettingsWidget()])),
+      ),
+      bottomNavigationBar: Footer(currentIndex: 2, onTap: (index) {}),
     );
   }
 }
