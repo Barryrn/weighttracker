@@ -69,10 +69,7 @@ class _NotesEntryState extends ConsumerState<NotesEntry> {
                 vertical: 12,
               ),
               border: InputBorder.none,
-              suffixIcon: const Padding(
-                padding: EdgeInsets.only(right: 12.0),
-                child: Text('Notiz', style: TextStyle(color: Colors.grey)),
-              ),
+
               suffixIconConstraints: const BoxConstraints(
                 minWidth: 0,
                 minHeight: 0,

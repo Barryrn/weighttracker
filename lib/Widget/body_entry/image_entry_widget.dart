@@ -94,7 +94,9 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
         var status = await Permission.camera.request();
         if (status.isDenied) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Camera permission is required to take photos')),
+            const SnackBar(
+              content: Text('Camera permission is required to take photos'),
+            ),
           );
           return;
         }
@@ -102,12 +104,14 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
         var status = await Permission.photos.request();
         if (status.isDenied) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Photos permission is required to select images')),
+            const SnackBar(
+              content: Text('Photos permission is required to select images'),
+            ),
           );
           return;
         }
       }
-      
+
       final XFile? pickedFile = await _picker.pickImage(
         source: source,
         imageQuality: 80,

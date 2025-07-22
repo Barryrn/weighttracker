@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/Widget/body_entry/fat_percentage_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/image_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/note_entry_widget.dart';
+import 'package:weigthtracker/Widget/body_entry/save_button_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/tag_entry_widget.dart';
 import '../Widget/body_entry/date_time_entry_widget.dart';
 import '../Widget/body_entry/weight_entry_widget.dart';
@@ -62,7 +63,7 @@ class BodyEntrySheet {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
-                                  SizedBox(height: 16),
+                                  SizedBox(height: 8),
                                   DateTimeEntry(),
                                   SizedBox(height: 8),
                                   WeightEntry(),
@@ -74,6 +75,8 @@ class BodyEntrySheet {
                                   FatPercentageEntry(),
                                   SizedBox(height: 8),
                                   ImageEntry(),
+                                  SizedBox(height: 16),
+                                  SaveButtonEntryWidget(),
                                 ],
                               ),
                             ),

@@ -12,6 +12,7 @@ void main() async {
 
   // Initialize the database
   await DatabaseHelper().database;
+  await DatabaseHelper().printDatabasePath();
 
   // Get the database path and print it
   final dbHelper = DatabaseHelper();

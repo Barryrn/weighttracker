@@ -17,7 +17,7 @@ class DatabaseHelper {
 
   /// Database name and version constants
   static const String _databaseName = "weight_tracker.db";
-  static const int _databaseVersion = 1;
+  static const int _databaseVersion = 2;
 
   /// Table and column names
   static const String tableBodyEntries = 'body_entries';
@@ -37,99 +37,177 @@ class DatabaseHelper {
   /// Get the database instance, creating it if it doesn't exist
   /// @return Future<Database> The database instance
   Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDatabase();
-    return _database!;
+    try {
+      if (_database != null) return _database!;
+      _database = await _initDatabase();
+      return _database!;
+    } catch (e) {
+      print('Error getting database: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
   }
 
   /// Initialize the database by creating the database file and tables
   /// @return Future<Database> The initialized database
   Future<Database> _initDatabase() async {
-    // Get the directory for the database file
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, _databaseName);
+    try {
+      // Get the directory for the database file
+      Directory documentsDirectory = await getApplicationDocumentsDirectory();
+      String path = join(documentsDirectory.path, _databaseName);
 
-    // Open/create the database
-    return await openDatabase(
-      path,
-      version: _databaseVersion,
-      onCreate: _onCreate,
-    );
+      // Open/create the database
+      return await openDatabase(
+        path,
+        version: _databaseVersion,
+        onCreate: _onCreate,
+      );
+    } catch (e) {
+      print('Error initializing database: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
   }
 
   /// Create the database tables
   /// @param db The database instance
   /// @param version The database version
   Future<void> _onCreate(Database db, int version) async {
-    await db.execute('''
-      CREATE TABLE $tableBodyEntries (
-        $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
-        $columnWeight REAL NOT NULL,
-        $columnDate INTEGER NOT NULL,
-        $columnFatPercentage REAL,
-        $columnNeckCircumference REAL,
-        $columnWaistCircumference REAL,
-        $columnHipCircumference REAL,
-        $columnTags TEXT,
-        $columnNotes TEXT,
-        $columnFrontImagePath TEXT,
-        $columnSideImagePath TEXT,
-        $columnBackImagePath TEXT
-      )
-    ''');
+    try {
+      await db.execute('''
+        CREATE TABLE $tableBodyEntries (
+          $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
+          $columnWeight REAL NOT NULL,
+          $columnDate INTEGER NOT NULL,
+          $columnFatPercentage REAL,
+          $columnNeckCircumference REAL,
+          $columnWaistCircumference REAL,
+          $columnHipCircumference REAL,
+          $columnTags TEXT,
+          $columnNotes TEXT,
+          $columnFrontImagePath TEXT,
+          $columnSideImagePath TEXT,
+          $columnBackImagePath TEXT
+        )
+      ''');
+    } catch (e) {
+      print('Error creating database tables: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
   }
 
   /// Insert a new body entry into the database
+  /// If an entry already exists for the same day, it will be overwritten
   /// @param bodyEntry The BodyEntry object to insert
-  /// @return Future<int> The ID of the inserted entry
+  /// @return Future<int> The ID of the inserted or updated entry
   Future<int> insertBodyEntry(BodyEntry bodyEntry) async {
-    Database db = await database;
+    try {
+      Database db = await database;
 
-    // Convert the BodyEntry object to a map for database storage
-    Map<String, dynamic> row = {
-      columnWeight: bodyEntry.weight,
-      columnDate: bodyEntry.date.millisecondsSinceEpoch,
-      columnFatPercentage: bodyEntry.fatPercentage,
-      columnNeckCircumference: bodyEntry.neckCircumference,
-      columnWaistCircumference: bodyEntry.waistCircumference,
-      columnHipCircumference: bodyEntry.hipCircumference,
-      columnTags: bodyEntry.tags?.join(','),
-      columnNotes: bodyEntry.notes,
-      columnFrontImagePath: bodyEntry.frontImagePath,
-      columnSideImagePath: bodyEntry.sideImagePath,
-      columnBackImagePath: bodyEntry.backImagePath,
-    };
+      // Normalize the date to start of day to ensure consistent comparison
+      final normalizedDate = DateTime(
+        bodyEntry.date.year,
+        bodyEntry.date.month,
+        bodyEntry.date.day,
+      );
 
-    return await db.insert(tableBodyEntries, row);
+      // Convert the normalized date to milliseconds
+      final dateMillis = normalizedDate.millisecondsSinceEpoch;
+
+      // Check if an entry already exists for this day
+      final List<Map<String, dynamic>> existingEntries = await db.query(
+        tableBodyEntries,
+        where: '$columnDate >= ? AND $columnDate < ?',
+        whereArgs: [
+          dateMillis,
+          dateMillis + 86400000, // Add 24 hours in milliseconds
+        ],
+      );
+
+      // Convert the BodyEntry object to a map for database storage
+      Map<String, dynamic> row = {
+        columnWeight: bodyEntry.weight,
+        columnDate: dateMillis, // Use normalized date
+        columnFatPercentage: bodyEntry.fatPercentage,
+        columnNeckCircumference: bodyEntry.neckCircumference,
+        columnWaistCircumference: bodyEntry.waistCircumference,
+        columnHipCircumference: bodyEntry.hipCircumference,
+        columnTags: bodyEntry.tags?.join(','),
+        columnNotes: bodyEntry.notes,
+        columnFrontImagePath: bodyEntry.frontImagePath,
+        columnSideImagePath: bodyEntry.sideImagePath,
+        columnBackImagePath: bodyEntry.backImagePath,
+      };
+      print('Inserting into DB: $bodyEntry');
+
+      // If an entry exists for this day, update it
+      if (existingEntries.isNotEmpty) {
+        final existingId = existingEntries.first[columnId];
+        return await db.update(
+          tableBodyEntries,
+          row,
+          where: '$columnId = ?',
+          whereArgs: [existingId],
+        );
+      }
+      // Otherwise, insert a new entry
+      else {
+        return await db.insert(tableBodyEntries, row);
+      }
+    } catch (e) {
+      print('Error inserting body entry: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
+  }
+
+  Future<void> printAllBodyEntries() async {
+    try {
+      final entries = await queryAllBodyEntries();
+
+      if (entries.isEmpty) {
+        print('No body entries found.');
+        return;
+      }
+
+      for (var entry in entries) {
+        print(entry); // This uses the toString() method of BodyEntry
+      }
+    } catch (e) {
+      print('Error printing body entries: $e');
+      // No need to re-throw as this is a void method for debugging
+    }
   }
 
   /// Query all body entries from the database
   /// @return Future<List<BodyEntry>> List of all body entries
   Future<List<BodyEntry>> queryAllBodyEntries() async {
-    Database db = await database;
-    List<Map<String, dynamic>> maps = await db.query(
-      tableBodyEntries,
-      orderBy: '$columnDate DESC',
-    );
-
-    return List.generate(maps.length, (i) {
-      // Create and return a BodyEntry object
-      return BodyEntry(
-        weight: maps[i][columnWeight],
-        date: DateTime.fromMillisecondsSinceEpoch(maps[i][columnDate]),
-        fatPercentage: maps[i][columnFatPercentage],
-        neckCircumference: maps[i][columnNeckCircumference],
-        waistCircumference: maps[i][columnWaistCircumference],
-        hipCircumference: maps[i][columnHipCircumference],
-        tags: maps[i][columnTags] != null
-            ? maps[i][columnTags].split(',')
-            : null,
-        notes: maps[i][columnNotes],
-        frontImagePath: maps[i][columnFrontImagePath],
-        sideImagePath: maps[i][columnSideImagePath],
-        backImagePath: maps[i][columnBackImagePath],
+    try {
+      Database db = await database;
+      List<Map<String, dynamic>> maps = await db.query(
+        tableBodyEntries,
+        orderBy: '$columnDate DESC',
       );
-    });
+
+      return List.generate(maps.length, (i) {
+        // Create and return a BodyEntry object
+        return BodyEntry(
+          weight: maps[i][columnWeight],
+          date: DateTime.fromMillisecondsSinceEpoch(maps[i][columnDate]),
+          fatPercentage: maps[i][columnFatPercentage],
+          neckCircumference: maps[i][columnNeckCircumference],
+          waistCircumference: maps[i][columnWaistCircumference],
+          hipCircumference: maps[i][columnHipCircumference],
+          tags: maps[i][columnTags] != null
+              ? maps[i][columnTags].split(',')
+              : null,
+          notes: maps[i][columnNotes],
+          frontImagePath: maps[i][columnFrontImagePath],
+          sideImagePath: maps[i][columnSideImagePath],
+          backImagePath: maps[i][columnBackImagePath],
+        );
+      });
+    } catch (e) {
+      print('Error querying all body entries: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
   }
 
   /// Update an existing body entry in the database
@@ -137,40 +215,127 @@ class DatabaseHelper {
   /// @param bodyEntry The updated BodyEntry object
   /// @return Future<int> The number of rows affected
   Future<int> updateBodyEntry(int id, BodyEntry bodyEntry) async {
-    Database db = await database;
+    try {
+      Database db = await database;
 
-    // Convert the BodyEntry object to a map for database storage
-    Map<String, dynamic> row = {
-      columnWeight: bodyEntry.weight,
-      columnDate: bodyEntry.date.millisecondsSinceEpoch,
-      columnFatPercentage: bodyEntry.fatPercentage,
-      columnNeckCircumference: bodyEntry.neckCircumference,
-      columnWaistCircumference: bodyEntry.waistCircumference,
-      columnHipCircumference: bodyEntry.hipCircumference,
-      columnTags: bodyEntry.tags?.join(','),
-      columnNotes: bodyEntry.notes,
-      columnFrontImagePath: bodyEntry.frontImagePath,
-      columnSideImagePath: bodyEntry.sideImagePath,
-      columnBackImagePath: bodyEntry.backImagePath,
-    };
+      // Normalize the date to start of day
+      final normalizedDate = DateTime(
+        bodyEntry.date.year,
+        bodyEntry.date.month,
+        bodyEntry.date.day,
+      );
 
-    return await db.update(
-      tableBodyEntries,
-      row,
-      where: '$columnId = ?',
-      whereArgs: [id],
-    );
+      // Convert the BodyEntry object to a map for database storage
+      Map<String, dynamic> row = {
+        columnWeight: bodyEntry.weight,
+        columnDate: normalizedDate.millisecondsSinceEpoch,
+        columnFatPercentage: bodyEntry.fatPercentage,
+        columnNeckCircumference: bodyEntry.neckCircumference,
+        columnWaistCircumference: bodyEntry.waistCircumference,
+        columnHipCircumference: bodyEntry.hipCircumference,
+        columnTags: bodyEntry.tags?.join(','),
+        columnNotes: bodyEntry.notes,
+        columnFrontImagePath: bodyEntry.frontImagePath,
+        columnSideImagePath: bodyEntry.sideImagePath,
+        columnBackImagePath: bodyEntry.backImagePath,
+      };
+
+      return await db.update(
+        tableBodyEntries,
+        row,
+        where: '$columnId = ?',
+        whereArgs: [id],
+      );
+    } catch (e) {
+      print('Error updating body entry: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
   }
 
   /// Delete a body entry from the database
   /// @param id The ID of the entry to delete
   /// @return Future<int> The number of rows affected
   Future<int> deleteBodyEntry(int id) async {
-    Database db = await database;
-    return await db.delete(
-      tableBodyEntries,
-      where: '$columnId = ?',
-      whereArgs: [id],
-    );
+    try {
+      Database db = await database;
+      return await db.delete(
+        tableBodyEntries,
+        where: '$columnId = ?',
+        whereArgs: [id],
+      );
+    } catch (e) {
+      print('Error deleting body entry: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
+  }
+
+  /// Find an entry by date
+  /// @param date The date to search for
+  /// @return Future<BodyEntry?> The entry for the given date, or null if not found
+  Future<BodyEntry?> findEntryByDate(DateTime date) async {
+    try {
+      Database db = await database;
+
+      // Normalize the date to start of day
+      final normalizedDate = DateTime(date.year, date.month, date.day);
+      final dateMillis = normalizedDate.millisecondsSinceEpoch;
+
+      final List<Map<String, dynamic>> result = await db.query(
+        tableBodyEntries,
+        where: '$columnDate >= ? AND $columnDate < ?',
+        whereArgs: [
+          dateMillis,
+          dateMillis + 86400000, // Add 24 hours in milliseconds
+        ],
+      );
+
+      if (result.isEmpty) {
+        return null;
+      }
+
+      return BodyEntry(
+        weight: result.first[columnWeight],
+        date: DateTime.fromMillisecondsSinceEpoch(result.first[columnDate]),
+        fatPercentage: result.first[columnFatPercentage],
+        neckCircumference: result.first[columnNeckCircumference],
+        waistCircumference: result.first[columnWaistCircumference],
+        hipCircumference: result.first[columnHipCircumference],
+        tags: result.first[columnTags] != null
+            ? result.first[columnTags].split(',')
+            : null,
+        notes: result.first[columnNotes],
+        frontImagePath: result.first[columnFrontImagePath],
+        sideImagePath: result.first[columnSideImagePath],
+        backImagePath: result.first[columnBackImagePath],
+      );
+    } catch (e) {
+      print('Error finding entry by date: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
+  }
+
+  /// Get and print the database file path
+  /// @return Future<String> The path to the database file
+  Future<String> getDatabasePath() async {
+    try {
+      Directory documentsDirectory = await getApplicationDocumentsDirectory();
+      String path = join(documentsDirectory.path, _databaseName);
+      print('Database path: $path');
+      return path;
+    } catch (e) {
+      print('Error getting database path: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
+  }
+
+  /// Print the database file path
+  /// Convenience method that just calls getDatabasePath()
+  Future<void> printDatabasePath() async {
+    try {
+      await getDatabasePath();
+    } catch (e) {
+      print('Error printing database path: $e');
+      // No need to re-throw as this is a void method for debugging
+    }
   }
 }
