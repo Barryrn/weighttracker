@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/ViewModel/entry_form_provider.dart';
 import '../ViewModel/fat_percentae_calculator.dart';
-import '../Model/profile_settings_storage_model.dart';
-import '../Model/profile_settings_model.dart';
+import '../model/profile_settings_storage_model.dart';
+import '../model/profile_settings_model.dart';
 import '../ViewModel/unit_conversion_provider.dart';
 import '../theme.dart';
 

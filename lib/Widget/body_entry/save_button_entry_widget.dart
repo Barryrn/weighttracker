@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/theme.dart';
-import 'package:weigthtracker/Model/database_helper.dart';
+import 'package:weigthtracker/model/database_helper.dart';
 import 'package:weigthtracker/ViewModel/entry_form_provider.dart';
 
 /// A widget that provides a save button for body entry data.

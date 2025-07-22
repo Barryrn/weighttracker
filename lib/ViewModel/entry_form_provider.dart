@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../Model/body_entry_model.dart';
+import '../model/body_entry_model.dart';
 import 'dart:developer' as developer;
 import 'unit_conversion_provider.dart';
 
