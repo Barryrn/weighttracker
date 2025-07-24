@@ -13,6 +13,7 @@ class BodyEntry {
   final String? frontImagePath;
   final String? sideImagePath;
   final String? backImagePath;
+  final double? bmi; // Added BMI field
 
   BodyEntry({
     required this.date,
@@ -26,6 +27,7 @@ class BodyEntry {
     this.frontImagePath,
     this.sideImagePath,
     this.backImagePath,
+    this.bmi, // Added BMI parameter
   });
 
   /// Creates a copy of this BodyEntry with the given fields replaced with new values
@@ -38,6 +40,7 @@ class BodyEntry {
   /// @param tags The new tags value (optional)
   /// @param notes The new notes value (optional)
   /// @param frontImagePath The new image path value (optional)
+  /// @param bmi The new BMI value (optional)
   /// @return A new BodyEntry instance with the updated values
   BodyEntry copyWith({
     DateTime? date,
@@ -54,6 +57,7 @@ class BodyEntry {
     String? sideImagePath,
     bool setBackImagePathNull = false,
     String? backImagePath,
+    double? bmi, // Added BMI parameter
   }) {
     return BodyEntry(
       date: date ?? this.date,
@@ -67,6 +71,7 @@ class BodyEntry {
       frontImagePath: setFrontImagePathNull ? null : (frontImagePath ?? this.frontImagePath),
       sideImagePath: setSideImagePathNull ? null : (sideImagePath ?? this.sideImagePath),
       backImagePath: setBackImagePathNull ? null : (backImagePath ?? this.backImagePath),
+      bmi: bmi ?? this.bmi, // Added BMI field
     );
   }
 
@@ -85,6 +90,7 @@ class BodyEntry {
       'frontImagePath': frontImagePath,
       'sideImagePath': sideImagePath,
       'backImagePath': backImagePath,
+      'bmi': bmi, // Added BMI field
     };
   }
 
@@ -104,6 +110,7 @@ class BodyEntry {
       frontImagePath: map['frontImagePath'],
       sideImagePath: map['sideImagePath'],
       backImagePath: map['backImagePath'],
+      bmi: map['bmi'], // Added BMI field
     );
   }
 }

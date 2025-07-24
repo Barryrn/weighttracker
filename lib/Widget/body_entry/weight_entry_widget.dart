@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/theme.dart';
-import '../../viewmodel/entry_form_provider.dart';
-import '../../viewmodel/unit_conversion_provider.dart';
+import '../../ViewModel/entry_form_provider.dart';
+import '../../ViewModel/unit_conversion_provider.dart';
 
 class WeightEntry extends ConsumerStatefulWidget {
   const WeightEntry({Key? key}) : super(key: key);
