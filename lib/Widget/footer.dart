@@ -7,6 +7,7 @@ import 'package:weigthtracker/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:weigthtracker/View/footer_pages/home_page.dart';
 import 'package:weigthtracker/view/footer_pages/goals_page.dart';
+import 'package:weigthtracker/view/footer_pages/progress_page.dart';
 
 class Footer extends StatelessWidget {
   final int currentIndex;
@@ -45,9 +46,14 @@ class Footer extends StatelessWidget {
           } else if (index == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => GoalsPage()),
+              MaterialPageRoute(builder: (context) => ProgressPage()),
             );
           } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => GoalsPage()),
+            );
+          } else if (index == 3) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MorePage()),
@@ -64,6 +70,14 @@ class Footer extends StatelessWidget {
             size: 30,
           ),
           label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: HeroIcon(
+            HeroIcons.chartBar,
+            style: HeroIconStyle.outline,
+            size: 30,
+          ),
+          label: 'Progress',
         ),
 
         BottomNavigationBarItem(

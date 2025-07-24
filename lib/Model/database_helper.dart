@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'body_entry_model.dart';
+import 'profile_settings_storage_model.dart';
 
 /// DatabaseHelper class for managing SQLite database operations
 /// Follows singleton pattern to ensure only one instance exists
@@ -17,7 +18,8 @@ class DatabaseHelper {
 
   /// Database name and version constants
   static const String _databaseName = "weight_tracker.db";
-  static const int _databaseVersion = 2;
+  static const int _databaseVersion =
+      4; // Increased version number for schema update
 
   /// Table and column names
   static const String tableBodyEntries = 'body_entries';
@@ -33,6 +35,7 @@ class DatabaseHelper {
   static const String columnFrontImagePath = 'front_image_path';
   static const String columnSideImagePath = 'side_front_image_path';
   static const String columnBackImagePath = 'back_front_image_path';
+  static const String columnBMI = 'bmi'; // Added BMI column
 
   /// Get the database instance, creating it if it doesn't exist
   /// @return Future<Database> The database instance
@@ -60,6 +63,7 @@ class DatabaseHelper {
         path,
         version: _databaseVersion,
         onCreate: _onCreate,
+        onUpgrade: _onUpgrade,
       );
     } catch (e) {
       print('Error initializing database: $e');
@@ -85,13 +89,90 @@ class DatabaseHelper {
           $columnNotes TEXT,
           $columnFrontImagePath TEXT,
           $columnSideImagePath TEXT,
-          $columnBackImagePath TEXT
+          $columnBackImagePath TEXT,
+          $columnBMI REAL
         )
       ''');
     } catch (e) {
       print('Error creating database tables: $e');
       throw e; // Re-throw to allow handling by caller
     }
+  }
+
+  /// Handle database upgrades
+  /// @param db The database instance
+  /// @param oldVersion The old database version
+  /// @param newVersion The new database version
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    try {
+      if (oldVersion < 3) {
+        // Add BMI column to existing table
+        await db.execute('''
+          ALTER TABLE $tableBodyEntries ADD COLUMN $columnBMI REAL;
+        ''');
+
+        // Update existing records with calculated BMI
+        await _updateExistingRecordsWithBMI(db);
+      }
+    } catch (e) {
+      print('Error upgrading database: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
+  }
+
+  /// Update existing records with calculated BMI values
+  /// @param db The database instance
+  Future<void> _updateExistingRecordsWithBMI(Database db) async {
+    try {
+      // Get all existing records
+      final List<Map<String, dynamic>> records = await db.query(
+        tableBodyEntries,
+      );
+
+      // Get user's height from profile settings
+      final profileSettings =
+          await ProfileSettingsStorage.loadProfileSettings();
+      final height = profileSettings.height;
+
+      if (height == null) {
+        print(
+          'Height not available in profile settings, skipping BMI calculation for existing records',
+        );
+        return;
+      }
+
+      // Calculate and update BMI for each record
+      for (var record in records) {
+        final weight = record[columnWeight] as double?;
+
+        if (weight != null) {
+          // Calculate BMI using the formula: BMI = weight (kg) / [height (cm) ÷ 100]²
+          final bmi = calculateBMI(weight, height);
+
+          // Update the record with the calculated BMI
+          await db.update(
+            tableBodyEntries,
+            {columnBMI: bmi},
+            where: '$columnId = ?',
+            whereArgs: [record[columnId]],
+          );
+        }
+      }
+    } catch (e) {
+      print('Error updating existing records with BMI: $e');
+      // Don't throw here to avoid breaking the upgrade process
+    }
+  }
+
+  /// Calculate BMI using the formula: BMI = weight (kg) / [height (cm) ÷ 100]²
+  /// @param weight Weight in kg
+  /// @param height Height in cm
+  /// @return Calculated BMI value
+  double calculateBMI(double weight, double height) {
+    // Convert height from cm to meters
+    final heightInMeters = height / 100;
+    // Calculate BMI
+    return weight / (heightInMeters * heightInMeters);
   }
 
   /// Insert a new body entry into the database
@@ -122,6 +203,20 @@ class DatabaseHelper {
         ],
       );
 
+      // Calculate BMI if weight is available
+      double? bmi;
+      if (bodyEntry.weight != null) {
+        // Get height from profile settings
+        final profileSettings =
+            await ProfileSettingsStorage.loadProfileSettings();
+        final height = profileSettings.height;
+
+        if (height != null) {
+          // Calculate BMI
+          bmi = calculateBMI(bodyEntry.weight!, height);
+        }
+      }
+
       // Convert the BodyEntry object to a map for database storage
       Map<String, dynamic> row = {
         columnWeight: bodyEntry.weight,
@@ -135,8 +230,9 @@ class DatabaseHelper {
         columnFrontImagePath: bodyEntry.frontImagePath,
         columnSideImagePath: bodyEntry.sideImagePath,
         columnBackImagePath: bodyEntry.backImagePath,
+        columnBMI: bmi, // Add calculated BMI
       };
-      print('Inserting into DB: $bodyEntry');
+      print('Inserting into DB: $bodyEntry with BMI: $bmi');
 
       // If an entry exists for this day, update it
       if (existingEntries.isNotEmpty) {
@@ -202,6 +298,7 @@ class DatabaseHelper {
           frontImagePath: maps[i][columnFrontImagePath],
           sideImagePath: maps[i][columnSideImagePath],
           backImagePath: maps[i][columnBackImagePath],
+          bmi: maps[i][columnBMI], // Added BMI field
         );
       });
     } catch (e) {
