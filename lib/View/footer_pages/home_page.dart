@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
+import 'package:weigthtracker/View/image_comparison_view.dart';
 import 'package:weigthtracker/Widget/profile/profile_settings_widget.dart';
 import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/widget/goals/weight_progress_widget.dart';
@@ -20,29 +21,27 @@ class HomePage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            children: [
-              WeightProgressWidget(),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () {
-                  BodyEntrySheet.show(context: context);
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 40,
-                    vertical: 15,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: const Text('Click Me', style: TextStyle(fontSize: 18)),
+        child: Center(child: Column(
+          children: [
+            WeightProgressWidget(),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ImageComparisonView()),
+                );
+              },
+              icon: const Icon(Icons.compare),
+              label: const Text('Compare Progress Pictures'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
-            ],
-          ),
-        ),
+            ),
+          ],
+        )),
       ),
       bottomNavigationBar: Footer(currentIndex: 0, onTap: (index) {}),
     );

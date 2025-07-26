@@ -128,4 +128,15 @@ class WeightRepository {
       throw e;
     }
   }
+
+  /// Get all body entries
+  /// @return Future<List<BodyEntry>> List of all body entries
+  Future<List<BodyEntry>> getAllBodyEntries() async {
+    try {
+      return await _dbHelper.queryAllBodyEntries();
+    } catch (e) {
+      print('Error getting all body entries: $e');
+      throw e;
+    }
+  }
 }
