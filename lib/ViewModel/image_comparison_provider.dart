@@ -4,9 +4,11 @@ import '../model/body_entry_model.dart';
 import '../model/database_helper.dart';
 import '../model/image_comparison_model.dart';
 import '../repository/weight_repository.dart';
+import '../provider/database_change_provider.dart';
 
 /// Provider for managing the state of image comparison
-class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>> {
+class ImageComparisonNotifier
+    extends StateNotifier<AsyncValue<List<BodyEntry>>> {
   final DatabaseHelper _dbHelper = DatabaseHelper();
   final WeightRepository _repository = WeightRepository();
   BodyEntry? _latestEntry;
@@ -17,14 +19,31 @@ class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>>
   bool _showFrontImages = true;
   bool _showSideImages = true;
   bool _showBackImages = true;
-  
+
   // Cache for loaded entries
   List<BodyEntry> _cachedEntries = [];
 
-  ImageComparisonNotifier() : super(const AsyncValue.loading()) {
+  // Add this to the constructor
+  ImageComparisonNotifier(this.ref) : super(const AsyncValue.loading()) {
     // Load entries when provider is initialized
     loadEntries();
+
+    // Listen for database changes
+    ref.listen(databaseChangeProvider, (previous, next) {
+      if (previous != next) {
+        loadEntries();
+      }
+    });
   }
+
+  final Ref ref;
+
+  // Update the provider definition
+  final imageComparisonProvider =
+      StateNotifierProvider<
+        ImageComparisonNotifier,
+        AsyncValue<List<BodyEntry>>
+      >((ref) => ImageComparisonNotifier(ref));
 
   /// Get the latest entry with images
   BodyEntry? get latestEntry => _latestEntry;
@@ -40,18 +59,21 @@ class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>>
     try {
       state = const AsyncValue.loading();
       final entries = await _dbHelper.queryAllBodyEntries();
-      
+
       // Cache the entries
       _cachedEntries = entries;
-      
+
       // Find the latest entry with images
       _latestEntry = _findLatestEntryWithImages(entries);
-      
+
       // Find the comparison entry (closest weight)
       if (_latestEntry != null) {
-        _comparisonEntry = ImageComparisonModel.findClosestWeightImage(_latestEntry!, entries);
+        _comparisonEntry = ImageComparisonModel.findClosestWeightImage(
+          _latestEntry!,
+          entries,
+        );
       }
-      
+
       state = AsyncValue.data(entries);
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
@@ -63,14 +85,15 @@ class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>>
     // Sort entries by date (newest first)
     final sortedEntries = List<BodyEntry>.from(entries);
     sortedEntries.sort((a, b) => b.date.compareTo(a.date));
-    
+
     // Find the first entry with at least one image
     return sortedEntries.firstWhere(
-      (entry) => 
-        entry.frontImagePath != null || 
-        entry.sideImagePath != null || 
-        entry.backImagePath != null,
-      orElse: () => sortedEntries.first, // Fallback to the latest entry even if it has no images
+      (entry) =>
+          entry.frontImagePath != null ||
+          entry.sideImagePath != null ||
+          entry.backImagePath != null,
+      orElse: () => sortedEntries
+          .first, // Fallback to the latest entry even if it has no images
     );
   }
 
@@ -94,7 +117,7 @@ class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>>
     if (showFrontImages != null) _showFrontImages = showFrontImages;
     if (showSideImages != null) _showSideImages = showSideImages;
     if (showBackImages != null) _showBackImages = showBackImages;
-    
+
     // Reload entries with filters
     loadFilteredEntries();
   }
@@ -107,7 +130,7 @@ class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>>
     _showFrontImages = true;
     _showSideImages = true;
     _showBackImages = true;
-    
+
     // Reload entries without filters
     loadFilteredEntries();
   }
@@ -117,7 +140,7 @@ class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>>
     try {
       state = const AsyncValue.loading();
       final allEntries = await _dbHelper.queryAllBodyEntries();
-      
+
       final filteredEntries = ImageComparisonModel.filterEntries(
         entries: allEntries,
         weightRange: _weightRange,
@@ -127,7 +150,7 @@ class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>>
         showSideImages: _showSideImages,
         showBackImages: _showBackImages,
       );
-      
+
       state = AsyncValue.data(filteredEntries);
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
@@ -138,7 +161,7 @@ class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>>
   void setComparisonEntry(BodyEntry entry) {
     _comparisonEntry = entry;
   }
-  
+
   /// Set a specific entry as the latest entry
   void setLatestEntry(BodyEntry entry) {
     _latestEntry = entry;
@@ -146,6 +169,7 @@ class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>>
 }
 
 /// Provider for image comparison
-final imageComparisonProvider = StateNotifierProvider<ImageComparisonNotifier, AsyncValue<List<BodyEntry>>>(
-  (ref) => ImageComparisonNotifier(),
-);
+final imageComparisonProvider =
+    StateNotifierProvider<ImageComparisonNotifier, AsyncValue<List<BodyEntry>>>(
+      (ref) => ImageComparisonNotifier(ref),
+    );

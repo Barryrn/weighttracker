@@ -2,16 +2,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../model/body_entry_model.dart';
 import '../model/database_helper.dart';
 import 'dart:developer' as developer;
+import '../provider/database_change_provider.dart';
 
 /// A provider that fetches the latest weight entry from the database.
 ///
 /// This provider follows the MVVM pattern by acting as the ViewModel that connects
 /// the Model (database) with the View (weight progress widget).
 class LatestWeightNotifier extends StateNotifier<BodyEntry?> {
-  LatestWeightNotifier() : super(null) {
+  LatestWeightNotifier(this.ref) : super(null) {
     _loadLatestEntry();
+    
+    // Listen for database changes
+    ref.listen(databaseChangeProvider, (previous, next) {
+      if (previous != next) {
+        refreshLatestEntry();
+      }
+    });
   }
 
+  final Ref ref;
   final DatabaseHelper _dbHelper = DatabaseHelper();
 
   /// Loads the latest weight entry from the database
@@ -52,5 +61,5 @@ class LatestWeightNotifier extends StateNotifier<BodyEntry?> {
 /// This provider makes the LatestWeightNotifier available to widgets
 /// that need to read the latest weight entry.
 final latestWeightProvider = StateNotifierProvider<LatestWeightNotifier, BodyEntry?>(
-  (ref) => LatestWeightNotifier(),
+  (ref) => LatestWeightNotifier(ref),
 );

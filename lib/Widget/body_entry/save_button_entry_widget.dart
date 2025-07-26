@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/model/database_helper.dart';
 import 'package:weigthtracker/ViewModel/entry_form_provider.dart';
+import 'package:weigthtracker/provider/database_change_provider.dart';
 
 /// A widget that provides a save button for body entry data.
 ///
@@ -30,6 +31,9 @@ class SaveButtonEntryWidget extends ConsumerWidget {
             await dbHelper.insertBodyEntry(bodyEntry);
             await dbHelper.printAllBodyEntries();
             print('Test');
+            
+            // Notify that database has changed
+            ref.read(databaseChangeProvider.notifier).notifyDatabaseChanged();
 
             // Show success message
             if (context.mounted) {
