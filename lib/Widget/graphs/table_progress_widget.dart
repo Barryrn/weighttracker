@@ -9,14 +9,15 @@ import '../viewmodel/unit_conversion_provider.dart';
 /// This widget follows the MVVM pattern by using the timeAggregationProvider
 /// to access the aggregated data and the selectedTimePeriodProvider to manage
 /// the currently selected time period.
-class TimePeriodDataWidget extends ConsumerStatefulWidget {
-  const TimePeriodDataWidget({Key? key}) : super(key: key);
+class TableProgressWidget extends ConsumerStatefulWidget {
+  const TableProgressWidget({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<TimePeriodDataWidget> createState() => _TimePeriodDataWidgetState();
+  ConsumerState<TableProgressWidget> createState() =>
+      _TableProgressWidgetState();
 }
 
-class _TimePeriodDataWidgetState extends ConsumerState<TimePeriodDataWidget> {
+class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
   @override
   void initState() {
     super.initState();
@@ -38,9 +39,9 @@ class _TimePeriodDataWidgetState extends ConsumerState<TimePeriodDataWidget> {
     final selectedPeriod = ref.watch(selectedTimePeriodProvider);
     final aggregatedData = ref.watch(timeAggregationProvider);
     final unitPrefs = ref.watch(unitConversionProvider);
-    
+
     final weightUnit = unitPrefs.useMetricWeight ? 'kg' : 'lb';
-    
+
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -49,12 +50,6 @@ class _TimePeriodDataWidgetState extends ConsumerState<TimePeriodDataWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Progress Over Time',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            
             // Time period selection buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -66,7 +61,7 @@ class _TimePeriodDataWidgetState extends ConsumerState<TimePeriodDataWidget> {
               ],
             ),
             const SizedBox(height: 24),
-            
+
             // Data display
             if (aggregatedData.isEmpty)
               const Center(
@@ -83,12 +78,13 @@ class _TimePeriodDataWidgetState extends ConsumerState<TimePeriodDataWidget> {
                 separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
                   final data = aggregatedData[index];
-                  
+
                   // Convert weight to display units if needed
-                  final displayWeight = data.avgWeight != null && !unitPrefs.useMetricWeight
+                  final displayWeight =
+                      data.avgWeight != null && !unitPrefs.useMetricWeight
                       ? data.avgWeight! / 0.45359237
                       : data.avgWeight;
-                  
+
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Column(
@@ -104,29 +100,32 @@ class _TimePeriodDataWidgetState extends ConsumerState<TimePeriodDataWidget> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        
+
                         // Data rows
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            _buildDataColumn('Weight', 
-                              displayWeight != null 
-                                ? '${displayWeight.toStringAsFixed(1)} $weightUnit'
-                                : '--',
+                            _buildDataColumn(
+                              'Weight',
+                              displayWeight != null
+                                  ? '${displayWeight.toStringAsFixed(1)} $weightUnit'
+                                  : '--',
                             ),
-                            _buildDataColumn('BMI', 
-                              data.avgBmi != null 
-                                ? data.avgBmi!.toStringAsFixed(1)
-                                : '--',
+                            _buildDataColumn(
+                              'BMI',
+                              data.avgBmi != null
+                                  ? data.avgBmi!.toStringAsFixed(1)
+                                  : '--',
                             ),
-                            _buildDataColumn('Body Fat', 
-                              data.avgFatPercentage != null 
-                                ? '${data.avgFatPercentage!.toStringAsFixed(1)}%'
-                                : '--',
+                            _buildDataColumn(
+                              'Body Fat',
+                              data.avgFatPercentage != null
+                                  ? '${data.avgFatPercentage!.toStringAsFixed(1)}%'
+                                  : '--',
                             ),
                           ],
                         ),
-                        
+
                         // Entry count
                         Text(
                           'Based on ${data.entryCount} ${data.entryCount == 1 ? 'entry' : 'entries'}',
@@ -148,13 +147,19 @@ class _TimePeriodDataWidgetState extends ConsumerState<TimePeriodDataWidget> {
   }
 
   /// Builds a time period selection button
-  Widget _buildPeriodButton(TimePeriod period, String label, TimePeriod selectedPeriod) {
+  Widget _buildPeriodButton(
+    TimePeriod period,
+    String label,
+    TimePeriod selectedPeriod,
+  ) {
     final isSelected = period == selectedPeriod;
-    
+
     return ElevatedButton(
       onPressed: () => _selectTimePeriod(period),
       style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? AppColors.primary : AppColors.primaryVeryLight,
+        backgroundColor: isSelected
+            ? AppColors.primary
+            : AppColors.primaryVeryLight,
         foregroundColor: isSelected ? Colors.white : AppColors.textPrimary,
         elevation: isSelected ? 2 : 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -170,18 +175,12 @@ class _TimePeriodDataWidgetState extends ConsumerState<TimePeriodDataWidget> {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 14,
-            color: AppColors.textSecondary,
-          ),
+          style: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
         ),
         const SizedBox(height: 4),
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ],
     );
