@@ -17,11 +17,12 @@ class FatPercentageCalculator extends StateNotifier<double?> {
   ///
   /// All measurements should be in inches.
   ///
-  /// @param gender The user's gender ('Male' or 'Female')
+  /// @param gender The user's gender ('Male', 'Female', or 'Other')
   /// @param height The user's height in inches
   /// @param neck The user's neck circumference in inches
   /// @param waist The user's waist circumference in inches
   /// @param hip The user's hip circumference in inches (only used for women)
+  /// @param useFemaleFomula Optional parameter for 'Other' gender to choose which formula to use
   /// @return The calculated body fat percentage or null if calculation fails
   Future<double?> calculateFatPercentage({
     String? gender,
@@ -29,6 +30,7 @@ class FatPercentageCalculator extends StateNotifier<double?> {
     double? neck,
     double? waist,
     double? hip,
+    bool? useFemaleFomula,
   }) async {
     // If gender is not provided, try to get it from profile settings
     if (gender == null) {
@@ -54,14 +56,24 @@ class FatPercentageCalculator extends StateNotifier<double?> {
       return null;
     }
 
-    // For women, hip measurement is required
-    if (gender.toLowerCase() == 'female' && hip == null) {
+    // Determine which formula to use based on gender
+    bool useFemaleFormula = false;
+    
+    if (gender.toLowerCase() == 'female') {
+      useFemaleFormula = true;
+    } else if (gender.toLowerCase() == 'other' && useFemaleFomula != null) {
+      // For 'Other' gender, use the specified formula preference
+      useFemaleFormula = useFemaleFomula;
+    }
+    
+    // For female formula, hip measurement is required
+    if (useFemaleFormula && hip == null) {
       return null;
     }
 
     double result;
 
-    if (gender.toLowerCase() == 'male') {
+    if (!useFemaleFormula) {
       // Men: BF (%) = 86.010 x log10 (abdomen – neck) – 70.041 x log10 (height) + 36.76
       result = 86.010 * log10(waist - neck) - 70.041 * log10(height) + 36.76;
     } else {

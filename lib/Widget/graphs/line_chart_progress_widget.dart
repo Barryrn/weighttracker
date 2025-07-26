@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' show max;
-import '../viewmodel/date_line_chart.dart';
-import '../theme.dart';
-import '../viewmodel/unit_conversion_provider.dart';
+import '../../viewmodel/date_line_chart.dart';
+import '../../theme.dart';
+import '../../viewmodel/unit_conversion_provider.dart';
 import 'package:intl/intl.dart';
 
 /// A widget that displays a line chart for body measurements over time
@@ -203,6 +203,9 @@ class _LineChartProgressWidgetState
     if (data.isEmpty) return const Text("No data available");
 
     final reversedData = data.reversed.toList();
+    
+    // Get the unit preferences
+    final unitPrefs = ref.watch(unitConversionProvider);
 
     // Create a list of data points with their indices
     List<MapEntry<int, double?>> dataPoints = List.generate(
@@ -212,6 +215,10 @@ class _LineChartProgressWidgetState
         switch (selectedDataType.toLowerCase()) {
           case 'weight':
             value = reversedData[i].avgWeight;
+            // Convert weight value based on unit preference
+            if (value != null && !unitPrefs.useMetricWeight) {
+              value = ref.read(unitConversionProvider.notifier).kgToLb(value);
+            }
             break;
           case 'bmi':
             value = reversedData[i].avgBmi;
@@ -297,6 +304,12 @@ class _LineChartProgressWidgetState
                     ((displayMax - displayMin) ~/ step + 1),
                     (i) {
                       double value = displayMax - (i * step);
+                      // Get the unit for display
+                      String unit = '';
+                      if (selectedDataType.toLowerCase() == 'weight') {
+                        unit = unitPrefs.useMetricWeight ? 'kg' : 'lb';
+                      }
+                      
                       return Expanded(
                         child: Container(
                           alignment: Alignment.centerRight,
@@ -304,7 +317,7 @@ class _LineChartProgressWidgetState
                           child: Transform.translate(
                             offset: const Offset(0, -8), // 🔧 Feinjustierung
                             child: Text(
-                              value.toStringAsFixed(0),
+                              value.toStringAsFixed(0) + (unit.isNotEmpty ? ' $unit' : ''),
                               style: const TextStyle(fontSize: 10),
                             ),
                           ),
