@@ -9,16 +9,16 @@ import 'package:intl/intl.dart';
 
 /// A widget that displays a line chart for body measurements over time
 /// using the data from the timeAggregationProvider.
-class TimePeriodLineChartWidget extends ConsumerStatefulWidget {
-  const TimePeriodLineChartWidget({Key? key}) : super(key: key);
+class LineChartProgressWidget extends ConsumerStatefulWidget {
+  const LineChartProgressWidget({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<TimePeriodLineChartWidget> createState() =>
-      _TimePeriodLineChartWidgetState();
+  ConsumerState<LineChartProgressWidget> createState() =>
+      _LineChartProgressWidgetState();
 }
 
-class _TimePeriodLineChartWidgetState
-    extends ConsumerState<TimePeriodLineChartWidget> {
+class _LineChartProgressWidgetState
+    extends ConsumerState<LineChartProgressWidget> {
   // Controller for horizontal scrolling
   final ScrollController _scrollController = ScrollController();
 
@@ -56,14 +56,22 @@ class _TimePeriodLineChartWidgetState
       });
     }
 
-    return Column(
-      children: [
-        _buildTimePeriodSelector(selectedTimePeriod),
-        const SizedBox(height: 16),
-        _buildDataTypeSelector(),
-        const SizedBox(height: 16),
-        _buildChart(aggregatedData, _selectedDataType),
-      ],
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildTimePeriodSelector(selectedTimePeriod),
+            const SizedBox(height: 16),
+            _buildDataTypeSelector(),
+            const SizedBox(height: 16),
+            _buildChart(aggregatedData, _selectedDataType),
+          ],
+        ),
+      ),
     );
   }
 
@@ -126,48 +134,31 @@ class _TimePeriodLineChartWidgetState
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: TimePeriodLineChart.values.map((period) {
             final isSelected = period == selectedPeriod;
-            return GestureDetector(
-              onTap: () {
+            return ElevatedButton(
+              onPressed: () {
                 ref.read(selectedTimePeriodLineChartProvider.notifier).state =
                     period;
               },
-              child: Container(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isSelected
+                    ? AppColors.primary
+                    : AppColors.primaryVeryLight,
+                foregroundColor: isSelected
+                    ? Colors.white
+                    : AppColors.textPrimary,
+                elevation: isSelected ? 2 : 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
+                  horizontal: 12,
                   vertical: 8,
                 ),
-                decoration: BoxDecoration(
-                  color: isSelected ? AppColors.primary : Colors.transparent,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: isSelected
-                        ? AppColors.primary
-                        : AppColors.textSecondary,
-                    width: 1,
-                  ),
-                ),
-                child: Text(
-                  period.name.capitalize(),
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : AppColors.textSecondary,
-                    fontWeight: isSelected
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                  ),
-                ),
               ),
+              child: Text(period.name.capitalize()),
             );
           }).toList(),
         ),
-        if (periodRangeText.isNotEmpty &&
-            selectedPeriod != TimePeriodLineChart.day)
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              periodRangeText,
-              style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
-            ),
-          ),
       ],
     );
   }
@@ -178,30 +169,28 @@ class _TimePeriodLineChartWidgetState
       mainAxisAlignment: MainAxisAlignment.center,
       children: _dataTypes.map((type) {
         final isSelected = type == _selectedDataType;
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              _selectedDataType = type;
-            });
-          },
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary : Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: isSelected ? AppColors.primary : AppColors.textSecondary,
-                width: 1,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: ElevatedButton(
+            onPressed: () {
+              setState(() {
+                _selectedDataType = type;
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: isSelected
+                  ? AppColors.primary
+                  : AppColors.primaryVeryLight,
+              foregroundColor: isSelected
+                  ? Colors.white
+                  : AppColors.textPrimary,
+              elevation: isSelected ? 2 : 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
               ),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             ),
-            child: Text(
-              type,
-              style: TextStyle(
-                color: isSelected ? Colors.white : AppColors.textSecondary,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
+            child: Text(type),
           ),
         );
       }).toList(),
@@ -276,6 +265,14 @@ class _TimePeriodLineChartWidgetState
     // Minimum space between entries to ensure good readability
     const double minSpacePerEntry = 100.0;
 
+    // Calculate padding for x-axis to prevent data points from being at the edges
+    // This adds empty space on each side without showing x-axis values there
+    final double xPadding = validDataPoints.isNotEmpty ? 0.5 : 0.0;
+    final double minX = validDataPoints.isNotEmpty ? -xPadding : 0.0;
+    final double maxX = validDataPoints.isNotEmpty
+        ? (validDataPoints.length - 1 + xPadding)
+        : 0.0;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         // Calculate the available width
@@ -326,33 +323,105 @@ class _TimePeriodLineChartWidgetState
                     width: chartWidth,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 16, 16, 8),
-                      child: LineChart(
+                      child: // Inside _buildChart method, update the LineChart widget
+                      LineChart(
                         LineChartData(
+                          minX: minX,
+                          maxX: maxX,
                           minY: displayMin,
                           maxY: displayMax,
                           lineTouchData: LineTouchData(
-                            touchTooltipData: LineTouchTooltipData(),
+                            touchTooltipData: LineTouchTooltipData(
+                              // Ensure tooltip fits inside the chart horizontally and vertically
+                              fitInsideHorizontally: true,
+                              fitInsideVertically: true,
+                              // Add some margin to make the tooltip more visible
+                              tooltipMargin: 8,
+                              // Make the tooltip background more visible
+                              getTooltipColor: (spot) =>
+                                  AppColors.primary.withOpacity(0.9),
+                              // Add rounded corners to the tooltip
+
+                              // Add padding inside the tooltip
+                              tooltipPadding: const EdgeInsets.all(12),
+                              getTooltipItems: (List<LineBarSpot> touchedSpots) {
+                                return touchedSpots.map((spot) {
+                                  final index = spot.x.toInt();
+                                  if (index >= 0 &&
+                                      index < reversedData.length) {
+                                    final data = reversedData[index];
+                                    final value = spot.y.toStringAsFixed(1);
+
+                                    // Get the unit based on selected data type
+                                    String unit = '';
+                                    switch (selectedDataType.toLowerCase()) {
+                                      case 'weight':
+                                        final unitPrefs = ref.watch(
+                                          unitConversionProvider,
+                                        );
+
+                                        unit = unitPrefs.useMetricWeight
+                                            ? 'kg'
+                                            : 'lb';
+
+                                        break;
+                                      case 'bmi':
+                                        unit = '';
+                                        break;
+                                      case 'fat':
+                                      case 'fat %':
+                                        unit = '%';
+                                        break;
+                                    }
+
+                                    // Include the full date period with year
+                                    return LineTooltipItem(
+                                      '$value $unit\n${data.periodLabel}',
+                                      const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    );
+                                  }
+                                  return null;
+                                }).toList();
+                              },
+                            ),
+                            // Make touch interaction more responsive
+                            touchSpotThreshold: 20,
+                            // Handle touch behavior
+                            handleBuiltInTouches: true,
                           ),
                           titlesData: FlTitlesData(
                             bottomTitles: AxisTitles(
                               sideTitles: SideTitles(
                                 showTitles: true,
+                                reservedSize: 22,
                                 interval: 1,
+                                // Custom title formatter to only show labels for actual data points
                                 getTitlesWidget: (value, meta) {
-                                  int index = value.toInt();
-                                  if (index >= 0 && index < xLabels.length) {
-                                    return SideTitleWidget(
-                                      meta: meta,
-                                      space: 8,
-                                      child: Transform.translate(
-                                        offset: const Offset(0, 8),
-                                        child: Text(
-                                          xLabels[index],
-                                          style: const TextStyle(fontSize: 10),
-                                          textAlign: TextAlign.center,
+                                  // Only show labels for integer values within the data range
+                                  // This ensures padding areas don't get labels
+                                  if (value >= 0 &&
+                                      value <= validDataPoints.length - 1 &&
+                                      value == value.roundToDouble()) {
+                                    int index = value.toInt();
+                                    if (index < xLabels.length) {
+                                      return SideTitleWidget(
+                                        meta: meta,
+                                        space: 8,
+                                        child: Transform.translate(
+                                          offset: const Offset(0, 8),
+                                          child: Text(
+                                            xLabels[index],
+                                            style: const TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
                                         ),
-                                      ),
-                                    );
+                                      );
+                                    }
                                   }
                                   return const SizedBox();
                                 },
