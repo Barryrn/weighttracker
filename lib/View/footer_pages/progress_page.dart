@@ -4,6 +4,7 @@ import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/widget/goals/weight_goal_widget.dart';
 import 'package:weigthtracker/widget/goals/weight_progress_widget.dart';
 import 'package:weigthtracker/widget/time_period_data_widget.dart';
+import 'package:weigthtracker/widget/time_period_line_chart_widget.dart';
 import '../../Widget/footer.dart';
 import '../../theme.dart';
 
@@ -29,7 +30,9 @@ class ProgressPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            TimePeriodDataWidget(),
+            TimePeriodLineChartWidget(),
+            // SizedBox(height: 30),
+            // TimePeriodDataWidget(),
 
             // Additional goal widgets can be added here in the future
           ],

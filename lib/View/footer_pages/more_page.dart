@@ -18,7 +18,7 @@ class MorePage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Center(child: Column(children: [ProfileSettingsWidget()])),
       ),
-      bottomNavigationBar: Footer(currentIndex: 3, onTap: (index) {}),
+      bottomNavigationBar: Footer(currentIndex: 4, onTap: (index) {}),
     );
   }
 }
