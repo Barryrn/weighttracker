@@ -39,16 +39,24 @@ class ImageComparisonModel {
   /// @param weightRange Range of weights to filter by (min, max)
   /// @param dateRange Range of dates to filter by (start, end)
   /// @param tags List of tags to filter by
+  /// @param showFrontImages Whether to include entries with front images
+  /// @param showSideImages Whether to include entries with side images
+  /// @param showBackImages Whether to include entries with back images
   /// @return Filtered list of body entries
   static List<BodyEntry> filterEntries({
     required List<BodyEntry> entries,
     RangeValues? weightRange,
     DateTimeRange? dateRange,
     List<String>? tags,
+    bool showFrontImages = true,
+    bool showSideImages = true,
+    bool showBackImages = true,
   }) {
-    // Start with entries that have at least one image
+    // Start with entries that have at least one image of the selected types
     var filteredEntries = entries.where((entry) =>
-      entry.frontImagePath != null || entry.sideImagePath != null || entry.backImagePath != null
+      (showFrontImages && entry.frontImagePath != null) ||
+      (showSideImages && entry.sideImagePath != null) ||
+      (showBackImages && entry.backImagePath != null)
     ).toList();
 
     // Filter by weight range
@@ -68,11 +76,11 @@ class ImageComparisonModel {
       ).toList();
     }
 
-    // Filter by tags - include entries without tags when no tags are selected
+    // Filter by tags - Only apply tag filtering when tags are selected
     if (tags != null && tags.isNotEmpty) {
       filteredEntries = filteredEntries.where((entry) =>
-        entry.tags != null &&
-        tags.any((tag) => entry.tags!.contains(tag))
+        // Only include entries that have at least one of the selected tags
+        entry.tags != null && entry.tags!.any((entryTag) => tags.contains(entryTag))
       ).toList();
     }
 

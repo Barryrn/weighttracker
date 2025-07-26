@@ -20,88 +20,17 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
   DateTimeRange? _dateRange;
   List<String> _selectedTags = [];
   bool _showFilters = false;
-  String? _selectedImageType; // null means show all image types
 
-  // Add these class-level variables for weight range
-  double _minWeight = 40.0; // Default min
-  double _maxWeight = 120.0; // Default max
-  bool _weightsInitialized = false;
+  // Image type filters
+  bool _showFrontImages = true;
+  bool _showSideImages = true;
+  bool _showBackImages = true;
 
   @override
   void initState() {
     super.initState();
-
-    // Use addPostFrameCallback to delay provider modifications
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Force refresh data from database
-      _refreshDataFromDatabase();
-      // Load all available tags for filtering
-      _loadAllTags();
-      // Initialize weight range min/max values
-      _initializeWeightRange();
-    });
-  }
-
-  /// Refreshes data from the database
-  Future<void> _refreshDataFromDatabase() async {
-    // Trigger a reload of all entries from the database
-    await ref.read(imageComparisonProvider.notifier).loadEntries();
-  }
-
-  // New method to initialize weight range once
-  void _initializeWeightRange() {
-    final entriesState = ref.read(imageComparisonProvider);
-    entriesState.whenData((entries) {
-      if (!_weightsInitialized) {
-        final weights = entries
-            .where((e) => e.weight != null)
-            .map((e) => e.weight!)
-            .toList();
-
-        if (weights.isNotEmpty) {
-          weights.sort();
-          setState(() {
-            // Get the raw min and max weights
-            double rawMinWeight = weights.first;
-            double rawMaxWeight = weights.last;
-
-            // Apply the formula for min weight (round down to nearest 5)
-            int minWeightInt = rawMinWeight.floor();
-            int nearestBelowOrEqual = minWeightInt - (minWeightInt % 5);
-
-            // Check if the rounded value is the same as the original
-            if (nearestBelowOrEqual == minWeightInt) {
-              // If they're the same, subtract 5 to ensure we have a range
-              nearestBelowOrEqual -= 5;
-            }
-            _minWeight = nearestBelowOrEqual.toDouble();
-
-            // Apply the formula for max weight (round up to nearest 5)
-            int maxWeightInt = rawMaxWeight.ceil();
-            int nearestAboveOrEqual = maxWeightInt + (5 - maxWeightInt % 5) % 5;
-
-            // Check if the rounded value is the same as the original
-            if (nearestAboveOrEqual == maxWeightInt) {
-              // If they're the same, add 5 to ensure we have a range
-              nearestAboveOrEqual += 5;
-            }
-            _maxWeight = nearestAboveOrEqual.toDouble();
-
-            // Ensure min and max are different to avoid division by zero
-            if (_minWeight >= _maxWeight) {
-              _maxWeight = _minWeight + 5.0;
-            }
-
-            _weightsInitialized = true;
-
-            // Initialize weight range if not set
-            if (_weightRange == null) {
-              _weightRange = RangeValues(_minWeight, _maxWeight);
-            }
-          });
-        }
-      }
-    });
+    // Load all available tags for filtering
+    _loadAllTags();
   }
 
   // All available tags for filtering
@@ -121,6 +50,79 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
         _allTags = tags.toList();
       });
     });
+  }
+
+  /// Filter entries based on current filter settings
+  List<BodyEntry> _filterEntries(List<BodyEntry> entries) {
+    return entries.where((entry) {
+      // Weight filter
+      if (_weightRange != null && entry.weight != null) {
+        if (entry.weight! < _weightRange!.start ||
+            entry.weight! > _weightRange!.end) {
+          return false;
+        }
+      }
+
+      // Date filter
+      if (_dateRange != null) {
+        if (entry.date.isBefore(_dateRange!.start) ||
+            entry.date.isAfter(_dateRange!.end)) {
+          return false;
+        }
+      }
+
+      // Tags filter
+      if (_selectedTags.isNotEmpty) {
+        if (entry.tags == null ||
+            !_selectedTags.any((tag) => entry.tags!.contains(tag))) {
+          return false;
+        }
+      }
+
+      // Image type filter - Check if entry has at least one image type that's enabled
+      bool hasValidImage = false;
+
+      if (_showFrontImages && entry.frontImagePath != null) {
+        hasValidImage = true;
+      }
+      if (_showSideImages && entry.sideImagePath != null) {
+        hasValidImage = true;
+      }
+      if (_showBackImages && entry.backImagePath != null) {
+        hasValidImage = true;
+      }
+
+      return hasValidImage;
+    }).toList();
+  }
+
+  /// Get all available images from an entry based on filter settings
+  List<Map<String, dynamic>> _getAvailableImages(BodyEntry entry) {
+    List<Map<String, dynamic>> images = [];
+
+    if (_showFrontImages && entry.frontImagePath != null) {
+      images.add({
+        'path': entry.frontImagePath!,
+        'type': 'Front',
+        'entry': entry,
+      });
+    }
+    if (_showSideImages && entry.sideImagePath != null) {
+      images.add({
+        'path': entry.sideImagePath!,
+        'type': 'Side',
+        'entry': entry,
+      });
+    }
+    if (_showBackImages && entry.backImagePath != null) {
+      images.add({
+        'path': entry.backImagePath!,
+        'type': 'Back',
+        'entry': entry,
+      });
+    }
+
+    return images;
   }
 
   @override
@@ -158,28 +160,19 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
               error: (error, stackTrace) =>
                   Center(child: Text('Error loading images: $error')),
               data: (entries) {
-                // Filter entries with images
-                var entriesWithImages = entries.where((entry) {
-                  if (_selectedImageType == null) {
-                    // Show all entries with any image
-                    return entry.frontImagePath != null ||
-                        entry.sideImagePath != null ||
-                        entry.backImagePath != null;
-                  } else if (_selectedImageType == 'front') {
-                    // Show only entries with front images
-                    return entry.frontImagePath != null;
-                  } else if (_selectedImageType == 'side') {
-                    // Show only entries with side images
-                    return entry.sideImagePath != null;
-                  } else if (_selectedImageType == 'back') {
-                    // Show only entries with back images
-                    return entry.backImagePath != null;
-                  }
-                  return false;
-                }).toList();
+                // Filter entries based on current filter settings
+                final filteredEntries = _filterEntries(entries);
 
-                if (entriesWithImages.isEmpty) {
-                  return const Center(child: Text('No images available'));
+                // Get all available images from filtered entries
+                final allImages = <Map<String, dynamic>>[];
+                for (final entry in filteredEntries) {
+                  allImages.addAll(_getAvailableImages(entry));
+                }
+
+                if (allImages.isEmpty) {
+                  return const Center(
+                    child: Text('No images match the current filters'),
+                  );
                 }
 
                 return GridView.builder(
@@ -190,9 +183,15 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
                   ),
-                  itemCount: entriesWithImages.length,
+                  itemCount: allImages.length,
                   itemBuilder: (context, index) {
-                    return _buildImageCard(context, entriesWithImages[index]);
+                    final imageData = allImages[index];
+                    return _buildImageCard(
+                      context,
+                      imageData['entry'] as BodyEntry,
+                      imageData['path'] as String,
+                      imageData['type'] as String,
+                    );
                   },
                 );
               },
@@ -217,7 +216,6 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
           // Image type filter
           _buildImageTypeFilter(),
           const SizedBox(height: 16),
-
           // Weight range filter
           _buildWeightRangeFilter(),
           const SizedBox(height: 16),
@@ -230,14 +228,27 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
           if (_allTags.isNotEmpty) _buildTagsFilter(),
           const SizedBox(height: 16),
 
-          // Clear filters button
+          // Filter action buttons
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              // Clear filters button
               TextButton(
                 onPressed: _clearFilters,
                 child: const Text('Clear Filters'),
               ),
+              const SizedBox(width: 8),
+              // Apply filters button
+              // ElevatedButton(
+              //   onPressed: () {
+              //     setState(() {}); // Trigger rebuild to apply filters
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: AppColors.primary,
+              //     foregroundColor: Colors.white,
+              //   ),
+              //   child: const Text('Apply Filters'),
+              // ),
             ],
           ),
         ],
@@ -247,9 +258,63 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
 
   /// Builds the weight range filter
   Widget _buildWeightRangeFilter() {
-    // Initialize weight range if not set
+    // Get min and max weights from entries
+    double minWeight = 40.0; // Default min
+    double maxWeight = 120.0; // Default max
+
+    final entriesState = ref.read(imageComparisonProvider);
+    entriesState.whenData((entries) {
+      final weights = entries
+          .where((e) => e.weight != null)
+          .map((e) => e.weight!)
+          .toList();
+
+      if (weights.isNotEmpty) {
+        weights.sort();
+        minWeight = weights.first;
+        maxWeight = weights.last;
+
+        // Apply the formula for min weight: n - (n % 5)
+        int minWeightInt = minWeight.toInt();
+        minWeight = (minWeightInt - (minWeightInt % 5)).toDouble();
+        // Subtract additional 5 if the weight is exactly on a 5 kg interval
+        if (minWeight == minWeightInt.toDouble()) {
+          minWeight -= 5;
+        }
+
+        // Apply the formula for max weight: n + (5 - n % 5) % 5
+        int maxWeightInt = maxWeight.toInt();
+        maxWeight = (maxWeightInt + (5 - maxWeightInt % 5) % 5).toDouble();
+        // Add additional 5 if the weight is exactly on a 5 kg interval
+        if (maxWeight == maxWeightInt.toDouble()) {
+          maxWeight += 5;
+        }
+      }
+    });
+
+    // Ensure min and max are different to avoid division by zero
+    if (minWeight >= maxWeight) {
+      maxWeight = minWeight + 5.0;
+    }
+
+    // Initialize weight range if not set or ensure it's within bounds
     if (_weightRange == null) {
-      _weightRange = RangeValues(_minWeight, _maxWeight);
+      _weightRange = RangeValues(minWeight, maxWeight);
+    } else {
+      // Ensure the range values are within bounds
+      double start = _weightRange!.start;
+      double end = _weightRange!.end;
+
+      // Clamp values to ensure they're within min and max
+      start = start.clamp(minWeight, maxWeight);
+      end = end.clamp(minWeight, maxWeight);
+
+      // Ensure start <= end
+      if (start > end) {
+        start = end;
+      }
+
+      _weightRange = RangeValues(start, end);
     }
 
     return Column(
@@ -266,9 +331,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             Expanded(
               child: RangeSlider(
                 values: _weightRange!,
-                min: _minWeight,
-                max: _maxWeight,
-                divisions: ((_maxWeight - _minWeight) * 10).round(),
+                min: minWeight,
+                max: maxWeight,
+                divisions: ((maxWeight - minWeight) * 10).round(),
                 labels: RangeLabels(
                   _weightRange!.start.toStringAsFixed(1),
                   _weightRange!.end.toStringAsFixed(1),
@@ -277,8 +342,6 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                   setState(() {
                     _weightRange = values;
                   });
-                  // Apply filter immediately
-                  _applyFilters();
                 },
               ),
             ),
@@ -354,8 +417,6 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       setState(() {
         _dateRange = newRange;
       });
-      // Apply filter immediately
-      _applyFilters();
     }
   }
 
@@ -382,8 +443,6 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     _selectedTags.remove(tag);
                   }
                 });
-                // Apply filter immediately
-                _applyFilters();
               },
               backgroundColor: Colors.grey[200],
               selectedColor: AppColors.primary.withOpacity(0.2),
@@ -400,69 +459,46 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Image Type', style: TextStyle(fontWeight: FontWeight.bold)),
+        const Text(
+          'Image Types',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
           runSpacing: 8,
           children: [
-            // All images option
-            FilterChip(
-              label: const Text('All'),
-              selected: _selectedImageType == null,
-              onSelected: (selected) {
-                setState(() {
-                  if (selected) {
-                    _selectedImageType = null;
-                  }
-                });
-                // Apply filter immediately
-                _applyFilters();
-              },
-              backgroundColor: Colors.grey[200],
-              selectedColor: AppColors.primary.withOpacity(0.2),
-              checkmarkColor: AppColors.primary,
-            ),
-            // Front image option
             FilterChip(
               label: const Text('Front'),
-              selected: _selectedImageType == 'front',
+              selected: _showFrontImages,
               onSelected: (selected) {
                 setState(() {
-                  _selectedImageType = selected ? 'front' : null;
+                  _showFrontImages = selected;
                 });
-                // Apply filter immediately
-                _applyFilters();
               },
               backgroundColor: Colors.grey[200],
               selectedColor: AppColors.primary.withOpacity(0.2),
               checkmarkColor: AppColors.primary,
             ),
-            // Side image option
             FilterChip(
               label: const Text('Side'),
-              selected: _selectedImageType == 'side',
+              selected: _showSideImages,
               onSelected: (selected) {
                 setState(() {
-                  _selectedImageType = selected ? 'side' : null;
+                  _showSideImages = selected;
                 });
-                // Apply filter immediately
-                _applyFilters();
               },
               backgroundColor: Colors.grey[200],
               selectedColor: AppColors.primary.withOpacity(0.2),
               checkmarkColor: AppColors.primary,
             ),
-            // Back image option
             FilterChip(
               label: const Text('Back'),
-              selected: _selectedImageType == 'back',
+              selected: _showBackImages,
               onSelected: (selected) {
                 setState(() {
-                  _selectedImageType = selected ? 'back' : null;
+                  _showBackImages = selected;
                 });
-                // Apply filter immediately
-                _applyFilters();
               },
               backgroundColor: Colors.grey[200],
               selectedColor: AppColors.primary.withOpacity(0.2),
@@ -474,57 +510,25 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     );
   }
 
-  /// Apply filters to the entries
-  void _applyFilters() {
-    ref
-        .read(imageComparisonProvider.notifier)
-        .applyFilters(
-          weightRange: _weightRange,
-          dateRange: _dateRange,
-          tags: _selectedTags.isEmpty ? null : _selectedTags,
-        );
-  }
-
   /// Clear all filters
   void _clearFilters() {
     setState(() {
       _weightRange = null;
       _dateRange = null;
       _selectedTags = [];
-      _selectedImageType = null;
+      _showFrontImages = true;
+      _showSideImages = true;
+      _showBackImages = true;
     });
-    ref.read(imageComparisonProvider.notifier).clearFilters();
   }
 
   /// Builds a card displaying an image with metadata
-  Widget _buildImageCard(BuildContext context, BodyEntry entry) {
-    // Determine which image to show based on selected image type
-    String? imagePath;
-    String viewType = '';
-
-    if (_selectedImageType == 'front' && entry.frontImagePath != null) {
-      imagePath = entry.frontImagePath;
-      viewType = 'Front';
-    } else if (_selectedImageType == 'side' && entry.sideImagePath != null) {
-      imagePath = entry.sideImagePath;
-      viewType = 'Side';
-    } else if (_selectedImageType == 'back' && entry.backImagePath != null) {
-      imagePath = entry.backImagePath;
-      viewType = 'Back';
-    } else {
-      // Default prioritization if no specific type is selected
-      if (entry.frontImagePath != null) {
-        imagePath = entry.frontImagePath;
-        viewType = 'Front';
-      } else if (entry.sideImagePath != null) {
-        imagePath = entry.sideImagePath;
-        viewType = 'Side';
-      } else if (entry.backImagePath != null) {
-        imagePath = entry.backImagePath;
-        viewType = 'Back';
-      }
-    }
-
+  Widget _buildImageCard(
+    BuildContext context,
+    BodyEntry entry,
+    String imagePath,
+    String viewType,
+  ) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -533,32 +537,27 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
         children: [
           // Image
           Expanded(
-            child: imagePath != null
-                ? FutureBuilder<bool>(
-                    future: File(imagePath).exists(),
-                    builder: (context, snapshot) {
-                      final exists = snapshot.data ?? false;
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (exists) {
-                        return ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
-                          child: Image.file(
-                            File(imagePath!),
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      } else {
-                        return const Center(
-                          child: Icon(Icons.broken_image, size: 48),
-                        );
-                      }
-                    },
-                  )
-                : const Center(child: Icon(Icons.no_photography, size: 48)),
+            child: FutureBuilder<bool>(
+              future: File(imagePath).exists(),
+              builder: (context, snapshot) {
+                final exists = snapshot.data ?? false;
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (exists) {
+                  return ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                    child: Image.file(File(imagePath), fit: BoxFit.cover),
+                  );
+                } else {
+                  return const Center(
+                    child: Icon(Icons.broken_image, size: 48),
+                  );
+                }
+              },
+            ),
           ),
           // Metadata
           Container(
