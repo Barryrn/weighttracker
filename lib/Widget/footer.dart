@@ -1,5 +1,6 @@
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/View/footer_pages/more_page.dart';
 import 'package:weigthtracker/View/profile_settings_page_view.dart';
 import 'package:weigthtracker/theme.dart';
@@ -15,52 +16,58 @@ class Footer extends StatelessWidget {
 
   const Footer({super.key, required this.currentIndex, required this.onTap});
 
+  Route _createRoute(Widget page, bool slideFromRight) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const beginOffsetRight = Offset(1.0, 0.0); // Slide von rechts
+        const beginOffsetLeft = Offset(-1.0, 0.0); // Slide von links
+        final begin = slideFromRight ? beginOffsetRight : beginOffsetLeft;
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween = Tween(
+          begin: begin,
+          end: end,
+        ).chain(CurveTween(curve: curve));
+        return SlideTransition(position: animation.drive(tween), child: child);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    const IconData ticket = IconData(
-      0xf916,
-      fontFamily: 'CupertinoIcons',
-      fontPackage: 'cupertino_icons',
-    );
     return BottomNavigationBar(
       currentIndex: currentIndex,
       unselectedItemColor: AppColors.primaryVeryLight,
-      selectedItemColor: currentIndex == 1
-          ? AppColors.primary
-          : AppColors.primary,
+      selectedItemColor: AppColors.primary,
       showUnselectedLabels: true,
-      selectedFontSize: 12.0, // Same size as unselected
-      unselectedFontSize: 12.0, // Ensure consistent font size
-      type: BottomNavigationBarType.fixed, // Prevents shifting behavior
+      selectedFontSize: 12.0,
+      unselectedFontSize: 12.0,
+      type: BottomNavigationBarType.fixed,
       onTap: (index) {
-        // First call the onTap callback to update the state
-        onTap(index);
-
-        // Only navigate if the selected index is different from the current index
         if (index != currentIndex) {
+          // Übergabe des Richtungsparameters: wenn neuer Index > aktueller Index -> Slide von rechts
+          bool slideFromRight = index > currentIndex;
+
+          onTap(index);
+
           if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
+            Navigator.push(context, _createRoute(HomePage(), slideFromRight));
           } else if (index == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProgressPage()),
+              _createRoute(ProgressPage(), slideFromRight),
             );
           } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => GoalsPage()),
-            );
+            // BodyEntrySheet.show kann so bleiben, da es vermutlich ein Dialog oder BottomSheet ist
+            BodyEntrySheet.show(context: context);
           } else if (index == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MorePage()),
-            );
+            Navigator.push(context, _createRoute(GoalsPage(), slideFromRight));
+          } else if (index == 4) {
+            Navigator.push(context, _createRoute(MorePage(), slideFromRight));
           }
         }
-        // If index == currentIndex, do nothing (stay on current page)
       },
       items: const [
         BottomNavigationBarItem(
@@ -79,7 +86,14 @@ class Footer extends StatelessWidget {
           ),
           label: 'Progress',
         ),
-
+        BottomNavigationBarItem(
+          icon: HeroIcon(
+            HeroIcons.plusCircle,
+            style: HeroIconStyle.outline,
+            size: 30,
+          ),
+          label: 'Add',
+        ),
         BottomNavigationBarItem(
           icon: Icon(Icons.monitor_weight, size: 30),
           label: 'Goals',

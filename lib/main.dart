@@ -22,16 +22,16 @@ void main() async {
   print('Database path: ${directory.path}/weight_tracker.db');
 
   // Import mock data
-  // try {
-  //   final importer = MockDataImporter();
-  //   final count = await importer.importMockData();
-  //   print('Imported $count entries from mock data');
+  try {
+    final importer = MockDataImporter();
+    final count = await importer.importMockData();
+    print('Imported $count entries from mock data');
 
-  //   // Print all entries to verify import
-  //   await dbHelper.printAllBodyEntries();
-  // } catch (e) {
-  //   print('Failed to import mock data: $e');
-  // }
+    // Print all entries to verify import
+    await dbHelper.printAllBodyEntries();
+  } catch (e) {
+    print('Failed to import mock data: $e');
+  }
 
   // Wrap the app with ProviderScope
   runApp(const ProviderScope(child: MyApp()));

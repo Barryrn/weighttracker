@@ -33,7 +33,7 @@ class GoalsPage extends ConsumerWidget {
           ],
         ),
       ),
-      bottomNavigationBar: Footer(currentIndex: 2, onTap: (index) {}),
+      bottomNavigationBar: Footer(currentIndex: 3, onTap: (index) {}),
     );
   }
 }
