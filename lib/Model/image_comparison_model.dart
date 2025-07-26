@@ -68,7 +68,7 @@ class ImageComparisonModel {
       ).toList();
     }
 
-    // Filter by tags
+    // Filter by tags - include entries without tags when no tags are selected
     if (tags != null && tags.isNotEmpty) {
       filteredEntries = filteredEntries.where((entry) =>
         entry.tags != null &&

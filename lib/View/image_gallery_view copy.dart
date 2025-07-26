@@ -22,11 +22,6 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
   bool _showFilters = false;
   String? _selectedImageType; // null means show all image types
 
-  // Add these class-level variables for weight range
-  double _minWeight = 40.0; // Default min
-  double _maxWeight = 120.0; // Default max
-  bool _weightsInitialized = false;
-
   @override
   void initState() {
     super.initState();
@@ -38,7 +33,6 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       // Load all available tags for filtering
       _loadAllTags();
       // Initialize weight range min/max values
-      _initializeWeightRange();
     });
   }
 
@@ -46,62 +40,6 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
   Future<void> _refreshDataFromDatabase() async {
     // Trigger a reload of all entries from the database
     await ref.read(imageComparisonProvider.notifier).loadEntries();
-  }
-
-  // New method to initialize weight range once
-  void _initializeWeightRange() {
-    final entriesState = ref.read(imageComparisonProvider);
-    entriesState.whenData((entries) {
-      if (!_weightsInitialized) {
-        final weights = entries
-            .where((e) => e.weight != null)
-            .map((e) => e.weight!)
-            .toList();
-
-        if (weights.isNotEmpty) {
-          weights.sort();
-          setState(() {
-            // Get the raw min and max weights
-            double rawMinWeight = weights.first;
-            double rawMaxWeight = weights.last;
-
-            // Apply the formula for min weight (round down to nearest 5)
-            int minWeightInt = rawMinWeight.floor();
-            int nearestBelowOrEqual = minWeightInt - (minWeightInt % 5);
-
-            // Check if the rounded value is the same as the original
-            if (nearestBelowOrEqual == minWeightInt) {
-              // If they're the same, subtract 5 to ensure we have a range
-              nearestBelowOrEqual -= 5;
-            }
-            _minWeight = nearestBelowOrEqual.toDouble();
-
-            // Apply the formula for max weight (round up to nearest 5)
-            int maxWeightInt = rawMaxWeight.ceil();
-            int nearestAboveOrEqual = maxWeightInt + (5 - maxWeightInt % 5) % 5;
-
-            // Check if the rounded value is the same as the original
-            if (nearestAboveOrEqual == maxWeightInt) {
-              // If they're the same, add 5 to ensure we have a range
-              nearestAboveOrEqual += 5;
-            }
-            _maxWeight = nearestAboveOrEqual.toDouble();
-
-            // Ensure min and max are different to avoid division by zero
-            if (_minWeight >= _maxWeight) {
-              _maxWeight = _minWeight + 5.0;
-            }
-
-            _weightsInitialized = true;
-
-            // Initialize weight range if not set
-            if (_weightRange == null) {
-              _weightRange = RangeValues(_minWeight, _maxWeight);
-            }
-          });
-        }
-      }
-    });
   }
 
   // All available tags for filtering
@@ -247,9 +185,38 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
 
   /// Builds the weight range filter
   Widget _buildWeightRangeFilter() {
+    // Get min and max weights from entries - only once when initializing
+    double minWeight = 40.0; // Default min
+    double maxWeight = 120.0; // Default max
+    bool initialized = false;
+
+    // Only initialize the min/max weights once
+    if (!initialized) {
+      final entriesState = ref.read(imageComparisonProvider);
+      entriesState.whenData((entries) {
+        final weights = entries
+            .where((e) => e.weight != null)
+            .map((e) => e.weight!)
+            .toList();
+
+        if (weights.isNotEmpty) {
+          weights.sort();
+          minWeight = weights.first;
+          maxWeight = weights.last;
+        }
+      });
+
+      // Ensure min and max are different to avoid division by zero
+      if (minWeight >= maxWeight) {
+        maxWeight = minWeight + 1.0;
+      }
+
+      initialized = true;
+    }
+
     // Initialize weight range if not set
     if (_weightRange == null) {
-      _weightRange = RangeValues(_minWeight, _maxWeight);
+      _weightRange = RangeValues(minWeight, maxWeight);
     }
 
     return Column(
@@ -266,9 +233,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             Expanded(
               child: RangeSlider(
                 values: _weightRange!,
-                min: _minWeight,
-                max: _maxWeight,
-                divisions: ((_maxWeight - _minWeight) * 10).round(),
+                min: minWeight,
+                max: maxWeight,
+                divisions: ((maxWeight - minWeight) * 10).round(),
                 labels: RangeLabels(
                   _weightRange!.start.toStringAsFixed(1),
                   _weightRange!.end.toStringAsFixed(1),
