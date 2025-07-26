@@ -17,8 +17,12 @@ class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>>
   bool _showFrontImages = true;
   bool _showSideImages = true;
   bool _showBackImages = true;
+  
+  // Cache for loaded entries
+  List<BodyEntry> _cachedEntries = [];
 
   ImageComparisonNotifier() : super(const AsyncValue.loading()) {
+    // Load entries when provider is initialized
     loadEntries();
   }
 
@@ -28,20 +32,17 @@ class ImageComparisonNotifier extends StateNotifier<AsyncValue<List<BodyEntry>>>
   /// Get the comparison entry (closest weight)
   BodyEntry? get comparisonEntry => _comparisonEntry;
 
-  /// Get the current weight range filter
-  RangeValues? get weightRange => _weightRange;
-
-  /// Get the current date range filter
-  DateTimeRange? get dateRange => _dateRange;
-
-  /// Get the current selected tags filter
-  List<String>? get selectedTags => _selectedTags;
+  /// Get all cached entries
+  List<BodyEntry> get allEntries => _cachedEntries;
 
   /// Load all entries from the database and set up the comparison
   Future<void> loadEntries() async {
     try {
       state = const AsyncValue.loading();
-      final entries = await _dbHelper.queryAllBodyEntries(); // Using _dbHelper directly
+      final entries = await _dbHelper.queryAllBodyEntries();
+      
+      // Cache the entries
+      _cachedEntries = entries;
       
       // Find the latest entry with images
       _latestEntry = _findLatestEntryWithImages(entries);

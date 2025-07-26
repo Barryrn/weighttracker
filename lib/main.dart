@@ -12,23 +12,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize the database
-  await DatabaseHelper().database;
-  await DatabaseHelper().printDatabasePath();
-
-  // Get the database path and print it
   final dbHelper = DatabaseHelper();
-  final db = await dbHelper.database;
-  final directory = await getApplicationDocumentsDirectory();
-  print('Database path: ${directory.path}/weight_tracker.db');
-
-  // Import mock data
+  await dbHelper.database;
+  
+  // Import mock data if needed
   try {
     final importer = MockDataImporter();
     final count = await importer.importMockData();
     print('Imported $count entries from mock data');
-
-    // Print all entries to verify import
-    await dbHelper.printAllBodyEntries();
   } catch (e) {
     print('Failed to import mock data: $e');
   }

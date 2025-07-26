@@ -29,8 +29,13 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
   @override
   void initState() {
     super.initState();
-    // Load all available tags for filtering
-    _loadAllTags();
+    // Ensure data is loaded when widget initializes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(imageComparisonProvider.notifier).loadEntries().then((_) {
+        // Load all available tags for filtering
+        _loadAllTags();
+      });
+    });
   }
 
   // All available tags for filtering

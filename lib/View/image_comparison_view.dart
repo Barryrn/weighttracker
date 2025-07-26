@@ -383,4 +383,36 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
   String _formatDate(DateTime date) {
     return DateFormat('MMM d, yyyy').format(date);
   }
+
+  @override
+  void initState() {
+    super.initState();
+    // Ensure data is loaded when widget initializes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _preloadImages();
+    });
+  }
+  
+  /// Preload images to ensure they're available when needed
+  Future<void> _preloadImages() async {
+    final comparisonNotifier = ref.read(imageComparisonProvider.notifier);
+    await comparisonNotifier.loadEntries();
+    
+    // Access the entries
+    final state = ref.read(imageComparisonProvider);
+    state.whenData((entries) {
+      // Preload images by accessing them
+      for (final entry in entries) {
+        if (entry.frontImagePath != null) {
+          precacheImage(FileImage(File(entry.frontImagePath!)), context);
+        }
+        if (entry.sideImagePath != null) {
+          precacheImage(FileImage(File(entry.sideImagePath!)), context);
+        }
+        if (entry.backImagePath != null) {
+          precacheImage(FileImage(File(entry.backImagePath!)), context);
+        }
+      }
+    });
+  }
 }
