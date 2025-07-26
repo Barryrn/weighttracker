@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../table_progress_widget.dart';
-import '../line_chart_progress_widget.dart';
+import 'table_progress_widget.dart';
+import 'line_chart_progress_widget.dart';
 import '../../theme.dart';
 
 /// Provider to manage the graph view type state

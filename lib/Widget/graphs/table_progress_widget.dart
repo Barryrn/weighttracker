@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../theme.dart';
-import '../viewmodel/time_aggregation_provider.dart';
-import '../viewmodel/unit_conversion_provider.dart';
+import '../../theme.dart';
+import '../../viewmodel/time_aggregation_provider.dart';
+import '../../viewmodel/unit_conversion_provider.dart';
 
 /// A widget that displays aggregated body data for different time periods.
 ///

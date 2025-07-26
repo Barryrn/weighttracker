@@ -37,6 +37,7 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
   double? _calculatedFatPercentage;
   bool _isLoading = false;
   final _manualFatController = TextEditingController();
+  bool _useFemaleFomula = false; // Added property for gender 'Other'
 
   @override
   void initState() {
@@ -103,6 +104,10 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
         standardHip = _hip != null ? _hip! * 2.54 : null;
       }
 
+      // Add this property to the _FatPercentageViewState class
+      bool _useFemaleFomula = false;
+      
+      // In the _calculateFatPercentage method, modify the call to the calculator:
       final result = await ref
           .read(fatPercentageCalculatorProvider.notifier)
           .calculateFatPercentage(
@@ -111,6 +116,7 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
             neck: standardNeck,
             waist: standardWaist,
             hip: standardHip,
+            useFemaleFomula: _gender?.toLowerCase() == 'other' ? _useFemaleFomula : null,
           );
 
       setState(() {
@@ -332,6 +338,10 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                 value: 'Female',
                                 child: Text('Female'),
                               ),
+                              DropdownMenuItem(
+                                value: 'Other',
+                                child: Text('Other'),
+                              ),
                             ],
                             onChanged: (value) {
                               setState(() {
@@ -529,6 +539,35 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               },
                             ),
                             const SizedBox(height: 16),
+                          ],
+
+                          // Add this after the gender dropdown
+                          if (_gender?.toLowerCase() == 'other') ...[  
+                            const SizedBox(height: 16),
+                            Row(
+                              children: [
+                                const Text('Calculation formula:'),
+                                const Spacer(),
+                                ToggleButtons(
+                                  isSelected: [!_useFemaleFomula, _useFemaleFomula],
+                                  onPressed: (index) {
+                                    setState(() {
+                                      _useFemaleFomula = index == 1;
+                                    });
+                                  },
+                                  children: const [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 16),
+                                      child: Text('Male'),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 16),
+                                      child: Text('Female'),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ],
 
                           // Calculate button
