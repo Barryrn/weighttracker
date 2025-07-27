@@ -18,7 +18,11 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
   @override
   void initState() {
     super.initState();
-    // Initialize with the current weight, converting from standard unit (kg) if needed
+    _initializeController();
+  }
+
+  /// Initialize the controller with the current weight from the provider
+  void _initializeController() {
     final weight = ref.read(bodyEntryProvider).weight;
     final unitPrefs = ref.read(unitConversionProvider);
 
@@ -81,6 +85,18 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
   @override
   Widget build(BuildContext context) {
     final unitPrefs = ref.watch(unitConversionProvider);
+    final bodyEntry = ref.watch(bodyEntryProvider);
+    
+    // Listen for changes in the bodyEntryProvider
+    // If the weight is null, clear the text field
+    if (bodyEntry.weight == null && _controller.text.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          _controller.text = '';
+        });
+      });
+    }
+    
     final unitSuffix = unitPrefs.useMetricWeight ? 'kg' : 'lb';
 
     return Column(

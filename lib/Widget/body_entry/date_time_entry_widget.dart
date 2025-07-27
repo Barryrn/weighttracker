@@ -68,6 +68,7 @@ class DateTimeEntry extends ConsumerWidget {
   }
 
   /// Opens a date picker dialog and updates the provider with the selected date.
+  /// If a new date is selected, it resets the bodyEntryProvider to clear all previous entries.
   ///
   /// @param context The build context
   /// @param initialDate The initial date to show in the picker
@@ -100,7 +101,20 @@ class DateTimeEntry extends ConsumerWidget {
     );
 
     if (picked != null && picked != initialDate) {
+      // Reset the bodyEntryProvider by creating a new instance with only the date
+      notifier.reset();
+      // Update the date after resetting
       notifier.updateDate(picked);
+
+      // Show a snackbar to inform the user that the form has been reset
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Form reset for new date'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
     }
   }
 
