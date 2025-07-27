@@ -213,8 +213,10 @@ class _ImageComparisonViewsState extends ConsumerState<ImageComparisonViews> {
                 horizontal: 8.0,
                 vertical: 4.0,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Wrap(
+                spacing: 4, // Horizontal space between buttons
+                runSpacing: 4, // Vertical space between lines
+                alignment: WrapAlignment.spaceEvenly,
                 children: [
                   _buildImageTypeButton(
                     'Front',
@@ -308,7 +310,7 @@ class _ImageComparisonViewsState extends ConsumerState<ImageComparisonViews> {
           backgroundColor: currentType == type
               ? AppColors.primary.withOpacity(0.2)
               : Colors.transparent,
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4), // Reduced from 8 to 6
           minimumSize: Size.zero,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
