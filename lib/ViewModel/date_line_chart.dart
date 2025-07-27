@@ -125,7 +125,7 @@ class TimeAggregationNotifier extends StateNotifier<List<AggregatedBodyData>> {
       final latestDate = entries.first.date;
       final earliestDate = entries.last.date;
 
-      // For day view, ensure every day is filled out
+      // For day view, only include days with actual entries
       if (period == TimePeriodLineChart.day) {
         final List<AggregatedBodyData> filledData = [];
 
@@ -140,86 +140,64 @@ class TimeAggregationNotifier extends StateNotifier<List<AggregatedBodyData>> {
           entriesByDate[dateKey]!.add(entry);
         }
 
-        // Iterate through each day from earliest to latest
-        DateTime currentDate = DateTime(
-          earliestDate.year,
-          earliestDate.month,
-          earliestDate.day,
-        );
+        // Only process days that have entries
+        entriesByDate.forEach((dateKey, entriesForDay) {
+          // Get the date from the first entry in this group
+          final currentDate = DateTime(
+            entriesForDay.first.date.year,
+            entriesForDay.first.date.month,
+            entriesForDay.first.date.day,
+          );
+          
+          // Calculate averages
+          double? avgWeight;
+          double? avgBmi;
+          double? avgFatPercentage;
 
-        while (!currentDate.isAfter(latestDate)) {
-          final dateKey =
-              '${currentDate.year}-${currentDate.month}-${currentDate.day}';
-
-          if (entriesByDate.containsKey(dateKey)) {
-            // Calculate averages for this day
-            final entriesForDay = entriesByDate[dateKey]!;
-
-            // Calculate averages
-            double? avgWeight;
-            double? avgBmi;
-            double? avgFatPercentage;
-
-            // Weight average
-            final weightsWithValues = entriesForDay
-                .where((e) => e.weight != null)
-                .map((e) => e.weight!)
-                .toList();
-            if (weightsWithValues.isNotEmpty) {
-              avgWeight =
-                  weightsWithValues.reduce((a, b) => a + b) /
-                  weightsWithValues.length;
-            }
-
-            // BMI average
-            final bmisWithValues = entriesForDay
-                .where((e) => e.bmi != null)
-                .map((e) => e.bmi!)
-                .toList();
-            if (bmisWithValues.isNotEmpty) {
-              avgBmi =
-                  bmisWithValues.reduce((a, b) => a + b) /
-                  bmisWithValues.length;
-            }
-
-            // Fat percentage average
-            final fatPercentagesWithValues = entriesForDay
-                .where((e) => e.fatPercentage != null)
-                .map((e) => e.fatPercentage!)
-                .toList();
-            if (fatPercentagesWithValues.isNotEmpty) {
-              avgFatPercentage =
-                  fatPercentagesWithValues.reduce((a, b) => a + b) /
-                  fatPercentagesWithValues.length;
-            }
-
-            filledData.add(
-              AggregatedBodyData(
-                periodStart: currentDate,
-                periodEnd: currentDate,
-                avgWeight: avgWeight,
-                avgBmi: avgBmi,
-                avgFatPercentage: avgFatPercentage,
-                entryCount: entriesForDay.length,
-              ),
-            );
-          } else {
-            // Add an entry with null values for this day
-            filledData.add(
-              AggregatedBodyData(
-                periodStart: currentDate,
-                periodEnd: currentDate,
-                avgWeight: null,
-                avgBmi: null,
-                avgFatPercentage: null,
-                entryCount: 0,
-              ),
-            );
+          // Weight average
+          final weightsWithValues = entriesForDay
+              .where((e) => e.weight != null)
+              .map((e) => e.weight!)
+              .toList();
+          if (weightsWithValues.isNotEmpty) {
+            avgWeight =
+                weightsWithValues.reduce((a, b) => a + b) /
+                weightsWithValues.length;
           }
 
-          // Move to the next day
-          currentDate = currentDate.add(const Duration(days: 1));
-        }
+          // BMI average
+          final bmisWithValues = entriesForDay
+              .where((e) => e.bmi != null)
+              .map((e) => e.bmi!)
+              .toList();
+          if (bmisWithValues.isNotEmpty) {
+            avgBmi =
+                bmisWithValues.reduce((a, b) => a + b) /
+                bmisWithValues.length;
+          }
+
+          // Fat percentage average
+          final fatPercentagesWithValues = entriesForDay
+              .where((e) => e.fatPercentage != null)
+              .map((e) => e.fatPercentage!)
+              .toList();
+          if (fatPercentagesWithValues.isNotEmpty) {
+            avgFatPercentage =
+                fatPercentagesWithValues.reduce((a, b) => a + b) /
+                fatPercentagesWithValues.length;
+          }
+
+          filledData.add(
+            AggregatedBodyData(
+              periodStart: currentDate,
+              periodEnd: currentDate,
+              avgWeight: avgWeight,
+              avgBmi: avgBmi,
+              avgFatPercentage: avgFatPercentage,
+              entryCount: entriesForDay.length,
+            ),
+          );
+        });
 
         // Sort by date (newest first)
         filledData.sort((a, b) => b.periodStart.compareTo(a.periodStart));
