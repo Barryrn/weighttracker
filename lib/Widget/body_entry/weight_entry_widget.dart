@@ -19,6 +19,25 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
   void initState() {
     super.initState();
     _initializeController();
+    
+    // Add listener to bodyEntryProvider to update when data changes
+    ref.listenManual(bodyEntryProvider, (previous, next) {
+      final unitPrefs = ref.read(unitConversionProvider);
+      
+      // Update controller text when weight changes in the provider
+      if (next.weight != previous?.weight) {
+        setState(() {
+          if (next.weight == null) {
+            _controller.text = '';
+          } else {
+            final displayWeight = unitPrefs.useMetricWeight
+                ? next.weight!
+                : next.weight! / 0.45359237;
+            _controller.text = displayWeight.toStringAsFixed(1);
+          }
+        });
+      }
+    });
   }
 
   /// Initialize the controller with the current weight from the provider

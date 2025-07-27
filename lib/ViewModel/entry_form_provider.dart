@@ -146,13 +146,14 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
   }
 
   void reset() {
-    // Preserve the current notes and tags
+    // Preserve the current date, notes and tags
+    final currentDate = state.date;
     final currentNotes = state.notes;
     final currentTags = state.tags;
     
     // Reset to a new BodyEntry with only the preserved fields
     state = BodyEntry(
-      date: DateTime.now(),
+      date: currentDate, // Preserve the current date instead of resetting to today
       notes: currentNotes,
       tags: currentTags,
     );

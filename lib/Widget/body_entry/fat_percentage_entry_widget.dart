@@ -25,10 +25,17 @@ class _FatPercentageEntryState extends ConsumerState<FatPercentageEntry> {
     super.initState();
     _initializeController();
     
-    // Add listener to bodyEntryProvider
+    // Add listener to bodyEntryProvider to update when data changes
     ref.listenManual(bodyEntryProvider, (previous, next) {
-      if (next.fatPercentage == null && _controller.text.isNotEmpty) {
-        _controller.clear();
+      // Update controller text when fat percentage changes in the provider
+      if (next.fatPercentage != previous?.fatPercentage) {
+        setState(() {
+          if (next.fatPercentage == null) {
+            _controller.text = '';
+          } else {
+            _controller.text = next.fatPercentage!.toString();
+          }
+        });
       }
     });
   }
