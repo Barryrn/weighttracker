@@ -22,6 +22,36 @@ class ImageEntry extends ConsumerStatefulWidget {
 
 class _ImageEntryState extends ConsumerState<ImageEntry> {
   final ImagePicker _picker = ImagePicker();
+  String? _frontImagePath;
+  String? _sideImagePath;
+  String? _backImagePath;
+  
+  @override
+  void initState() {
+    super.initState();
+    _initializeImagePaths();
+    
+    // Add listener to bodyEntryProvider
+    ref.listenManual(bodyEntryProvider, (previous, next) {
+      if (next.frontImagePath != _frontImagePath ||
+          next.sideImagePath != _sideImagePath ||
+          next.backImagePath != _backImagePath) {
+        setState(() {
+          _frontImagePath = next.frontImagePath;
+          _sideImagePath = next.sideImagePath;
+          _backImagePath = next.backImagePath;
+        });
+      }
+    });
+  }
+  
+  /// Initializes image paths from the bodyEntryProvider
+  void _initializeImagePaths() {
+    final bodyEntry = ref.read(bodyEntryProvider);
+    _frontImagePath = bodyEntry.frontImagePath;
+    _sideImagePath = bodyEntry.sideImagePath;
+    _backImagePath = bodyEntry.backImagePath;
+  }
 
   Future<void> _showImageSourceDialog(ViewType viewType) async {
     final bodyEntry = ref.watch(bodyEntryProvider);
@@ -239,11 +269,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
 
   @override
   Widget build(BuildContext context) {
-    final bodyEntry = ref.read(bodyEntryProvider);
-    final frontImagePath = bodyEntry.frontImagePath;
-    final sideImagePath = bodyEntry.sideImagePath;
-    final backImagePath = bodyEntry.backImagePath;
-
+    // Use the cached image paths instead of reading from provider directly
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -258,7 +284,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
             Expanded(
               child: _buildImageCard(
                 title: 'Front',
-                imagePath: frontImagePath,
+                imagePath: _frontImagePath,
                 onTap: () => _showImageSourceDialog(ViewType.front),
               ),
             ),
@@ -266,7 +292,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
             Expanded(
               child: _buildImageCard(
                 title: 'Side',
-                imagePath: sideImagePath,
+                imagePath: _sideImagePath,
                 onTap: () => _showImageSourceDialog(ViewType.side),
               ),
             ),
@@ -274,7 +300,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
             Expanded(
               child: _buildImageCard(
                 title: 'Back',
-                imagePath: backImagePath,
+                imagePath: _backImagePath,
                 onTap: () => _showImageSourceDialog(ViewType.back),
               ),
             ),

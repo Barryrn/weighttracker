@@ -23,6 +23,18 @@ class _FatPercentageEntryState extends ConsumerState<FatPercentageEntry> {
   @override
   void initState() {
     super.initState();
+    _initializeController();
+    
+    // Add listener to bodyEntryProvider
+    ref.listenManual(bodyEntryProvider, (previous, next) {
+      if (next.fatPercentage == null && _controller.text.isNotEmpty) {
+        _controller.clear();
+      }
+    });
+  }
+  
+  /// Initializes the text controller with the current fat percentage value
+  void _initializeController() {
     final fatPercentage = ref.read(bodyEntryProvider).fatPercentage;
     _controller = TextEditingController(
       text: fatPercentage != null ? fatPercentage.toString() : '',

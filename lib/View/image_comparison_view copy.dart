@@ -34,14 +34,79 @@ class _ImageComparisonViewsState extends ConsumerState<ImageComparisonViews> {
             comparisonState.when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, stackTrace) =>
-                  Center(child: Text('Error loading images: $error')),
-              data: (_) {
+                  Center(child: Text('Error loading images')),
+              data: (entries) {
                 final latestEntry = ref
                     .read(imageComparisonProvider.notifier)
                     .latestEntry;
                 final comparisonEntry = ref
                     .read(imageComparisonProvider.notifier)
                     .comparisonEntry;
+
+                // Check if there are any images available on the device
+                final hasAnyImages = entries.any(
+                  (entry) =>
+                      entry.frontImagePath != null ||
+                      entry.sideImagePath != null ||
+                      entry.backImagePath != null,
+                );
+
+                if (!hasAnyImages) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.photo_library_outlined,
+                            size: 64,
+                            color: AppColors.primary,
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'No images available',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Please upload images to track your progress',
+                            style: TextStyle(fontSize: 14),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ImageGalleryView(),
+                                ),
+                              ).then((_) {
+                                // Refresh the view when returning from gallery
+                                setState(() {});
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 12,
+                                horizontal: 24,
+                              ),
+                            ),
+                            child: const Text('Upload Images'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
 
                 if (latestEntry == null) {
                   return const Center(
@@ -266,9 +331,9 @@ class _ImageComparisonViewsState extends ConsumerState<ImageComparisonViews> {
                 ),
               )
             else
-              const AspectRatio(
+              AspectRatio(
                 aspectRatio: 3 / 4,
-                child: Center(child: Icon(Icons.no_photography, size: 64)),
+                child: Container(child: Icon(Icons.no_photography, size: 64)),
               ),
             // Weight info
             Container(
@@ -310,7 +375,10 @@ class _ImageComparisonViewsState extends ConsumerState<ImageComparisonViews> {
           backgroundColor: currentType == type
               ? AppColors.primary.withOpacity(0.2)
               : Colors.transparent,
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4), // Reduced from 8 to 6
+          padding: const EdgeInsets.symmetric(
+            horizontal: 6,
+            vertical: 4,
+          ), // Reduced from 8 to 6
           minimumSize: Size.zero,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
