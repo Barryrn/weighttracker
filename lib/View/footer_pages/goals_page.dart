@@ -15,25 +15,32 @@ class GoalsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Goals'),
-        automaticallyImplyLeading: false, // This removes the back arrow
-        centerTitle: true,
-        backgroundColor: AppColors.primaryVeryLight,
-        foregroundColor: AppColors.textPrimary,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            WeightGoalWidget(),
-            // Additional goal widgets can be added here in the future
-          ],
+    return GestureDetector(
+      // Add GestureDetector to dismiss keyboard when tapping anywhere on the screen
+      onTap: () {
+        // Hide the keyboard when tapping outside of text fields
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('My Goals'),
+          automaticallyImplyLeading: false, // This removes the back arrow
+          centerTitle: true,
+          backgroundColor: AppColors.primaryVeryLight,
+          foregroundColor: AppColors.textPrimary,
         ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              WeightGoalWidget(),
+              // Additional goal widgets can be added here in the future
+            ],
+          ),
+        ),
+        bottomNavigationBar: Footer(currentIndex: 3, onTap: (index) {}),
       ),
-      bottomNavigationBar: Footer(currentIndex: 3, onTap: (index) {}),
     );
   }
 }

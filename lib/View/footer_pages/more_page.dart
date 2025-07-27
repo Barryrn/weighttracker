@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/Widget/profile/profile_settings_widget.dart';
+import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/view/image_comparison_view.dart';
 import '../../Widget/footer.dart';
 
@@ -11,9 +12,11 @@ class MorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MorePage'),
+        title: const Text('More Settings'),
         automaticallyImplyLeading: false, // This removes the back arrow
         centerTitle: true,
+        backgroundColor: AppColors.primaryVeryLight,
+        foregroundColor: AppColors.textPrimary,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -21,17 +24,17 @@ class MorePage extends StatelessWidget {
           child: Column(
             children: [
               ProfileSettingsWidget(),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ImageComparisonView(),
-                    ),
-                  );
-                },
-                child: const Text('Image comparison view'),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => const ImageComparisonView(),
+              //       ),
+              //     );
+              //   },
+              //   child: const Text('Image comparison view'),
+              // ),
             ],
           ),
         ),
