@@ -17,9 +17,24 @@ class _NotesEntryState extends ConsumerState<NotesEntry> {
   @override
   void initState() {
     super.initState();
-    final weight = ref.read(bodyEntryProvider).notes;
+    _initializeController();
+    
+    // Add listener to bodyEntryProvider to update when data changes
+    ref.listenManual(bodyEntryProvider, (previous, next) {
+      // Update controller text when notes change in the provider
+      if (next.notes != _controller.text) {
+        setState(() {
+          _controller.text = next.notes ?? '';
+        });
+      }
+    });
+  }
+  
+  /// Initializes the text controller with the current notes value
+  void _initializeController() {
+    final notes = ref.read(bodyEntryProvider).notes;
     _controller = TextEditingController(
-      text: weight != null ? weight.toString() : '',
+      text: notes ?? '',
     );
   }
 

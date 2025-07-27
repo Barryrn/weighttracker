@@ -3,12 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:weigthtracker/theme.dart';
 import '../../ViewModel/entry_form_provider.dart';
+import '../../model/database_helper.dart';
+import 'dart:developer' as developer;
 
 /// A widget that displays the current date and allows the user to select a different date
-/// using a calendar picker. The selected date is saved to the bodyEntryProvider.
+/// using a calendar picker or arrow buttons for day-by-day navigation.
 ///
-/// This widget shows a modern, minimalist date display with a dropdown icon.
-/// When tapped, it opens a date picker dialog where the user can select a new date.
+/// This widget shows a modern, minimalist date display with navigation arrows and a dropdown icon.
+/// Users can tap the left/right arrows to move backward/forward by one day, or tap the date
+/// to open a date picker dialog for selecting any date.
 class DateTimeEntry extends ConsumerWidget {
   /// Creates a DateTimeEntry widget.
   ///
@@ -38,37 +41,127 @@ class DateTimeEntry extends ConsumerWidget {
       ),
       child: Material(
         color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(30),
-          onTap: () => _selectDate(context, bodyEntry.date, bodyEntryNotifier),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  displayText,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w500,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Left arrow button to decrease date by one day
+              _buildArrowButton(
+                icon: Icons.arrow_back_ios_rounded,
+                onTap: () =>
+                    _changeDate(context, bodyEntry.date, bodyEntryNotifier, -1),
+              ),
+
+              // Date display with calendar picker
+              Expanded(
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () =>
+                      _selectDate(context, bodyEntry.date, bodyEntryNotifier),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            displayText,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        const Icon(
+                          Icons.arrow_drop_down,
+                          color: AppColors.primary,
+                          size: 24,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const Icon(
-                  Icons.arrow_drop_down,
-                  color: AppColors.primary,
-                  size: 28,
-                ),
-              ],
-            ),
+              ),
+
+              // Right arrow button to increase date by one day
+              _buildArrowButton(
+                icon: Icons.arrow_forward_ios_rounded,
+                onTap: () =>
+                    _changeDate(context, bodyEntry.date, bodyEntryNotifier, 1),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
+  /// Builds an arrow button for date navigation
+  ///
+  /// @param icon The icon to display in the button
+  /// @param onTap The callback to execute when the button is tapped
+  /// @return A widget representing the arrow button
+  Widget _buildArrowButton({
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(icon, color: AppColors.primary, size: 18),
+        ),
+      ),
+    );
+  }
+
+  /// Changes the date by the specified number of days and updates the provider
+  /// Also loads any existing entry data for the new date from the database
+  ///
+  /// @param context The build context
+  /// @param currentDate The current date
+  /// @param notifier The notifier to update with the new date
+  /// @param days The number of days to add (positive) or subtract (negative)
+  void _changeDate(
+    BuildContext context,
+    DateTime currentDate,
+    BodyEntryNotifier notifier,
+    int days,
+  ) async {
+    final newDate = currentDate.add(Duration(days: days));
+
+    // Reset the bodyEntryProvider by creating a new instance with only the date
+    notifier.reset();
+    // Update the date after resetting
+    notifier.updateDate(newDate);
+
+    // Load data for this date from the database
+    await _loadEntryForDate(newDate, notifier);
+
+    // Show a snackbar to inform the user about the date change
+    // if (context.mounted) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: Text('Switched to ${DateFormat('EEEE, d. MMMM').format(newDate)}'),
+    //       duration: const Duration(seconds: 2),
+    //     ),
+    //   );
+    // }
+  }
+
   /// Opens a date picker dialog and updates the provider with the selected date.
-  /// If a new date is selected, it resets the bodyEntryProvider to clear all previous entries.
+  /// Also loads any existing entry data for the selected date from the database.
   ///
   /// @param context The build context
   /// @param initialDate The initial date to show in the picker
@@ -106,15 +199,101 @@ class DateTimeEntry extends ConsumerWidget {
       // Update the date after resetting
       notifier.updateDate(picked);
 
-      // Show a snackbar to inform the user that the form has been reset
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Form reset for new date'),
-            duration: Duration(seconds: 2),
-          ),
+      // Load data for this date from the database
+      await _loadEntryForDate(picked, notifier);
+
+      // Show a snackbar to inform the user about the date change
+      // if (context.mounted) {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       content: Text('Switched to ${DateFormat('EEEE, d. MMMM').format(picked)}'),
+      //       duration: const Duration(seconds: 2),
+      //     ),
+      //   );
+      // }
+    }
+  }
+
+  /// Loads entry data for the specified date from the database and updates the provider
+  ///
+  /// @param date The date to load data for
+  /// @param notifier The notifier to update with the loaded data
+  Future<void> _loadEntryForDate(
+    DateTime date,
+    BodyEntryNotifier notifier,
+  ) async {
+    try {
+      final dbHelper = DatabaseHelper();
+      final entry = await dbHelper.findEntryByDate(date);
+
+      if (entry != null) {
+        developer.log(
+          'Found entry for ${DateFormat('yyyy-MM-dd').format(date)}',
+        );
+
+        // Update all fields in the notifier with the loaded data
+        if (entry.weight != null) {
+          notifier.updateWeight(
+            entry.weight,
+            useMetric: true,
+          ); // Data is stored in metric units
+        }
+
+        if (entry.fatPercentage != null) {
+          notifier.updateFatPercentage(entry.fatPercentage);
+        }
+
+        if (entry.neckCircumference != null) {
+          notifier.updateNeckCircumference(
+            entry.neckCircumference,
+            useMetric: true,
+          );
+        }
+
+        if (entry.waistCircumference != null) {
+          notifier.updateWaistCircumference(
+            entry.waistCircumference,
+            useMetric: true,
+          );
+        }
+
+        if (entry.hipCircumference != null) {
+          notifier.updateHipCircumference(
+            entry.hipCircumference,
+            useMetric: true,
+          );
+        }
+
+        if (entry.notes != null) {
+          notifier.updateNotes(entry.notes);
+        }
+
+        if (entry.tags != null) {
+          notifier.updateTags(entry.tags!);
+        }
+
+        if (entry.frontImagePath != null) {
+          notifier.updateFrontImagePath(entry.frontImagePath);
+        }
+
+        if (entry.sideImagePath != null) {
+          notifier.updateSideImagePath(entry.sideImagePath);
+        }
+
+        if (entry.backImagePath != null) {
+          notifier.updateBackImagePath(entry.backImagePath);
+        }
+
+        developer.log(
+          'Successfully loaded entry data for ${DateFormat('yyyy-MM-dd').format(date)}',
+        );
+      } else {
+        developer.log(
+          'No entry found for ${DateFormat('yyyy-MM-dd').format(date)}',
         );
       }
+    } catch (e) {
+      developer.log('Error loading entry for date: $e');
     }
   }
 
