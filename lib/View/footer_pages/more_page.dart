@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
-import 'package:weigthtracker/Widget/profile/profile_settings_widget.dart';
+import 'package:weigthtracker/Widget/more/profile/profile_settings_widget.dart';
+import 'package:weigthtracker/Widget/more/tag_settings_widget.dart';
 import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/view/image_comparison_view.dart';
 import '../../Widget/footer.dart';
@@ -24,6 +25,8 @@ class MorePage extends StatelessWidget {
           child: Column(
             children: [
               ProfileSettingsWidget(),
+              const SizedBox(height: 16),
+              TagsSettingsWidget(),
               // ElevatedButton(
               //   onPressed: () {
               //     Navigator.push(

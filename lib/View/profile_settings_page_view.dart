@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../ViewModel/profile_settings_provider.dart';
-import '../Widget/profile/profile_birthday_widget.dart';
-import '../Widget/profile/profile_gender_widget.dart';
-import '../Widget/profile/profile_height_widget.dart';
+import '../Widget/more/profile/profile_birthday_widget.dart';
+import '../Widget/more/profile/profile_gender_widget.dart';
+import '../Widget/more/profile/profile_height_widget.dart';
 
 /// A page that allows users to enter and edit their profile information
 /// including birthday, gender, and height.
@@ -44,16 +44,16 @@ class ProfileSettingsPage extends ConsumerWidget {
                 ),
               ),
             ),
-            
+
             // Birthday field - using the extracted widget
             const ProfileBirthdayWidget(),
-            
+
             // Gender field - using the extracted widget
             const ProfileGenderWidget(),
-            
+
             // Height field - using the extracted widget
             const ProfileHeightWidget(),
-            
+
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
