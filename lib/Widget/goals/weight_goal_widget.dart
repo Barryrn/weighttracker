@@ -2,136 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/theme.dart';
-import '../../viewmodel/weight_goal_provider.dart';
-import '../../viewmodel/unit_conversion_provider.dart';
-import '../../viewmodel/start_weight_provider.dart';
+import '../../viewmodel/weight_goal_view_model.dart';
 
 /// A widget that allows users to set and save their weight goal.
 ///
-/// This widget follows the MVVM pattern by using the weightGoalProvider to access
-/// the current state and saving it to SharedPreferences through the WeightGoalNotifier.
-class WeightGoalWidget extends ConsumerStatefulWidget {
+/// This widget follows the MVVM pattern by using the weightGoalViewModelProvider
+/// to access the ViewModel that manages all business logic and state.
+class WeightGoalWidget extends ConsumerWidget {
   const WeightGoalWidget({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<WeightGoalWidget> createState() => _WeightGoalWidgetState();
-}
-
-class _WeightGoalWidgetState extends ConsumerState<WeightGoalWidget> {
-  late TextEditingController _goalController;
-  late TextEditingController _startController;
-
-  @override
-  void initState() {
-    super.initState();
-    final unitPrefs = ref.read(unitConversionProvider);
-    
-    // Initialize with the current weight goal, converting from standard unit (kg) if needed
-    final weightGoal = ref.read(weightGoalProvider);
-    if (weightGoal != null) {
-      final displayWeight = unitPrefs.useMetricWeight
-          ? weightGoal
-          : weightGoal / 0.45359237;
-      _goalController = TextEditingController(
-        text: displayWeight.toStringAsFixed(1),
-      );
-    } else {
-      _goalController = TextEditingController(text: '');
-    }
-    
-    // Initialize with the current start weight, converting from standard unit (kg) if needed
-    final startWeight = ref.read(startWeightProvider);
-    if (startWeight != null) {
-      final displayWeight = unitPrefs.useMetricWeight
-          ? startWeight
-          : startWeight / 0.45359237;
-      _startController = TextEditingController(
-        text: displayWeight.toStringAsFixed(1),
-      );
-    } else {
-      _startController = TextEditingController(text: '');
-    }
-  }
-
-  @override
-  void dispose() {
-    _goalController.dispose();
-    _startController.dispose();
-    super.dispose();
-  }
-
-  void _onWeightGoalChanged(String value) {
-    final notifier = ref.read(weightGoalProvider.notifier);
-    final unitPrefs = ref.read(unitConversionProvider);
-
-    if (value.isEmpty) {
-      notifier.updateWeightGoal(null, useMetric: unitPrefs.useMetricWeight);
-      return;
-    }
-
-    try {
-      final parsed = double.parse(value.replaceAll(',', '.'));
-      notifier.updateWeightGoal(parsed, useMetric: unitPrefs.useMetricWeight);
-    } catch (_) {
-      // silently ignore
-    }
-  }
-  
-  void _onStartWeightChanged(String value) {
-    final notifier = ref.read(startWeightProvider.notifier);
-    final unitPrefs = ref.read(unitConversionProvider);
-
-    if (value.isEmpty) {
-      notifier.updateStartWeight(null, useMetric: unitPrefs.useMetricWeight);
-      return;
-    }
-
-    try {
-      final parsed = double.parse(value.replaceAll(',', '.'));
-      notifier.updateStartWeight(parsed, useMetric: unitPrefs.useMetricWeight);
-    } catch (_) {
-      // silently ignore
-    }
-  }
-
-  void _toggleUnit() {
-    final unitNotifier = ref.read(unitConversionProvider.notifier);
-    final currentPrefs = ref.read(unitConversionProvider);
-    final currentWeightGoal = ref.read(weightGoalProvider);
-    final currentStartWeight = ref.read(startWeightProvider);
-
-    // Toggle the unit preference
-    unitNotifier.setWeightUnit(useMetric: !currentPrefs.useMetricWeight);
-
-    // Update the goal text field with the converted value
-    if (currentWeightGoal != null) {
-      final newUnitPrefs = ref.read(unitConversionProvider);
-      final displayWeight = newUnitPrefs.useMetricWeight
-          ? currentWeightGoal
-          : currentWeightGoal / 0.45359237;
-
-      setState(() {
-        _goalController.text = displayWeight.toStringAsFixed(1);
-      });
-    }
-    
-    // Update the start weight text field with the converted value
-    if (currentStartWeight != null) {
-      final newUnitPrefs = ref.read(unitConversionProvider);
-      final displayWeight = newUnitPrefs.useMetricWeight
-          ? currentStartWeight
-          : currentStartWeight / 0.45359237;
-
-      setState(() {
-        _startController.text = displayWeight.toStringAsFixed(1);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final unitPrefs = ref.watch(unitConversionProvider);
-    final unitSuffix = unitPrefs.useMetricWeight ? 'kg' : 'lb';
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Get the weight goal data from the ViewModel
+    final goalData = ref.watch(weightGoalViewModelProvider);
+    final viewModel = ref.read(weightGoalViewModelProvider.notifier);
 
     return Card(
       elevation: 2,
@@ -150,9 +34,9 @@ class _WeightGoalWidgetState extends ConsumerState<WeightGoalWidget> {
                 ),
                 // Unit toggle button
                 TextButton(
-                  onPressed: _toggleUnit,
+                  onPressed: viewModel.toggleUnit,
                   child: Text(
-                    'Switch to ${unitPrefs.useMetricWeight ? "lb" : "kg"}',
+                    'Switch to ${goalData.useMetricWeight ? "lb" : "kg"}',
                     style: const TextStyle(fontSize: 14, color: AppColors.primary),
                   ),
                 ),
@@ -162,7 +46,7 @@ class _WeightGoalWidgetState extends ConsumerState<WeightGoalWidget> {
             
             // Start weight field
             Text(
-              'Set your start weight ($unitSuffix)',
+              'Set your start weight (${goalData.unitSuffix})',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
@@ -172,7 +56,7 @@ class _WeightGoalWidgetState extends ConsumerState<WeightGoalWidget> {
                 border: Border.all(color: AppColors.primary.withOpacity(0.3)),
               ),
               child: TextFormField(
-                controller: _startController,
+                controller: goalData.startController,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
@@ -192,7 +76,7 @@ class _WeightGoalWidgetState extends ConsumerState<WeightGoalWidget> {
                     }
                   }),
                 ],
-                onChanged: _onStartWeightChanged,
+                onChanged: viewModel.onStartWeightChanged,
                 decoration: InputDecoration(
                   hintText: 'Enter your starting weight',
                   contentPadding: const EdgeInsets.symmetric(
@@ -203,7 +87,7 @@ class _WeightGoalWidgetState extends ConsumerState<WeightGoalWidget> {
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(right: 12.0),
                     child: Text(
-                      unitSuffix,
+                      goalData.unitSuffix,
                       style: const TextStyle(color: Colors.grey),
                     ),
                   ),
@@ -219,7 +103,7 @@ class _WeightGoalWidgetState extends ConsumerState<WeightGoalWidget> {
             
             // Target weight field
             Text(
-              'Set your target weight ($unitSuffix)',
+              'Set your target weight (${goalData.unitSuffix})',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),
@@ -229,7 +113,7 @@ class _WeightGoalWidgetState extends ConsumerState<WeightGoalWidget> {
                 border: Border.all(color: AppColors.primary.withOpacity(0.3)),
               ),
               child: TextFormField(
-                controller: _goalController,
+                controller: goalData.goalController,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
@@ -249,7 +133,7 @@ class _WeightGoalWidgetState extends ConsumerState<WeightGoalWidget> {
                     }
                   }),
                 ],
-                onChanged: _onWeightGoalChanged,
+                onChanged: viewModel.onWeightGoalChanged,
                 decoration: InputDecoration(
                   hintText: 'Enter your target weight',
                   contentPadding: const EdgeInsets.symmetric(
@@ -260,7 +144,7 @@ class _WeightGoalWidgetState extends ConsumerState<WeightGoalWidget> {
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(right: 12.0),
                     child: Text(
-                      unitSuffix,
+                      goalData.unitSuffix,
                       style: const TextStyle(color: Colors.grey),
                     ),
                   ),

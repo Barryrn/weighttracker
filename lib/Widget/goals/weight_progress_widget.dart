@@ -1,85 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/theme.dart';
-import '../../viewmodel/latest_weight_provider.dart';
-import '../../viewmodel/weight_goal_provider.dart';
-import '../../viewmodel/start_weight_provider.dart';
-import '../../viewmodel/unit_conversion_provider.dart';
+import '../../viewmodel/weight_progress_view_model.dart';
 
 /// A widget that displays the current weight and goal weight with a progress indicator.
 ///
-/// This widget follows the MVVM pattern by using the latestWeightProvider,
-/// startWeightProvider, and weightGoalProvider to access the current state.
+/// This widget follows the MVVM pattern by using the weightProgressProvider
+/// to access the calculated progress data from the ViewModel.
 class WeightProgressWidget extends ConsumerWidget {
   const WeightProgressWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Get the latest weight entry
-    final latestEntry = ref.watch(latestWeightProvider);
-
-    // Get the weight goal
-    final weightGoal = ref.watch(weightGoalProvider);
-
-    // Get the start weight
-    final startWeight = ref.watch(startWeightProvider);
-
-    // Get unit preferences
-    final unitPrefs = ref.watch(unitConversionProvider);
-    final unitSuffix = unitPrefs.useMetricWeight ? 'kg' : 'lb';
-
-    // Calculate progress values
-    final currentWeight = latestEntry?.weight;
-    double progressPercentage = 0.0;
-    double remainingWeight = 0.0;
-
-    // Only calculate if all values are available
-    if (currentWeight != null && weightGoal != null && startWeight != null) {
-      // Determine if we're trying to gain or lose weight
-      final isWeightLoss = startWeight > weightGoal;
-
-      if (isWeightLoss) {
-        // For weight loss: calculate how much has been lost as a percentage of total goal
-        final totalToLose = startWeight - weightGoal;
-        final alreadyLost = startWeight - currentWeight;
-
-        progressPercentage = totalToLose > 0
-            ? (alreadyLost / totalToLose)
-            : 0.0;
-        remainingWeight = currentWeight - weightGoal;
-      } else {
-        // For weight gain: calculate how much has been gained as a percentage of total goal
-        final totalToGain = weightGoal - startWeight;
-        final alreadyGained = currentWeight - startWeight;
-
-        progressPercentage = totalToGain > 0
-            ? (alreadyGained / totalToGain)
-            : 0.0;
-        remainingWeight = weightGoal - currentWeight;
-      }
-
-      // Ensure percentage is between 0 and 1
-      progressPercentage = progressPercentage.clamp(0.0, 1.0);
-    }
-
-    // Convert weights to display units if needed
-    final displayCurrentWeight =
-        currentWeight != null && !unitPrefs.useMetricWeight
-        ? currentWeight / 0.45359237
-        : currentWeight;
-
-    final displayGoalWeight = weightGoal != null && !unitPrefs.useMetricWeight
-        ? weightGoal / 0.45359237
-        : weightGoal;
-
-    final displayStartWeight = startWeight != null && !unitPrefs.useMetricWeight
-        ? startWeight / 0.45359237
-        : startWeight;
-
-    final displayRemainingWeight = !unitPrefs.useMetricWeight
-        ? remainingWeight / 0.45359237
-        : remainingWeight;
-
+    // Get the weight progress data from the ViewModel
+    final progressData = ref.watch(weightProgressProvider);
+    
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -104,9 +39,9 @@ class WeightProgressWidget extends ConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      displayCurrentWeight != null
-                          ? '${displayCurrentWeight.toStringAsFixed(1)} $unitSuffix'
-                          : '-- $unitSuffix',
+                      progressData.displayCurrentWeight != null
+                          ? '${progressData.displayCurrentWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
+                          : '-- ${progressData.unitSuffix}',
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -115,27 +50,6 @@ class WeightProgressWidget extends ConsumerWidget {
                     ),
                   ],
                 ),
-
-                // Start weight
-                // Column(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   children: [
-                //     const Text(
-                //       'Start',
-                //       style: TextStyle(fontSize: 14, color: Colors.grey),
-                //     ),
-                //     const SizedBox(height: 4),
-                //     Text(
-                //       displayStartWeight != null
-                //           ? '${displayStartWeight.toStringAsFixed(1)} $unitSuffix'
-                //           : '-- $unitSuffix',
-                //       style: const TextStyle(
-                //         fontSize: 18,
-                //         fontWeight: FontWeight.bold,
-                //       ),
-                //     ),
-                //   ],
-                // ),
 
                 // Goal weight
                 Column(
@@ -150,9 +64,9 @@ class WeightProgressWidget extends ConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      displayGoalWeight != null
-                          ? '${displayGoalWeight.toStringAsFixed(1)} $unitSuffix'
-                          : '-- $unitSuffix',
+                      progressData.displayGoalWeight != null
+                          ? '${progressData.displayGoalWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
+                          : '-- ${progressData.unitSuffix}',
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -178,7 +92,7 @@ class WeightProgressWidget extends ConsumerWidget {
                       width: 150,
                       height: 150,
                       child: CircularProgressIndicator(
-                        value: progressPercentage,
+                        value: progressData.progressPercentage,
                         strokeWidth: 12,
                         backgroundColor: AppColors.primaryVeryLight,
                         valueColor: const AlwaysStoppedAnimation<Color>(
@@ -192,7 +106,7 @@ class WeightProgressWidget extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '${(progressPercentage * 100).toStringAsFixed(0)}%',
+                          '${(progressData.progressPercentage * 100).toStringAsFixed(0)}%',
                           style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
@@ -227,9 +141,9 @@ class WeightProgressWidget extends ConsumerWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    currentWeight != null && weightGoal != null
-                        ? '${displayRemainingWeight.abs().toStringAsFixed(1)} $unitSuffix'
-                        : '-- $unitSuffix',
+                    progressData.currentWeight != null && progressData.goalWeight != null
+                        ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
+                        : '-- ${progressData.unitSuffix}',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
