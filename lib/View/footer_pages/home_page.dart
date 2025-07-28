@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/View/image_comparison_view%20copy.dart';
 import 'package:weigthtracker/View/image_comparison_view.dart';
-import 'package:weigthtracker/Widget/profile/profile_settings_widget.dart';
+import 'package:weigthtracker/Widget/more/profile/profile_settings_widget.dart';
 import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/widget/goals/weight_progress_widget.dart';
 import '../../Widget/footer.dart';
