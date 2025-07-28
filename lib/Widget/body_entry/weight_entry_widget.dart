@@ -48,16 +48,30 @@ class WeightEntry extends ConsumerWidget {
             controller: entryData.weightController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
+              // Only allow digits and at most one decimal point
               FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
               TextInputFormatter.withFunction((oldValue, newValue) {
-                final text = newValue.text.replaceAll(',', '.');
+                // If empty, allow it
+                if (newValue.text.isEmpty) {
+                  return newValue;
+                }
+                
+                // Replace comma with period for consistency
+                String text = newValue.text.replaceAll(',', '.');
+                
+                // Handle multiple decimal points
+                if (text.split('.').length > 2) {
+                  return oldValue;
+                }
+                
+                // Try to parse as double to ensure it's a valid number or partial number
                 try {
-                  if (text.isEmpty) return newValue;
-                  if (text.split('.').length > 2) return oldValue;
-                  if (text.contains('.')) {
-                    final decimals = text.split('.')[1];
-                    if (decimals.length > 1) return oldValue;
+                  // Special case: allow a standalone decimal point or number followed by decimal
+                  if (text == '.' || text.endsWith('.')) {
+                    return newValue.copyWith(text: text);
                   }
+                  
+                  // Otherwise, it should be a valid number
                   double.parse(text);
                   return newValue.copyWith(text: text);
                 } catch (_) {
