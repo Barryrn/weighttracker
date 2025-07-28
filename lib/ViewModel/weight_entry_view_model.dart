@@ -69,7 +69,9 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
       final displayWeight = unitPrefs.useMetricWeight
           ? bodyEntry.weight!
           : bodyEntry.weight! / 0.45359237;
-      state.weightController.text = displayWeight.toStringAsFixed(1);
+      
+      // Format without automatic decimal point for whole numbers
+      state.weightController.text = _formatWeight(displayWeight);
     }
 
     // Update state
@@ -93,7 +95,9 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
       final displayWeight = unitPrefs.useMetricWeight
           ? bodyEntry.weight!
           : bodyEntry.weight! / 0.45359237;
-      state.weightController.text = displayWeight.toStringAsFixed(1);
+      
+      // Format without automatic decimal point for whole numbers
+      state.weightController.text = _formatWeight(displayWeight);
     } else {
       state.weightController.text = '';
     }
@@ -128,10 +132,22 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
       final displayWeight = unitPrefs.useMetricWeight
           ? bodyEntry.weight!
           : bodyEntry.weight! / 0.45359237;
-      state.weightController.text = displayWeight.toStringAsFixed(1);
+      
+      // Format without automatic decimal point for whole numbers
+      state.weightController.text = _formatWeight(displayWeight);
     }
 
     _logState();
+  }
+  
+  /// Format weight to avoid automatic decimal point for whole numbers
+  String _formatWeight(double weight) {
+    // Check if the weight is a whole number
+    if (weight == weight.roundToDouble()) {
+      return weight.toInt().toString(); // Convert to int to remove decimal
+    } else {
+      return weight.toString(); // Keep decimal for non-whole numbers
+    }
   }
 
   /// Handles weight text changes
@@ -144,10 +160,17 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
     }
 
     try {
-      final parsed = double.parse(value.replaceAll(',', '.'));
+      // Don't update the model if the input is incomplete (just a decimal point)
+      if (value == '.' || value.endsWith('.')) {
+        return;
+      }
+      
+      // Normalize the input by replacing commas with periods
+      final normalizedValue = value.replaceAll(',', '.');
+      final parsed = double.parse(normalizedValue);
       notifier.updateWeight(parsed, useMetric: state.useMetricWeight);
     } catch (_) {
-      // silently ignore parsing errors
+      // Silently ignore parsing errors
     }
   }
 
