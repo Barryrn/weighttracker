@@ -411,6 +411,38 @@ class DatabaseHelper {
     }
   }
 
+  /// Find an entry ID by date
+  /// @param date The date to search for
+  /// @return Future<int?> The ID of the entry for the given date, or null if not found
+  Future<int?> findEntryIdByDate(DateTime date) async {
+    try {
+      Database db = await database;
+
+      // Normalize the date to start of day
+      final normalizedDate = DateTime(date.year, date.month, date.day);
+      final dateMillis = normalizedDate.millisecondsSinceEpoch;
+
+      final List<Map<String, dynamic>> result = await db.query(
+        tableBodyEntries,
+        columns: [columnId],
+        where: '$columnDate >= ? AND $columnDate < ?',
+        whereArgs: [
+          dateMillis,
+          dateMillis + 86400000, // Add 24 hours in milliseconds
+        ],
+      );
+
+      if (result.isEmpty) {
+        return null;
+      }
+
+      return result.first[columnId];
+    } catch (e) {
+      print('Error finding entry ID by date: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
+  }
+
   /// Get and print the database file path
   /// @return Future<String> The path to the database file
   Future<String> getDatabasePath() async {

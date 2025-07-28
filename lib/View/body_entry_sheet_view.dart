@@ -5,6 +5,7 @@ import 'package:weigthtracker/Widget/body_entry/image_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/note_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/save_button_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/tag_entry_widget.dart';
+import 'package:weigthtracker/Widget/body_entry/delete_button_entry_widget.dart';
 import '../Widget/body_entry/date_time_entry_widget.dart';
 import '../Widget/body_entry/weight_entry_widget.dart';
 
@@ -43,10 +44,7 @@ class BodyEntrySheet {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () => Navigator.pop(context),
-                            ),
+
                             IconButton(
                               icon: const Icon(Icons.close),
                               onPressed: () => Navigator.pop(context),
@@ -81,6 +79,8 @@ class BodyEntrySheet {
                                   ImageEntry(),
                                   SizedBox(height: 16),
                                   SaveButtonEntryWidget(),
+                                  SizedBox(height: 8),
+                                  DeleteButtonEntryWidget(),
                                 ],
                               ),
                             ),
