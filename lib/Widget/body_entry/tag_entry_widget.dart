@@ -1,61 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/theme.dart';
-import '../../ViewModel/entry_form_provider.dart';
+import '../../ViewModel/tag_entry_view_model.dart';
 
 /// A widget that allows users to enter and manage tags for body entries.
 ///
 /// Tags are displayed as chips in a wrap layout and can be removed individually.
 /// Users can add new tags by typing them in a text field and pressing enter or
 /// the add button.
-class TagEntry extends ConsumerStatefulWidget {
+class TagEntry extends ConsumerWidget {
   /// Creates a TagEntry widget.
   ///
   /// The [key] parameter is optional and is passed to the parent class.
   const TagEntry({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<TagEntry> createState() => _TagEntryState();
-}
-
-class _TagEntryState extends ConsumerState<TagEntry> {
-  final TextEditingController _controller = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  /// Adds a new tag to the list if it's not empty and not already in the list
-  void _addTag(String tag) {
-    if (tag.isEmpty) return;
-
-    final trimmedTag = tag.trim();
-    if (trimmedTag.isEmpty) return;
-
-    final currentTags = ref.read(bodyEntryProvider).tags ?? [];
-
-    // Don't add if the tag already exists
-    if (currentTags.contains(trimmedTag)) return;
-
-    final updatedTags = List<String>.from(currentTags)..add(trimmedTag);
-    ref.read(bodyEntryProvider.notifier).updateTags(updatedTags);
-    _controller.clear();
-  }
-
-  /// Removes a tag from the list
-  void _removeTag(String tag) {
-    final currentTags = ref.read(bodyEntryProvider).tags ?? [];
-    final updatedTags = List<String>.from(currentTags)..remove(tag);
-    ref.read(bodyEntryProvider.notifier).updateTags(updatedTags);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final tags = ref.watch(bodyEntryProvider).tags ?? [];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tagEntryData = ref.watch(tagEntryProvider);
+    final viewModel = ref.read(tagEntryProvider.notifier);
+    final tags = tagEntryData.tags;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,11 +41,11 @@ class _TagEntryState extends ConsumerState<TagEntry> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Display existing tags
-              if (tags.isNotEmpty) ...[
+              if (tags.isNotEmpty) ...[  
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: tags.map((tag) => _buildTagChip(tag)).toList(),
+                  children: tags.map((tag) => _buildTagChip(tag, viewModel)).toList(),
                 ),
                 const SizedBox(height: 8),
               ],
@@ -92,32 +55,20 @@ class _TagEntryState extends ConsumerState<TagEntry> {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: _controller,
-                      focusNode: _focusNode,
+                      controller: tagEntryData.tagController,
+                      focusNode: tagEntryData.focusNode,
                       decoration: const InputDecoration(
                         hintText: 'Add a tag...',
                         border: InputBorder.none,
                         isDense: true,
                         contentPadding: EdgeInsets.zero,
                       ),
-                      onSubmitted: (value) {
-                        if (value.trim().isEmpty) {
-                          // If the controller is empty when finish is pressed, unfocus to dismiss keyboard
-                          _focusNode.unfocus();
-                        } else {
-                          // Otherwise add the tag and keep focus
-                          _addTag(value);
-                          _focusNode.requestFocus();
-                        }
-                      },
+                      onSubmitted: viewModel.handleSubmitted,
                     ),
                   ),
                   IconButton(
                     icon: const Icon(Icons.add, color: AppColors.primary),
-                    onPressed: () {
-                      _addTag(_controller.text);
-                      _focusNode.requestFocus();
-                    },
+                    onPressed: viewModel.handleAddButtonPressed,
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                     splashRadius: 20,
@@ -132,11 +83,11 @@ class _TagEntryState extends ConsumerState<TagEntry> {
   }
 
   /// Builds a chip widget for a tag with a delete button
-  Widget _buildTagChip(String tag) {
+  Widget _buildTagChip(String tag, TagEntryViewModel viewModel) {
     return Chip(
       label: Text(tag),
       deleteIcon: const Icon(Icons.close, size: 16),
-      onDeleted: () => _removeTag(tag),
+      onDeleted: () => viewModel.removeTag(tag),
       backgroundColor: AppColors.primary.withOpacity(0.1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
