@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weigthtracker/theme.dart';
 import '../../../View/tag_settings_view.dart';
 import 'package:heroicons/heroicons.dart';
 
@@ -22,13 +23,14 @@ class TagsSettingsWidget extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           color: Colors.grey.shade300,
+
           borderRadius: BorderRadius.circular(20),
         ),
         child: const HeroIcon(
-            HeroIcons.tag,
-            style: HeroIconStyle.outline,
-            size: 30,
-          ),
+          HeroIcons.tag,
+          style: HeroIconStyle.outline,
+          size: 30,
+        ),
       ),
       title: const Text(
         'Tags',

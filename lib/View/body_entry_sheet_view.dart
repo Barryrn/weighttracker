@@ -44,6 +44,10 @@ class BodyEntrySheet {
                               ),
                             ),
                             IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            IconButton(
                               icon: const Icon(Icons.close),
                               onPressed: () => Navigator.pop(context),
                             ),
