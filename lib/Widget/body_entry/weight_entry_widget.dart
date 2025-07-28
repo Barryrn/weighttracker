@@ -2,122 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/theme.dart';
-import '../../ViewModel/entry_form_provider.dart';
-import '../../ViewModel/unit_conversion_provider.dart';
+import '../../ViewModel/weight_entry_view_model.dart';
 
-class WeightEntry extends ConsumerStatefulWidget {
+/// A widget that allows users to enter their weight.
+///
+/// This widget follows the MVVM pattern by using the weightEntryProvider
+/// to access the ViewModel that manages all business logic and state.
+class WeightEntry extends ConsumerWidget {
   const WeightEntry({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<WeightEntry> createState() => _WeightEntryState();
-}
-
-class _WeightEntryState extends ConsumerState<WeightEntry> {
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeController();
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Get the weight entry data from the ViewModel
+    final entryData = ref.watch(weightEntryProvider);
+    final viewModel = ref.read(weightEntryProvider.notifier);
     
-    // Add listener to bodyEntryProvider to update when data changes
-    ref.listenManual(bodyEntryProvider, (previous, next) {
-      final unitPrefs = ref.read(unitConversionProvider);
-      
-      // Update controller text when weight changes in the provider
-      if (next.weight != previous?.weight) {
-        setState(() {
-          if (next.weight == null) {
-            _controller.text = '';
-          } else {
-            final displayWeight = unitPrefs.useMetricWeight
-                ? next.weight!
-                : next.weight! / 0.45359237;
-            _controller.text = displayWeight.toStringAsFixed(1);
-          }
-        });
-      }
-    });
-  }
-
-  /// Initialize the controller with the current weight from the provider
-  void _initializeController() {
-    final weight = ref.read(bodyEntryProvider).weight;
-    final unitPrefs = ref.read(unitConversionProvider);
-
-    if (weight != null) {
-      final displayWeight = unitPrefs.useMetricWeight
-          ? weight
-          : weight / 0.45359237;
-      _controller = TextEditingController(
-        text: displayWeight.toStringAsFixed(1),
-      );
-    } else {
-      _controller = TextEditingController(text: '');
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _onWeightChanged(String value) {
-    final notifier = ref.read(bodyEntryProvider.notifier);
-    final unitPrefs = ref.read(unitConversionProvider);
-
-    if (value.isEmpty) {
-      notifier.updateWeight(null, useMetric: unitPrefs.useMetricWeight);
-      return;
-    }
-
-    try {
-      final parsed = double.parse(value.replaceAll(',', '.'));
-      notifier.updateWeight(parsed, useMetric: unitPrefs.useMetricWeight);
-    } catch (_) {
-      // silently ignore
-    }
-  }
-
-  void _toggleUnit() {
-    final unitNotifier = ref.read(unitConversionProvider.notifier);
-    final currentPrefs = ref.read(unitConversionProvider);
-    final currentWeight = ref.read(bodyEntryProvider).weight;
-
-    // Toggle the unit preference
-    unitNotifier.setWeightUnit(useMetric: !currentPrefs.useMetricWeight);
-
-    // Update the text field with the converted value
-    if (currentWeight != null) {
-      final newUnitPrefs = ref.read(unitConversionProvider);
-      final displayWeight = newUnitPrefs.useMetricWeight
-          ? currentWeight
-          : currentWeight / 0.45359237;
-
-      setState(() {
-        _controller.text = displayWeight.toStringAsFixed(1);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final unitPrefs = ref.watch(unitConversionProvider);
-    final bodyEntry = ref.watch(bodyEntryProvider);
-    
-    // Listen for changes in the bodyEntryProvider
-    // If the weight is null, clear the text field
-    if (bodyEntry.weight == null && _controller.text.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        setState(() {
-          _controller.text = '';
-        });
-      });
-    }
-    
-    final unitSuffix = unitPrefs.useMetricWeight ? 'kg' : 'lb';
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -126,14 +25,14 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Weight ($unitSuffix)',
+              'Weight (${entryData.unitSuffix})',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
             // Unit toggle button
             TextButton(
-              onPressed: _toggleUnit,
+              onPressed: viewModel.toggleUnit,
               child: Text(
-                'Switch to ${unitPrefs.useMetricWeight ? "lb" : "kg"}',
+                'Switch to ${entryData.useMetricWeight ? "lb" : "kg"}',
                 style: const TextStyle(fontSize: 14, color: AppColors.primary),
               ),
             ),
@@ -146,7 +45,7 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
             border: Border.all(color: AppColors.primary.withOpacity(0.3)),
           ),
           child: TextFormField(
-            controller: _controller,
+            controller: entryData.weightController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
@@ -166,7 +65,7 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
                 }
               }),
             ],
-            onChanged: _onWeightChanged,
+            onChanged: viewModel.onWeightChanged,
             decoration: InputDecoration(
               hintText: 'Enter your weight',
               contentPadding: const EdgeInsets.symmetric(
@@ -177,7 +76,7 @@ class _WeightEntryState extends ConsumerState<WeightEntry> {
               suffixIcon: Padding(
                 padding: const EdgeInsets.only(right: 12.0),
                 child: Text(
-                  unitSuffix,
+                  entryData.unitSuffix,
                   style: const TextStyle(color: Colors.grey),
                 ),
               ),
