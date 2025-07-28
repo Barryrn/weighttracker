@@ -2,89 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/theme.dart';
-import '../../ViewModel/entry_form_provider.dart';
+import '../../ViewModel/fat_percentage_entry_view_model.dart';
 import '../../View/fat_percentage_view.dart';
 
 /// A widget that allows users to enter their body fat percentage or calculate it
 /// using the fat percentage calculator view.
 ///
-/// This widget follows the MVVM pattern by using the bodyEntryProvider to update
-/// the fat percentage in the ViewModel.
-class FatPercentageEntry extends ConsumerStatefulWidget {
+/// This widget follows the MVVM pattern by using the fatPercentageEntryProvider
+/// to access the ViewModel that manages all business logic and state.
+class FatPercentageEntry extends ConsumerWidget {
   const FatPercentageEntry({Key? key}) : super(key: key);
 
-  @override
-  ConsumerState<FatPercentageEntry> createState() => _FatPercentageEntryState();
-}
-
-class _FatPercentageEntryState extends ConsumerState<FatPercentageEntry> {
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeController();
-    
-    // Add listener to bodyEntryProvider to update when data changes
-    ref.listenManual(bodyEntryProvider, (previous, next) {
-      // Update controller text when fat percentage changes in the provider
-      if (next.fatPercentage != previous?.fatPercentage) {
-        setState(() {
-          if (next.fatPercentage == null) {
-            _controller.text = '';
-          } else {
-            _controller.text = next.fatPercentage!.toString();
-          }
-        });
-      }
-    });
-  }
-  
-  /// Initializes the text controller with the current fat percentage value
-  void _initializeController() {
-    final fatPercentage = ref.read(bodyEntryProvider).fatPercentage;
-    _controller = TextEditingController(
-      text: fatPercentage != null ? fatPercentage.toString() : '',
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  /// Updates the fat percentage in the ViewModel when the text field value changes
-  void _onFatPercentageChanged(String value) {
-    final notifier = ref.read(bodyEntryProvider.notifier);
-    if (value.isEmpty) {
-      notifier.updateFatPercentage(null);
-      return;
-    }
-
-    try {
-      final parsed = double.parse(value.replaceAll(',', '.'));
-      notifier.updateFatPercentage(parsed);
-    } catch (_) {
-      // silently ignore parsing errors
-    }
-  }
-
   /// Opens the fat percentage calculator view
-  void _openCalculator() async {
+  void _openCalculator(BuildContext context, WidgetRef ref) async {
+    final viewModel = ref.read(fatPercentageEntryProvider.notifier);
     final result = await Navigator.push<double>(
       context,
       MaterialPageRoute(builder: (context) => const FatPercentageView()),
     );
 
     if (result != null) {
-      _controller.text = result.toStringAsFixed(1);
-      ref.read(bodyEntryProvider.notifier).updateFatPercentage(result);
+      viewModel.updateCalculatedFatPercentage(result);
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Get the fat percentage entry data from the ViewModel
+    final entryData = ref.watch(fatPercentageEntryProvider);
+    final viewModel = ref.read(fatPercentageEntryProvider.notifier);
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -103,7 +50,7 @@ class _FatPercentageEntryState extends ConsumerState<FatPercentageEntry> {
             children: [
               Expanded(
                 child: TextFormField(
-                  controller: _controller,
+                  controller: entryData.fatPercentageController,
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
@@ -125,7 +72,7 @@ class _FatPercentageEntryState extends ConsumerState<FatPercentageEntry> {
                       }
                     }),
                   ],
-                  onChanged: _onFatPercentageChanged,
+                  onChanged: viewModel.onFatPercentageChanged,
                   decoration: InputDecoration(
                     hintText: 'Enter body fat percentage',
                     contentPadding: const EdgeInsets.symmetric(
@@ -154,7 +101,7 @@ class _FatPercentageEntryState extends ConsumerState<FatPercentageEntry> {
                 ),
                 child: IconButton(
                   icon: const Icon(Icons.calculate, color: AppColors.primary),
-                  onPressed: _openCalculator,
+                  onPressed: () => _openCalculator(context, ref),
                   tooltip: 'Calculate body fat percentage',
                 ),
               ),
