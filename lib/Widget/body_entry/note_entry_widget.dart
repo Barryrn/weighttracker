@@ -1,65 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/theme.dart';
-import '../../ViewModel/entry_form_provider.dart';
+import '../../ViewModel/note_entry_view_model.dart';
 
-class NotesEntry extends ConsumerStatefulWidget {
+/// A widget that allows users to enter notes.
+///
+/// This widget follows the MVVM pattern by using the noteEntryProvider
+/// to access the ViewModel that manages all business logic and state.
+class NotesEntry extends ConsumerWidget {
   const NotesEntry({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<NotesEntry> createState() => _NotesEntryState();
-}
-
-class _NotesEntryState extends ConsumerState<NotesEntry> {
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeController();
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Get the note entry data from the ViewModel
+    final noteEntryData = ref.watch(noteEntryProvider);
+    final viewModel = ref.read(noteEntryProvider.notifier);
     
-    // Add listener to bodyEntryProvider to update when data changes
-    ref.listenManual(bodyEntryProvider, (previous, next) {
-      // Update controller text when notes change in the provider
-      if (next.notes != _controller.text) {
-        setState(() {
-          _controller.text = next.notes ?? '';
-        });
-      }
-    });
-  }
-  
-  /// Initializes the text controller with the current notes value
-  void _initializeController() {
-    final notes = ref.read(bodyEntryProvider).notes;
-    _controller = TextEditingController(
-      text: notes ?? '',
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _onNotesChanged(String value) {
-    final notifier = ref.read(bodyEntryProvider.notifier);
-    if (value.isEmpty) {
-      notifier.updateNotes(null);
-      return;
-    }
-
-    try {
-      notifier.updateNotes(value);
-    } catch (_) {
-      // silently ignore
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -75,8 +31,8 @@ class _NotesEntryState extends ConsumerState<NotesEntry> {
             border: Border.all(color: AppColors.primary.withOpacity(0.3)),
           ),
           child: TextFormField(
-            controller: _controller,
-            onChanged: _onNotesChanged,
+            controller: noteEntryData.notesController,
+            onChanged: viewModel.onNotesChanged,
             decoration: InputDecoration(
               hintText: 'Enter your Note',
               contentPadding: const EdgeInsets.symmetric(
@@ -84,7 +40,6 @@ class _NotesEntryState extends ConsumerState<NotesEntry> {
                 vertical: 12,
               ),
               border: InputBorder.none,
-
               suffixIconConstraints: const BoxConstraints(
                 minWidth: 0,
                 minHeight: 0,
