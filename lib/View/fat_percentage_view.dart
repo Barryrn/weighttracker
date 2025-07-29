@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/ViewModel/entry_form_provider.dart';
+import 'package:weigthtracker/Widget/test_widget.dart';
 import '../ViewModel/fat_percentae_calculator.dart';
 import '../model/profile_settings_storage_model.dart';
 import '../model/profile_settings_model.dart';
@@ -16,10 +17,10 @@ class FatPercentageView extends ConsumerStatefulWidget {
   const FatPercentageView({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<FatPercentageView> createState() => _FatPercentageViewState();
+  ConsumerState<FatPercentageView> createState() => FatPercentageViewState();
 }
 
-class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
+class FatPercentageViewState extends ConsumerState<FatPercentageView> {
   final _formKey = GlobalKey<FormState>();
 
   // Text editing controllers
@@ -106,7 +107,7 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
 
       // Add this property to the _FatPercentageViewState class
       bool _useFemaleFomula = false;
-      
+
       // In the _calculateFatPercentage method, modify the call to the calculator:
       final result = await ref
           .read(fatPercentageCalculatorProvider.notifier)
@@ -116,7 +117,9 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
             neck: standardNeck,
             waist: standardWaist,
             hip: standardHip,
-            useFemaleFomula: _gender?.toLowerCase() == 'other' ? _useFemaleFomula : null,
+            useFemaleFomula: _gender?.toLowerCase() == 'other'
+                ? _useFemaleFomula
+                : null,
           );
 
       setState(() {
@@ -179,7 +182,7 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
   }
 
   /// Toggles between metric and imperial units for measurements
-  void _toggleMeasurementUnits() {
+  void toggleMeasurementUnits() {
     final unitNotifier = ref.read(unitConversionProvider.notifier);
     final currentPrefs = ref.read(unitConversionProvider);
 
@@ -370,7 +373,7 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                 ),
                               ),
                               TextButton(
-                                onPressed: _toggleMeasurementUnits,
+                                onPressed: toggleMeasurementUnits,
                                 style: TextButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
@@ -542,14 +545,17 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
                           ],
 
                           // Add this after the gender dropdown
-                          if (_gender?.toLowerCase() == 'other') ...[  
+                          if (_gender?.toLowerCase() == 'other') ...[
                             const SizedBox(height: 16),
                             Row(
                               children: [
                                 const Text('Calculation formula:'),
                                 const Spacer(),
                                 ToggleButtons(
-                                  isSelected: [!_useFemaleFomula, _useFemaleFomula],
+                                  isSelected: [
+                                    !_useFemaleFomula,
+                                    _useFemaleFomula,
+                                  ],
                                   onPressed: (index) {
                                     setState(() {
                                       _useFemaleFomula = index == 1;
@@ -557,11 +563,15 @@ class _FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                   },
                                   children: const [
                                     Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 16),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                      ),
                                       child: Text('Male'),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 16),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                      ),
                                       child: Text('Female'),
                                     ),
                                   ],

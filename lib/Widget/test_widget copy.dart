@@ -5,20 +5,13 @@ import 'package:weigthtracker/ViewModel/weight_entry_view_model.dart';
 import 'package:weigthtracker/theme.dart';
 import '../../viewmodel/weight_goal_view_model.dart';
 
-class TestWidget extends ConsumerStatefulWidget {
-  const TestWidget({super.key});
+class TestWidget extends ConsumerWidget {
+  TestWidget({super.key});
 
-  @override
-  ConsumerState<TestWidget> createState() => _TestWidgetState();
-}
-
-class _TestWidgetState extends ConsumerState<TestWidget> {
   final GlobalKey<FatPercentageViewState> fatPercentageKey = GlobalKey();
 
-  bool toggleFatUnit = false;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final goalData = ref.watch(weightGoalViewModelProvider);
     final goalViewModel = ref.read(weightGoalViewModelProvider.notifier);
 
@@ -32,7 +25,7 @@ class _TestWidgetState extends ConsumerState<TestWidget> {
         SwitchListTile(
           title: Text(
             'Use ${useMetric ? "Kilograms (kg)" : "Pounds (lb)"}',
-            style: const TextStyle(color: AppColors.primary, fontSize: 14),
+            style: TextStyle(color: AppColors.primary, fontSize: 14),
           ),
           value: useMetric,
           onChanged: (value) {
@@ -41,25 +34,12 @@ class _TestWidgetState extends ConsumerState<TestWidget> {
           },
           activeColor: AppColors.primary,
         ),
-
-        SwitchListTile(
-          title: Text(
-            'Use ${toggleFatUnit ? "Inches" : "Centimeters"}',
-            style: const TextStyle(color: AppColors.primary, fontSize: 14),
-          ),
-          value: toggleFatUnit,
-          onChanged: (value) {
-            setState(() {
-              toggleFatUnit = value;
-            });
+        FatPercentageView(key: fatPercentageKey),
+        ElevatedButton(
+          onPressed: () {
             fatPercentageKey.currentState?.toggleMeasurementUnits();
           },
-          activeColor: AppColors.primary,
-        ),
-
-        Offstage(
-          offstage: true,
-          child: FatPercentageView(key: fatPercentageKey),
+          child: Text("Toggle Units"),
         ),
       ],
     );
