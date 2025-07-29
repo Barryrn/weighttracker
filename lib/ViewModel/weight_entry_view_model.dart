@@ -27,15 +27,16 @@ class WeightEntryData {
 /// This class follows the MVVM pattern by processing data from multiple providers
 /// and transforming it into a format that's ready for display in the View.
 class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
-  WeightEntryViewModel(this.ref) : super(
-    WeightEntryData(
-      unitSuffix: 'kg',
-      useMetricWeight: true,
-      weightController: TextEditingController(),
-    )
-  ) {
+  WeightEntryViewModel(this.ref)
+    : super(
+        WeightEntryData(
+          unitSuffix: 'kg',
+          useMetricWeight: true,
+          weightController: TextEditingController(),
+        ),
+      ) {
     _initializeController();
-    
+
     // Listen for changes in the providers that affect weight entry
     ref.listen(bodyEntryProvider, (_, __) => _updateController());
     ref.listen(unitConversionProvider, (_, __) => _updateUnitPreferences());
@@ -69,7 +70,7 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
       final displayWeight = unitPrefs.useMetricWeight
           ? bodyEntry.weight!
           : bodyEntry.weight! / 0.45359237;
-      
+
       // Format without automatic decimal point for whole numbers
       state.weightController.text = _formatWeight(displayWeight);
     }
@@ -95,7 +96,7 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
       final displayWeight = unitPrefs.useMetricWeight
           ? bodyEntry.weight!
           : bodyEntry.weight! / 0.45359237;
-      
+
       // Format without automatic decimal point for whole numbers
       state.weightController.text = _formatWeight(displayWeight);
     } else {
@@ -132,21 +133,24 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
       final displayWeight = unitPrefs.useMetricWeight
           ? bodyEntry.weight!
           : bodyEntry.weight! / 0.45359237;
-      
+
       // Format without automatic decimal point for whole numbers
       state.weightController.text = _formatWeight(displayWeight);
     }
 
     _logState();
   }
-  
+
   /// Format weight to avoid automatic decimal point for whole numbers
+  /// Format weight to always show at most one decimal place
   String _formatWeight(double weight) {
-    // Check if the weight is a whole number
-    if (weight == weight.roundToDouble()) {
-      return weight.toInt().toString(); // Convert to int to remove decimal
+    double rounded = (weight * 10).round() / 10;
+
+    // Remove unnecessary ".0", e.g. 82.0 → "82"
+    if (rounded == rounded.roundToDouble()) {
+      return rounded.toInt().toString();
     } else {
-      return weight.toString(); // Keep decimal for non-whole numbers
+      return rounded.toStringAsFixed(1);
     }
   }
 
@@ -164,7 +168,7 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
       if (value == '.' || value.endsWith('.')) {
         return;
       }
-      
+
       // Normalize the input by replacing commas with periods
       final normalizedValue = value.replaceAll(',', '.');
       final parsed = double.parse(normalizedValue);
@@ -185,6 +189,7 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
 ///
 /// This provider makes the WeightEntryViewModel available to widgets
 /// that need to display and modify weight entry information.
-final weightEntryProvider = StateNotifierProvider<WeightEntryViewModel, WeightEntryData>(
-  (ref) => WeightEntryViewModel(ref),
-);
+final weightEntryProvider =
+    StateNotifierProvider<WeightEntryViewModel, WeightEntryData>(
+      (ref) => WeightEntryViewModel(ref),
+    );
