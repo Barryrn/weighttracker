@@ -3,6 +3,12 @@ import '../model/profile_settings_model.dart';
 import '../model/profile_settings_storage_model.dart'; // Import the new storage class
 import 'dart:developer' as developer;
 
+/// A provider that tracks whether to use metric (cm) or imperial (inches) for height measurements
+/// true = metric (cm), false = imperial (inches)
+/// This is initialized to true (metric) by default, but will be updated by the TestWidget
+/// to match the toggleFatUnit value there
+final heightUnitProvider = StateProvider<bool>((ref) => true);
+
 /// A StateNotifier that manages the state of the user's profile settings.
 ///
 /// This class follows the MVVM pattern by acting as the ViewModel that connects
