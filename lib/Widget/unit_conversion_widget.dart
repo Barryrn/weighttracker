@@ -6,14 +6,15 @@ import 'package:weigthtracker/ViewModel/profile_settings_provider.dart';
 import 'package:weigthtracker/theme.dart';
 import '../../viewmodel/weight_goal_view_model.dart';
 
-class TestWidget extends ConsumerStatefulWidget {
-  const TestWidget({super.key});
+class UnitConversionWidget extends ConsumerStatefulWidget {
+  const UnitConversionWidget({super.key});
 
   @override
-  ConsumerState<TestWidget> createState() => _TestWidgetState();
+  ConsumerState<UnitConversionWidget> createState() =>
+      _UnitConversionWidgetState();
 }
 
-class _TestWidgetState extends ConsumerState<TestWidget> {
+class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
   final GlobalKey<FatPercentageViewState> fatPercentageKey = GlobalKey();
 
   bool toggleFatUnit = true;
@@ -25,7 +26,7 @@ class _TestWidgetState extends ConsumerState<TestWidget> {
 
     final entryData = ref.watch(weightEntryProvider);
     final entryViewModel = ref.read(weightEntryProvider.notifier);
-    
+
     // Watch the height unit provider to get updates
     final useMetricHeight = ref.watch(heightUnitProvider);
     final heightUnitNotifier = ref.read(heightUnitProvider.notifier);
@@ -65,7 +66,8 @@ class _TestWidgetState extends ConsumerState<TestWidget> {
             value: !toggleFatUnit, // Invert the value here
             onChanged: (value) {
               setState(() {
-                toggleFatUnit = !value; // Invert again to update the actual variable
+                toggleFatUnit =
+                    !value; // Invert again to update the actual variable
               });
               // Update the height unit provider with the new value
               heightUnitNotifier.updateHeightUnit(!toggleFatUnit);

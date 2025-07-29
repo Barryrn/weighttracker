@@ -33,17 +33,17 @@ class WeightGoalWidget extends ConsumerWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 // Unit toggle button
-                TextButton(
-                  onPressed: viewModel.toggleUnit,
-                  child: Text(
-                    'Switch to ${goalData.useMetricWeight ? "lb" : "kg"}',
-                    style: const TextStyle(fontSize: 14, color: AppColors.primary),
-                  ),
-                ),
+                // TextButton(
+                //   onPressed: viewModel.toggleUnit,
+                //   child: Text(
+                //     'Switch to ${goalData.useMetricWeight ? "lb" : "kg"}',
+                //     style: const TextStyle(fontSize: 14, color: AppColors.primary),
+                //   ),
+                // ),
               ],
             ),
             const SizedBox(height: 16),
-            
+
             // Start weight field
             Text(
               'Set your start weight (${goalData.unitSuffix})',
@@ -57,7 +57,9 @@ class WeightGoalWidget extends ConsumerWidget {
               ),
               child: TextFormField(
                 controller: goalData.startController,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
                   TextInputFormatter.withFunction((oldValue, newValue) {
@@ -100,7 +102,7 @@ class WeightGoalWidget extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Target weight field
             Text(
               'Set your target weight (${goalData.unitSuffix})',
@@ -114,7 +116,9 @@ class WeightGoalWidget extends ConsumerWidget {
               ),
               child: TextFormField(
                 controller: goalData.goalController,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
                   TextInputFormatter.withFunction((oldValue, newValue) {
