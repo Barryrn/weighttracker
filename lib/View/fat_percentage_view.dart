@@ -372,25 +372,25 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              TextButton(
-                                onPressed: toggleMeasurementUnits,
-                                style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor: AppColors.primaryVeryLight,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 8,
-                                  ),
-                                ),
-                                child: Text(
-                                  'Switch to ${unitPrefs.useMetricHeight ? "inches" : "cm"}',
-                                  style: const TextStyle(
-                                    color: AppColors.textPrimary,
-                                  ),
-                                ),
-                              ),
+                              // TextButton(
+                              //   onPressed: toggleMeasurementUnits,
+                              //   style: TextButton.styleFrom(
+                              //     shape: RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.circular(20),
+                              //     ),
+                              //     backgroundColor: AppColors.primaryVeryLight,
+                              //     padding: const EdgeInsets.symmetric(
+                              //       horizontal: 12,
+                              //       vertical: 8,
+                              //     ),
+                              //   ),
+                              //   child: Text(
+                              //     'Switch to ${unitPrefs.useMetricHeight ? "inches" : "cm"}',
+                              //     style: const TextStyle(
+                              //       color: AppColors.textPrimary,
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
 

@@ -2,12 +2,51 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../model/profile_settings_model.dart';
 import '../model/profile_settings_storage_model.dart'; // Import the new storage class
 import 'dart:developer' as developer;
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// A provider that tracks whether to use metric (cm) or imperial (inches) for height measurements
 /// true = metric (cm), false = imperial (inches)
-/// This is initialized to true (metric) by default, but will be updated by the TestWidget
-/// to match the toggleFatUnit value there
-final heightUnitProvider = StateProvider<bool>((ref) => true);
+/// This is initialized based on stored preferences or defaults to metric (true) if no preference is saved
+final heightUnitProvider = StateNotifierProvider<HeightUnitNotifier, bool>((ref) {
+  return HeightUnitNotifier();
+});
+
+/// A StateNotifier to manage height unit preference with persistence
+class HeightUnitNotifier extends StateNotifier<bool> {
+  /// Creates a HeightUnitNotifier with default metric setting (true)
+  /// Loads saved preference when initialized
+  HeightUnitNotifier() : super(true) {
+    _loadPreference();
+  }
+
+  /// Loads height unit preference from SharedPreferences
+  Future<void> _loadPreference() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      // Default to metric (true) if no preference is saved
+      state = prefs.getBool('height_unit_metric') ?? true;
+    } catch (e) {
+      developer.log('Error loading height unit preference: $e');
+    }
+  }
+
+  /// Saves the current height unit preference to SharedPreferences
+  Future<void> _savePreference() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('height_unit_metric', state);
+    } catch (e) {
+      developer.log('Error saving height unit preference: $e');
+    }
+  }
+
+  /// Updates the height unit preference
+  /// [useMetric] true for metric (cm), false for imperial (inches)
+  void updateHeightUnit(bool useMetric) {
+    state = useMetric;
+    _savePreference();
+  }
+}
 
 /// A StateNotifier that manages the state of the user's profile settings.
 ///

@@ -37,7 +37,7 @@ class GoalsPage extends ConsumerWidget {
             children: [
               WeightGoalWidget(),
               const SizedBox(height: 20),
-              TestWidget(),
+              // TestWidget(),
               // Additional goal widgets can be added here in the future
             ],
           ),

@@ -45,7 +45,7 @@ class ProfileHeightWidget extends ConsumerWidget {
 
     return Column(
       children: [
-        TestWidget(),
+        // TestWidget(),
         ListTile(
           leading: Container(
             width: 40,
@@ -156,12 +156,12 @@ class ProfileHeightWidget extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            useMetric 
+                            useMetric
                                 ? '${minHeight.toInt()} cm'
                                 : '${(minHeight / inchesInFoot).floor()}\' ${(minHeight % inchesInFoot).round()}"',
                           ),
                           Text(
-                            useMetric 
+                            useMetric
                                 ? '${maxHeight.toInt()} cm'
                                 : '${(maxHeight / inchesInFoot).floor()}\' ${(maxHeight % inchesInFoot).round()}"',
                           ),

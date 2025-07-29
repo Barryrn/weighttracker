@@ -29,13 +29,13 @@ class WeightEntry extends ConsumerWidget {
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
             // Unit toggle button
-            TextButton(
-              onPressed: viewModel.toggleUnit,
-              child: Text(
-                'Switch to ${entryData.useMetricWeight ? "lb" : "kg"}',
-                style: const TextStyle(fontSize: 14, color: AppColors.primary),
-              ),
-            ),
+            // TextButton(
+            //   onPressed: viewModel.toggleUnit,
+            //   child: Text(
+            //     'Switch to ${entryData.useMetricWeight ? "lb" : "kg"}',
+            //     style: const TextStyle(fontSize: 14, color: AppColors.primary),
+            //   ),
+            // ),
           ],
         ),
         const SizedBox(height: 8),
