@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
+import 'package:weigthtracker/Widget/test_widget.dart';
 import 'package:weigthtracker/widget/goals/weight_goal_widget.dart';
 import 'package:weigthtracker/widget/goals/weight_progress_widget.dart';
 import '../../Widget/footer.dart';
@@ -35,6 +36,7 @@ class GoalsPage extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               WeightGoalWidget(),
+              TestWidget(),
               // Additional goal widgets can be added here in the future
             ],
           ),
