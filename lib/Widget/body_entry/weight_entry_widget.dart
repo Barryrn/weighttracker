@@ -16,7 +16,7 @@ class WeightEntry extends ConsumerWidget {
     // Get the weight entry data from the ViewModel
     final entryData = ref.watch(weightEntryProvider);
     final viewModel = ref.read(weightEntryProvider.notifier);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -50,27 +50,38 @@ class WeightEntry extends ConsumerWidget {
             inputFormatters: [
               // Only allow digits and at most one decimal point
               FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+
               TextInputFormatter.withFunction((oldValue, newValue) {
                 // If empty, allow it
                 if (newValue.text.isEmpty) {
                   return newValue;
                 }
-                
+
                 // Replace comma with period for consistency
                 String text = newValue.text.replaceAll(',', '.');
-                
+
                 // Handle multiple decimal points
                 if (text.split('.').length > 2) {
                   return oldValue;
                 }
-                
+
+                // Limit to one decimal place
+                if (text.contains('.')) {
+                  final parts = text.split('.');
+                  if (parts[1].length > 1) {
+                    // Truncate to one decimal place
+                    text = '${parts[0]}.${parts[1].substring(0, 1)}';
+                    return newValue.copyWith(text: text);
+                  }
+                }
+
                 // Try to parse as double to ensure it's a valid number or partial number
                 try {
                   // Special case: allow a standalone decimal point or number followed by decimal
                   if (text == '.' || text.endsWith('.')) {
                     return newValue.copyWith(text: text);
                   }
-                  
+
                   // Otherwise, it should be a valid number
                   double.parse(text);
                   return newValue.copyWith(text: text);
