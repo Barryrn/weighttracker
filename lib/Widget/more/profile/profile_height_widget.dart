@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weigthtracker/Widget/test_widget.dart';
 import 'package:weigthtracker/theme.dart';
 import '../../../ViewModel/profile_settings_provider.dart';
+
+/// Conversion constants for height units
+const double cmToInchFactor = 0.393701; // 1 cm = 0.393701 inches
+const double inchToCmFactor = 2.54; // 1 inch = 2.54 cm
+const int inchesInFoot = 12; // 1 foot = 12 inches
 
 /// A widget that displays and allows editing of the user's height.
 ///
@@ -18,35 +24,68 @@ class ProfileHeightWidget extends ConsumerWidget {
     // Get the current profile settings from the provider
     final profileSettings = ref.watch(profileSettingsProvider);
     final height = profileSettings.height;
+    final useMetric = ref.watch(
+      heightUnitProvider,
+    ); // true = cm, false = inches
 
-    // Format the height if it exists, otherwise show "Not set"
-    final formattedHeight = height != null ? '$height cm' : 'Not set';
+    // Format the height based on the selected unit
+    String formattedHeight = 'Not set';
+    if (height != null) {
+      if (useMetric) {
+        formattedHeight = '${height.toStringAsFixed(1)} cm';
+      } else {
+        // Convert cm to inches
+        final heightInInches = height * cmToInchFactor;
+        // Convert to feet and inches
+        final feet = (heightInInches / inchesInFoot).floor();
+        final inches = (heightInInches % inchesInFoot).round();
+        formattedHeight = "$feet' $inches\"";
+      }
+    }
 
-    return ListTile(
-      leading: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade200,
-          borderRadius: BorderRadius.circular(8),
+    return Column(
+      children: [
+        TestWidget(),
+        ListTile(
+          leading: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(Icons.height, color: AppColors.primary),
+          ),
+          title: const Text('Height'),
+          subtitle: Text(formattedHeight),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => _showHeightSlider(context, ref),
         ),
-        child: Icon(Icons.height, color: AppColors.primary),
-      ),
-      title: const Text('Height'),
-      subtitle: Text(formattedHeight),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () => _showHeightSlider(context, ref),
+      ],
     );
   }
 
   /// Shows a dialog with a slider to adjust height.
   void _showHeightSlider(BuildContext context, WidgetRef ref) {
-    // Define height range constants
-    const double minHeight = 100.0; // 100 cm
-    const double maxHeight = 220.0; // 220 cm
+    final useMetric = ref.read(heightUnitProvider); // true = cm, false = inches
 
-    // Get current height or use default
+    // Define height range constants based on the unit
+    double minHeight, maxHeight;
+    if (useMetric) {
+      minHeight = 100.0; // 100 cm
+      maxHeight = 220.0; // 220 cm
+    } else {
+      minHeight = 48.0; // 4ft (48 inches)
+      maxHeight = 89.0; // 7ft 5in (89 inches)
+    }
+
+    // Get current height or use default, converting if necessary
     double currentHeight = ref.read(profileSettingsProvider).height ?? 170.0;
+
+    // Convert to inches if using imperial
+    if (!useMetric && currentHeight != null) {
+      currentHeight = currentHeight * cmToInchFactor;
+    }
 
     // Ensure the current height is within our slider range
     currentHeight = currentHeight.clamp(minHeight, maxHeight);
@@ -82,7 +121,9 @@ class ProfileHeightWidget extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      '${currentHeight.toStringAsFixed(1)} cm',
+                      useMetric
+                          ? '${currentHeight.toStringAsFixed(1)} cm'
+                          : '${(currentHeight / inchesInFoot).floor()}\' ${(currentHeight % inchesInFoot).round()}"',
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 20),
@@ -114,8 +155,16 @@ class ProfileHeightWidget extends ConsumerWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${minHeight.toInt()} cm'),
-                          Text('${maxHeight.toInt()} cm'),
+                          Text(
+                            useMetric 
+                                ? '${minHeight.toInt()} cm'
+                                : '${(minHeight / inchesInFoot).floor()}\' ${(minHeight % inchesInFoot).round()}"',
+                          ),
+                          Text(
+                            useMetric 
+                                ? '${maxHeight.toInt()} cm'
+                                : '${(maxHeight / inchesInFoot).floor()}\' ${(maxHeight % inchesInFoot).round()}"',
+                          ),
                         ],
                       ),
                     ),
@@ -130,10 +179,16 @@ class ProfileHeightWidget extends ConsumerWidget {
                         const SizedBox(width: 8),
                         TextButton(
                           onPressed: () {
+                            // Convert back to cm if using inches before saving
+                            double heightToSave = currentHeight;
+                            if (!useMetric) {
+                              heightToSave = currentHeight * inchToCmFactor;
+                            }
+
                             // Update provider with selected height
                             ref
                                 .read(profileSettingsProvider.notifier)
-                                .updateHeight(currentHeight);
+                                .updateHeight(heightToSave);
                             Navigator.pop(context);
                           },
                           child: const Text('SAVE'),
