@@ -15,7 +15,7 @@ class TestWidget extends ConsumerStatefulWidget {
 class _TestWidgetState extends ConsumerState<TestWidget> {
   final GlobalKey<FatPercentageViewState> fatPercentageKey = GlobalKey();
 
-  bool toggleFatUnit = false;
+  bool toggleFatUnit = true;
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +47,16 @@ class _TestWidgetState extends ConsumerState<TestWidget> {
             'Use ${toggleFatUnit ? "Inches" : "Centimeters"}',
             style: const TextStyle(color: AppColors.primary, fontSize: 14),
           ),
-          value: toggleFatUnit,
+          value: !toggleFatUnit, // Invert the value here
           onChanged: (value) {
             setState(() {
-              toggleFatUnit = value;
+              toggleFatUnit =
+                  !value; // Invert again to update the actual variable
             });
             fatPercentageKey.currentState?.toggleMeasurementUnits();
           },
           activeColor: AppColors.primary,
         ),
-
         Offstage(
           offstage: true,
           child: FatPercentageView(key: fatPercentageKey),
