@@ -13,5 +13,7 @@ The app includes a built-in BMI (Body Mass Index) calculator to help users under
 Users can optionally add their body fat percentage. The app can store and visualize this data to give a more complete picture of health.
 • Calorie Calculator
 A simple kcal (calorie) calculator helps users estimate daily caloric needs based on their personal data and goals.
+• Weight Change TDEE Calculator
+Calculates Total Daily Energy Expenditure (TDEE) based on weight change and calorie intake over time, providing a personalized and accurate estimate using at least 7 continuous days of tracked data.
 • HealthKit Integration (Planned)
 Future versions will allow integration with Apple Health to automatically sync weight and other health data.

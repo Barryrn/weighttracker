@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Widget/tdee_widget.dart';
+import '../Widget/tdee/weight_change_tdee_widget.dart';
 
 /// A page that displays the TDEE widget.
 ///
@@ -22,6 +23,8 @@ class TDEEPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               TDEEWidget(),
+              SizedBox(height: 16),
+              WeightChangeTDEEWidget(),
             ],
           ),
         ),

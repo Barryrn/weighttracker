@@ -32,7 +32,7 @@ class ProgressPage extends ConsumerWidget {
             // Replace the separate widgets with the new toggle widget
             ProgressGraphWidget(),
             SizedBox(height: 30),
-            
+
             // Additional goal widgets can be added here in the future
           ],
         ),
