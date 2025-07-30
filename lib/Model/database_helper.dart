@@ -36,6 +36,7 @@ class DatabaseHelper {
   static const String columnSideImagePath = 'side_front_image_path';
   static const String columnBackImagePath = 'back_front_image_path';
   static const String columnBMI = 'bmi'; // Added BMI column
+  static const String columnCalorie = 'calorie'; // Added calorie column
 
   /// Get the database instance, creating it if it doesn't exist
   /// @return Future<Database> The database instance
@@ -90,7 +91,8 @@ class DatabaseHelper {
           $columnFrontImagePath TEXT,
           $columnSideImagePath TEXT,
           $columnBackImagePath TEXT,
-          $columnBMI REAL
+          $columnBMI REAL,
+          $columnCalorie REAL
         )
       ''');
     } catch (e) {
@@ -231,6 +233,7 @@ class DatabaseHelper {
         columnSideImagePath: bodyEntry.sideImagePath,
         columnBackImagePath: bodyEntry.backImagePath,
         columnBMI: bmi, // Add calculated BMI
+        columnCalorie: bodyEntry.calorie,
       };
       print('Inserting into DB: $bodyEntry with BMI: $bmi');
 
@@ -299,6 +302,7 @@ class DatabaseHelper {
           sideImagePath: maps[i][columnSideImagePath],
           backImagePath: maps[i][columnBackImagePath],
           bmi: maps[i][columnBMI], // Added BMI field
+          calorie: maps[i][columnCalorie],
         );
       });
     } catch (e) {
@@ -335,6 +339,7 @@ class DatabaseHelper {
         columnFrontImagePath: bodyEntry.frontImagePath,
         columnSideImagePath: bodyEntry.sideImagePath,
         columnBackImagePath: bodyEntry.backImagePath,
+        columnCalorie: bodyEntry.calorie,
       };
 
       return await db.update(
@@ -404,6 +409,7 @@ class DatabaseHelper {
         frontImagePath: result.first[columnFrontImagePath],
         sideImagePath: result.first[columnSideImagePath],
         backImagePath: result.first[columnBackImagePath],
+        calorie: result.first[columnCalorie],
       );
     } catch (e) {
       print('Error finding entry by date: $e');
