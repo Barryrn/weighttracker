@@ -78,7 +78,7 @@ class MockDataImporter {
           frontImagePath: frontImagePath,
           sideImagePath: sideImagePath,
           backImagePath: backImagePath,
-          // calorie: _safeParseDouble(jsonEntry['calorie']),
+          calorie: _safeParseDouble(jsonEntry['calorie']),
         );
 
         // Insert the entry into the database

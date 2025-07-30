@@ -14,15 +14,18 @@ void main() async {
   // Initialize the database
   final dbHelper = DatabaseHelper();
   await dbHelper.database;
+  
+  // Print the database path
+  await dbHelper.printDatabasePath();
 
   // Import mock data if needed
-  // try {
-  //   final importer = MockDataImporter();
-  //   final count = await importer.importMockData();
-  //   print('Imported $count entries from mock data');
-  // } catch (e) {
-  //   print('Failed to import mock data: $e');
-  // }
+  try {
+    final importer = MockDataImporter();
+    final count = await importer.importMockData();
+    print('Imported $count entries from mock data');
+  } catch (e) {
+    print('Failed to import mock data: $e');
+  }
 
   // Wrap the app with ProviderScope
   runApp(const ProviderScope(child: MyApp()));

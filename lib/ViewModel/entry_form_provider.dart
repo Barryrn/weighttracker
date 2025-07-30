@@ -21,6 +21,7 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
     developer.log('Front Image Path: ${state.frontImagePath}');
     developer.log('Side Image Path: ${state.sideImagePath}');
     developer.log('Back Image Path: ${state.backImagePath}');
+    developer.log('Calorie: ${state.calorie}');
     developer.log('===================================');
   }
 
@@ -142,6 +143,13 @@ class BodyEntryNotifier extends StateNotifier<BodyEntry> {
       backImagePath: imagePath,
       setBackImagePathNull: imagePath == null,
     );
+    _logState();
+  }
+
+  /// Updates the calorie value in the BodyEntry state
+  /// @param calorie The calorie value
+  void updateCalorie(double? calorie) {
+    state = state.copyWith(calorie: calorie);
     _logState();
   }
 
