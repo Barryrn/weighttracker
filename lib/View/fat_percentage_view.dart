@@ -28,7 +28,11 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
   void initState() {
     super.initState();
     // Load profile settings via the ViewModel
-    Future.microtask(() => ref.read(fatPercentageViewModelProvider.notifier).loadProfileSettings());
+    Future.microtask(
+      () => ref
+          .read(fatPercentageViewModelProvider.notifier)
+          .loadProfileSettings(),
+    );
   }
 
   @override
@@ -95,13 +99,15 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                 value: 'Female',
                                 child: Text('Female'),
                               ),
-                              DropdownMenuItem(
-                                value: 'Other',
-                                child: Text('Other'),
-                              ),
+                              // DropdownMenuItem(
+                              //   value: 'Other',
+                              //   child: Text('Other'),
+                              // ),
                             ],
                             onChanged: (value) {
-                              ref.read(fatPercentageViewModelProvider.notifier).updateGender(value);
+                              ref
+                                  .read(fatPercentageViewModelProvider.notifier)
+                                  .updateGender(value);
                             },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -126,7 +132,11 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  ref.read(fatPercentageViewModelProvider.notifier).toggleMeasurementUnits();
+                                  ref
+                                      .read(
+                                        fatPercentageViewModelProvider.notifier,
+                                      )
+                                      .toggleMeasurementUnits();
                                 },
                                 style: TextButton.styleFrom(
                                   shape: RoundedRectangleBorder(
@@ -140,7 +150,9 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                 ),
                                 child: Text(
                                   'Switch to ${unitPrefs.useMetricHeight ? "inches" : "cm"}',
-                                  style: const TextStyle(color: AppColors.primary),
+                                  style: const TextStyle(
+                                    color: AppColors.primary,
+                                  ),
                                 ),
                               ),
                             ],
@@ -164,9 +176,13 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                 RegExp(r'[0-9.,]'),
                               ),
                             ],
-                            validator: (value) => ref.read(fatPercentageViewModelProvider.notifier).validateNumber(value),
+                            validator: (value) => ref
+                                .read(fatPercentageViewModelProvider.notifier)
+                                .validateNumber(value),
                             onChanged: (value) {
-                              ref.read(fatPercentageViewModelProvider.notifier).updateHeight(value);
+                              ref
+                                  .read(fatPercentageViewModelProvider.notifier)
+                                  .updateHeight(value);
                             },
                           ),
                           const SizedBox(height: 16),
@@ -198,9 +214,13 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                 RegExp(r'[0-9.,]'),
                               ),
                             ],
-                            validator: (value) => ref.read(fatPercentageViewModelProvider.notifier).validateNumber(value),
+                            validator: (value) => ref
+                                .read(fatPercentageViewModelProvider.notifier)
+                                .validateNumber(value),
                             onChanged: (value) {
-                              ref.read(fatPercentageViewModelProvider.notifier).updateNeck(value);
+                              ref
+                                  .read(fatPercentageViewModelProvider.notifier)
+                                  .updateNeck(value);
                             },
                           ),
 
@@ -233,16 +253,20 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                 RegExp(r'[0-9.,]'),
                               ),
                             ],
-                            validator: (value) => ref.read(fatPercentageViewModelProvider.notifier).validateNumber(value),
+                            validator: (value) => ref
+                                .read(fatPercentageViewModelProvider.notifier)
+                                .validateNumber(value),
                             onChanged: (value) {
-                              ref.read(fatPercentageViewModelProvider.notifier).updateWaist(value);
+                              ref
+                                  .read(fatPercentageViewModelProvider.notifier)
+                                  .updateWaist(value);
                             },
                           ),
 
                           const SizedBox(height: 16),
 
                           // Hip circumference input (only for women)
-                          if (viewModelState.gender == 'Female') ...[  
+                          if (viewModelState.gender == 'Female') ...[
                             Text(
                               'Hip Circumference ($lengthUnit)',
                               style: const TextStyle(
@@ -270,16 +294,23 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                   RegExp(r'[0-9.,]'),
                                 ),
                               ],
-                              validator: (value) => ref.read(fatPercentageViewModelProvider.notifier).validateNumber(value),
+                              validator: (value) => ref
+                                  .read(fatPercentageViewModelProvider.notifier)
+                                  .validateNumber(value),
                               onChanged: (value) {
-                                ref.read(fatPercentageViewModelProvider.notifier).updateHip(value);
+                                ref
+                                    .read(
+                                      fatPercentageViewModelProvider.notifier,
+                                    )
+                                    .updateHip(value);
                               },
                             ),
                             const SizedBox(height: 16),
                           ],
 
                           // Add this after the gender dropdown
-                          if (viewModelState.gender?.toLowerCase() == 'other') ...[  
+                          if (viewModelState.gender?.toLowerCase() ==
+                              'other') ...[
                             const SizedBox(height: 16),
                             Row(
                               children: [
@@ -291,7 +322,12 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                     viewModelState.useFemaleFomula,
                                   ],
                                   onPressed: (index) {
-                                    ref.read(fatPercentageViewModelProvider.notifier).toggleFormulaType(index == 1);
+                                    ref
+                                        .read(
+                                          fatPercentageViewModelProvider
+                                              .notifier,
+                                        )
+                                        .toggleFormulaType(index == 1);
                                   },
                                   children: const [
                                     Padding(
@@ -318,10 +354,18 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                             child: ElevatedButton(
                               onPressed: () async {
                                 try {
-                                  await ref.read(fatPercentageViewModelProvider.notifier).calculateFatPercentage(_formKey);
+                                  await ref
+                                      .read(
+                                        fatPercentageViewModelProvider.notifier,
+                                      )
+                                      .calculateFatPercentage(_formKey);
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Error calculating body fat percentage')),
+                                    const SnackBar(
+                                      content: Text(
+                                        'Error calculating body fat percentage',
+                                      ),
+                                    ),
                                   );
                                 }
                               },
@@ -340,7 +384,8 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                           ),
 
                           // Display calculated result
-                          if (viewModelState.calculatedFatPercentage != null) ...[  
+                          if (viewModelState.calculatedFatPercentage !=
+                              null) ...[
                             const SizedBox(height: 24),
                             Container(
                               width: double.infinity,
@@ -371,7 +416,12 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                   // Add a save button below the result
                                   ElevatedButton(
                                     onPressed: () {
-                                      final fatPercentage = ref.read(fatPercentageViewModelProvider.notifier).saveFatPercentage();
+                                      final fatPercentage = ref
+                                          .read(
+                                            fatPercentageViewModelProvider
+                                                .notifier,
+                                          )
+                                          .saveFatPercentage();
                                       Navigator.pop(context, fatPercentage);
                                     },
                                     style: ElevatedButton.styleFrom(

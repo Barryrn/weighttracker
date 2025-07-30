@@ -58,14 +58,16 @@ class FatPercentageCalculator extends StateNotifier<double?> {
 
     // Determine which formula to use based on gender
     bool useFemaleFormula = false;
-    
+
     if (gender.toLowerCase() == 'female') {
       useFemaleFormula = true;
-    } else if (gender.toLowerCase() == 'other' && useFemaleFomula != null) {
-      // For 'Other' gender, use the specified formula preference
-      useFemaleFormula = useFemaleFomula;
     }
-    
+
+    // else if (gender.toLowerCase() == 'other' && useFemaleFomula != null) {
+    //   // For 'Other' gender, use the specified formula preference
+    //   useFemaleFormula = useFemaleFomula;
+    // }
+
     // For female formula, hip measurement is required
     if (useFemaleFormula && hip == null) {
       return null;
