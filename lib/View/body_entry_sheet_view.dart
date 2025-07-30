@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weigthtracker/Widget/body_entry/calorie_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/fat_percentage_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/image_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/note_entry_widget.dart';
@@ -69,6 +70,8 @@ class BodyEntrySheet {
                                   DateTimeEntry(),
                                   SizedBox(height: 8),
                                   WeightEntry(),
+                                  SizedBox(height: 8),
+                                  CalorieEntry(),
                                   SizedBox(height: 8),
                                   NotesEntry(),
                                   SizedBox(height: 8),

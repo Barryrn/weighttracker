@@ -284,6 +284,10 @@ class DateTimeEntry extends ConsumerWidget {
           notifier.updateBackImagePath(entry.backImagePath);
         }
 
+        if (entry.calorie != null) {
+          notifier.updateCalorie(entry.calorie);
+        }
+
         developer.log(
           'Successfully loaded entry data for ${DateFormat('yyyy-MM-dd').format(date)}',
         );
