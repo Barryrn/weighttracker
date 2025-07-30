@@ -14,6 +14,7 @@ class BodyEntry {
   final String? sideImagePath;
   final String? backImagePath;
   final double? bmi; // Added BMI field
+  final double? calorie;
 
   BodyEntry({
     required this.date,
@@ -28,6 +29,7 @@ class BodyEntry {
     this.sideImagePath,
     this.backImagePath,
     this.bmi, // Added BMI parameter
+    this.calorie,
   });
 
   /// Creates a copy of this BodyEntry with the given fields replaced with new values
@@ -58,6 +60,7 @@ class BodyEntry {
     bool setBackImagePathNull = false,
     String? backImagePath,
     double? bmi, // Added BMI parameter
+    double? calorie,
   }) {
     return BodyEntry(
       date: date ?? this.date,
@@ -68,10 +71,17 @@ class BodyEntry {
       hipCircumference: hipCircumference ?? this.hipCircumference,
       tags: tags ?? this.tags,
       notes: notes ?? this.notes,
-      frontImagePath: setFrontImagePathNull ? null : (frontImagePath ?? this.frontImagePath),
-      sideImagePath: setSideImagePathNull ? null : (sideImagePath ?? this.sideImagePath),
-      backImagePath: setBackImagePathNull ? null : (backImagePath ?? this.backImagePath),
+      frontImagePath: setFrontImagePathNull
+          ? null
+          : (frontImagePath ?? this.frontImagePath),
+      sideImagePath: setSideImagePathNull
+          ? null
+          : (sideImagePath ?? this.sideImagePath),
+      backImagePath: setBackImagePathNull
+          ? null
+          : (backImagePath ?? this.backImagePath),
       bmi: bmi ?? this.bmi, // Added BMI field
+      calorie: calorie ?? this.calorie,
     );
   }
 
@@ -91,6 +101,7 @@ class BodyEntry {
       'sideImagePath': sideImagePath,
       'backImagePath': backImagePath,
       'bmi': bmi, // Added BMI field
+      'calorie': calorie,
     };
   }
 
@@ -111,6 +122,7 @@ class BodyEntry {
       sideImagePath: map['sideImagePath'],
       backImagePath: map['backImagePath'],
       bmi: map['bmi'], // Added BMI field
+      calorie: map['calorie'],
     );
   }
 }

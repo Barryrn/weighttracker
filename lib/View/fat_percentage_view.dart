@@ -157,7 +157,10 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
     double? fatPercentage = _calculatedFatPercentage;
 
     if (fatPercentage != null) {
-      // Update the notifier before navigating back
+      // Runde auf eine Nachkommastelle
+      fatPercentage = (fatPercentage * 10).round() / 10;
+
+      // Update den Notifier vor dem Zurücknavigieren
       _updateNotifierWithMeasurements();
       Navigator.pop(context, fatPercentage);
     }
@@ -365,13 +368,13 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Height ($lengthUnit)',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                              // Text(
+                              //   'Height ($lengthUnit)',
+                              //   style: TextStyle(
+                              //     fontSize: 16,
+                              //     fontWeight: FontWeight.w500,
+                              //   ),
+                              // ),
                               // TextButton(
                               //   onPressed: toggleMeasurementUnits,
                               //   style: TextButton.styleFrom(
@@ -395,34 +398,34 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                           ),
 
                           const SizedBox(height: 8),
-                          TextFormField(
-                            controller: _heightController,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
-                              ),
-                              suffixText: lengthUnit,
-                            ),
-                            keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true,
-                            ),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9.,]'),
-                              ),
-                            ],
-                            validator: _validateNumber,
-                            onChanged: (value) {
-                              try {
-                                _height = double.parse(
-                                  value.replaceAll(',', '.'),
-                                );
-                              } catch (_) {}
-                            },
-                          ),
 
+                          // TextFormField(
+                          //   controller: _heightController,
+                          //   decoration: InputDecoration(
+                          //     border: const OutlineInputBorder(),
+                          //     contentPadding: const EdgeInsets.symmetric(
+                          //       horizontal: 16,
+                          //       vertical: 12,
+                          //     ),
+                          //     suffixText: lengthUnit,
+                          //   ),
+                          //   keyboardType: const TextInputType.numberWithOptions(
+                          //     decimal: true,
+                          //   ),
+                          //   inputFormatters: [
+                          //     FilteringTextInputFormatter.allow(
+                          //       RegExp(r'[0-9.,]'),
+                          //     ),
+                          //   ],
+                          //   validator: _validateNumber,
+                          //   onChanged: (value) {
+                          //     try {
+                          //       _height = double.parse(
+                          //         value.replaceAll(',', '.'),
+                          //       );
+                          //     } catch (_) {}
+                          //   },
+                          // ),
                           const SizedBox(height: 16),
 
                           // Neck circumference input

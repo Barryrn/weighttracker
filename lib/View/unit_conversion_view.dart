@@ -28,7 +28,7 @@ class UnitConversionSettingsPage extends ConsumerWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Card(child: Column(children: [UnitConversionWidget()])),
+        child: Column(children: [UnitConversionWidget()]),
       ),
     );
   }
