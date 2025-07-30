@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/View/fat_percentage_view.dart';
 import 'package:weigthtracker/ViewModel/weight_entry_view_model.dart';
 import 'package:weigthtracker/ViewModel/profile_settings_provider.dart';
+import 'package:weigthtracker/ViewModel/fat_percentage_view_model.dart';
 import 'package:weigthtracker/theme.dart';
 import '../../viewmodel/weight_goal_view_model.dart';
 
@@ -71,7 +72,8 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
               });
               // Update the height unit provider with the new value
               heightUnitNotifier.updateHeightUnit(!toggleFatUnit);
-              fatPercentageKey.currentState?.toggleMeasurementUnits();
+              // Call toggleMeasurementUnits on the ViewModel instead of the ViewState
+              ref.read(fatPercentageViewModelProvider.notifier).toggleMeasurementUnits();
             },
             activeColor: AppColors.primary,
           ),

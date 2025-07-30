@@ -19,7 +19,7 @@ class DatabaseHelper {
   /// Database name and version constants
   static const String _databaseName = "weight_tracker.db";
   static const int _databaseVersion =
-      4; // Increased version number for schema update
+      5; // Increased version number for schema update
 
   /// Table and column names
   static const String tableBodyEntries = 'body_entries';

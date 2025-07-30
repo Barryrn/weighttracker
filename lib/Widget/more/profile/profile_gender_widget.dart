@@ -66,16 +66,16 @@ class ProfileGenderWidget extends ConsumerWidget {
                   Navigator.pop(context);
                 },
               ),
-              ListTile(
-                title: const Text('Other'),
-                onTap: () {
-                  // Update provider with selected gender
-                  ref
-                      .read(profileSettingsProvider.notifier)
-                      .updateGender('Other');
-                  Navigator.pop(context);
-                },
-              ),
+              // ListTile(
+              //   title: const Text('Other'),
+              //   onTap: () {
+              //     // Update provider with selected gender
+              //     ref
+              //         .read(profileSettingsProvider.notifier)
+              //         .updateGender('Other');
+              //     Navigator.pop(context);
+              //   },
+              // ),
             ],
           ),
         );
