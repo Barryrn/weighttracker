@@ -33,7 +33,9 @@ class SaveButtonEntryWidget extends ConsumerWidget {
             print('Test');
             
             // Notify that database has changed
+            print('Notifying database change to update TDEE calculation');
             ref.read(databaseChangeProvider.notifier).notifyDatabaseChanged();
+            print('Database change notification sent');
 
             // Show success message
             if (context.mounted) {

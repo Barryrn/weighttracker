@@ -20,19 +20,27 @@ class DeleteEntryViewModel {
   /// @return Future<bool> Whether the deletion was successful
   Future<bool> deleteEntryForDate(DateTime date) async {
     try {
+      print('DeleteEntryViewModel: Attempting to delete entry for date: $date');
+      
       // Find the entry ID for the given date
       final entryId = await _dbHelper.findEntryIdByDate(date);
       
       // If no entry exists for this date, return false
       if (entryId == null) {
+        print('DeleteEntryViewModel: No entry found for date: $date');
         return false;
       }
       
+      print('DeleteEntryViewModel: Found entry with ID: $entryId for date: $date');
+      
       // Delete the entry
       final rowsAffected = await _dbHelper.deleteBodyEntry(entryId);
+      print('DeleteEntryViewModel: Deleted entry, rows affected: $rowsAffected');
       
       // Notify that the database has changed
+      print('DeleteEntryViewModel: About to notify database changed');
       _ref.read(databaseChangeProvider.notifier).notifyDatabaseChanged();
+      print('DeleteEntryViewModel: Database change notification sent');
       
       // Return true if at least one row was affected
       return rowsAffected > 0;
