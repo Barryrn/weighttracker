@@ -6,6 +6,7 @@ import 'package:weigthtracker/Widget/tdee/weight_change_tdee_widget.dart';
 import 'package:weigthtracker/Widget/test_widget.dart';
 import 'package:weigthtracker/widget/goals/weight_goal_widget.dart';
 import 'package:weigthtracker/widget/goals/weight_progress_widget.dart';
+import 'package:weigthtracker/widget/goals/weight_loss_goal_widget.dart';
 import '../../Widget/footer.dart';
 import '../../theme.dart';
 
@@ -40,6 +41,8 @@ class GoalsPage extends ConsumerWidget {
               WeightGoalWidget(),
               const SizedBox(height: 20),
               WeightChangeTDEEWidget(),
+              const SizedBox(height: 20),
+              const WeightLossGoalWidget(),
               // TestWidget(),
               // Additional goal widgets can be added here in the future
             ],

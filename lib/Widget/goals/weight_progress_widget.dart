@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart';
+import 'package:weigthtracker/ViewModel/weight_loss_goal_provider.dart';
 import 'package:weigthtracker/theme.dart';
+import 'package:weigthtracker/viewmodel/weight_change_tdee_provider.dart';
 import '../../viewmodel/weight_progress_view_model.dart';
 
 /// A widget that displays the current weight and goal weight with a progress indicator.
@@ -14,7 +17,9 @@ class WeightProgressWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get the weight progress data from the ViewModel
     final progressData = ref.watch(weightProgressProvider);
-    
+    final tdee = ref.watch(weightChangeTDEEProvider);
+    final goalData = ref.watch(weightLossGoalViewModelProvider);
+
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -128,29 +133,80 @@ class WeightProgressWidget extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
 
-            // Remaining weight
-            Center(
-              child: Column(
-                children: [
-                  const Text(
-                    'Remaining',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textSecondary,
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Remaining weight
+                Center(
+                  child: Column(
+                    children: [
+                      const Text(
+                        'TDEE Calories',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${tdee?.toStringAsFixed(0)}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    progressData.currentWeight != null && progressData.goalWeight != null
-                        ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
-                        : '-- ${progressData.unitSuffix}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+
+                Center(
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Remaining',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        progressData.currentWeight != null &&
+                                progressData.goalWeight != null
+                            ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
+                            : '-- ${progressData.unitSuffix}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Center(
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Goal Weight TDEE',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        goalData.adjustedTDEE != null
+                            ? '${goalData.adjustedTDEE!.toStringAsFixed(0)}'
+                            : '--',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
