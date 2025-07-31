@@ -98,41 +98,57 @@ class WeightChangeTDEENotifier extends StateNotifier<double?> {
     }
   }
 
-  /// Find continuous days of data from all entries
+  /// Find the most recent *completed* continuous streak
+  /// that has at least `_minRequiredDays` entries.
   List<BodyEntry> _findContinuousEntries(List<BodyEntry> allEntries) {
     if (allEntries.isEmpty) return [];
 
-    List<BodyEntry> latestStreak = [];
+    List<List<BodyEntry>> streaks = [];
     List<BodyEntry> currentStreak = [];
 
     for (int i = 0; i < allEntries.length; i++) {
-      if (allEntries[i].weight == null || allEntries[i].calorie == null) {
-        continue; // skip incomplete entries
+      final entry = allEntries[i];
+
+      if (entry.weight == null || entry.calorie == null) {
+        // End the current streak if data is incomplete
+        if (currentStreak.length >= _minRequiredDays) {
+          streaks.add(List.from(currentStreak));
+        }
+        currentStreak = [];
+        continue;
       }
 
       if (currentStreak.isEmpty) {
-        currentStreak.add(allEntries[i]);
+        currentStreak.add(entry);
       } else {
         final DateTime lastDate = currentStreak.last.date;
-        final DateTime currentDate = allEntries[i].date;
+        final DateTime currentDate = entry.date;
         final difference = currentDate.difference(lastDate).inDays;
 
         if (difference == 1) {
-          currentStreak.add(allEntries[i]);
+          currentStreak.add(entry);
         } else {
-          // Instead of comparing lengths, just assign latestStreak here
-          latestStreak = List.from(currentStreak);
-          currentStreak = [allEntries[i]];
+          // End current streak and start a new one
+          if (currentStreak.length >= _minRequiredDays) {
+            streaks.add(List.from(currentStreak));
+          }
+          currentStreak = [entry];
         }
       }
     }
 
-    // After the loop, assign the final streak to latestStreak as well
-    if (currentStreak.isNotEmpty) {
-      latestStreak = List.from(currentStreak);
+    // Add final streak if complete
+    if (currentStreak.length >= _minRequiredDays) {
+      streaks.add(List.from(currentStreak));
     }
 
-    return latestStreak;
+    if (streaks.isEmpty) {
+      return [];
+    }
+
+    // Return the latest completed streak (most recent by date)
+    streaks.sort((a, b) => b.last.date.compareTo(a.last.date));
+    return streaks.first;
   }
 
   /// Calculate TDEE from a list of continuous entries
