@@ -13,7 +13,7 @@ class WeightChangeTDEEWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get the calculated TDEE from the provider
     final tdee = ref.watch(weightChangeTDEEProvider);
-    
+
     // Debug log when widget rebuilds with new TDEE value
     print('WeightChangeTDEEWidget rebuilding with TDEE: $tdee');
 
