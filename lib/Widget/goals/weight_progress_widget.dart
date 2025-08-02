@@ -19,6 +19,21 @@ class WeightProgressWidget extends ConsumerWidget {
     final progressData = ref.watch(weightProgressProvider);
     final tdee = ref.watch(weightChangeTDEEProvider);
 
+    final notifier = ref.read(weightChangeGoalTDEEProvider.notifier);
+    final goalState = ref.watch(weightChangeGoalTDEEProvider);
+
+    final double? baseTDEE = goalState.baseTDEE;
+    final double weightChangePerWeek = goalState.weightChangePerWeek;
+    final bool isGainingWeight = goalState.isGainingWeight;
+    final int days = 7;
+
+    final double calorieAdjustment =
+        (weightChangePerWeek * 7700) / days * (isGainingWeight ? 1 : -1);
+
+    final double? goalTDEE = baseTDEE != null
+        ? baseTDEE + calorieAdjustment
+        : null;
+
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -194,7 +209,8 @@ class WeightProgressWidget extends ConsumerWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '',
+                        '${goalTDEE?.toStringAsFixed(0) ?? 'N/A'}',
+
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
