@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/ViewModel/weight_change_tdee_provider.dart';
+import 'package:weigthtracker/Widget/tdee/weight_change_tdee_goal_widget.dart';
 import 'package:weigthtracker/Widget/tdee/weight_change_tdee_widget.dart';
 import 'package:weigthtracker/Widget/test_widget.dart';
 import 'package:weigthtracker/widget/goals/weight_goal_widget.dart';
 import 'package:weigthtracker/widget/goals/weight_progress_widget.dart';
-import 'package:weigthtracker/widget/goals/weight_loss_goal_widget.dart';
 import '../../Widget/footer.dart';
 import '../../theme.dart';
 
@@ -42,7 +42,9 @@ class GoalsPage extends ConsumerWidget {
               const SizedBox(height: 20),
               WeightChangeTDEEWidget(),
               const SizedBox(height: 20),
-              const WeightLossGoalWidget(),
+              // WeightLossGoalWidget(),
+              const SizedBox(height: 20),
+              WeightChangeGoalTDEEWidget(),
               // TestWidget(),
               // Additional goal widgets can be added here in the future
             ],

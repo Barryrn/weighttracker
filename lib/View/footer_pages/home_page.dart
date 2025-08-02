@@ -3,6 +3,8 @@ import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/View/image_comparison_view%20copy.dart';
 import 'package:weigthtracker/View/image_comparison_view.dart';
 import 'package:weigthtracker/Widget/more/profile/profile_settings_widget.dart';
+import 'package:weigthtracker/Widget/tdee/weight_change_tdee_goal_widget.dart';
+import 'package:weigthtracker/Widget/tdee/weight_change_tdee_widget.dart';
 import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/widget/goals/weight_progress_widget.dart';
 import '../../Widget/footer.dart';
@@ -28,6 +30,12 @@ class HomePage extends StatelessWidget {
               WeightProgressWidget(),
               const SizedBox(height: 24),
               ImageComparisonViews(),
+              const SizedBox(height: 24),
+              WeightChangeTDEEWidget(),
+              const SizedBox(height: 24),
+              WeightChangeGoalTDEEWidget(),
+              const SizedBox(height: 24),
+
               // const SizedBox(height: 24),
               // ElevatedButton.icon(
               //   onPressed: () {
