@@ -125,4 +125,9 @@ class BodyEntry {
       calorie: map['calorie'],
     );
   }
+
+  @override
+  String toString() {
+    return 'BodyEntry(date: ${date.toIso8601String()}, weight: $weight, fatPercentage: $fatPercentage, calorie: $calorie)';
+  }
 }

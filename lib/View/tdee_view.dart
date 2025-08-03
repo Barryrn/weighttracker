@@ -13,9 +13,7 @@ class TDEEPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('TDEE Calculator'),
-      ),
+      appBar: AppBar(title: const Text('TDEE Calculator')),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -24,7 +22,7 @@ class TDEEPage extends StatelessWidget {
             children: const [
               TDEEWidget(),
               SizedBox(height: 16),
-              WeightChangeTDEEWidget(),
+              // WeightChangeTDEEWidget(),
             ],
           ),
         ),
