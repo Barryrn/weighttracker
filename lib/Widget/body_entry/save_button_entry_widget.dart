@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weigthtracker/ViewModel/health_provider.dart';
 import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/model/database_helper.dart';
 import 'package:weigthtracker/ViewModel/entry_form_provider.dart';
@@ -30,8 +31,10 @@ class SaveButtonEntryWidget extends ConsumerWidget {
             // Save the entry to the database
             await dbHelper.insertBodyEntry(bodyEntry);
             await dbHelper.printAllBodyEntries();
+            await ref.read(healthStateProvider.notifier).performTwoWaySync();
+
             print('Test');
-            
+
             // Notify that database has changed
             print('Notifying database change to update TDEE calculation');
             ref.read(databaseChangeProvider.notifier).notifyDatabaseChanged();
@@ -40,7 +43,14 @@ class SaveButtonEntryWidget extends ConsumerWidget {
             // Show success message
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Entry saved successfully')),
+                const SnackBar(
+                  content: Text(
+                    'Entry saved successfully',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: AppColors.primary,
+                  duration: Duration(seconds: 1),
+                ),
               );
 
               // Close the bottom sheet
@@ -49,11 +59,9 @@ class SaveButtonEntryWidget extends ConsumerWidget {
           } catch (e) {
             // Show error message if save fails
             if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Failed to save entry: ${e.toString()}'),
-                ),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('Failed to save entry: ')));
             }
           }
         },

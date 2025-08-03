@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:weigthtracker/ViewModel/health_provider.dart';
 import 'dart:io';
 import 'body_entry_model.dart';
 import 'profile_settings_storage_model.dart';
@@ -427,7 +428,9 @@ class DatabaseHelper {
       // Normalize the date to start of day
       final normalizedDate = DateTime(date.year, date.month, date.day);
       final dateMillis = normalizedDate.millisecondsSinceEpoch;
-      print('Finding entry by date: original=$date, normalized=$normalizedDate, millis=$dateMillis');
+      print(
+        'Finding entry by date: original=$date, normalized=$normalizedDate, millis=$dateMillis',
+      );
 
       final List<Map<String, dynamic>> result = await db.query(
         tableBodyEntries,
@@ -439,7 +442,9 @@ class DatabaseHelper {
         ],
       );
 
-      print('Query result for date $normalizedDate: ${result.length} entries found');
+      print(
+        'Query result for date $normalizedDate: ${result.length} entries found',
+      );
       if (result.isEmpty) {
         return null;
       }

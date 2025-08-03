@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../service/health_service.dart';
 import '../model/body_entry_model.dart';
 import '../repository/weight_repository.dart';
+import '../model/health_sync_storage_model.dart'; // Add this import
 
 /// Provider for the HealthService
 final healthServiceProvider = Provider<HealthService>((ref) {
@@ -63,6 +64,9 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
   Future<void> _initializeHealthService() async {
     try {
       await _healthService.initialize();
+      // Load last sync time from SharedPreferences
+      final lastSyncTime = await HealthSyncStorage.loadLastSyncTime();
+      state = state.copyWith(lastSyncTime: lastSyncTime);
       checkAvailability();
     } catch (e) {
       state = state.copyWith(
@@ -97,11 +101,13 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
     try {
       final isAuthorized = await _healthService.requestAuthorization();
       state = state.copyWith(isAuthorized: isAuthorized, clearError: true);
+      
+      // Automatically sync if authorized
+      if (isAuthorized) {
+        performTwoWaySync();
+      }
     } catch (e) {
-      state = state.copyWith(
-        errorMessage: 'Error checking health authorization: $e',
-      );
-      debugPrint('Error checking health authorization: $e');
+      // Error handling...
     }
   }
   
@@ -132,10 +138,13 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
       final success = await _healthService.syncWeightDataToHealth(entries);
       
       if (success) {
+        final now = DateTime.now();
         state = state.copyWith(
           isSyncing: false,
-          lastSyncTime: DateTime.now(),
+          lastSyncTime: now,
         );
+        // Save last sync time to SharedPreferences
+        await HealthSyncStorage.saveLastSyncTime(now);
       } else {
         state = state.copyWith(
           isSyncing: false,
@@ -162,10 +171,17 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
       state = state.copyWith(isSyncing: true, clearError: true);
       final entries = await _healthService.fetchWeightDataFromHealth(startDate, endDate);
       
-      state = state.copyWith(
-        isSyncing: false,
-        lastSyncTime: entries.isNotEmpty ? DateTime.now() : state.lastSyncTime,
-      );
+      if (entries.isNotEmpty) {
+        final now = DateTime.now();
+        state = state.copyWith(
+          isSyncing: false,
+          lastSyncTime: now,
+        );
+        // Save last sync time to SharedPreferences
+        await HealthSyncStorage.saveLastSyncTime(now);
+      } else {
+        state = state.copyWith(isSyncing: false);
+      }
       
       return entries;
     } catch (e) {
@@ -186,10 +202,20 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
       state = state.copyWith(isSyncing: true, clearError: true);
       final success = await _healthService.performTwoWaySync();
       
-      state = state.copyWith(
-        isSyncing: false,
-        lastSyncTime: success ? DateTime.now() : state.lastSyncTime,
-      );
+      if (success) {
+        final now = DateTime.now();
+        state = state.copyWith(
+          isSyncing: false,
+          lastSyncTime: now,
+        );
+        // Save last sync time to SharedPreferences
+        await HealthSyncStorage.saveLastSyncTime(now);
+      } else {
+        state = state.copyWith(
+          isSyncing: false,
+          errorMessage: 'Error performing two-way sync',
+        );
+      }
       
       return success;
     } catch (e) {
