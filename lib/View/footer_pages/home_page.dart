@@ -30,11 +30,8 @@ class HomePage extends StatelessWidget {
               WeightProgressWidget(),
               const SizedBox(height: 24),
               ImageComparisonViews(),
-              const SizedBox(height: 24),
               // WeightChangeTDEEWidget(),
-              const SizedBox(height: 24),
               // WeightChangeGoalTDEEWidget(),
-              const SizedBox(height: 24),
 
               // const SizedBox(height: 24),
               // ElevatedButton.icon(

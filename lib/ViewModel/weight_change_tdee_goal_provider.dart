@@ -12,6 +12,7 @@ class WeightChangeGoalTDEENotifier
     : super(WeightChangeGoalTDEEState.initial()) {
     _initialize();
     ref.listen(databaseChangeProvider, (previous, current) {
+      developer.log('Database change detected in WeightChangeGoalTDEENotifier');
       calculateTDEE();
     });
   }
@@ -22,7 +23,6 @@ class WeightChangeGoalTDEENotifier
   static const int _maxDaysToUse = 14;
   static const int _caloriesPerKg = 7700;
 
-  // SharedPreferences keys
   static const String _gainPrefKey = 'isGainingWeight';
   static const String _weightChangeKey = 'weightChangePerWeek';
 
@@ -44,6 +44,7 @@ class WeightChangeGoalTDEENotifier
       final List<BodyEntry> allEntries = await _databaseHelper
           .queryAllBodyEntries();
       allEntries.sort((a, b) => a.date.compareTo(b.date));
+
       final List<BodyEntry> continuousEntries = _findContinuousEntries(
         allEntries,
       );
@@ -53,11 +54,13 @@ class WeightChangeGoalTDEENotifier
         return;
       }
 
-      final entriesToUse = continuousEntries.length > _maxDaysToUse
+      final List<BodyEntry> entriesToUse =
+          continuousEntries.length > _maxDaysToUse
           ? continuousEntries.sublist(continuousEntries.length - _maxDaysToUse)
           : continuousEntries;
 
       final double tdee = _calculateTDEEFromEntries(entriesToUse);
+
       final double? goalTDEE = _calculateGoalTDEE(
         baseTDEE: tdee,
         isGainingWeight: state.isGainingWeight,
@@ -66,6 +69,7 @@ class WeightChangeGoalTDEENotifier
 
       state = state.copyWith(baseTDEE: tdee, goalTDEE: goalTDEE);
     } catch (e) {
+      developer.log('Error calculating goal TDEE: $e');
       state = state.copyWith(baseTDEE: null, goalTDEE: null);
     }
   }
@@ -76,7 +80,6 @@ class WeightChangeGoalTDEENotifier
   }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Save values
     await prefs.setBool(_gainPrefKey, isGainingWeight);
     await prefs.setDouble(_weightChangeKey, weightChangePerWeek);
 
@@ -103,20 +106,49 @@ class WeightChangeGoalTDEENotifier
     return isGainingWeight ? baseTDEE + adjustment : baseTDEE - adjustment;
   }
 
-  List<BodyEntry> _findContinuousEntries(List<BodyEntry> entries) {
-    final List<BodyEntry> result = [];
+  List<BodyEntry> _findContinuousEntries(List<BodyEntry> allEntries) {
+    if (allEntries.isEmpty) return [];
 
-    for (int i = entries.length - 1; i > 0; i--) {
-      final diff = entries[i].date.difference(entries[i - 1].date).inDays;
-      if (diff <= 2) {
-        if (result.isEmpty) result.add(entries[i]);
-        result.add(entries[i - 1]);
+    List<List<BodyEntry>> streaks = [];
+    List<BodyEntry> currentStreak = [];
+
+    for (int i = 0; i < allEntries.length; i++) {
+      final entry = allEntries[i];
+
+      if (entry.weight == null || entry.calorie == null) {
+        if (currentStreak.length >= _minRequiredDays) {
+          streaks.add(List.from(currentStreak));
+        }
+        currentStreak = [];
+        continue;
+      }
+
+      if (currentStreak.isEmpty) {
+        currentStreak.add(entry);
       } else {
-        break;
+        final lastDate = currentStreak.last.date;
+        final currentDate = entry.date;
+        final difference = currentDate.difference(lastDate).inDays;
+
+        if (difference == 1) {
+          currentStreak.add(entry);
+        } else {
+          if (currentStreak.length >= _minRequiredDays) {
+            streaks.add(List.from(currentStreak));
+          }
+          currentStreak = [entry];
+        }
       }
     }
 
-    return result.reversed.toList();
+    if (currentStreak.length >= _minRequiredDays) {
+      streaks.add(List.from(currentStreak));
+    }
+
+    if (streaks.isEmpty) return [];
+
+    streaks.sort((a, b) => b.last.date.compareTo(a.last.date));
+    return streaks.first;
   }
 
   double _calculateTDEEFromEntries(List<BodyEntry> entries) {
@@ -136,7 +168,6 @@ class WeightChangeGoalTDEENotifier
     developer.log(
       'TDEE: ($totalCalories + $caloriesFromWeightChange) / $days = $tdee',
     );
-
     return tdee;
   }
 }
