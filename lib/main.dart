@@ -44,6 +44,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         ref.watch(weightProgressProvider);
       }
     });
+    ref.watch(weightProgressProvider);
 
     return MaterialApp(
       title: 'Weight Tracker',

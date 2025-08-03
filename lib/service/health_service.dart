@@ -108,8 +108,10 @@ class HealthService {
           // Write body fat percentage data if available
           bool fatSuccess = true;
           if (entry.fatPercentage != null) {
+            // Multiply by 10 to convert from decimal to percentage
+            final healthFatPercentage = entry.fatPercentage! * 10;
             fatSuccess = await _health.writeHealthData(
-              value: entry.fatPercentage!, // Fat percentage
+              value: healthFatPercentage, // Fat percentage multiplied by 10
               type: HealthDataType.BODY_FAT_PERCENTAGE,
               startTime: entry.date, // Required startTime parameter
               endTime: entry.date, // Required endTime parameter
@@ -231,6 +233,8 @@ class HealthService {
         double? fatPercentage;
         if (data.value is num) {
           fatPercentage = (data.value as num).toDouble();
+          // Divide by 10 to convert from percentage to decimal
+          fatPercentage = fatPercentage / 10;
         } else if (data.value.toString().contains('numericValue:')) {
           // Extract the numeric value from the string representation
           final valueStr = data.value.toString();
@@ -238,6 +242,10 @@ class HealthService {
           final match = regex.firstMatch(valueStr);
           if (match != null && match.groupCount >= 1) {
             fatPercentage = double.tryParse(match.group(1)!);
+            // Divide by 10 to convert from percentage to decimal
+            if (fatPercentage != null) {
+              fatPercentage = fatPercentage / 10;
+            }
           }
         }
 
@@ -355,17 +363,41 @@ class HealthService {
           syncSuccess = syncSuccess && success > 0;
         } else {
           //print('Entry exists with ID: $existingEntryId, updating');
-          // This entry already exists, update it
-          final entryMap = healthEntry.toMap();
-          //print('Entry map for update: $entryMap');
-          final success = await db.update(
-            'body_entries',
-            entryMap,
-            where: 'id = ?',
-            whereArgs: [existingEntryId],
-          );
-          //print('Update result: $success');
-          syncSuccess = syncSuccess && success > 0;
+          // This entry already exists, update it BUT PRESERVE OTHER FIELDS
+          
+          // First, get the existing entry
+          final existingEntry = await DatabaseHelper().findEntryByDate(healthEntry.date);
+          
+          if (existingEntry != null) {
+            // Create a merged entry that preserves existing data
+            final mergedEntry = existingEntry.copyWith(
+              weight: healthEntry.weight,
+              fatPercentage: healthEntry.fatPercentage,
+              bmi: healthEntry.bmi
+            );
+            
+            // Update with the merged data
+            final entryMap = mergedEntry.toMap();
+            //print('Entry map for update: $entryMap');
+            final success = await db.update(
+              'body_entries',
+              entryMap,
+              where: 'id = ?',
+              whereArgs: [existingEntryId],
+            );
+            //print('Update result: $success');
+            syncSuccess = syncSuccess && success > 0;
+          } else {
+            // This shouldn't happen, but just in case
+            final entryMap = healthEntry.toMap();
+            final success = await db.update(
+              'body_entries',
+              entryMap,
+              where: 'id = ?',
+              whereArgs: [existingEntryId],
+            );
+            syncSuccess = syncSuccess && success > 0;
+          }
         }
       }
 
