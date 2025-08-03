@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/ViewModel/health_provider.dart';
+import 'package:weigthtracker/ViewModel/weight_progress_view_model.dart';
 import 'package:weigthtracker/theme.dart';
 import 'model/database_helper.dart';
 import 'package:path_provider/path_provider.dart';
@@ -40,6 +41,7 @@ class _MyAppState extends ConsumerState<MyApp> {
               !previous.isAvailable ||
               !previous.isAuthorized)) {
         ref.read(healthStateProvider.notifier).performTwoWaySync();
+        ref.watch(weightProgressProvider);
       }
     });
 
