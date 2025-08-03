@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
+import 'package:weigthtracker/Widget/more/health_settings_widget.dart';
 import 'package:weigthtracker/Widget/more/profile/profile_settings_widget.dart';
 import 'package:weigthtracker/Widget/more/tag_settings_widget.dart';
 import 'package:weigthtracker/Widget/more/tdee_settings_widget.dart';
@@ -34,6 +35,8 @@ class MorePage extends StatelessWidget {
               UnitConversionSettingsWidget(),
               const SizedBox(height: 16),
               const TDEESettingsWidget(),
+              const SizedBox(height: 16),
+              const HealthSettingsWidget(),
 
               // ElevatedButton(
               //   onPressed: () {
