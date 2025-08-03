@@ -49,14 +49,14 @@ class _WeightChangeGoalTDEEWidgetState
   void _updateGoalWithCurrentInput(bool isGainingWeight) {
     final notifier = ref.read(weightChangeGoalTDEEProvider.notifier);
     final unitPrefs = ref.read(unitConversionProvider);
-    
+
     final parsed = double.tryParse(_weightChangeController.text);
     if (parsed != null && parsed >= 0) {
       // Convert to kg if using imperial units
-      final standardWeight = unitPrefs.useMetricWeight 
-          ? parsed 
+      final standardWeight = unitPrefs.useMetricWeight
+          ? parsed
           : parsed * 0.45359237;
-      
+
       notifier.updateGoalSettings(
         isGainingWeight: isGainingWeight,
         weightChangePerWeek: standardWeight,
@@ -68,7 +68,7 @@ class _WeightChangeGoalTDEEWidgetState
   Widget build(BuildContext context) {
     final notifier = ref.read(weightChangeGoalTDEEProvider.notifier);
     final goalState = ref.watch(weightChangeGoalTDEEProvider);
-    
+
     // Watch the unit conversion provider to get the current weight unit
     final unitPrefs = ref.watch(unitConversionProvider);
     final weightUnit = unitPrefs.useMetricWeight ? 'kg' : 'lb';
@@ -90,10 +90,10 @@ class _WeightChangeGoalTDEEWidgetState
     // Sync controller with state only if not currently editing
     if (!_isEditing) {
       // Convert the weight value based on the current unit
-      final double displayWeightChange = unitPrefs.useMetricWeight 
-          ? weightChangePerWeek 
+      final double displayWeightChange = unitPrefs.useMetricWeight
+          ? weightChangePerWeek
           : weightChangePerWeek / 0.45359237;
-      
+
       // Format to 2 decimal places
       final newText = displayWeightChange.toStringAsFixed(2);
       if (_weightChangeController.text != newText) {
@@ -124,10 +124,13 @@ class _WeightChangeGoalTDEEWidgetState
                 children: [
                   const Icon(Icons.local_fire_department, color: Colors.orange),
                   const SizedBox(width: 12),
-                  Text(
-                    'Weight Change Goal TDEE',
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
+                  Flexible(
+                    child: Text(
+                      'Weight Change Goal TDEE',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w400,
+                      ),
+                      overflow: TextOverflow.clip,
                     ),
                   ),
                 ],
@@ -181,7 +184,8 @@ class _WeightChangeGoalTDEEWidgetState
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  hintText: 'e.g. ${unitPrefs.useMetricWeight ? "0.50" : "1.10"}',
+                  hintText:
+                      'e.g. ${unitPrefs.useMetricWeight ? "0.50" : "1.10"}',
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 14,
                     vertical: 14,
@@ -192,14 +196,14 @@ class _WeightChangeGoalTDEEWidgetState
                   setState(() {
                     _isEditing = true;
                   });
-                  
+
                   final parsed = double.tryParse(value);
                   if (parsed != null && parsed >= 0) {
                     // Convert to kg if using imperial units
-                    final standardWeight = unitPrefs.useMetricWeight 
-                        ? parsed 
+                    final standardWeight = unitPrefs.useMetricWeight
+                        ? parsed
                         : parsed * 0.45359237;
-                    
+
                     notifier.updateGoalSettings(
                       isGainingWeight: isGainingWeight,
                       weightChangePerWeek: standardWeight,
@@ -210,25 +214,26 @@ class _WeightChangeGoalTDEEWidgetState
                   setState(() {
                     _isEditing = false;
                   });
-                  
+
                   final parsed = double.tryParse(value);
                   if (parsed != null && parsed >= 0) {
                     // Convert to kg if using imperial units
-                    final standardWeight = unitPrefs.useMetricWeight 
-                        ? parsed 
+                    final standardWeight = unitPrefs.useMetricWeight
+                        ? parsed
                         : parsed * 0.45359237;
-                    
+
                     notifier.updateGoalSettings(
                       isGainingWeight: isGainingWeight,
                       weightChangePerWeek: standardWeight,
                     );
                   } else {
                     // Convert the weight value based on the current unit
-                    final double displayWeightChange = unitPrefs.useMetricWeight 
-                        ? weightChangePerWeek 
+                    final double displayWeightChange = unitPrefs.useMetricWeight
+                        ? weightChangePerWeek
                         : weightChangePerWeek / 0.45359237;
-                    
-                    _weightChangeController.text = displayWeightChange.toStringAsFixed(2);
+
+                    _weightChangeController.text = displayWeightChange
+                        .toStringAsFixed(2);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Please enter a valid positive number'),

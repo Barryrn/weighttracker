@@ -40,11 +40,12 @@ class GoalsPage extends ConsumerWidget {
             children: [
               WeightGoalWidget(),
               const SizedBox(height: 20),
-              WeightChangeTDEEWidget(),
-              const SizedBox(height: 20),
-              // WeightLossGoalWidget(),
-              const SizedBox(height: 20),
               WeightChangeGoalTDEEWidget(),
+
+              // WeightChangeTDEEWidget(),
+              // const SizedBox(height: 20),
+              // WeightLossGoalWidget(),
+              // const SizedBox(height: 20),
               // TestWidget(),
               // Additional goal widgets can be added here in the future
             ],

@@ -117,6 +117,14 @@ class DatabaseHelper {
         // Update existing records with calculated BMI
         await _updateExistingRecordsWithBMI(db);
       }
+      
+      if (oldVersion < 4) {
+        // Add calorie column to existing table
+        await db.execute('''
+          ALTER TABLE $tableBodyEntries ADD COLUMN $columnCalorie REAL;
+        ''');
+        print('Added calorie column to database');
+      }
     } catch (e) {
       print('Error upgrading database: $e');
       throw e; // Re-throw to allow handling by caller

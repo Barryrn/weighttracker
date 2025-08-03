@@ -31,9 +31,9 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 24),
               ImageComparisonViews(),
               const SizedBox(height: 24),
-              WeightChangeTDEEWidget(),
+              // WeightChangeTDEEWidget(),
               const SizedBox(height: 24),
-              WeightChangeGoalTDEEWidget(),
+              // WeightChangeGoalTDEEWidget(),
               const SizedBox(height: 24),
 
               // const SizedBox(height: 24),

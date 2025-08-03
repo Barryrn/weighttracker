@@ -163,7 +163,7 @@ class WeightProgressWidget extends ConsumerWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${tdee?.toStringAsFixed(0)}',
+                        tdee?.toStringAsFixed(0) ?? 'N/A',
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -209,7 +209,7 @@ class WeightProgressWidget extends ConsumerWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${goalTDEE?.toStringAsFixed(0) ?? 'N/A'}',
+                        goalTDEE?.toStringAsFixed(0) ?? 'N/A',
 
                         style: TextStyle(
                           fontSize: 18,

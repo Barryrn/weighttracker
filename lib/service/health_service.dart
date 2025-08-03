@@ -115,7 +115,7 @@ class HealthService {
               endTime: entry.date, // Required endTime parameter
             );
           }
-          
+
           // Write BMI data if available
           bool bmiSuccess = true;
           if (entry.bmi != null) {
@@ -147,45 +147,45 @@ class HealthService {
     DateTime endDate,
   ) async {
     try {
-      print('Fetching health data from $startDate to $endDate');
+      //print('Fetching health data from $startDate to $endDate');
       final authorized = await requestAuthorization();
       if (!authorized) {
-        print('Health data authorization failed');
+        //print('Health data authorization failed');
         return [];
       }
-      print('Health data authorization successful');
+      //print('Health data authorization successful');
 
       // Fetch weight data
-      print('Fetching weight data...');
+      //print('Fetching weight data...');
       final weightData = await _health.getHealthDataFromTypes(
         types: [HealthDataType.WEIGHT],
         startTime: startDate,
         endTime: endDate,
       );
-      print('Weight data fetched: ${weightData.length} entries');
-      
+      //print('Weight data fetched: ${weightData.length} entries');
+
       // Debug weight data
       for (final data in weightData) {
-        print('Weight data: date=${data.dateFrom}, value=${data.value}, unit=${data.unit}, sourceId=${data.sourceId}');
+        //print('Weight data: date=${data.dateFrom}, value=${data.value}, unit=${data.unit}, sourceId=${data.sourceId}');
       }
 
       // Fetch body fat percentage data
-      print('Fetching body fat data...');
+      //print('Fetching body fat data...');
       final fatData = await _health.getHealthDataFromTypes(
         types: [HealthDataType.BODY_FAT_PERCENTAGE],
         startTime: startDate,
         endTime: endDate,
       );
-      print('Fat data fetched: ${fatData.length} entries');
-      
+      //print('Fat data fetched: ${fatData.length} entries');
+
       // Fetch BMI data
-      print('Fetching BMI data...');
+      //print('Fetching BMI data...');
       final bmiData = await _health.getHealthDataFromTypes(
         types: [HealthDataType.BODY_MASS_INDEX],
         startTime: startDate,
         endTime: endDate,
       );
-      print('BMI data fetched: ${bmiData.length} entries');
+      //print('BMI data fetched: ${bmiData.length} entries');
 
       // Create a map to organize weight data by date
       final Map<String, BodyEntry> entriesByDate = {};
@@ -193,7 +193,7 @@ class HealthService {
       // Process weight data
       for (final data in weightData) {
         final dateKey = DateFormat('yyyy-MM-dd').format(data.dateFrom);
-        
+
         // Extract the numeric value from the HealthDataPoint
         double? weight;
         if (data.value is num) {
@@ -207,8 +207,8 @@ class HealthService {
             weight = double.tryParse(match.group(1)!);
           }
         }
-        
-        print('Processing weight: dateKey=$dateKey, weight=$weight');
+
+        //print('Processing weight: dateKey=$dateKey, weight=$weight');
 
         if (weight != null) {
           final date = DateTime(
@@ -216,20 +216,17 @@ class HealthService {
             data.dateFrom.month,
             data.dateFrom.day,
           );
-          print('Creating BodyEntry with date=$date, weight=$weight');
-          entriesByDate[dateKey] = BodyEntry(
-            date: date,
-            weight: weight,
-          );
+          //print('Creating BodyEntry with date=$date, weight=$weight');
+          entriesByDate[dateKey] = BodyEntry(date: date, weight: weight);
         } else {
-          print('Failed to parse weight value: ${data.value}');
+          //print('Failed to parse weight value: ${data.value}');
         }
       }
 
       // Process body fat percentage data
       for (final data in fatData) {
         final dateKey = DateFormat('yyyy-MM-dd').format(data.dateFrom);
-        
+
         // Extract the numeric value from the HealthDataPoint
         double? fatPercentage;
         if (data.value is num) {
@@ -243,8 +240,8 @@ class HealthService {
             fatPercentage = double.tryParse(match.group(1)!);
           }
         }
-        
-        print('Processing fat: dateKey=$dateKey, fatPercentage=$fatPercentage');
+
+        //print('Processing fat: dateKey=$dateKey, fatPercentage=$fatPercentage');
 
         if (fatPercentage != null && entriesByDate.containsKey(dateKey)) {
           // Update existing entry with fat percentage
@@ -253,16 +250,16 @@ class HealthService {
             fatPercentage: fatPercentage,
           );
         } else if (fatPercentage != null) {
-          print('No matching weight entry found for fat percentage on $dateKey');
+          //print('No matching weight entry found for fat percentage on $dateKey');
         } else {
-          print('Failed to parse fat percentage value: ${data.value}');
+          //print('Failed to parse fat percentage value: ${data.value}');
         }
       }
-      
+
       // Process BMI data
       for (final data in bmiData) {
         final dateKey = DateFormat('yyyy-MM-dd').format(data.dateFrom);
-        
+
         // Extract the numeric value from the HealthDataPoint
         double? bmi;
         if (data.value is num) {
@@ -276,27 +273,25 @@ class HealthService {
             bmi = double.tryParse(match.group(1)!);
           }
         }
-        
-        print('Processing BMI: dateKey=$dateKey, bmi=$bmi');
+
+        //print('Processing BMI: dateKey=$dateKey, bmi=$bmi');
 
         if (bmi != null && entriesByDate.containsKey(dateKey)) {
           // Update existing entry with BMI
           final existingEntry = entriesByDate[dateKey]!;
-          entriesByDate[dateKey] = existingEntry.copyWith(
-            bmi: bmi,
-          );
+          entriesByDate[dateKey] = existingEntry.copyWith(bmi: bmi);
         } else if (bmi != null) {
-          print('No matching weight entry found for BMI on $dateKey');
+          //print('No matching weight entry found for BMI on $dateKey');
         } else {
-          print('Failed to parse BMI value: ${data.value}');
+          //print('Failed to parse BMI value: ${data.value}');
         }
       }
 
-      print('Final processed entries: ${entriesByDate.length}');
+      //print('Final processed entries: ${entriesByDate.length}');
       return entriesByDate.values.toList();
     } catch (e) {
-      print('Error fetching weight data from health: $e');
-      print('Error stack trace: ${StackTrace.current}');
+      //print('Error fetching weight data from health: $e');
+      //print('Error stack trace: ${StackTrace.current}');
       return [];
     }
   }
@@ -305,80 +300,80 @@ class HealthService {
   /// @return Future<bool> Whether the sync was successful
   Future<bool> performTwoWaySync() async {
     try {
-      print('Starting two-way sync');
+      //print('Starting two-way sync');
       final authorized = await requestAuthorization();
       if (!authorized) {
-        print('Health data authorization failed during sync');
+        //print('Health data authorization failed during sync');
         return false;
       }
-      print('Health data authorization successful for sync');
+      //print('Health data authorization successful for sync');
 
       // Get the date range for syncing
       final earliestDate =
           await _weightRepository.getEarliestEntry() ??
           DateTime.now().subtract(const Duration(days: 365));
       final latestDate = DateTime.now();
-      print('Sync date range: $earliestDate to $latestDate');
+      //print('Sync date range: $earliestDate to $latestDate');
 
       // Step 1: Fetch all entries from our app database
       final appEntries = await _weightRepository.getAllBodyEntries();
-      print('App entries fetched: ${appEntries.length}');
+      //print('App entries fetched: ${appEntries.length}');
 
       // Step 2: Sync app data to health services
-      print('Syncing app data to health services...');
+      //print('Syncing app data to health services...');
       await syncWeightDataToHealth(appEntries);
-      print('App data synced to health services');
+      //print('App data synced to health services');
 
       // Step 3: Fetch data from health services
-      print('Fetching data from health services...');
+      //print('Fetching data from health services...');
       final healthEntries = await fetchWeightDataFromHealth(
         earliestDate,
         latestDate,
       );
-      print('Health entries fetched: ${healthEntries.length}');
+      //print('Health entries fetched: ${healthEntries.length}');
 
       // Step 4: For each health entry, check if we need to add it to our app
-      print('Processing health entries for database update...');
+      //print('Processing health entries for database update...');
       final Database db = await DatabaseHelper().database;
       bool syncSuccess = true;
 
       for (final healthEntry in healthEntries) {
-        print('Processing health entry: date=${healthEntry.date}, weight=${healthEntry.weight}');
+        //print('Processing health entry: date=${healthEntry.date}, weight=${healthEntry.weight}');
         // Check if this entry already exists in our database
         final existingEntryId = await DatabaseHelper().findEntryIdByDate(
           healthEntry.date,
         );
-        print('Existing entry ID for date ${healthEntry.date}: $existingEntryId');
+        //print('Existing entry ID for date ${healthEntry.date}: $existingEntryId');
 
         if (existingEntryId == null) {
-          print('New entry from health services, adding to database');
+          //print('New entry from health services, adding to database');
           // This is a new entry from health services, add it to our database
           final entryMap = healthEntry.toMap();
-          print('Entry map for insertion: $entryMap');
+          //print('Entry map for insertion: $entryMap');
           final success = await db.insert('body_entries', entryMap);
-          print('Insert result: $success');
+          //print('Insert result: $success');
           syncSuccess = syncSuccess && success > 0;
         } else {
-          print('Entry exists with ID: $existingEntryId, updating');
+          //print('Entry exists with ID: $existingEntryId, updating');
           // This entry already exists, update it
           final entryMap = healthEntry.toMap();
-          print('Entry map for update: $entryMap');
+          //print('Entry map for update: $entryMap');
           final success = await db.update(
             'body_entries',
             entryMap,
             where: 'id = ?',
             whereArgs: [existingEntryId],
           );
-          print('Update result: $success');
+          //print('Update result: $success');
           syncSuccess = syncSuccess && success > 0;
         }
       }
 
-      print('Two-way sync completed with success: $syncSuccess');
+      //print('Two-way sync completed with success: $syncSuccess');
       return syncSuccess;
     } catch (e) {
-      print('Error performing two-way sync: $e');
-      print('Error stack trace: ${StackTrace.current}');
+      //print('Error performing two-way sync: $e');
+      //print('Error stack trace: ${StackTrace.current}');
       return false;
     }
   }
