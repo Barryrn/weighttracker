@@ -21,12 +21,14 @@ class HealthService {
   static const List<HealthDataType> _types = [
     HealthDataType.WEIGHT,
     HealthDataType.BODY_FAT_PERCENTAGE,
+    HealthDataType.BODY_MASS_INDEX, // Added BMI data type
   ];
 
   // Define the permissions we need
   static const List<HealthDataAccess> _permissions = [
     HealthDataAccess.READ_WRITE,
     HealthDataAccess.READ_WRITE,
+    HealthDataAccess.READ_WRITE, // Added permission for BMI
   ];
 
   /// Constructor that takes a WeightRepository instance
@@ -113,8 +115,19 @@ class HealthService {
               endTime: entry.date, // Required endTime parameter
             );
           }
+          
+          // Write BMI data if available
+          bool bmiSuccess = true;
+          if (entry.bmi != null) {
+            bmiSuccess = await _health.writeHealthData(
+              value: entry.bmi!, // BMI value
+              type: HealthDataType.BODY_MASS_INDEX,
+              startTime: entry.date, // Required startTime parameter
+              endTime: entry.date, // Required endTime parameter
+            );
+          }
 
-          allSuccess = allSuccess && weightSuccess && fatSuccess;
+          allSuccess = allSuccess && weightSuccess && fatSuccess && bmiSuccess;
         }
       }
 
@@ -164,6 +177,15 @@ class HealthService {
         endTime: endDate,
       );
       print('Fat data fetched: ${fatData.length} entries');
+      
+      // Fetch BMI data
+      print('Fetching BMI data...');
+      final bmiData = await _health.getHealthDataFromTypes(
+        types: [HealthDataType.BODY_MASS_INDEX],
+        startTime: startDate,
+        endTime: endDate,
+      );
+      print('BMI data fetched: ${bmiData.length} entries');
 
       // Create a map to organize weight data by date
       final Map<String, BodyEntry> entriesByDate = {};
@@ -234,6 +256,39 @@ class HealthService {
           print('No matching weight entry found for fat percentage on $dateKey');
         } else {
           print('Failed to parse fat percentage value: ${data.value}');
+        }
+      }
+      
+      // Process BMI data
+      for (final data in bmiData) {
+        final dateKey = DateFormat('yyyy-MM-dd').format(data.dateFrom);
+        
+        // Extract the numeric value from the HealthDataPoint
+        double? bmi;
+        if (data.value is num) {
+          bmi = (data.value as num).toDouble();
+        } else if (data.value.toString().contains('numericValue:')) {
+          // Extract the numeric value from the string representation
+          final valueStr = data.value.toString();
+          final regex = RegExp(r'numericValue: (\d+\.?\d*)');
+          final match = regex.firstMatch(valueStr);
+          if (match != null && match.groupCount >= 1) {
+            bmi = double.tryParse(match.group(1)!);
+          }
+        }
+        
+        print('Processing BMI: dateKey=$dateKey, bmi=$bmi');
+
+        if (bmi != null && entriesByDate.containsKey(dateKey)) {
+          // Update existing entry with BMI
+          final existingEntry = entriesByDate[dateKey]!;
+          entriesByDate[dateKey] = existingEntry.copyWith(
+            bmi: bmi,
+          );
+        } else if (bmi != null) {
+          print('No matching weight entry found for BMI on $dateKey');
+        } else {
+          print('Failed to parse BMI value: ${data.value}');
         }
       }
 
