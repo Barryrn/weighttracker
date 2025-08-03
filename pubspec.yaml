@@ -55,6 +55,7 @@ dependencies:
   intl: ^0.18.0
   heroicons: ^0.11.0
   fl_chart: ^1.0.0
+  health: ^13.1.1
 
 dev_dependencies:
   flutter_test:
