@@ -427,6 +427,7 @@ class DatabaseHelper {
       // Normalize the date to start of day
       final normalizedDate = DateTime(date.year, date.month, date.day);
       final dateMillis = normalizedDate.millisecondsSinceEpoch;
+      print('Finding entry by date: original=$date, normalized=$normalizedDate, millis=$dateMillis');
 
       final List<Map<String, dynamic>> result = await db.query(
         tableBodyEntries,
@@ -438,6 +439,7 @@ class DatabaseHelper {
         ],
       );
 
+      print('Query result for date $normalizedDate: ${result.length} entries found');
       if (result.isEmpty) {
         return null;
       }

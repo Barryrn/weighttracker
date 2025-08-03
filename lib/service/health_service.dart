@@ -164,11 +164,6 @@ class HealthService {
         endTime: endDate,
       );
       print('Fat data fetched: ${fatData.length} entries');
-      
-      // Debug fat data
-      for (final data in fatData) {
-        print('Fat data: date=${data.dateFrom}, value=${data.value}, unit=${data.unit}, sourceId=${data.sourceId}');
-      }
 
       // Create a map to organize weight data by date
       final Map<String, BodyEntry> entriesByDate = {};
@@ -176,16 +171,32 @@ class HealthService {
       // Process weight data
       for (final data in weightData) {
         final dateKey = DateFormat('yyyy-MM-dd').format(data.dateFrom);
-        final weight = double.tryParse(data.value.toString());
+        
+        // Extract the numeric value from the HealthDataPoint
+        double? weight;
+        if (data.value is num) {
+          weight = (data.value as num).toDouble();
+        } else if (data.value.toString().contains('numericValue:')) {
+          // Extract the numeric value from the string representation
+          final valueStr = data.value.toString();
+          final regex = RegExp(r'numericValue: (\d+\.?\d*)');
+          final match = regex.firstMatch(valueStr);
+          if (match != null && match.groupCount >= 1) {
+            weight = double.tryParse(match.group(1)!);
+          }
+        }
+        
         print('Processing weight: dateKey=$dateKey, weight=$weight');
 
         if (weight != null) {
+          final date = DateTime(
+            data.dateFrom.year,
+            data.dateFrom.month,
+            data.dateFrom.day,
+          );
+          print('Creating BodyEntry with date=$date, weight=$weight');
           entriesByDate[dateKey] = BodyEntry(
-            date: DateTime(
-              data.dateFrom.year,
-              data.dateFrom.month,
-              data.dateFrom.day,
-            ),
+            date: date,
             weight: weight,
           );
         } else {
@@ -196,7 +207,21 @@ class HealthService {
       // Process body fat percentage data
       for (final data in fatData) {
         final dateKey = DateFormat('yyyy-MM-dd').format(data.dateFrom);
-        final fatPercentage = double.tryParse(data.value.toString());
+        
+        // Extract the numeric value from the HealthDataPoint
+        double? fatPercentage;
+        if (data.value is num) {
+          fatPercentage = (data.value as num).toDouble();
+        } else if (data.value.toString().contains('numericValue:')) {
+          // Extract the numeric value from the string representation
+          final valueStr = data.value.toString();
+          final regex = RegExp(r'numericValue: (\d+\.?\d*)');
+          final match = regex.firstMatch(valueStr);
+          if (match != null && match.groupCount >= 1) {
+            fatPercentage = double.tryParse(match.group(1)!);
+          }
+        }
+        
         print('Processing fat: dateKey=$dateKey, fatPercentage=$fatPercentage');
 
         if (fatPercentage != null && entriesByDate.containsKey(dateKey)) {
@@ -268,19 +293,24 @@ class HealthService {
         final existingEntryId = await DatabaseHelper().findEntryIdByDate(
           healthEntry.date,
         );
+        print('Existing entry ID for date ${healthEntry.date}: $existingEntryId');
 
         if (existingEntryId == null) {
           print('New entry from health services, adding to database');
           // This is a new entry from health services, add it to our database
-          final success = await db.insert('body_entry', healthEntry.toMap());
+          final entryMap = healthEntry.toMap();
+          print('Entry map for insertion: $entryMap');
+          final success = await db.insert('body_entries', entryMap);
           print('Insert result: $success');
           syncSuccess = syncSuccess && success > 0;
         } else {
           print('Entry exists with ID: $existingEntryId, updating');
           // This entry already exists, update it
+          final entryMap = healthEntry.toMap();
+          print('Entry map for update: $entryMap');
           final success = await db.update(
-            'body_entry',
-            healthEntry.toMap(),
+            'body_entries',
+            entryMap,
             where: 'id = ?',
             whereArgs: [existingEntryId],
           );

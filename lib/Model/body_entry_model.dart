@@ -91,16 +91,16 @@ class BodyEntry {
     return {
       'date': date.millisecondsSinceEpoch,
       'weight': weight,
-      'fatPercentage': fatPercentage,
-      'neckCircumference': neckCircumference,
-      'waistCircumference': waistCircumference,
-      'hipCircumference': hipCircumference,
+      'fat_percentage': fatPercentage,
+      'neck_circumference': neckCircumference,
+      'waist_circumference': waistCircumference,
+      'hip_circumference': hipCircumference,
       'tags': tags != null ? tags!.join(',') : null,
       'notes': notes,
-      'frontImagePath': frontImagePath,
-      'sideImagePath': sideImagePath,
-      'backImagePath': backImagePath,
-      'bmi': bmi, // Added BMI field
+      'front_image_path': frontImagePath,  // Changed to snake_case
+      'side_front_image_path': sideImagePath,  // Changed to snake_case
+      'back_front_image_path': backImagePath,  // Changed to snake_case
+      'bmi': bmi,
       'calorie': calorie,
     };
   }
@@ -112,16 +112,16 @@ class BodyEntry {
     return BodyEntry(
       date: DateTime.fromMillisecondsSinceEpoch(map['date']),
       weight: map['weight'],
-      fatPercentage: map['fatPercentage'],
-      neckCircumference: map['neckCircumference'],
-      waistCircumference: map['waistCircumference'],
-      hipCircumference: map['hipCircumference'],
+      fatPercentage: map['fat_percentage'],
+      neckCircumference: map['neck_circumference'],
+      waistCircumference: map['waist_circumference'],
+      hipCircumference: map['hip_circumference'],
       tags: map['tags'] != null ? map['tags'].split(',') : null,
       notes: map['notes'],
-      frontImagePath: map['frontImagePath'],
-      sideImagePath: map['sideImagePath'],
-      backImagePath: map['backImagePath'],
-      bmi: map['bmi'], // Added BMI field
+      frontImagePath: map['front_image_path'],  // Changed to snake_case
+      sideImagePath: map['side_front_image_path'],  // Changed to snake_case
+      backImagePath: map['back_front_image_path'],  // Changed to snake_case
+      bmi: map['bmi'],
       calorie: map['calorie'],
     );
   }
