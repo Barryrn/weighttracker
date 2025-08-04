@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weigthtracker/Model/body_entry_model.dart';
-import 'package:weigthtracker/Model/database_helper.dart';
+import 'package:weigthtracker/model/body_entry_model.dart';
+import 'package:weigthtracker/model/database_helper.dart';
 import 'package:weigthtracker/provider/database_change_provider.dart';
 import '../model/weight_change_goal_tdee_state.dart';
 import 'dart:developer' as developer;
