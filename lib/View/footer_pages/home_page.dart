@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
             children: [
               WeightProgressWidget(),
               const SizedBox(height: 24),
-              ImageComparisonViews(),
+              ImageComparisonView(),
               // WeightChangeTDEEWidget(),
               // WeightChangeGoalTDEEWidget(),
 

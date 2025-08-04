@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:weigthtracker/View/image_timeline_view.dart';
 import '../model/body_entry_model.dart';
 import '../viewmodel/image_comparison_provider.dart';
 import '../theme.dart';
@@ -24,111 +25,193 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
   @override
   Widget build(BuildContext context) {
     final comparisonState = ref.watch(imageComparisonProvider);
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(0.0),
+        child: Column(
+          children: [
+            comparisonState.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, stackTrace) =>
+                  Center(child: Text('Error loading images')),
+              data: (entries) {
+                final latestEntry = ref
+                    .read(imageComparisonProvider.notifier)
+                    .latestEntry;
+                final comparisonEntry = ref
+                    .read(imageComparisonProvider.notifier)
+                    .comparisonEntry;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Progress Comparison'),
-        backgroundColor: AppColors.primaryVeryLight,
-        foregroundColor: AppColors.textPrimary,
-      ),
-      body: comparisonState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) =>
-            Center(child: Text('Error loading images: $error')),
-        data: (_) {
-          final latestEntry = ref
-              .read(imageComparisonProvider.notifier)
-              .latestEntry;
-          final comparisonEntry = ref
-              .read(imageComparisonProvider.notifier)
-              .comparisonEntry;
+                // Check if there are any images available on the device
+                final hasAnyImages = entries.any(
+                  (entry) =>
+                      entry.frontImagePath != null ||
+                      entry.sideImagePath != null ||
+                      entry.backImagePath != null,
+                );
 
-          if (latestEntry == null) {
-            return const Center(
-              child: Text('No images available for comparison'),
-            );
-          }
-
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Comparison header
-                const Text(
-                  'Compare your progress',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16),
-
-                // Image comparison section
-                Row(
-                  children: [
-                    // Latest image (left side)
-                    Expanded(
-                      child: _buildImageCard(
-                        context: context,
-                        entry: latestEntry,
-                        title: 'Pic 1',
-                        subtitle: _formatDate(latestEntry.date),
-                        weight: latestEntry.weight,
-                        imageType: _leftImageType,
-                        onImageTypeChanged: (type) {
-                          setState(() {
-                            _leftImageType = type;
-                          });
-                        },
+                if (!hasAnyImages) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.photo_library_outlined,
+                            size: 64,
+                            color: AppColors.primary,
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'No images available',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Please upload images to track your progress',
+                            style: TextStyle(fontSize: 14),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ImageGalleryView(),
+                                ),
+                              ).then((_) {
+                                // Refresh the view when returning from gallery
+                                setState(() {});
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 12,
+                                horizontal: 24,
+                              ),
+                            ),
+                            child: const Text('Upload Images'),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    // Comparison image (right side)
-                    Expanded(
-                      child: comparisonEntry != null
-                          ? _buildImageCard(
+                  );
+                }
+
+                if (latestEntry == null) {
+                  return const Center(
+                    child: Text('No images available for comparison'),
+                  );
+                }
+
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Comparison header
+                      const Text(
+                        'Compare your progress',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Image comparison section
+                      Row(
+                        children: [
+                          // Latest image (left side)
+                          Expanded(
+                            child: _buildImageCard(
                               context: context,
-                              entry: comparisonEntry,
-                              title: 'Pic 2',
-                              subtitle: _formatDate(comparisonEntry.date),
-                              weight: comparisonEntry.weight,
-                              imageType: _rightImageType,
+                              entry: latestEntry,
+                              title: 'Pic 1',
+                              subtitle: _formatDate(latestEntry.date),
+                              weight: latestEntry.weight,
+                              imageType: _leftImageType,
                               onImageTypeChanged: (type) {
                                 setState(() {
-                                  _rightImageType = type;
+                                  _leftImageType = type;
                                 });
                               },
-                            )
-                          : _buildNoComparisonCard(),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 24),
-
-                // View all images button
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ImageGalleryView(),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          // Comparison image (right side)
+                          Expanded(
+                            child: comparisonEntry != null
+                                ? _buildImageCard(
+                                    context: context,
+                                    entry: comparisonEntry,
+                                    title: 'Pic 2',
+                                    subtitle: _formatDate(comparisonEntry.date),
+                                    weight: comparisonEntry.weight,
+                                    imageType: _rightImageType,
+                                    onImageTypeChanged: (type) {
+                                      setState(() {
+                                        _rightImageType = type;
+                                      });
+                                    },
+                                  )
+                                : _buildNoComparisonCard(),
+                          ),
+                        ],
                       ),
-                    ).then((_) {
-                      // Refresh the view when returning from gallery
-                      setState(() {});
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+
+                      const SizedBox(height: 24),
+
+                      // View all images button
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ImageGalleryView(),
+                            ),
+                          ).then((_) {
+                            // Refresh the view when returning from gallery
+                            setState(() {});
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        child: const Text('View All Images'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ImageTimelineView(),
+                            ),
+                          );
+                        },
+                        child: const Text('Image Timeline'),
+                      ),
+                    ],
                   ),
-                  child: const Text('View All Images'),
-                ),
-              ],
+                );
+              },
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
@@ -207,8 +290,10 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                 horizontal: 8.0,
                 vertical: 4.0,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Wrap(
+                spacing: 4, // Horizontal space between buttons
+                runSpacing: 4, // Vertical space between lines
+                alignment: WrapAlignment.spaceEvenly,
                 children: [
                   _buildImageTypeButton(
                     'Front',
@@ -258,9 +343,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                 ),
               )
             else
-              const AspectRatio(
+              AspectRatio(
                 aspectRatio: 3 / 4,
-                child: Center(child: Icon(Icons.no_photography, size: 64)),
+                child: Container(child: Icon(Icons.no_photography, size: 64)),
               ),
             // Weight info
             Container(
@@ -302,7 +387,10 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
           backgroundColor: currentType == type
               ? AppColors.primary.withOpacity(0.2)
               : Colors.transparent,
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 6,
+            vertical: 4,
+          ), // Reduced from 8 to 6
           minimumSize: Size.zero,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
@@ -392,12 +480,12 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
       _preloadImages();
     });
   }
-  
+
   /// Preload images to ensure they're available when needed
   Future<void> _preloadImages() async {
     final comparisonNotifier = ref.read(imageComparisonProvider.notifier);
     await comparisonNotifier.loadEntries();
-    
+
     // Access the entries
     final state = ref.read(imageComparisonProvider);
     state.whenData((entries) {

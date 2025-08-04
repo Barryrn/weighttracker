@@ -59,6 +59,16 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
 
   /// Filter entries based on current filter settings
   List<BodyEntry> _filterEntries(List<BodyEntry> entries) {
+    // If filters aren't active, return all entries with images
+    if (!_filtersActive) {
+      return entries.where((entry) {
+        return entry.frontImagePath != null ||
+            entry.sideImagePath != null ||
+            entry.backImagePath != null;
+      }).toList();
+    }
+
+    // Otherwise apply all filters
     return entries.where((entry) {
       // Weight filter
       if (_weightRange != null && entry.weight != null) {
@@ -130,6 +140,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return images;
   }
 
+  // Add this flag to track if filters should be applied
+  bool _filtersActive = false;
+
   @override
   Widget build(BuildContext context) {
     final entriesState = ref.watch(imageComparisonProvider);
@@ -148,6 +161,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             onPressed: () {
               setState(() {
                 _showFilters = !_showFilters;
+                // Don't apply filters when just toggling the filter UI visibility
+                if (!_showFilters) {
+                  // Reset filters when hiding the filter UI
+                  _filtersActive = false;
+                  _clearFilters();
+                }
               });
             },
           ),
@@ -239,21 +258,28 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             children: [
               // Clear filters button
               TextButton(
-                onPressed: _clearFilters,
+                onPressed: () {
+                  setState(() {
+                    _filtersActive = false;
+                    _clearFilters();
+                  });
+                },
                 child: const Text('Clear Filters'),
               ),
               const SizedBox(width: 8),
               // Apply filters button
-              // ElevatedButton(
-              //   onPressed: () {
-              //     setState(() {}); // Trigger rebuild to apply filters
-              //   },
-              //   style: ElevatedButton.styleFrom(
-              //     backgroundColor: AppColors.primary,
-              //     foregroundColor: Colors.white,
-              //   ),
-              //   child: const Text('Apply Filters'),
-              // ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _filtersActive = true; // Activate filters
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Apply Filters'),
+              ),
             ],
           ),
         ],
