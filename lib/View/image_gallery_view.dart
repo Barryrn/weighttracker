@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../model/body_entry_model.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:weigthtracker/model/body_entry_model.dart'; // Changed from Model to model
 import '../viewmodel/image_comparison_provider.dart';
 import '../theme.dart';
 
@@ -560,152 +562,246 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     String imagePath,
     String viewType,
   ) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    // Create a ProgressImageEntry from the parameters
+    final progressEntry = ProgressImageEntry(
+      date: entry.date,
+      weight: entry.weight,
+      imagePath: imagePath,
+      viewType: viewType.toLowerCase(),
+      tags: entry.tags,
+    );
+
+    final displayViewType = viewType.substring(0, 1).toUpperCase() +
+        viewType.substring(1);
+
+    return GestureDetector(
+      onTap: () {
+        _showImageOptions(context, progressEntry, entry);
+      },
+      child: Stack(
         children: [
           // Image
-          Expanded(
-            child: FutureBuilder<bool>(
-              future: File(imagePath).exists(),
-              builder: (context, snapshot) {
-                final exists = snapshot.data ?? false;
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (exists) {
-                  return ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                    child: Image.file(File(imagePath), fit: BoxFit.cover),
-                  );
-                } else {
-                  return const Center(
-                    child: Icon(Icons.broken_image, size: 48),
-                  );
-                }
-              },
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(12),
+              topRight: Radius.circular(12),
+            ),
+            child: Image.file(
+              File(imagePath),
+              fit: BoxFit.cover,
+              height: 200,
+              width: double.infinity,
             ),
           ),
-          // Metadata
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12),
+          // Info card
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
               ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Date and view type
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      DateFormat('MMM d, yyyy').format(entry.date),
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                    Text(viewType, style: const TextStyle(fontSize: 12)),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                // Weight
-                Text(
-                  entry.weight != null
-                      ? '${entry.weight!.toStringAsFixed(1)} kg'
-                      : 'No weight data',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                // Tags
-                if (entry.tags != null && entry.tags!.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Wrap(
-                      spacing: 4,
-                      runSpacing: 4,
-                      children: entry.tags!.map((tag) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            tag,
-                            style: const TextStyle(fontSize: 10),
-                          ),
-                        );
-                      }).toList(),
-                    ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Date and view type
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        DateFormat('MMM d, yyyy').format(entry.date),
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                      Text(displayViewType, style: const TextStyle(fontSize: 12)),
+                    ],
                   ),
-                // Selection buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        // Set as latest entry
-                        ref
-                            .read(imageComparisonProvider.notifier)
-                            .setLatestEntry(entry);
-                        Navigator.pop(context);
-                      },
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: const Text(
-                        'Pic 1',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        // Set as comparison entry
-                        ref
-                            .read(imageComparisonProvider.notifier)
-                            .setComparisonEntry(entry);
-                        Navigator.pop(context);
-                      },
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: const Text(
-                        'Pic 2',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  const SizedBox(height: 4),
+                  // Weight
+                  Text(
+                    entry.weight != null
+                        ? '${entry.weight!.toStringAsFixed(1)} kg'
+                        : 'No weight data',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  // Tags
+                  if (entry.tags != null && entry.tags!.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Wrap(
+                        spacing: 4,
+                        runSpacing: 4,
+                        children: entry.tags!.map((tag) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              tag,
+                              style: const TextStyle(fontSize: 10),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
-                  ],
-                ),
-              ],
+                  // Selection buttons
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          // Set as latest entry
+                          ref
+                              .read(imageComparisonProvider.notifier)
+                              .setLatestEntry(entry);
+                          Navigator.pop(context);
+                        },
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: const Text(
+                          'Pic 1',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          // Set as comparison entry
+                          ref
+                              .read(imageComparisonProvider.notifier)
+                              .setComparisonEntry(entry);
+                          Navigator.pop(context);
+                        },
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: const Text(
+                          'Pic 2',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  /// Shows options for the image when tapped
+  void _showImageOptions(BuildContext context, ProgressImageEntry progressEntry, BodyEntry originalEntry) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Export to Gallery'),
+                onTap: () async {
+                  Navigator.pop(context);
+                  await _saveImageToGallery(context, progressEntry.imagePath);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_size_select_actual),
+                title: const Text('Set as Pic 1'),
+                onTap: () {
+                  // Set as latest entry - use originalEntry instead of progressEntry
+                  ref
+                      .read(imageComparisonProvider.notifier)
+                      .setLatestEntry(originalEntry);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_size_select_actual_outlined),
+                title: const Text('Set as Pic 2'),
+                onTap: () {
+                  // Set as comparison entry - use originalEntry instead of progressEntry
+                  ref
+                      .read(imageComparisonProvider.notifier)
+                      .setComparisonEntry(originalEntry);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.cancel),
+                title: const Text('Cancel'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  /// Saves the image to the gallery
+  Future<void> _saveImageToGallery(BuildContext context, String imagePath) async {
+    try {
+      // Check if we have permission
+      final status = await Permission.photos.request();
+      if (status.isGranted) {
+        // Read the file
+        final file = File(imagePath);
+        final bytes = await file.readAsBytes();
+        
+        // Save to gallery
+        final result = await ImageGallerySaver.saveImage(bytes);
+        
+        // Show success message
+        if (result['isSuccess']) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Image saved to gallery')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to save image')),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Permission denied to save images')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving image: $e')),
+      );
+    }
   }
 }

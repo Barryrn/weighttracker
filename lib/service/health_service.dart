@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:health/health.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:weigthtracker/Model/database_helper.dart';
+import 'package:weigthtracker/model/database_helper.dart';
 import '../model/body_entry_model.dart';
 import '../model/weight_entry_model.dart';
 import '../repository/weight_repository.dart';
@@ -364,18 +364,20 @@ class HealthService {
         } else {
           //print('Entry exists with ID: $existingEntryId, updating');
           // This entry already exists, update it BUT PRESERVE OTHER FIELDS
-          
+
           // First, get the existing entry
-          final existingEntry = await DatabaseHelper().findEntryByDate(healthEntry.date);
-          
+          final existingEntry = await DatabaseHelper().findEntryByDate(
+            healthEntry.date,
+          );
+
           if (existingEntry != null) {
             // Create a merged entry that preserves existing data
             final mergedEntry = existingEntry.copyWith(
               weight: healthEntry.weight,
               fatPercentage: healthEntry.fatPercentage,
-              bmi: healthEntry.bmi
+              bmi: healthEntry.bmi,
             );
-            
+
             // Update with the merged data
             final entryMap = mergedEntry.toMap();
             //print('Entry map for update: $entryMap');

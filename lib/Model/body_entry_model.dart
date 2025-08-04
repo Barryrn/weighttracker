@@ -131,3 +131,48 @@ class BodyEntry {
     return 'BodyEntry(date: ${date.toIso8601String()}, weight: $weight, fatPercentage: $fatPercentage, calorie: $calorie)';
   }
 }
+
+
+/// Represents a single progress image with its metadata
+class ProgressImageEntry {
+  final DateTime date;
+  final double? weight;
+  final String imagePath;
+  final String viewType; // 'front', 'side', or 'back'
+  final List<String>? tags;
+
+  ProgressImageEntry({
+    required this.date,
+    required this.imagePath,
+    required this.viewType,
+    this.weight,
+    this.tags,
+  });
+
+  /// Creates a ProgressImageEntry from a BodyEntry and image type
+  static ProgressImageEntry? fromBodyEntry(BodyEntry entry, String viewType) {
+    String? imagePath;
+    
+    switch (viewType.toLowerCase()) {
+      case 'front':
+        imagePath = entry.frontImagePath;
+        break;
+      case 'side':
+        imagePath = entry.sideImagePath;
+        break;
+      case 'back':
+        imagePath = entry.backImagePath;
+        break;
+    }
+
+    if (imagePath == null) return null;
+
+    return ProgressImageEntry(
+      date: entry.date,
+      weight: entry.weight,
+      imagePath: imagePath,
+      viewType: viewType.toLowerCase(),
+      tags: entry.tags,
+    );
+  }
+}

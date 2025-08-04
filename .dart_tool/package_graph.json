@@ -19,6 +19,7 @@
         "health",
         "heroicons",
         "image_cropper",
+        "image_gallery_saver",
         "image_picker",
         "intl",
         "native_qr",
@@ -70,6 +71,13 @@
         "test_api",
         "vector_math",
         "vm_service"
+      ]
+    },
+    {
+      "name": "image_gallery_saver",
+      "version": "2.0.3",
+      "dependencies": [
+        "flutter"
       ]
     },
     {
