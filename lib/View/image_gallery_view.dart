@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:weigthtracker/model/body_entry_model.dart'; // Changed from Model to model
 import '../viewmodel/image_comparison_provider.dart';
 import '../theme.dart';
+import '../ViewModel/image_export_view_model.dart';
 
 /// A view that displays all images in a grid with filtering options
 class ImageGalleryView extends ConsumerStatefulWidget {
@@ -571,8 +572,8 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       tags: entry.tags,
     );
 
-    final displayViewType = viewType.substring(0, 1).toUpperCase() +
-        viewType.substring(1);
+    final displayViewType =
+        viewType.substring(0, 1).toUpperCase() + viewType.substring(1);
 
     return GestureDetector(
       onTap: () {
@@ -618,7 +619,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                         DateFormat('MMM d, yyyy').format(entry.date),
                         style: const TextStyle(fontSize: 12),
                       ),
-                      Text(displayViewType, style: const TextStyle(fontSize: 12)),
+                      Text(
+                        displayViewType,
+                        style: const TextStyle(fontSize: 12),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -718,7 +722,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
   }
 
   /// Shows options for the image when tapped
-  void _showImageOptions(BuildContext context, ProgressImageEntry progressEntry, BodyEntry originalEntry) {
+  void _showImageOptions(
+    BuildContext context,
+    ProgressImageEntry progressEntry,
+    BodyEntry originalEntry,
+  ) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -731,31 +739,24 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                 title: const Text('Export to Gallery'),
                 onTap: () async {
                   Navigator.pop(context);
-                  await _saveImageToGallery(context, progressEntry.imagePath);
+                  await ref
+                      .read(imageExportProvider.notifier)
+                      .exportImageToGallery(progressEntry.imagePath);
+                  if (context.mounted) {
+                    final state = ref.read(imageExportProvider);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          state.isSuccess
+                              ? 'Image saved to gallery'
+                              : state.errorMessage ?? 'Failed to save image',
+                        ),
+                      ),
+                    );
+                  }
                 },
               ),
-              ListTile(
-                leading: const Icon(Icons.photo_size_select_actual),
-                title: const Text('Set as Pic 1'),
-                onTap: () {
-                  // Set as latest entry - use originalEntry instead of progressEntry
-                  ref
-                      .read(imageComparisonProvider.notifier)
-                      .setLatestEntry(originalEntry);
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_size_select_actual_outlined),
-                title: const Text('Set as Pic 2'),
-                onTap: () {
-                  // Set as comparison entry - use originalEntry instead of progressEntry
-                  ref
-                      .read(imageComparisonProvider.notifier)
-                      .setComparisonEntry(originalEntry);
-                  Navigator.pop(context);
-                },
-              ),
+
               ListTile(
                 leading: const Icon(Icons.cancel),
                 title: const Text('Cancel'),
@@ -771,7 +772,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
   }
 
   /// Saves the image to the gallery
-  Future<void> _saveImageToGallery(BuildContext context, String imagePath) async {
+  Future<void> _saveImageToGallery(
+    BuildContext context,
+    String imagePath,
+  ) async {
     try {
       // Check if we have permission
       final status = await Permission.photos.request();
@@ -779,19 +783,19 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
         // Read the file
         final file = File(imagePath);
         final bytes = await file.readAsBytes();
-        
+
         // Save to gallery
         final result = await ImageGallerySaver.saveImage(bytes);
-        
+
         // Show success message
         if (result['isSuccess']) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Image saved to gallery')),
           );
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to save image')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Failed to save image')));
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -799,9 +803,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error saving image: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error saving image: $e')));
     }
   }
 }

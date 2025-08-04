@@ -39,5 +39,16 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+    
+    # Add permission_handler configuration
+    target.build_configurations.each do |config|
+      # You can remove unused permissions here
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
+        '$(inherited)',
+        
+        ## dart: PermissionGroup.photos
+        'PERMISSION_PHOTOS=1',
+      ]
+    end
   end
 end

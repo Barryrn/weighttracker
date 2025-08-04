@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../ViewModel/image_timeline_view_model.dart';
+import '../ViewModel/image_export_view_model.dart'; // Add this import
 import '../theme.dart';
 
-/// A view that displays a timeline of progress images
+/// A widget that displays the timeline content of progress images.
+/// Does NOT include a Scaffold, so you can use it inside any Scaffold.
 class ImageTimelineViewWidget extends ConsumerWidget {
   const ImageTimelineViewWidget({Key? key}) : super(key: key);
 
@@ -15,85 +17,81 @@ class ImageTimelineViewWidget extends ConsumerWidget {
     final viewModel = ref.read(imageTimelineProvider.notifier);
     final currentEntry = viewModel.getCurrentEntry();
 
-    return Container(
-      child: state.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : state.errorMessage != null
-          ? Center(child: Text(state.errorMessage!))
-          : state.entries.isEmpty
-          ? const Center(child: Text('No images available'))
-          : Column(
+    if (state.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (state.errorMessage != null) {
+      return Center(child: Text(state.errorMessage!));
+    } else if (state.entries.isEmpty) {
+      return const Center(child: Text('No images available'));
+    }
+
+    return Column(
+      children: [
+        // View selector
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildViewButton(
+                context,
+                'Front',
+                'front',
+                state.selectedView,
+                viewModel,
+              ),
+              _buildViewButton(
+                context,
+                'Side',
+                'side',
+                state.selectedView,
+                viewModel,
+              ),
+              _buildViewButton(
+                context,
+                'Back',
+                'back',
+                state.selectedView,
+                viewModel,
+              ),
+            ],
+          ),
+        ),
+
+        // Image display
+        Expanded(child: _buildImageDisplay(context, ref, viewModel)),
+
+        // Date and weight display
+        if (currentEntry != null)
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
               children: [
-                // View selector
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildViewButton(
-                        context,
-                        'Front',
-                        'front',
-                        state.selectedView,
-                        viewModel,
-                      ),
-                      _buildViewButton(
-                        context,
-                        'Side',
-                        'side',
-                        state.selectedView,
-                        viewModel,
-                      ),
-                      _buildViewButton(
-                        context,
-                        'Back',
-                        'back',
-                        state.selectedView,
-                        viewModel,
-                      ),
-                    ],
+                Text(
+                  DateFormat('MM/dd/yyyy').format(currentEntry.date),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-
-                // Image display
-                Expanded(child: _buildImageDisplay(context, viewModel)),
-
-                // Date and weight display
-                if (currentEntry != null)
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          DateFormat('MM/dd/yyyy').format(currentEntry.date),
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        if (currentEntry.weight != null)
-                          Text(
-                            'Weight: ${currentEntry.weight!.toStringAsFixed(1)} kg',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                      ],
-                    ),
+                if (currentEntry.weight != null)
+                  Text(
+                    'Weight: ${currentEntry.weight!.toStringAsFixed(1)} kg',
+                    style: const TextStyle(fontSize: 16),
                   ),
-
-                // Timeline slider
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 24.0,
-                  ),
-                  child: _buildTimelineSlider(context, state, viewModel),
-                ),
               ],
             ),
+          ),
+
+        // Timeline slider
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          child: _buildTimelineSlider(context, state, viewModel),
+        ),
+      ],
     );
   }
 
-  /// Builds a button for selecting the view type (front, side, back)
   Widget _buildViewButton(
     BuildContext context,
     String label,
@@ -114,9 +112,9 @@ class ImageTimelineViewWidget extends ConsumerWidget {
     );
   }
 
-  /// Builds the image display area
   Widget _buildImageDisplay(
     BuildContext context,
+    WidgetRef ref, // Make sure this parameter exists
     ImageTimelineViewModel viewModel,
   ) {
     final imagePath = viewModel.getCurrentImagePath();
@@ -125,33 +123,38 @@ class ImageTimelineViewWidget extends ConsumerWidget {
       return const Center(child: Text('No image available for this view'));
     }
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16.0),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primary.withOpacity(0.3)),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Image.file(File(imagePath), fit: BoxFit.contain),
+    return GestureDetector(
+      onTap: () {
+        // Show export options when image is tapped
+        ref
+            .read(imageExportProvider.notifier)
+            .showExportOptions(context, imagePath);
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16.0),
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Image.file(File(imagePath), fit: BoxFit.contain),
+        ),
       ),
     );
   }
 
-  /// Builds the timeline slider
   Widget _buildTimelineSlider(
     BuildContext context,
     ImageTimelineState state,
     ImageTimelineViewModel viewModel,
   ) {
-    // Get available dates for the selected view
     final availableDates = viewModel.getAvailableDates();
 
     if (availableDates.isEmpty) {
       return const Text('No images available for this view');
     }
 
-    // If there's only one date, show a different UI instead of a slider
     if (availableDates.length == 1) {
       return Column(
         children: [
@@ -162,13 +165,12 @@ class ImageTimelineViewWidget extends ConsumerWidget {
           const SizedBox(height: 8),
           Text(
             DateFormat('MM/dd/yyyy').format(availableDates.first),
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       );
     }
 
-    // Find the index of the current entry in the available dates
     final currentEntry = viewModel.getCurrentEntry();
     int currentDateIndex = 0;
 
@@ -193,7 +195,6 @@ class ImageTimelineViewWidget extends ConsumerWidget {
           activeColor: AppColors.primary,
           inactiveColor: AppColors.primary.withOpacity(0.3),
           onChanged: (value) {
-            // Find the entry with this date
             final date = availableDates[value.round()];
             for (int i = 0; i < state.entries.length; i++) {
               final entry = state.entries[i];
@@ -210,7 +211,6 @@ class ImageTimelineViewWidget extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(DateFormat('MM/dd/yyyy').format(availableDates.first)),
-
             Text(DateFormat('MM/dd/yyyy').format(availableDates.last)),
           ],
         ),

@@ -142,7 +142,7 @@
 		</data>
 		<key>Modules/camera_avfoundation.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		7rHFTI43/V7wAM2Bku25RYwYgeI=
+		1yagnbv955tbrm/iCr57AXKVWnI=
 		</data>
 		<key>Modules/camera_avfoundation.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
@@ -154,7 +154,7 @@
 		</data>
 		<key>Modules/camera_avfoundation.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		GD5ZcGUzv/l+SDHqBTx64H5Tm+E=
+		8oLexFJLqrqcW/q7tIn5yOLa01o=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -406,7 +406,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ZPxB6B5hxFa+X0JOugCwys7S7ucdno/o9XFYwLbn7Ck=
+			lpDF8hzgMM2Vqh/Cu26xQgSAOCx8WCoNpN6+/lEYtBU=
 			</data>
 		</dict>
 		<key>Modules/camera_avfoundation.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
@@ -427,7 +427,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			e5294NfMj0htFLZPD/OswstAN14pzedOU/s8JFtL9zc=
+			49IammF/mQw3FVheJDYVA318wo0D5KEY7u/RyoYbEXM=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
