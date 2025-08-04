@@ -20,7 +20,7 @@ class DatabaseHelper {
   /// Database name and version constants
   static const String _databaseName = "weight_tracker.db";
   static const int _databaseVersion =
-      5; // Increased version number for schema update
+      6; // Increased version number for schema update
 
   /// Table and column names
   static const String tableBodyEntries = 'body_entries';
@@ -34,8 +34,8 @@ class DatabaseHelper {
   static const String columnTags = 'tags';
   static const String columnNotes = 'notes';
   static const String columnFrontImagePath = 'front_image_path';
-  static const String columnSideImagePath = 'side_front_image_path';
-  static const String columnBackImagePath = 'back_front_image_path';
+  static const String columnSideImagePath = 'side_image_path';
+  static const String columnBackImagePath = 'back_image_path';
   static const String columnBMI = 'bmi'; // Added BMI column
   static const String columnCalorie = 'calorie'; // Added calorie column
 
@@ -65,7 +65,7 @@ class DatabaseHelper {
         path,
         version: _databaseVersion,
         onCreate: _onCreate,
-        onUpgrade: _onUpgrade,
+        // onUpgrade: _onUpgrade,
       );
     } catch (e) {
       print('Error initializing database: $e');
@@ -106,30 +106,30 @@ class DatabaseHelper {
   /// @param db The database instance
   /// @param oldVersion The old database version
   /// @param newVersion The new database version
-  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    try {
-      if (oldVersion < 3) {
-        // Add BMI column to existing table
-        await db.execute('''
-          ALTER TABLE $tableBodyEntries ADD COLUMN $columnBMI REAL;
-        ''');
+  // Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+  //   try {
+  //     if (oldVersion < 3) {
+  //       // Add BMI column to existing table
+  //       await db.execute('''
+  //         ALTER TABLE $tableBodyEntries ADD COLUMN $columnBMI REAL;
+  //       ''');
 
-        // Update existing records with calculated BMI
-        await _updateExistingRecordsWithBMI(db);
-      }
-      
-      if (oldVersion < 4) {
-        // Add calorie column to existing table
-        await db.execute('''
-          ALTER TABLE $tableBodyEntries ADD COLUMN $columnCalorie REAL;
-        ''');
-        print('Added calorie column to database');
-      }
-    } catch (e) {
-      print('Error upgrading database: $e');
-      throw e; // Re-throw to allow handling by caller
-    }
-  }
+  //       // Update existing records with calculated BMI
+  //       await _updateExistingRecordsWithBMI(db);
+  //     }
+
+  //     if (oldVersion < 4) {
+  //       // Add calorie column to existing table
+  //       await db.execute('''
+  //         ALTER TABLE $tableBodyEntries ADD COLUMN $columnCalorie REAL;
+  //       ''');
+  //       print('Added calorie column to database');
+  //     }
+  //   } catch (e) {
+  //     print('Error upgrading database: $e');
+  //     throw e; // Re-throw to allow handling by caller
+  //   }
+  // }
 
   /// Update existing records with calculated BMI values
   /// @param db The database instance

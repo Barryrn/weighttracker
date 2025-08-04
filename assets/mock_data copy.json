@@ -9,8 +9,8 @@
     "tags": "Starting Point",
     "notes": "Feeling determined to make a change.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2750
   },
   {
@@ -23,8 +23,8 @@
     "tags": "Light Workout",
     "notes": "First day back at the gym. A bit sore.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2600
   },
   {
@@ -37,8 +37,8 @@
     "tags": "Healthy Eating",
     "notes": "Sticking to the meal plan. Feeling energized.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2400
   },
   {
@@ -51,8 +51,8 @@
     "tags": "Rest Day",
     "notes": "Enjoying the break. Planning next workouts.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2300
   },
   {
@@ -65,8 +65,8 @@
     "tags": "Cardio Day",
     "notes": "Long run this morning. Feeling good.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2500
   },
   {
@@ -79,8 +79,8 @@
     "tags": "Strength Training",
     "notes": "Upper body focus. Getting stronger.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2600
   },
   {
@@ -93,8 +93,8 @@
     "tags": "Mindful Eating",
     "notes": "Paying attention to hunger cues.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2350
   },
   {
@@ -107,8 +107,8 @@
     "tags": "Cheat Meal",
     "notes": "Enjoyed a small treat. Back on track tomorrow.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 3000
   },
   {
@@ -121,8 +121,8 @@
     "tags": "Yoga Session",
     "notes": "Feeling more flexible and relaxed.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2200
   },
   {
@@ -135,8 +135,8 @@
     "tags": "Active Recovery",
     "notes": "Long walk in the park. Fresh air.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2450
   },
   {
@@ -149,8 +149,8 @@
     "tags": "Progress Check",
     "notes": "Seeing small changes, motivated to continue.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2550
   },
   {
@@ -163,8 +163,8 @@
     "tags": "Intense Workout",
     "notes": "Pushed myself today. Feeling accomplished.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2700
   },
   {
@@ -177,8 +177,8 @@
     "tags": "Meal Prep",
     "notes": "Prepped healthy meals for the week.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2300
   },
   {
@@ -191,8 +191,8 @@
     "tags": "Good Sleep",
     "notes": "Woke up feeling refreshed.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2250
   },
   {
@@ -205,8 +205,8 @@
     "tags": "New PR",
     "notes": "Achieved a new personal record in deadlifts!",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2800
   },
   {
@@ -219,8 +219,8 @@
     "tags": "Active Rest",
     "notes": "Light stretching and foam rolling.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2400
   },
   {
@@ -233,8 +233,8 @@
     "tags": "Hydration Focus",
     "notes": "Drinking plenty of water throughout the day.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2350
   },
   {
@@ -247,8 +247,8 @@
     "tags": "Healthy Recipe",
     "notes": "Tried a new healthy recipe for dinner. Delicious!",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2450
   },
   {
@@ -261,8 +261,8 @@
     "tags": "Outdoor Activity",
     "notes": "Hiking with friends. Enjoying nature.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2600
   },
   {
@@ -275,8 +275,8 @@
     "tags": "Mind-Body Connection",
     "notes": "Focusing on how my body feels during exercise.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2500
   },
   {
@@ -289,8 +289,8 @@
     "tags": "Goal Setting",
     "notes": "Set new short-term fitness goals.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2700
   },
   {
@@ -303,8 +303,8 @@
     "tags": "Self-Care",
     "notes": "Took time for a relaxing bath.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2200
   },
   {
@@ -317,8 +317,8 @@
     "tags": "Challenge Accepted",
     "notes": "Joined a new fitness challenge.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2850
   },
   {
@@ -331,8 +331,8 @@
     "tags": "Consistency",
     "notes": "Staying consistent with workouts and diet.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2550
   },
   {
@@ -345,8 +345,8 @@
     "tags": "Positive Mindset",
     "notes": "Focusing on the positive progress.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2400
   },
   {
@@ -359,8 +359,8 @@
     "tags": "Stronger Each Day",
     "notes": "Feeling stronger with every workout.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2700
   },
   {
@@ -373,8 +373,8 @@
     "tags": "Balanced Diet",
     "notes": "Ensuring a good balance of macros.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2300
   },
   {
@@ -387,8 +387,8 @@
     "tags": "Feeling Good",
     "notes": "Energetic and motivated.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2500
   },
   {
@@ -401,8 +401,8 @@
     "tags": "Milestone",
     "notes": "Reached a significant weight loss milestone!",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2600
   },
   {
@@ -415,8 +415,8 @@
     "tags": "On Track",
     "notes": "Continuing to stay on track.",
     "front_image_path": "",
-    "side_front_image_path": "",
-    "back_front_image_path": "",
+    "side_image_path": "",
+    "back_image_path": "",
     "calories": 2450
   }
 ]
