@@ -45,12 +45,14 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
   final Ref ref;
 
   ImageTimelineViewModel(this.ref)
-      : super(ImageTimelineState(
+    : super(
+        ImageTimelineState(
           entries: [],
           selectedIndex: 0,
           selectedView: 'front',
           isLoading: true,
-        )) {
+        ),
+      ) {
     // Load entries when the ViewModel is initialized
     loadEntries();
 
@@ -66,20 +68,22 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
   Future<void> loadEntries() async {
     try {
       state = state.copyWith(isLoading: true, errorMessage: null);
-      
+
       // Get all entries from the database
       final allEntries = await _dbHelper.queryAllBodyEntries();
-      
+
       // Filter entries to only include those with at least one image
       final entriesWithImages = allEntries.where((entry) {
-        return entry.frontImagePath != null || 
-               entry.sideImagePath != null || 
-               entry.backImagePath != null;
+        return entry.frontImagePath != null ||
+            entry.sideImagePath != null ||
+            entry.backImagePath != null;
       }).toList();
-      
-      // Sort by date (newest first)
-      entriesWithImages.sort((a, b) => b.date.compareTo(a.date));
-      
+
+      // Sort by date (oldest first)
+      entriesWithImages.sort(
+        (a, b) => a.date.compareTo(b.date),
+      ); // oldest first
+
       // Update state with the loaded entries
       state = state.copyWith(
         entries: entriesWithImages,
@@ -105,6 +109,28 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
   void updateSelectedView(String viewType) {
     if (viewType == 'front' || viewType == 'side' || viewType == 'back') {
       state = state.copyWith(selectedView: viewType);
+
+      // After changing the view type, find the first entry that has an image for this view
+      final availableEntries = state.entries.where((entry) {
+        switch (viewType) {
+          case 'front':
+            return entry.frontImagePath != null;
+          case 'side':
+            return entry.sideImagePath != null;
+          case 'back':
+            return entry.backImagePath != null;
+          default:
+            return false;
+        }
+      }).toList();
+
+      // If there are entries with this view type, select the first one
+      if (availableEntries.isNotEmpty) {
+        final index = state.entries.indexOf(availableEntries.first);
+        if (index >= 0) {
+          state = state.copyWith(selectedIndex: index);
+        }
+      }
     }
   }
 
@@ -115,7 +141,7 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
     }
 
     final entry = state.entries[state.selectedIndex];
-    
+
     switch (state.selectedView) {
       case 'front':
         return entry.frontImagePath;
@@ -157,6 +183,7 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
 }
 
 /// Provider for accessing the ImageTimelineViewModel
-final imageTimelineProvider = StateNotifierProvider<ImageTimelineViewModel, ImageTimelineState>(
-  (ref) => ImageTimelineViewModel(ref),
-);
+final imageTimelineProvider =
+    StateNotifierProvider<ImageTimelineViewModel, ImageTimelineState>(
+      (ref) => ImageTimelineViewModel(ref),
+    );

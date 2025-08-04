@@ -53,12 +53,12 @@ class MockDataImporter {
           frontImagePath = null;
         }
 
-        String? sideImagePath = jsonEntry['side_front_image_path'];
+        String? sideImagePath = jsonEntry['side_image_path'];
         if (sideImagePath == "None" || sideImagePath == "null") {
           sideImagePath = null;
         }
 
-        String? backImagePath = jsonEntry['back_front_image_path'];
+        String? backImagePath = jsonEntry['back_image_path'];
         if (backImagePath == "None" || backImagePath == "null") {
           backImagePath = null;
         }

@@ -97,9 +97,9 @@ class BodyEntry {
       'hip_circumference': hipCircumference,
       'tags': tags != null ? tags!.join(',') : null,
       'notes': notes,
-      'front_image_path': frontImagePath,  // Changed to snake_case
-      'side_front_image_path': sideImagePath,  // Changed to snake_case
-      'back_front_image_path': backImagePath,  // Changed to snake_case
+      'front_image_path': frontImagePath, // Changed to snake_case
+      'side_image_path': sideImagePath, // Changed to snake_case
+      'back_image_path': backImagePath, // Changed to snake_case
       'bmi': bmi,
       'calorie': calorie,
     };
@@ -118,9 +118,9 @@ class BodyEntry {
       hipCircumference: map['hip_circumference'],
       tags: map['tags'] != null ? map['tags'].split(',') : null,
       notes: map['notes'],
-      frontImagePath: map['front_image_path'],  // Changed to snake_case
-      sideImagePath: map['side_front_image_path'],  // Changed to snake_case
-      backImagePath: map['back_front_image_path'],  // Changed to snake_case
+      frontImagePath: map['front_image_path'], // Changed to snake_case
+      sideImagePath: map['side_image_path'], // Changed to snake_case
+      backImagePath: map['back_image_path'], // Changed to snake_case
       bmi: map['bmi'],
       calorie: map['calorie'],
     );
