@@ -37,7 +37,31 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       ref.read(imageComparisonProvider.notifier).loadEntries().then((_) {
         // Load all available tags for filtering
         _loadAllTags();
+        // Initialize date range based on latest entry
+        _initializeDateRange();
       });
+    });
+  }
+
+  // Initialize date range based on latest entry
+  void _initializeDateRange() {
+    final entriesState = ref.read(imageComparisonProvider);
+    entriesState.whenData((entries) {
+      if (entries.isNotEmpty) {
+        // Find the latest entry date
+        final latestDate = entries
+            .map((e) => e.date)
+            .reduce((a, b) => a.isAfter(b) ? a : b);
+
+        setState(() {
+          _dateRange = DateTimeRange(
+            start: DateTime.now().subtract(const Duration(days: 365)),
+            end: latestDate.isAfter(DateTime.now())
+                ? latestDate
+                : DateTime.now(),
+          );
+        });
+      }
     });
   }
 
@@ -153,7 +177,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Image Gallery'),
-        backgroundColor: AppColors.primaryVeryLight,
+        backgroundColor: AppColors.primaryDark,
         foregroundColor: AppColors.textPrimary,
         actions: [
           // Filter toggle button
@@ -431,7 +455,8 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       context: context,
       initialDateRange: initialRange,
       firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
+      // Allow selection of future dates (100 years into the future should be enough)
+      lastDate: DateTime.now().add(const Duration(days: 36500)),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(

@@ -52,7 +52,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Body Fat Calculator'),
-        backgroundColor: AppColors.primaryVeryLight,
+        backgroundColor: AppColors.primaryDark,
         foregroundColor: AppColors.textPrimary,
       ),
       body: viewModelState.isLoading
@@ -142,7 +142,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  backgroundColor: AppColors.primaryVeryLight,
+                                  backgroundColor: AppColors.primaryDark,
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 12,
                                     vertical: 8,
@@ -391,7 +391,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               width: double.infinity,
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: AppColors.primaryVeryLight,
+                                color: AppColors.primaryDark,
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Column(

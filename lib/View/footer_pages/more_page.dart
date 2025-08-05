@@ -20,7 +20,7 @@ class MorePage extends StatelessWidget {
         title: const Text('More Settings'),
         automaticallyImplyLeading: false, // This removes the back arrow
         centerTitle: true,
-        backgroundColor: AppColors.primaryVeryLight,
+        backgroundColor: AppColors.primaryDark,
         foregroundColor: AppColors.textPrimary,
       ),
       body: SingleChildScrollView(

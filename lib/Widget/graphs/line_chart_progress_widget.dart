@@ -142,7 +142,7 @@ class _LineChartProgressWidgetState
               style: ElevatedButton.styleFrom(
                 backgroundColor: isSelected
                     ? AppColors.primary
-                    : AppColors.primaryVeryLight,
+                    : AppColors.primaryDark,
                 foregroundColor: isSelected
                     ? Colors.white
                     : AppColors.textPrimary,
@@ -180,7 +180,7 @@ class _LineChartProgressWidgetState
             style: ElevatedButton.styleFrom(
               backgroundColor: isSelected
                   ? AppColors.primary
-                  : AppColors.primaryVeryLight,
+                  : AppColors.primaryDark,
               foregroundColor: isSelected
                   ? Colors.white
                   : AppColors.textPrimary,
@@ -203,7 +203,7 @@ class _LineChartProgressWidgetState
     if (data.isEmpty) return const Text("No data available");
 
     final reversedData = data.reversed.toList();
-    
+
     // Get the unit preferences
     final unitPrefs = ref.watch(unitConversionProvider);
 
@@ -309,7 +309,7 @@ class _LineChartProgressWidgetState
                       if (selectedDataType.toLowerCase() == 'weight') {
                         unit = unitPrefs.useMetricWeight ? 'kg' : 'lb';
                       }
-                      
+
                       return Expanded(
                         child: Container(
                           alignment: Alignment.centerRight,
@@ -317,7 +317,8 @@ class _LineChartProgressWidgetState
                           child: Transform.translate(
                             offset: const Offset(0, -8), // 🔧 Feinjustierung
                             child: Text(
-                              value.toStringAsFixed(0) + (unit.isNotEmpty ? ' $unit' : ''),
+                              value.toStringAsFixed(0) +
+                                  (unit.isNotEmpty ? ' $unit' : ''),
                               style: const TextStyle(fontSize: 10),
                             ),
                           ),
@@ -466,6 +467,9 @@ class _LineChartProgressWidgetState
                             LineChartBarData(
                               spots: spots,
                               isCurved: true,
+                              curveSmoothness:
+                                  0.4, // Wert zwischen 0 und 1, z.B. 0.5 für mittelstarke Kurven
+
                               barWidth: 3,
                               color: Colors.blueAccent,
                               dotData: FlDotData(show: true),

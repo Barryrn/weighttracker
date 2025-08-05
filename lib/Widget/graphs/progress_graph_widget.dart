@@ -96,7 +96,7 @@ class ProgressGraphWidget extends ConsumerWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: isSelected
               ? AppColors.primary
-              : AppColors.primaryVeryLight,
+              : AppColors.primaryDark,
           foregroundColor: isSelected ? Colors.white : AppColors.textPrimary,
           elevation: isSelected ? 2 : 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

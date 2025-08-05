@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         title: const Text('HomePage'),
         automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: AppColors.primaryVeryLight,
+        backgroundColor: AppColors.primaryDark,
         foregroundColor: AppColors.textPrimary,
       ),
       body: SingleChildScrollView(

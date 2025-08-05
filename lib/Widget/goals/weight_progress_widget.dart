@@ -113,7 +113,7 @@ class WeightProgressWidget extends ConsumerWidget {
                       child: CircularProgressIndicator(
                         value: progressData.progressPercentage,
                         strokeWidth: 12,
-                        backgroundColor: AppColors.primaryVeryLight,
+                        backgroundColor: AppColors.primaryDark,
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           AppColors.primary,
                         ),

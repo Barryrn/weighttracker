@@ -30,7 +30,7 @@ class GoalsPage extends ConsumerWidget {
           title: const Text('My Goals'),
           automaticallyImplyLeading: false, // This removes the back arrow
           centerTitle: true,
-          backgroundColor: AppColors.primaryVeryLight,
+          backgroundColor: AppColors.primaryDark,
           foregroundColor: AppColors.textPrimary,
         ),
         body: SingleChildScrollView(
