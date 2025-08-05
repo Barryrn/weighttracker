@@ -16,36 +16,43 @@ class ProgressPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Progress Page',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textTertiary,
+    return GestureDetector(
+      // Add GestureDetector to dismiss keyboard when tapping anywhere on the screen
+      onTap: () {
+        // Hide the keyboard when tapping outside of text fields
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Progress Page',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textTertiary,
+            ),
+          ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.textPrimary,
+        ),
+        backgroundColor: AppColors.background2,
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              // Replace the separate widgets with the new toggle widget
+              ProgressGraphWidget(),
+              SizedBox(height: 30),
+
+              // Additional goal widgets can be added here in the future
+            ],
           ),
         ),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textPrimary,
+        bottomNavigationBar: Footer(currentIndex: 1, onTap: (index) {}),
       ),
-      backgroundColor: AppColors.background2,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            // Replace the separate widgets with the new toggle widget
-            ProgressGraphWidget(),
-            SizedBox(height: 30),
-
-            // Additional goal widgets can be added here in the future
-          ],
-        ),
-      ),
-      bottomNavigationBar: Footer(currentIndex: 1, onTap: (index) {}),
     );
   }
 }

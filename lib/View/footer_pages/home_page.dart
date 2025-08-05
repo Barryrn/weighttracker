@@ -16,63 +16,70 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Home Page',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textTertiary,
+    return GestureDetector(
+      // Add GestureDetector to dismiss keyboard when tapping anywhere on the screen
+      onTap: () {
+        // Hide the keyboard when tapping outside of text fields
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Home Page',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textTertiary,
+            ),
           ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.textPrimary,
         ),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textPrimary,
-      ),
-      backgroundColor: AppColors.background2,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            children: [
-              WeightProgressWidget(),
-              // const SizedBox(height: 24),
-              // WeightProgressWidgetCopy(),
-              const SizedBox(height: 24),
-              EnergyExpenditureWidget(),
-              const SizedBox(height: 24),
-              ImageComparisonView(),
-              // WeightChangeTDEEWidget(),
-              // WeightChangeGoalTDEEWidget(),
+        backgroundColor: AppColors.background2,
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              children: [
+                WeightProgressWidget(),
+                // const SizedBox(height: 24),
+                // WeightProgressWidgetCopy(),
+                const SizedBox(height: 24),
+                EnergyExpenditureWidget(),
+                const SizedBox(height: 24),
+                ImageComparisonView(),
+                // WeightChangeTDEEWidget(),
+                // WeightChangeGoalTDEEWidget(),
 
-              // const SizedBox(height: 24),
-              // ElevatedButton.icon(
-              //   onPressed: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const ImageComparisonView(),
-              //       ),
-              //     );
-              //   },
-              //   icon: const Icon(Icons.compare),
-              //   label: const Text('Compare Progress Pictures'),
-              //   style: ElevatedButton.styleFrom(
-              //     backgroundColor: AppColors.primary,
-              //     foregroundColor: Colors.white,
-              //     padding: const EdgeInsets.symmetric(
-              //       horizontal: 16,
-              //       vertical: 12,
-              //     ),
-              //   ),
-              // ),
-            ],
+                // const SizedBox(height: 24),
+                // ElevatedButton.icon(
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => const ImageComparisonView(),
+                //       ),
+                //     );
+                //   },
+                //   icon: const Icon(Icons.compare),
+                //   label: const Text('Compare Progress Pictures'),
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: AppColors.primary,
+                //     foregroundColor: Colors.white,
+                //     padding: const EdgeInsets.symmetric(
+                //       horizontal: 16,
+                //       vertical: 12,
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
           ),
         ),
+        bottomNavigationBar: Footer(currentIndex: 0, onTap: (index) {}),
       ),
-      bottomNavigationBar: Footer(currentIndex: 0, onTap: (index) {}),
     );
   }
 }

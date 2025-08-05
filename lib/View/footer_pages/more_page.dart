@@ -15,53 +15,60 @@ class MorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'More Settings',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textTertiary,
+    return GestureDetector(
+      // Add GestureDetector to dismiss keyboard when tapping anywhere on the screen
+      onTap: () {
+        // Hide the keyboard when tapping outside of text fields
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'More Settings',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textTertiary,
+            ),
           ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.textPrimary,
         ),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textPrimary,
-      ),
-      backgroundColor: AppColors.background2,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            children: [
-              ProfileSettingsWidget(),
-              const SizedBox(height: 16),
-              TagsSettingsWidget(),
-              const SizedBox(height: 16),
-              UnitConversionSettingsWidget(),
-              const SizedBox(height: 16),
-              const TDEESettingsWidget(),
-              const SizedBox(height: 16),
-              const HealthSettingsWidget(),
+        backgroundColor: AppColors.background2,
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              children: [
+                ProfileSettingsWidget(),
+                const SizedBox(height: 16),
+                TagsSettingsWidget(),
+                const SizedBox(height: 16),
+                UnitConversionSettingsWidget(),
+                const SizedBox(height: 16),
+                const TDEESettingsWidget(),
+                const SizedBox(height: 16),
+                const HealthSettingsWidget(),
 
-              // ElevatedButton(
-              //   onPressed: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const ImageComparisonView(),
-              //       ),
-              //     );
-              //   },
-              //   child: const Text('Image comparison view'),
-              // ),
-            ],
+                // ElevatedButton(
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => const ImageComparisonView(),
+                //       ),
+                //     );
+                //   },
+                //   child: const Text('Image comparison view'),
+                // ),
+              ],
+            ),
           ),
         ),
+        bottomNavigationBar: Footer(currentIndex: 4, onTap: (index) {}),
       ),
-      bottomNavigationBar: Footer(currentIndex: 4, onTap: (index) {}),
     );
   }
 }

@@ -19,6 +19,8 @@ class WeightGoalWidget extends ConsumerWidget {
 
     return Card(
       elevation: 2,
+      shadowColor: AppColors.primary.withOpacity(0.2),
+      color: AppColors.card,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -26,11 +28,14 @@ class WeightGoalWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'Weight Goal',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 // Unit toggle button
                 // TextButton(
@@ -80,7 +85,7 @@ class WeightGoalWidget extends ConsumerWidget {
                 ],
                 onChanged: viewModel.onStartWeightChanged,
                 decoration: InputDecoration(
-                  hintText: 'Enter your starting weight',
+                  hintText: '0.0',
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 12,
@@ -90,7 +95,7 @@ class WeightGoalWidget extends ConsumerWidget {
                     padding: const EdgeInsets.only(right: 12.0),
                     child: Text(
                       goalData.unitSuffix,
-                      style: const TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: AppColors.textPrimary),
                     ),
                   ),
                   suffixIconConstraints: const BoxConstraints(
@@ -139,7 +144,7 @@ class WeightGoalWidget extends ConsumerWidget {
                 ],
                 onChanged: viewModel.onWeightGoalChanged,
                 decoration: InputDecoration(
-                  hintText: 'Enter your target weight',
+                  hintText: '0.0',
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 12,
@@ -149,7 +154,7 @@ class WeightGoalWidget extends ConsumerWidget {
                     padding: const EdgeInsets.only(right: 12.0),
                     child: Text(
                       goalData.unitSuffix,
-                      style: const TextStyle(color: Colors.grey),
+                      style: const TextStyle(color: AppColors.textPrimary),
                     ),
                   ),
                   suffixIconConstraints: const BoxConstraints(
@@ -163,7 +168,7 @@ class WeightGoalWidget extends ConsumerWidget {
             const SizedBox(height: 16),
             Text(
               'Your progress will be tracked against this goal',
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+              style: TextStyle(fontSize: 14, color: AppColors.textPrimary),
             ),
           ],
         ),
