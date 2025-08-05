@@ -27,12 +27,20 @@ class GoalsPage extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('My Goals'),
-          automaticallyImplyLeading: false, // This removes the back arrow
+          title: const Text(
+            'My Goals',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textTertiary,
+            ),
+          ),
+          automaticallyImplyLeading: false,
           centerTitle: true,
-          backgroundColor: AppColors.primaryDark,
+          backgroundColor: AppColors.primary,
           foregroundColor: AppColors.textPrimary,
         ),
+        backgroundColor: AppColors.background2,
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
