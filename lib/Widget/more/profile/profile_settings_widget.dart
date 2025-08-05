@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weigthtracker/theme.dart';
 import '../../../View/profile_settings_page_view.dart';
 
 /// A widget that displays a profile settings option in the app.
@@ -15,29 +16,44 @@ class ProfileSettingsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: const Icon(Icons.person_outline, color: Colors.black54),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
       ),
-      title: const Text(
-        'Profile',
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 8,
+        ), // increases internal height
 
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () {
-        // Navigate to the profile settings page when tapped
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ProfileSettingsPage()),
-        );
-      },
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade300,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: const Icon(Icons.person, color: AppColors.primaryDark),
+        ),
+        title: const Text(
+          'Profile',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProfileSettingsPage(),
+            ),
+          );
+        },
+      ),
     );
   }
 }
