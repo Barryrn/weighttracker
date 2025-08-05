@@ -130,7 +130,7 @@ class ProfileHeightWidget extends ConsumerWidget {
                     SliderTheme(
                       data: SliderTheme.of(context).copyWith(
                         activeTrackColor: AppColors.primaryLight,
-                        inactiveTrackColor: AppColors.primaryVeryLight,
+                        inactiveTrackColor: AppColors.primaryDark,
                         thumbColor: AppColors.primaryLight,
                         overlayColor: AppColors.primaryLight.withOpacity(0.2),
                         // Make the track thicker for better visibility

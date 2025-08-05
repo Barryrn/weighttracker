@@ -21,7 +21,7 @@ class ProgressPage extends ConsumerWidget {
         title: const Text('Progress Page'),
         automaticallyImplyLeading: false, // This removes the back arrow
         centerTitle: true,
-        backgroundColor: AppColors.primaryVeryLight,
+        backgroundColor: AppColors.primaryDark,
         foregroundColor: AppColors.textPrimary,
       ),
       body: SingleChildScrollView(

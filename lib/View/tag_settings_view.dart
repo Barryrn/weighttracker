@@ -21,7 +21,7 @@ class TagSettingsView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manage Tags'),
-        backgroundColor: AppColors.primaryVeryLight,
+        backgroundColor: AppColors.primaryDark,
       ),
       body: _buildBody(context, tagSettingsData, viewModel),
     );

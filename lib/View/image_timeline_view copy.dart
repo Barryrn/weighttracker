@@ -18,7 +18,7 @@
 //     return Scaffold(
 //       appBar: AppBar(
 //         title: const Text('Image Timeline'),
-//         backgroundColor: AppColors.primaryVeryLight,
+//         backgroundColor: AppColors.primaryDark,
 //         foregroundColor: AppColors.textPrimary,
 //       ),
 //       body: state.isLoading

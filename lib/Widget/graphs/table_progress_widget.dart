@@ -157,9 +157,7 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
     return ElevatedButton(
       onPressed: () => _selectTimePeriod(period),
       style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected
-            ? AppColors.primary
-            : AppColors.primaryVeryLight,
+        backgroundColor: isSelected ? AppColors.primary : AppColors.primaryDark,
         foregroundColor: isSelected ? Colors.white : AppColors.textPrimary,
         elevation: isSelected ? 2 : 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
