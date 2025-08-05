@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/View/image_timeline_view.dart';
 import '../model/body_entry_model.dart';
 import '../viewmodel/image_comparison_provider.dart';
@@ -82,16 +83,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                           const SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ImageGalleryView(),
-                                ),
-                              ).then((_) {
-                                // Refresh the view when returning from gallery
-                                setState(() {});
-                              });
+                              BodyEntrySheet.show(context: context);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
@@ -401,7 +393,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             fontWeight: currentType == type
                 ? FontWeight.bold
                 : FontWeight.normal,
-            color: isAvailable ? AppColors.textPrimary : Colors.grey,
+            color: isAvailable
+                ? const Color.fromARGB(255, 55, 31, 53)
+                : Colors.grey,
           ),
         ),
       ),

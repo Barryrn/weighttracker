@@ -19,11 +19,7 @@ class TDEEPage extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              TDEEWidget(),
-              SizedBox(height: 16),
-              // WeightChangeTDEEWidget(),
-            ],
+            children: const [TDEEWidget()],
           ),
         ),
       ),

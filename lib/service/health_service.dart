@@ -363,7 +363,7 @@ class HealthService {
           syncSuccess = syncSuccess && success > 0;
         } else {
           //print('Entry exists with ID: $existingEntryId, updating');
-          // This entry already exists, update it BUT PRESERVE OTHER FIELDS
+          // This entry already exists, check if values are identical before updating
 
           // First, get the existing entry
           final existingEntry = await DatabaseHelper().findEntryByDate(
@@ -371,6 +371,14 @@ class HealthService {
           );
 
           if (existingEntry != null) {
+            // Check if the values are identical to avoid unnecessary updates
+            bool isDuplicate = _isIdenticalEntry(existingEntry, healthEntry);
+
+            if (isDuplicate) {
+              //print('Skipping duplicate entry with identical values');
+              continue; // Skip this entry as it's a duplicate
+            }
+
             // Create a merged entry that preserves existing data
             final mergedEntry = existingEntry.copyWith(
               weight: healthEntry.weight,
@@ -410,6 +418,36 @@ class HealthService {
       //print('Error stack trace: ${StackTrace.current}');
       return false;
     }
+  }
+
+  /// Checks if two BodyEntry objects have identical values for weight, fat percentage, and BMI
+  /// @param entry1 First BodyEntry to compare
+  /// @param entry2 Second BodyEntry to compare
+  /// @return bool True if entries have identical values, false otherwise
+  bool _isIdenticalEntry(BodyEntry entry1, BodyEntry entry2) {
+    // Compare weight values (if both are null or equal)
+    final weightMatch =
+        (entry1.weight == null && entry2.weight == null) ||
+        (entry1.weight != null &&
+            entry2.weight != null &&
+            (entry1.weight! - entry2.weight!).abs() < 0.001);
+
+    // Compare fat percentage values (if both are null or equal)
+    final fatMatch =
+        (entry1.fatPercentage == null && entry2.fatPercentage == null) ||
+        (entry1.fatPercentage != null &&
+            entry2.fatPercentage != null &&
+            (entry1.fatPercentage! - entry2.fatPercentage!).abs() < 0.001);
+
+    // Compare BMI values (if both are null or equal)
+    final bmiMatch =
+        (entry1.bmi == null && entry2.bmi == null) ||
+        (entry1.bmi != null &&
+            entry2.bmi != null &&
+            (entry1.bmi! - entry2.bmi!).abs() < 0.001);
+
+    // Entry is considered identical if all available values match
+    return weightMatch && fatMatch && bmiMatch;
   }
 }
 

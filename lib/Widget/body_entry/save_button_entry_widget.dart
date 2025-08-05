@@ -48,7 +48,7 @@ class SaveButtonEntryWidget extends ConsumerWidget {
                     'Entry saved successfully',
                     style: TextStyle(color: Colors.white),
                   ),
-                  backgroundColor: AppColors.primary,
+                  backgroundColor: AppColors.success,
                   duration: Duration(seconds: 1),
                 ),
               );

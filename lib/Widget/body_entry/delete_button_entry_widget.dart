@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/ViewModel/delete_entry_view_model.dart';
 import 'package:weigthtracker/ViewModel/entry_form_provider.dart';
+import 'package:weigthtracker/model/database_helper.dart';
 
 /// A widget that provides a delete button for body entry data.
 ///
@@ -14,7 +15,8 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bodyEntry = ref.watch(bodyEntryProvider);
     final deleteViewModel = ref.watch(deleteEntryViewModelProvider);
-    
+    final dbHelper = DatabaseHelper();
+
     // Check if an entry exists for the current date
     return FutureBuilder<bool>(
       future: deleteViewModel.hasEntryForDate(bodyEntry.date),
@@ -23,7 +25,7 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
         if (!snapshot.hasData || snapshot.data == false) {
           return const SizedBox.shrink(); // Empty widget
         }
-        
+
         // If an entry exists, show the delete button
         return SizedBox(
           width: double.infinity, // Makes the button full-width
@@ -31,19 +33,26 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
             onPressed: () async {
               // Show confirmation dialog
               final shouldDelete = await _showDeleteConfirmationDialog(context);
-              
+
               if (shouldDelete && context.mounted) {
                 try {
+                  await dbHelper.deleteAllBodyEntries();
+
                   // Delete the entry
-                  final success = await deleteViewModel.deleteEntryForDate(bodyEntry.date);
-                  
+                  final success = await deleteViewModel.deleteEntryForDate(
+                    bodyEntry.date,
+                  );
+                  await dbHelper.deleteAllBodyEntries();
+
                   if (context.mounted) {
                     if (success) {
                       // Show success message
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Entry deleted successfully')),
+                        const SnackBar(
+                          content: Text('Entry deleted successfully'),
+                        ),
                       );
-                      
+
                       // Close the bottom sheet
                       Navigator.pop(context);
                     } else {
@@ -57,7 +66,9 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
                   // Show error message
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Error deleting entry: ${e.toString()}')),
+                      SnackBar(
+                        content: Text('Error deleting entry: ${e.toString()}'),
+                      ),
                     );
                   }
                 }
@@ -83,30 +94,33 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
       },
     );
   }
-  
+
   /// Shows a confirmation dialog asking the user if they want to delete the entry
   /// @param context The build context
   /// @return Future<bool> Whether the user confirmed the deletion
   Future<bool> _showDeleteConfirmationDialog(BuildContext context) async {
     return await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Delete Entry'),
-          content: const Text('Are you sure you want to delete this entry? This action cannot be undone.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              style: TextButton.styleFrom(foregroundColor: Colors.red),
-              child: const Text('Delete'),
-            ),
-          ],
-        );
-      },
-    ) ?? false; // Default to false if dialog is dismissed
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Delete Entry'),
+              content: const Text(
+                'Are you sure you want to delete this entry? This action cannot be undone.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  style: TextButton.styleFrom(foregroundColor: Colors.red),
+                  child: const Text('Delete'),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false; // Default to false if dialog is dismissed
   }
 }
