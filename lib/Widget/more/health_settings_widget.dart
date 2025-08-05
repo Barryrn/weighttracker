@@ -17,34 +17,47 @@ class HealthSettingsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: const HeroIcon(
-          HeroIcons.heart,
-          style: HeroIconStyle.outline,
-          size: 30,
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
       ),
-      title: const Text(
-        'Health Integration',
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 8,
+        ), // increases internal height
 
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () {
-        // Navigate to the tag settings page when tapped
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const HealthSyncSettings()),
-        );
-      },
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade300,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: const HeroIcon(
+            HeroIcons.heart,
+            style: HeroIconStyle.solid,
+            size: 30,
+            color: AppColors.primaryDark,
+          ),
+        ),
+        title: const Text(
+          'Health Integration',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HealthSyncSettings()),
+          );
+        },
+      ),
     );
   }
 }

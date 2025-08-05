@@ -17,12 +17,20 @@ class MorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('More Settings'),
-        automaticallyImplyLeading: false, // This removes the back arrow
+        title: const Text(
+          'More Settings',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textTertiary,
+          ),
+        ),
+        automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: AppColors.primaryDark,
+        backgroundColor: AppColors.primary,
         foregroundColor: AppColors.textPrimary,
       ),
+      backgroundColor: AppColors.background2,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Center(
