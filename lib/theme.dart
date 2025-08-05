@@ -5,13 +5,18 @@ class AppColors {
   // Primary (Blue Shades)
   static const Color primary = Color(0xFF1E90FF); // hsl(210, 100%, 50%)
   static const Color primaryLight = Color(0xFF66B2FF); // hsl(210, 100%, 70%)
+  static const Color primaryExtraLight = Color(
+    0xFFE6F2FF,
+  ); // hsl(210, 100%, 90%)
   static const Color primaryDark = Color(0xFF0066CC); // hsl(210, 100%, 40%)
 
   // Backgrounds (Light Mode)
-  static const Color background1 = Color(0xFFFFFFFF); // hsl(0, 0%, 100%)
-  static const Color background2 = Color(0xFFF6F9FB); // hsl(210, 20%, 98%)
-  static const Color background3 = Color(0xFFE9F0F5); // hsl(210, 20%, 95%)
-  static const Color card = Color(0xFFFFFFFF); // Same as background1
+  static const Color background1 = Color(0xFFF2F6F9); // hsl(210, 20%, 95%)
+  static const Color background2 = Color(0xFFE0E8EF); // hsl(210, 20%, 90%)
+  static const Color background3 = Color(0xFFCEDAE5); // hsl(210, 20%, 85%)
+
+  // Card
+  static const Color card = Color(0xFFFFFFFF); // hsl(0, 0%, 100%) — clean white
 
   // Backgrounds (Dark Mode)
   static const Color background1Dark = Color(0xFF0F1115); // hsl(210, 15%, 10%)
@@ -22,6 +27,7 @@ class AppColors {
   // Text Colors
   static const Color textPrimary = Color(0xFF1F2937); // hsl(210, 15%, 20%)
   static const Color textSecondary = Color(0xFF6B7280); // hsl(210, 10%, 40%)
+  static const Color textTertiary = Color(0xFFFFFFFF); // white
   static const Color textDisabled = Color(0xFFA0AAB4); // hsl(210, 10%, 65%)
   static const Color textPrimaryDark = Color(0xFFFFFFFF); // white
   static const Color textSecondaryDark = Color(

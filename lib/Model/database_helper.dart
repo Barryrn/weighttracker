@@ -204,14 +204,11 @@ class DatabaseHelper {
       // Convert the normalized date to milliseconds
       final dateMillis = normalizedDate.millisecondsSinceEpoch;
 
-      // Check if an entry already exists for this day
+      // Check if an entry already exists for this exact date
       final List<Map<String, dynamic>> existingEntries = await db.query(
         tableBodyEntries,
-        where: '$columnDate >= ? AND $columnDate < ?',
-        whereArgs: [
-          dateMillis,
-          dateMillis + 86400000, // Add 24 hours in milliseconds
-        ],
+        where: '$columnDate = ?',  // Changed to exact match instead of range
+        whereArgs: [dateMillis],
       );
 
       // Calculate BMI if weight is available
@@ -246,9 +243,10 @@ class DatabaseHelper {
       };
       print('Inserting into DB: $bodyEntry with BMI: $bmi');
 
-      // If an entry exists for this day, update it
+      // If an entry exists for this exact date, update it
       if (existingEntries.isNotEmpty) {
         final existingId = existingEntries.first[columnId];
+        print('Updating existing entry with ID: $existingId for date: ${normalizedDate.toIso8601String()}');
         return await db.update(
           tableBodyEntries,
           row,
@@ -258,6 +256,7 @@ class DatabaseHelper {
       }
       // Otherwise, insert a new entry
       else {
+        print('Creating new entry for date: ${normalizedDate.toIso8601String()}');
         return await db.insert(tableBodyEntries, row);
       }
     } catch (e) {
@@ -376,6 +375,20 @@ class DatabaseHelper {
       );
     } catch (e) {
       print('Error deleting body entry: $e');
+      throw e; // Re-throw to allow handling by caller
+    }
+  }
+
+  /// Delete all body entries from the database
+  /// @return Future<int> The number of rows affected
+  Future<int> deleteAllBodyEntries() async {
+    try {
+      Database db = await database;
+      return await db.delete(
+        tableBodyEntries,
+      );
+    } catch (e) {
+      print('Error deleting all body entries: $e');
       throw e; // Re-throw to allow handling by caller
     }
   }

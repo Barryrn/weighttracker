@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart';
 import 'package:weigthtracker/ViewModel/weight_change_tdee_goal_provider.dart';
 import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/viewmodel/weight_change_tdee_provider.dart';
@@ -35,198 +34,172 @@ class WeightProgressWidget extends ConsumerWidget {
         : null;
 
     return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      elevation: 4,
+      shadowColor: AppColors.primary.withOpacity(0.2),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Weight information row
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+            decoration: BoxDecoration(
+              color: AppColors.background1,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 // Current weight
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Current',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      progressData.displayCurrentWeight != null
-                          ? '${progressData.displayCurrentWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
-                          : '-- ${progressData.unitSuffix}',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ],
+                _buildWeightInfoColumn(
+                  'Current',
+                  progressData.displayCurrentWeight != null
+                      ? '${progressData.displayCurrentWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
+                      : '-- ${progressData.unitSuffix}',
+                  AppColors.primary,
                 ),
 
                 // Goal weight
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Goal',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      progressData.displayGoalWeight != null
-                          ? '${progressData.displayGoalWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
-                          : '-- ${progressData.unitSuffix}',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ],
+                _buildWeightInfoColumn(
+                  'Goal',
+                  progressData.displayGoalWeight != null
+                      ? '${progressData.displayGoalWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
+                      : '-- ${progressData.unitSuffix}',
+                  AppColors.success,
+                ),
+
+                // Remaining weight
+                _buildWeightInfoColumn(
+                  'Remaining',
+                  progressData.currentWeight != null &&
+                          progressData.goalWeight != null
+                      ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
+                      : '-- ${progressData.unitSuffix}',
+                  AppColors.warning,
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+          ),
+          const SizedBox(height: 20),
 
-            // Progress circle
-            Center(
-              child: SizedBox(
-                width: 150,
-                height: 150,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    // Progress circle
-                    SizedBox(
-                      width: 150,
-                      height: 150,
-                      child: CircularProgressIndicator(
-                        value: progressData.progressPercentage,
-                        strokeWidth: 12,
-                        backgroundColor: AppColors.primaryDark,
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          AppColors.primary,
-                        ),
+          // Progress circle at the top
+          Center(
+            child: SizedBox(
+              width: 180,
+              height: 180,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Background circle
+                  Container(
+                    width: 180,
+                    height: 180,
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryExtraLight,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  // Progress circle
+                  SizedBox(
+                    width: 180,
+                    height: 180,
+                    child: CircularProgressIndicator(
+                      value: progressData.progressPercentage,
+                      strokeWidth: 12,
+                      backgroundColor: AppColors.primaryExtraLight,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.primary,
                       ),
                     ),
-
-                    // Percentage text
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${(progressData.progressPercentage * 100).toStringAsFixed(0)}%',
-                          style: const TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primary,
-                          ),
+                  ),
+                  // Center content
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${(progressData.progressPercentage * 100).toStringAsFixed(0)}%',
+                        style: const TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
                         ),
-                        const Text(
-                          'complete',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.textSecondary,
-                          ),
+                      ),
+                      const Text(
+                        'complete',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: AppColors.textSecondary,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 24),
+          ),
+          const SizedBox(height: 24),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Remaining weight
-                Center(
-                  child: Column(
-                    children: [
-                      const Text(
-                        'TDEE Calories',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        tdee?.toStringAsFixed(0) ?? 'N/A',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+          // TDEE information row
+        ],
+      ),
+    );
+  }
 
-                Center(
-                  child: Column(
-                    children: [
-                      const Text(
-                        'Remaining',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        progressData.currentWeight != null &&
-                                progressData.goalWeight != null
-                            ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
-                            : '-- ${progressData.unitSuffix}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Center(
-                  child: Column(
-                    children: [
-                      const Text(
-                        'Goal Weight TDEE',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        goalTDEE?.toStringAsFixed(0) ?? 'N/A',
-
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+  /// Helper method to build a weight information column
+  Widget _buildWeightInfoColumn(String label, String value, Color valueColor) {
+    return Card(
+      color: AppColors.background1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(15), // You can adjust the padding value
+        child: Column(
+          children: [
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: valueColor,
+              ),
             ),
           ],
         ),
       ),
     );
   }
-}
 
-  // Helper method to calculate goal TDEE
-  
+  /// Helper method to build a TDEE information column
+  Widget _buildTDEEInfoColumn(String label, String value, Color valueColor) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textSecondary,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: valueColor,
+          ),
+        ),
+      ],
+    );
+  }
+}
