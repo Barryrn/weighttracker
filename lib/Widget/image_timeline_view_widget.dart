@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../ViewModel/image_timeline_view_model.dart';
-import '../ViewModel/image_export_view_model.dart'; // Add this import
+import '../ViewModel/image_export_view_model.dart';
 import '../theme.dart';
 
 /// A widget that displays the timeline content of progress images.
@@ -27,11 +27,17 @@ class ImageTimelineViewWidget extends ConsumerWidget {
 
     return Column(
       children: [
-        // View selector
-        Padding(
-          padding: const EdgeInsets.all(16.0),
+        // View selector - Updated with rounded pill-shaped buttons
+        Container(
+          margin: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(25),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildViewButton(
                 context,
@@ -40,6 +46,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
                 state.selectedView,
                 viewModel,
               ),
+              const SizedBox(width: 8),
               _buildViewButton(
                 context,
                 'Side',
@@ -47,6 +54,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
                 state.selectedView,
                 viewModel,
               ),
+              const SizedBox(width: 8),
               _buildViewButton(
                 context,
                 'Back',
@@ -58,13 +66,40 @@ class ImageTimelineViewWidget extends ConsumerWidget {
           ),
         ),
 
-        // Image display
-        Expanded(child: _buildImageDisplay(context, ref, viewModel)),
+        // Image display - Updated with card-like appearance
+        Expanded(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: _buildImageDisplay(context, ref, viewModel),
+            ),
+          ),
+        ),
 
-        // Date and weight display
+        // Date and weight display - Updated with modern styling
         if (currentEntry != null)
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          Container(
+            margin: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
+            decoration: BoxDecoration(
+              color: AppColors.primaryExtraLight,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Column(
               children: [
                 Text(
@@ -72,20 +107,35 @@ class ImageTimelineViewWidget extends ConsumerWidget {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: AppColors.primaryDark,
                   ),
                 ),
                 if (currentEntry.weight != null)
-                  Text(
-                    'Weight: ${currentEntry.weight!.toStringAsFixed(1)} kg',
-                    style: const TextStyle(fontSize: 16),
+                  Container(
+                    margin: const EdgeInsets.only(top: 4.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0,
+                      vertical: 4.0,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Text(
+                      'Weight: ${currentEntry.weight!.toStringAsFixed(1)} kg',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.primaryDark,
+                      ),
+                    ),
                   ),
               ],
             ),
           ),
 
-        // Timeline slider
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        // Timeline slider - Updated with modern styling
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: _buildTimelineSlider(context, state, viewModel),
         ),
       ],
@@ -104,17 +154,25 @@ class ImageTimelineViewWidget extends ConsumerWidget {
     return ElevatedButton(
       onPressed: () => viewModel.updateSelectedView(viewType),
       style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? AppColors.primary : Colors.grey.shade200,
+        backgroundColor: isSelected ? AppColors.primary : Colors.transparent,
         foregroundColor: isSelected ? Colors.white : Colors.black87,
+        elevation: 0,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),
-      child: Text(label),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          fontSize: 16,
+        ),
+      ),
     );
   }
 
   Widget _buildImageDisplay(
     BuildContext context,
-    WidgetRef ref, // Make sure this parameter exists
+    WidgetRef ref,
     ImageTimelineViewModel viewModel,
   ) {
     final imagePath = viewModel.getCurrentImagePath();
@@ -130,17 +188,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
             .read(imageExportProvider.notifier)
             .showExportOptions(context, imagePath);
       },
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16.0),
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColors.primary.withOpacity(0.3)),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Image.file(File(imagePath), fit: BoxFit.contain),
-        ),
-      ),
+      child: Image.file(File(imagePath), fit: BoxFit.contain),
     );
   }
 
@@ -187,32 +235,56 @@ class ImageTimelineViewWidget extends ConsumerWidget {
 
     return Column(
       children: [
-        Slider(
-          min: 0,
-          max: availableDates.length - 1.0,
-          divisions: availableDates.length - 1,
-          value: currentDateIndex.toDouble(),
-          activeColor: AppColors.primary,
-          inactiveColor: AppColors.primary.withOpacity(0.3),
-          onChanged: (value) {
-            final date = availableDates[value.round()];
-            for (int i = 0; i < state.entries.length; i++) {
-              final entry = state.entries[i];
-              if (entry.date.day == date.day &&
-                  entry.date.month == date.month &&
-                  entry.date.year == date.year) {
-                viewModel.updateSelectedIndex(i);
-                break;
+        SliderTheme(
+          data: SliderThemeData(
+            trackHeight: 4,
+            activeTrackColor: AppColors.primary,
+            inactiveTrackColor: AppColors.primary.withOpacity(0.2),
+            thumbColor: AppColors.primary,
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+            overlayColor: AppColors.primary.withOpacity(0.2),
+            overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
+          ),
+          child: Slider(
+            min: 0,
+            max: availableDates.length - 1.0,
+            divisions: availableDates.length - 1,
+            value: currentDateIndex.toDouble(),
+            onChanged: (value) {
+              final date = availableDates[value.round()];
+              for (int i = 0; i < state.entries.length; i++) {
+                final entry = state.entries[i];
+                if (entry.date.day == date.day &&
+                    entry.date.month == date.month &&
+                    entry.date.year == date.year) {
+                  viewModel.updateSelectedIndex(i);
+                  break;
+                }
               }
-            }
-          },
+            },
+          ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(DateFormat('MM/dd/yyyy').format(availableDates.first)),
-            Text(DateFormat('MM/dd/yyyy').format(availableDates.last)),
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                DateFormat('MM/dd/yyyy').format(availableDates.first),
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+              Text(
+                DateFormat('MM/dd/yyyy').format(availableDates.last),
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

@@ -113,10 +113,10 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // Comparison header
-                      const Text(
+                      Text(
                         'Compare your progress',
-                        style: TextStyle(
-                          fontSize: 20,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: AppColors.textPrimary,
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
@@ -183,9 +183,15 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                           backgroundColor: AppColors.primary,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              10,
+                            ), // Square corners
+                          ),
                         ),
                         child: const Text('View All Images'),
                       ),
+                      const SizedBox(height: 8),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -195,6 +201,19 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                             ),
                           );
                         },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: AppColors.primaryDark,
+
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(
+                              color: AppColors.primaryDark,
+                              width: 1.5,
+                            ),
+                          ),
+                        ),
                         child: const Text('Image Timeline'),
                       ),
                     ],
@@ -250,114 +269,130 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
           setState(() {});
         });
       },
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Image header
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: AppColors.info.withOpacity(0.3), // subtle blue border
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Card(
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          margin: EdgeInsets.zero, // Prevent double padding
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Image header
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withOpacity(0.1),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(subtitle, style: const TextStyle(fontSize: 12)),
+                  ],
                 ),
               ),
-              child: Column(
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(subtitle, style: const TextStyle(fontSize: 12)),
-                ],
-              ),
-            ),
-            // Image type selector
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
-                vertical: 4.0,
-              ),
-              child: Wrap(
-                spacing: 4, // Horizontal space between buttons
-                runSpacing: 4, // Vertical space between lines
-                alignment: WrapAlignment.spaceEvenly,
-                children: [
-                  _buildImageTypeButton(
-                    'Front',
-                    'front',
-                    imageType,
-                    entry.frontImagePath != null,
-                    onImageTypeChanged,
-                  ),
-                  _buildImageTypeButton(
-                    'Side',
-                    'side',
-                    imageType,
-                    entry.sideImagePath != null,
-                    onImageTypeChanged,
-                  ),
-                  _buildImageTypeButton(
-                    'Back',
-                    'back',
-                    imageType,
-                    entry.backImagePath != null,
-                    onImageTypeChanged,
-                  ),
-                ],
-              ),
-            ),
-            // Image
-            if (imagePath != null)
-              AspectRatio(
-                aspectRatio: 3 / 4,
-                child: FutureBuilder<bool>(
-                  future: File(imagePath).exists(),
-                  builder: (context, snapshot) {
-                    final exists = snapshot.data ?? false;
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (exists) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Image.file(File(imagePath!), fit: BoxFit.cover),
-                      );
-                    } else {
-                      return const Center(
-                        child: Icon(Icons.broken_image, size: 64),
-                      );
-                    }
-                  },
+              // Image type selector
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                  vertical: 4.0,
                 ),
-              )
-            else
-              AspectRatio(
-                aspectRatio: 3 / 4,
-                child: Container(child: Icon(Icons.no_photography, size: 64)),
-              ),
-            // Weight info
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(12),
-                  bottomRight: Radius.circular(12),
+                child: Wrap(
+                  spacing: 4,
+                  runSpacing: 4,
+                  alignment: WrapAlignment.spaceEvenly,
+                  children: [
+                    _buildImageTypeButton(
+                      'Front',
+                      'front',
+                      imageType,
+                      entry.frontImagePath != null,
+                      onImageTypeChanged,
+                    ),
+                    _buildImageTypeButton(
+                      'Side',
+                      'side',
+                      imageType,
+                      entry.sideImagePath != null,
+                      onImageTypeChanged,
+                    ),
+                    _buildImageTypeButton(
+                      'Back',
+                      'back',
+                      imageType,
+                      entry.backImagePath != null,
+                      onImageTypeChanged,
+                    ),
+                  ],
                 ),
               ),
-              child: Text(
-                weight != null
-                    ? '${weight.toStringAsFixed(1)} kg'
-                    : 'No weight data',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+              // Image
+              if (imagePath != null)
+                AspectRatio(
+                  aspectRatio: 3 / 4,
+                  child: FutureBuilder<bool>(
+                    future: File(imagePath).exists(),
+                    builder: (context, snapshot) {
+                      final exists = snapshot.data ?? false;
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (exists) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: Image.file(
+                            File(imagePath!),
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      } else {
+                        return const Center(
+                          child: Icon(Icons.broken_image, size: 64),
+                        );
+                      }
+                    },
+                  ),
+                )
+              else
+                AspectRatio(
+                  aspectRatio: 3 / 4,
+                  child: Container(
+                    child: const Icon(Icons.no_photography, size: 64),
+                  ),
+                ),
+              // Weight info
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  weight != null
+                      ? '${weight.toStringAsFixed(1)} kg'
+                      : 'No weight data',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -385,6 +420,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
           ), // Reduced from 8 to 6
           minimumSize: Size.zero,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4), // Square corners
+          ),
         ),
         child: Text(
           label,
@@ -393,9 +431,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             fontWeight: currentType == type
                 ? FontWeight.bold
                 : FontWeight.normal,
-            color: isAvailable
-                ? const Color.fromARGB(255, 55, 31, 53)
-                : Colors.grey,
+            color: isAvailable ? AppColors.textPrimary : AppColors.textDisabled,
           ),
         ),
       ),

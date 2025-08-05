@@ -72,7 +72,7 @@ class Footer extends StatelessWidget {
       items: const [
         BottomNavigationBarItem(
           icon: HeroIcon(
-            HeroIcons.calendar,
+            HeroIcons.home,
             style: HeroIconStyle.outline,
             size: 30,
           ),

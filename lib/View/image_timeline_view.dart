@@ -14,10 +14,19 @@ class ImageTimelineView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Image Timeline'),
-        backgroundColor: AppColors.primaryDark,
-        foregroundColor: AppColors.textPrimary,
+        title: const Text(
+          'Image Timeline',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textTertiary,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.textTertiary,
       ),
+      backgroundColor: AppColors.background2,
       body: ImageTimelineViewWidget(),
     );
   }
