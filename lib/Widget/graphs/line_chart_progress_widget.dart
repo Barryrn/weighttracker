@@ -58,6 +58,8 @@ class _LineChartProgressWidgetState
 
     return Card(
       elevation: 2,
+      color: AppColors.card, // or any other custom color
+
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -142,7 +144,7 @@ class _LineChartProgressWidgetState
               style: ElevatedButton.styleFrom(
                 backgroundColor: isSelected
                     ? AppColors.primary
-                    : AppColors.primaryDark,
+                    : AppColors.primaryExtraLight,
                 foregroundColor: isSelected
                     ? Colors.white
                     : AppColors.textPrimary,
@@ -180,7 +182,7 @@ class _LineChartProgressWidgetState
             style: ElevatedButton.styleFrom(
               backgroundColor: isSelected
                   ? AppColors.primary
-                  : AppColors.primaryDark,
+                  : AppColors.primaryExtraLight,
               foregroundColor: isSelected
                   ? Colors.white
                   : AppColors.textPrimary,
@@ -468,10 +470,10 @@ class _LineChartProgressWidgetState
                               spots: spots,
                               isCurved: true,
                               curveSmoothness:
-                                  0.4, // Wert zwischen 0 und 1, z.B. 0.5 für mittelstarke Kurven
+                                  0.175, // Wert zwischen 0 und 1, z.B. 0.5 für mittelstarke Kurven
 
                               barWidth: 3,
-                              color: Colors.blueAccent,
+                              color: AppColors.primary,
                               dotData: FlDotData(show: true),
                               belowBarData: BarAreaData(show: false),
                             ),

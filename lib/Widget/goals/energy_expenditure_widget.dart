@@ -34,22 +34,13 @@ class EnergyExpenditureWidget extends ConsumerWidget {
         : null;
 
     return Card(
+      shadowColor: AppColors.primary.withOpacity(0.2),
+      color: AppColors.card,
       elevation: 8,
-      shadowColor: AppColors.primary.withOpacity(0.3),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              AppColors.card,
-              AppColors.primaryExtraLight.withOpacity(0.3),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(24),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

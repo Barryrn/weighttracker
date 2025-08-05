@@ -44,6 +44,8 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
 
     return Card(
       elevation: 2,
+      color: AppColors.card, // or any other custom color
+
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -157,7 +159,9 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
     return ElevatedButton(
       onPressed: () => _selectTimePeriod(period),
       style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? AppColors.primary : AppColors.primaryDark,
+        backgroundColor: isSelected
+            ? AppColors.primary
+            : AppColors.primaryExtraLight,
         foregroundColor: isSelected ? Colors.white : AppColors.textPrimary,
         elevation: isSelected ? 2 : 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

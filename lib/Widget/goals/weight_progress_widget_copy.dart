@@ -35,6 +35,8 @@ class WeightProgressWidgetCopy extends ConsumerWidget {
         : null;
 
     return Card(
+      shadowColor: AppColors.primary.withOpacity(0.2),
+      color: AppColors.card,
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(

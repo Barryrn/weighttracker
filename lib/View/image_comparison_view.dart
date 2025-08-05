@@ -27,6 +27,8 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
   Widget build(BuildContext context) {
     final comparisonState = ref.watch(imageComparisonProvider);
     return Card(
+      shadowColor: AppColors.primary.withOpacity(0.2),
+      color: AppColors.card,
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
