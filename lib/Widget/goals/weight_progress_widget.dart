@@ -36,6 +36,7 @@ class WeightProgressWidget extends ConsumerWidget {
     return Card(
       elevation: 4,
       shadowColor: AppColors.primary.withOpacity(0.2),
+      color: AppColors.card,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
 
       child: Column(
@@ -45,7 +46,7 @@ class WeightProgressWidget extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
             decoration: BoxDecoration(
-              color: AppColors.background1,
+              color: AppColors.card,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(

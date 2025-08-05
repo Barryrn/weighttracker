@@ -18,12 +18,20 @@ class ProgressPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Progress Page'),
-        automaticallyImplyLeading: false, // This removes the back arrow
+        title: const Text(
+          'Progress Page',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textTertiary,
+          ),
+        ),
+        automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: AppColors.primaryDark,
+        backgroundColor: AppColors.primary,
         foregroundColor: AppColors.textPrimary,
       ),
+      backgroundColor: AppColors.background2,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
