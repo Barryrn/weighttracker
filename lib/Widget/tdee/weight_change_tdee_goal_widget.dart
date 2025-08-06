@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/ViewModel/weight_change_tdee_goal_provider.dart';
 import 'package:weigthtracker/ViewModel/unit_conversion_provider.dart';
+import 'package:weigthtracker/theme.dart';
 
 class WeightChangeGoalTDEEWidget extends ConsumerStatefulWidget {
   const WeightChangeGoalTDEEWidget({Key? key}) : super(key: key);
@@ -111,6 +112,8 @@ class _WeightChangeGoalTDEEWidgetState
         });
       },
       child: Card(
+        shadowColor: AppColors.primary.withOpacity(0.2),
+        color: AppColors.card,
         elevation: 3,
         margin: const EdgeInsets.all(16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -118,23 +121,19 @@ class _WeightChangeGoalTDEEWidgetState
           padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  const Icon(Icons.local_fire_department, color: Colors.orange),
-                  const SizedBox(width: 12),
-                  Flexible(
-                    child: Text(
-                      'Weight Change Goal TDEE',
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w400,
-                      ),
-                      overflow: TextOverflow.clip,
-                    ),
+              Flexible(
+                child: Text(
+                  'Weight Change Goal TDEE',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
+                  overflow: TextOverflow.clip,
+                ),
               ),
+
               const SizedBox(height: 20),
 
               // Buttons for Gain / Lose Weight
@@ -257,7 +256,8 @@ class _WeightChangeGoalTDEEWidgetState
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.primary.withOpacity(0.05),
+                    color: AppColors.background1,
+
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(

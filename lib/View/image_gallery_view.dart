@@ -174,81 +174,103 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
   Widget build(BuildContext context) {
     final entriesState = ref.watch(imageComparisonProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Image Gallery'),
-        backgroundColor: AppColors.primaryDark,
-        foregroundColor: AppColors.textPrimary,
-        actions: [
-          // Filter toggle button
-          IconButton(
-            icon: Icon(
-              _showFilters ? Icons.filter_list_off : Icons.filter_list,
+    return GestureDetector(
+      // Add GestureDetector to dismiss keyboard when tapping anywhere on the screen
+      onTap: () {
+        // Hide the keyboard when tapping outside of text fields
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Image Gallery',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textTertiary,
             ),
-            onPressed: () {
-              setState(() {
-                _showFilters = !_showFilters;
-                // Don't apply filters when just toggling the filter UI visibility
-                if (!_showFilters) {
-                  // Reset filters when hiding the filter UI
-                  _filtersActive = false;
-                  _clearFilters();
-                }
-              });
-            },
           ),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Filter section
-          if (_showFilters) _buildFilterSection(),
-
-          // Gallery grid
-          Expanded(
-            child: entriesState.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stackTrace) =>
-                  Center(child: Text('Error loading images: $error')),
-              data: (entries) {
-                // Filter entries based on current filter settings
-                final filteredEntries = _filterEntries(entries);
-
-                // Get all available images from filtered entries
-                final allImages = <Map<String, dynamic>>[];
-                for (final entry in filteredEntries) {
-                  allImages.addAll(_getAvailableImages(entry));
-                }
-
-                if (allImages.isEmpty) {
-                  return const Center(
-                    child: Text('No images match the current filters'),
-                  );
-                }
-
-                return GridView.builder(
-                  padding: const EdgeInsets.all(8),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.75,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                  ),
-                  itemCount: allImages.length,
-                  itemBuilder: (context, index) {
-                    final imageData = allImages[index];
-                    return _buildImageCard(
-                      context,
-                      imageData['entry'] as BodyEntry,
-                      imageData['path'] as String,
-                      imageData['type'] as String,
-                    );
-                  },
-                );
+          centerTitle: true,
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.textPrimary,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          actions: [
+            // Filter toggle button
+            IconButton(
+              icon: Icon(
+                _showFilters ? Icons.filter_list_off : Icons.filter_list,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {
+                  _showFilters = !_showFilters;
+                  // Don't apply filters when just toggling the filter UI visibility
+                  if (!_showFilters) {
+                    // Reset filters when hiding the filter UI
+                    _filtersActive = false;
+                    _clearFilters();
+                  }
+                });
               },
             ),
-          ),
-        ],
+          ],
+        ),
+        backgroundColor: AppColors.background2,
+        body: Column(
+          children: [
+            // Filter section
+            if (_showFilters) _buildFilterSection(),
+
+            // Gallery grid
+            Expanded(
+              child: entriesState.when(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stackTrace) =>
+                    Center(child: Text('Error loading images: $error')),
+                data: (entries) {
+                  // Filter entries based on current filter settings
+                  final filteredEntries = _filterEntries(entries);
+
+                  // Get all available images from filtered entries
+                  final allImages = <Map<String, dynamic>>[];
+                  for (final entry in filteredEntries) {
+                    allImages.addAll(_getAvailableImages(entry));
+                  }
+
+                  if (allImages.isEmpty) {
+                    return const Center(
+                      child: Text('No images match the current filters'),
+                    );
+                  }
+
+                  return GridView.builder(
+                    padding: const EdgeInsets.all(8),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.75,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                        ),
+                    itemCount: allImages.length,
+                    itemBuilder: (context, index) {
+                      final imageData = allImages[index];
+                      return _buildImageCard(
+                        context,
+                        imageData['entry'] as BodyEntry,
+                        imageData['path'] as String,
+                        imageData['type'] as String,
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -523,9 +545,8 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             FilterChip(
               label: const Text('Front'),
@@ -607,18 +628,31 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       child: Stack(
         children: [
           // Image
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: AppColors.primary.withOpacity(0.3),
+                width: 3,
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
             ),
-            child: Image.file(
-              File(imagePath),
-              fit: BoxFit.cover,
-              height: 200,
-              width: double.infinity,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
+              child: Image.file(
+                File(imagePath),
+                fit: BoxFit.cover,
+                height: 200,
+                width: double.infinity,
+              ),
             ),
           ),
+
           // Info card
           Positioned(
             bottom: 0,
@@ -626,13 +660,29 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             right: 0,
             child: Container(
               padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(12),
                   bottomRight: Radius.circular(12),
                 ),
+                border: Border(
+                  left: BorderSide(
+                    color: AppColors.primary.withOpacity(0.3),
+                    width: 3,
+                  ),
+                  right: BorderSide(
+                    color: AppColors.primary.withOpacity(0.3),
+                    width: 3,
+                  ),
+                  bottom: BorderSide(
+                    color: AppColors.primary.withOpacity(0.3),
+                    width: 3,
+                  ),
+                  // kein BorderSide für top, also keine obere Linie
+                ),
               ),
+
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
