@@ -54,7 +54,7 @@ class TDEEWidget extends ConsumerWidget {
               value: currentActivityLevel,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.background1,
+                fillColor: Theme.of(context).colorScheme.card,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

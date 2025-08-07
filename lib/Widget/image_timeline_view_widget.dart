@@ -61,8 +61,8 @@ class ImageTimelineViewWidget extends ConsumerWidget {
               vertical: 8.0,
             ),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryExtraLight,
-              borderRadius: BorderRadius.circular(12),
+              color: Theme.of(context).colorScheme.primaryLight,
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
               children: [
