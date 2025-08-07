@@ -23,9 +23,9 @@ class TDEEWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Total Daily Energy Expenditure (TDEE)',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: AppTypography.subtitle1(context),
             ),
             const SizedBox(height: 16),
             Center(
@@ -33,9 +33,7 @@ class TDEEWidget extends ConsumerWidget {
                 tdee != null
                     ? '${tdee.toInt()} calories/day'
                     : 'Not calculated',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                style: AppTypography.headline1(context).copyWith(
                   color: Theme.of(context).colorScheme.textPrimary,
                 ),
               ),
@@ -43,9 +41,7 @@ class TDEEWidget extends ConsumerWidget {
             const SizedBox(height: 24),
             Text(
               'Activity Level',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+              style: AppTypography.subtitle2(context).copyWith(
                 color: Theme.of(context).colorScheme.textPrimary,
               ),
             ),
@@ -73,7 +69,7 @@ class TDEEWidget extends ConsumerWidget {
                     child: Text(
                       level.description,
                       softWrap: true,
-                      style: const TextStyle(fontSize: 14),
+                      style: AppTypography.bodyMedium(context),
                     ),
                   ),
                 );
@@ -87,9 +83,7 @@ class TDEEWidget extends ConsumerWidget {
             const SizedBox(height: 24),
             Text(
               'This is a first estimate of your TDEE based on age, weight, gender, and activity level.\nFor a more precise result, track your body weight and calorie intake for at least 7 continous days.',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
+              style: AppTypography.caption(context).copyWith(
                 color: Theme.of(context).colorScheme.textSecondary,
               ),
             ),

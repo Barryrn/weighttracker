@@ -71,16 +71,11 @@
 //                       children: [
 //                         Text(
 //                           DateFormat('MM/dd/yyyy').format(currentEntry.date),
-//                           style: const TextStyle(
-//                             fontSize: 18,
-//                             fontWeight: FontWeight.bold,
-//                           ),
-//                         ),
+//                           //                         ),
 //                         if (currentEntry.weight != null)
 //                           Text(
 //                             'Weight: ${currentEntry.weight!.toStringAsFixed(1)} kg',
-//                             style: const TextStyle(fontSize: 16),
-//                           ),
+//                             //                           ),
 //                       ],
 //                     ),
 //                   ),
@@ -162,13 +157,11 @@
 //         children: [
 //           Text(
 //             'Only one image available for this view',
-//             style: TextStyle(color: Theme.of(context).colorScheme.textSecondary),
-//           ),
+//             //           ),
 //           const SizedBox(height: 8),
 //           Text(
 //             DateFormat('MM/dd/yyyy').format(availableDates.first),
-//             style: TextStyle(fontWeight: FontWeight.bold),
-//           ),
+//             //           ),
 //         ],
 //       );
 //     }

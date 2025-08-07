@@ -36,9 +36,11 @@ class FatPercentageEntry extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        const Text(
+        Text(
           'Body Fat Percentage (%)',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          style: AppTypography.bodyLarge(
+            context,
+          ).copyWith(fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 8),
         Container(
@@ -82,16 +84,21 @@ class FatPercentageEntry extends ConsumerWidget {
                       vertical: 12,
                     ),
                     border: InputBorder.none,
-                    suffixIcon: const Padding(
+                    suffixIcon: Padding(
                       padding: EdgeInsets.only(right: 12.0),
-                      child: Text('%', style: TextStyle(color: Colors.grey)),
+                      child: Text(
+                        '%',
+                        style: AppTypography.bodyMedium(context).copyWith(
+                          color: Theme.of(context).colorScheme.textDisabled,
+                        ),
+                      ),
                     ),
                     suffixIconConstraints: const BoxConstraints(
                       minWidth: 0,
                       minHeight: 0,
                     ),
                   ),
-                  style: const TextStyle(fontSize: 18, color: Colors.black87),
+                  style: AppTypography.subtitle2(context),
                 ),
               ),
               Container(

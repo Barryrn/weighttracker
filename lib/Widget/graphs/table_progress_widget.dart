@@ -66,14 +66,7 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
 
             // Data display
             if (aggregatedData.isEmpty)
-              Center(
-                child: Text(
-                  'No data available for this time period',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.textSecondary,
-                  ),
-                ),
-              )
+              Center(child: Text('No data available for this time period'))
             else
               ListView.separated(
                 shrinkWrap: true,
@@ -95,14 +88,7 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Period label
-                        Text(
-                          data.periodLabel,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
+                        Text(data.periodLabel),
                         const SizedBox(height: 8),
 
                         // Data rows
@@ -133,11 +119,6 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
                         // Entry count
                         Text(
                           'Based on ${data.entryCount} ${data.entryCount == 1 ? 'entry' : 'entries'}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(context).colorScheme.textSecondary,
-                            fontStyle: FontStyle.italic,
-                          ),
                         ),
                       ],
                     ),
@@ -163,10 +144,8 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
       style: ElevatedButton.styleFrom(
         backgroundColor: isSelected
             ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.primaryLight,
-        foregroundColor: isSelected
-            ? Colors.white
-            : Theme.of(context).colorScheme.textPrimary,
+            : Theme.of(context).colorScheme.primaryExtraLight,
+        foregroundColor: isSelected ? Colors.white : AppColors.textPrimary,
         elevation: isSelected ? 2 : 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -178,20 +157,7 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
   /// Builds a data column with label and value
   Widget _buildDataColumn(String label, String value) {
     return Column(
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            color: Theme.of(context).colorScheme.textSecondary,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-      ],
+      children: [Text(label), const SizedBox(height: 4), Text(value)],
     );
   }
 }

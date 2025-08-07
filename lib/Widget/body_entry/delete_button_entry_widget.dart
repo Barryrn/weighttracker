@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/ViewModel/delete_entry_view_model.dart';
 import 'package:weigthtracker/ViewModel/entry_form_provider.dart';
 import 'package:weigthtracker/model/database_helper.dart';
+import 'package:weigthtracker/theme.dart';
 
 /// A widget that provides a delete button for body entry data.
 ///
@@ -81,11 +82,10 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            child: const Text(
+            child: Text(
               'Delete',
-              style: TextStyle(
+              style: AppTypography.subtitle1(context).copyWith(
                 color: Colors.white,
-                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -103,19 +103,20 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Delete Entry'),
-              content: const Text(
+              title: Text('Delete Entry', style: AppTypography.subtitle1(context)),
+              content: Text(
                 'Are you sure you want to delete this entry? This action cannot be undone.',
+                style: AppTypography.bodyMedium(context),
               ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: const Text('Cancel'),
+                  child: Text('Cancel', style: AppTypography.buttonText(context)),
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(true),
                   style: TextButton.styleFrom(foregroundColor: Colors.red),
-                  child: const Text('Delete'),
+                  child: Text('Delete', style: AppTypography.buttonText(context).copyWith(color: Colors.red)),
                 ),
               ],
             );

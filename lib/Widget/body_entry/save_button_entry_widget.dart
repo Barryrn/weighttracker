@@ -46,7 +46,7 @@ class SaveButtonEntryWidget extends ConsumerWidget {
                 SnackBar(
                   content: Text(
                     'Entry saved successfully',
-                    style: TextStyle(color: Colors.white),
+                    style: AppTypography.bodyMedium(context).copyWith(color: Colors.white),
                   ),
                   backgroundColor: Theme.of(context).colorScheme.error,
                   duration: Duration(seconds: 1),
@@ -74,11 +74,10 @@ class SaveButtonEntryWidget extends ConsumerWidget {
             borderRadius: BorderRadius.circular(16),
           ),
         ),
-        child: const Text(
+        child: Text(
           'Save',
-          style: TextStyle(
+          style: AppTypography.subtitle1(context).copyWith(
             color: Colors.white,
-            fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),

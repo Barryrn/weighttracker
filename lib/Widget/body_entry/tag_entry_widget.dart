@@ -23,14 +23,14 @@ class TagEntry extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Tags',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          style: AppTypography.bodyLarge(context).copyWith(fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
               width: 1,
@@ -99,12 +99,12 @@ class TagEntry extends ConsumerWidget {
       onDeleted: () => viewModel.removeTag(tag),
       backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
         side: BorderSide(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
         ),
       ),
-      labelStyle: const TextStyle(fontSize: 14),
+      labelStyle: AppTypography.bodyMedium(context),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
     );
   }

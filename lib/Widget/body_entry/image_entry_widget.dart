@@ -277,9 +277,9 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        const Text(
+        Text(
           'Progress Photos',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          style: AppTypography.bodyLarge(context).copyWith(fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 8),
         Row(
@@ -358,7 +358,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
                               child: Text(
                                 title,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(
+                                style: AppTypography.bodyMedium(context).copyWith(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -390,8 +390,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
         const SizedBox(height: 8),
         Text(
           title,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.textSecondary,
+          style: AppTypography.bodyMedium(context).copyWith(
             fontWeight: FontWeight.w500,
           ),
         ),

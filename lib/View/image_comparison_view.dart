@@ -70,16 +70,11 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                           const SizedBox(height: 16),
                           const Text(
                             'No images available',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 8),
                           const Text(
                             'Please upload images to track your progress',
-                            style: TextStyle(fontSize: 14),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 16),
@@ -119,10 +114,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                       // Comparison header
                       Text(
                         'Compare your progress',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.textPrimary,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: AppTypography.headline3(context),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 16),
@@ -308,11 +300,8 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                 ),
                 child: Column(
                   children: [
-                    Text(
-                      title,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(subtitle, style: const TextStyle(fontSize: 12)),
+                    Text(title, style: AppTypography.bodyMedium(context)),
+                    Text(subtitle, style: AppTypography.bodySmall(context)),
                   ],
                 ),
               ),
@@ -398,7 +387,6 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                       ? '${weight.toStringAsFixed(1)} kg'
                       : 'No weight data',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -434,18 +422,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             borderRadius: BorderRadius.circular(4), // Square corners
           ),
         ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: currentType == type
-                ? FontWeight.bold
-                : FontWeight.normal,
-            color: isAvailable
-                ? Theme.of(context).colorScheme.textPrimary
-                : Theme.of(context).colorScheme.textDisabled,
-          ),
-        ),
+        child: Text(label),
       ),
     );
   }
@@ -470,10 +447,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             ),
             child: const Column(
               children: [
-                Text(
-                  'No Comparison',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+                Text('No Comparison'),
                 Text('Add more entries', style: TextStyle(fontSize: 12)),
               ],
             ),
@@ -501,7 +475,6 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             child: const Text(
               'No similar weight entry',
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ],

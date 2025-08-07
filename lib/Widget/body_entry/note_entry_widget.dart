@@ -20,9 +20,9 @@ class NotesEntry extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        const Text(
+        Text(
           'Notes',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          style: AppTypography.bodyLarge(context).copyWith(fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 8),
         Container(
@@ -47,7 +47,7 @@ class NotesEntry extends ConsumerWidget {
                 minHeight: 0,
               ),
             ),
-            style: const TextStyle(fontSize: 18, color: Colors.black87),
+            style: AppTypography.subtitle2(context),
           ),
         ),
       ],

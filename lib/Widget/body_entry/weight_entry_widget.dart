@@ -26,15 +26,16 @@ class WeightEntry extends ConsumerWidget {
           children: [
             Text(
               'Weight (${entryData.unitSuffix})',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              style: AppTypography.bodyLarge(
+                context,
+              ).copyWith(fontWeight: FontWeight.w500),
             ),
             // Unit toggle button
             // TextButton(
             //   onPressed: viewModel.toggleUnit,
             //   child: Text(
             //     'Switch to ${entryData.useMetricWeight ? "lb" : "kg"}',
-            //     style: const TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary),
-            //   ),
+            //                 //   ),
             // ),
           ],
         ),
@@ -104,7 +105,9 @@ class WeightEntry extends ConsumerWidget {
                 padding: const EdgeInsets.only(right: 12.0),
                 child: Text(
                   entryData.unitSuffix,
-                  style: const TextStyle(color: Colors.grey),
+                  style: AppTypography.bodyMedium(
+                    context,
+                  ).copyWith(color: Theme.of(context).colorScheme.textDisabled),
                 ),
               ),
               suffixIconConstraints: const BoxConstraints(
@@ -112,7 +115,7 @@ class WeightEntry extends ConsumerWidget {
                 minHeight: 0,
               ),
             ),
-            style: const TextStyle(fontSize: 18, color: Colors.black87),
+            style: AppTypography.subtitle2(context),
           ),
         ),
       ],

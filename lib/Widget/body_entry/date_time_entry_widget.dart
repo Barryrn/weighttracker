@@ -74,11 +74,6 @@ class DateTimeEntry extends ConsumerWidget {
                         Flexible(
                           child: Text(
                             displayText,
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.w500,
-                            ),
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                           ),

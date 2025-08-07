@@ -53,22 +53,13 @@
 //                   children: [
 //                     const Text(
 //                       'Current',
-//                       style: TextStyle(
-//                         fontSize: 16,
-//                         color: Theme.of(context).colorScheme.textPrimary,
-//                       ),
-//                     ),
+//                       //                     ),
 //                     const SizedBox(height: 4),
 //                     Text(
 //                       progressData.displayCurrentWeight != null
 //                           ? '${progressData.displayCurrentWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
 //                           : '-- ${progressData.unitSuffix}',
-//                       style: const TextStyle(
-//                         fontSize: 24,
-//                         fontWeight: FontWeight.bold,
-//                         color: Theme.of(context).colorScheme.primary,
-//                       ),
-//                     ),
+//                       //                     ),
 //                   ],
 //                 ),
 
@@ -78,22 +69,13 @@
 //                   children: [
 //                     const Text(
 //                       'Goal',
-//                       style: TextStyle(
-//                         fontSize: 16,
-//                         color: Theme.of(context).colorScheme.textPrimary,
-//                       ),
-//                     ),
+//                       //                     ),
 //                     const SizedBox(height: 4),
 //                     Text(
 //                       progressData.displayGoalWeight != null
 //                           ? '${progressData.displayGoalWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
 //                           : '-- ${progressData.unitSuffix}',
-//                       style: const TextStyle(
-//                         fontSize: 24,
-//                         fontWeight: FontWeight.bold,
-//                         color: Theme.of(context).colorScheme.primary,
-//                       ),
-//                     ),
+//                       //                     ),
 //                   ],
 //                 ),
 //               ],
@@ -130,19 +112,10 @@
 //                       children: [
 //                         Text(
 //                           '${(progressData.progressPercentage * 100).toStringAsFixed(0)}%',
-//                           style: const TextStyle(
-//                             fontSize: 28,
-//                             fontWeight: FontWeight.bold,
-//                             color: Theme.of(context).colorScheme.primary,
-//                           ),
-//                         ),
+//                           //                         ),
 //                         const Text(
 //                           'complete',
-//                           style: TextStyle(
-//                             fontSize: 14,
-//                             color: Theme.of(context).colorScheme.textSecondary,
-//                           ),
-//                         ),
+//                           //                         ),
 //                       ],
 //                     ),
 //                   ],
@@ -160,19 +133,11 @@
 //                     children: [
 //                       const Text(
 //                         'TDEE Calories',
-//                         style: TextStyle(
-//                           fontSize: 14,
-//                           color: Theme.of(context).colorScheme.textSecondary,
-//                         ),
-//                       ),
+//                         //                       ),
 //                       const SizedBox(height: 4),
 //                       Text(
 //                         tdee?.toStringAsFixed(0) ?? 'N/A',
-//                         style: const TextStyle(
-//                           fontSize: 18,
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       ),
+//                         //                       ),
 //                     ],
 //                   ),
 //                 ),
@@ -182,22 +147,14 @@
 //                     children: [
 //                       const Text(
 //                         'Remaining',
-//                         style: TextStyle(
-//                           fontSize: 14,
-//                           color: Theme.of(context).colorScheme.textSecondary,
-//                         ),
-//                       ),
+//                         //                       ),
 //                       const SizedBox(height: 4),
 //                       Text(
 //                         progressData.currentWeight != null &&
 //                                 progressData.goalWeight != null
 //                             ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
 //                             : '-- ${progressData.unitSuffix}',
-//                         style: const TextStyle(
-//                           fontSize: 18,
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       ),
+//                         //                       ),
 //                     ],
 //                   ),
 //                 ),
@@ -206,20 +163,12 @@
 //                     children: [
 //                       const Text(
 //                         'Goal Weight TDEE',
-//                         style: TextStyle(
-//                           fontSize: 14,
-//                           color: Theme.of(context).colorScheme.textSecondary,
-//                         ),
-//                       ),
+//                         //                       ),
 //                       const SizedBox(height: 4),
 //                       Text(
 //                         goalTDEE?.toStringAsFixed(0) ?? 'N/A',
 
-//                         style: TextStyle(
-//                           fontSize: 18,
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                       ),
+//                         //                       ),
 //                     ],
 //                   ),
 //                 ),

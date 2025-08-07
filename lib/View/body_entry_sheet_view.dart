@@ -39,12 +39,9 @@ class BodyEntrySheet {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
+                            Text(
                               'Add Weight Entry',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: AppTypography.headline3(context),
                             ),
 
                             IconButton(

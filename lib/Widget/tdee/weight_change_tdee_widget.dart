@@ -39,14 +39,12 @@ class WeightChangeTDEEWidget extends ConsumerWidget {
             const SizedBox(height: 16),
             const Text(
               'Based on your weight change and calorie intake over time:',
-              style: TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 8),
             _buildTDEEDisplay(context, tdee),
             const SizedBox(height: 16),
             const Text(
               'This calculation uses the formula: TDEE = (CaloriesConsumed + (WeightChange_kg × 7700)) / Days',
-              style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
             ),
             const SizedBox(height: 8),
             _buildRequirementsText(tdee),
@@ -67,7 +65,6 @@ class WeightChangeTDEEWidget extends ConsumerWidget {
             child: Text(
               'Insufficient data for TDEE calculation. Please track your weight and calories for at least 7 consecutive days.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14),
             ),
           ),
         ),
@@ -81,19 +78,9 @@ class WeightChangeTDEEWidget extends ConsumerWidget {
         child: Center(
           child: Column(
             children: [
-              Text(
-                '${tdee.toStringAsFixed(0)} calories',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue.shade800,
-                ),
-              ),
+              Text('${tdee.toStringAsFixed(0)} calories'),
               const SizedBox(height: 4),
-              const Text(
-                'Your estimated daily calorie needs',
-                style: TextStyle(fontSize: 14),
-              ),
+              const Text('Your estimated daily calorie needs'),
             ],
           ),
         ),
@@ -106,12 +93,10 @@ class WeightChangeTDEEWidget extends ConsumerWidget {
     if (tdee == null) {
       return const Text(
         'Note: This calculation requires at least 7 consecutive days of weight and calorie data. It will use up to 14 days of continuous data for more accuracy.',
-        style: TextStyle(fontSize: 12, color: Colors.grey),
       );
     } else {
       return const Text(
         'This calculation automatically updates when you add new entries.',
-        style: TextStyle(fontSize: 12, color: Colors.grey),
       );
     }
   }
