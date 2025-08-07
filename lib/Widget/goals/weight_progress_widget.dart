@@ -126,9 +126,9 @@ class WeightProgressWidget extends ConsumerWidget {
                           strokeWidth: 12,
                           backgroundColor: Theme.of(
                             context,
-                          ).colorScheme.primaryExtraLight,
+                          ).colorScheme.primaryLight,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            Theme.of(context).colorScheme.primary,
+                            Theme.of(context).colorScheme.primaryDark,
                           ),
                         ),
                       );

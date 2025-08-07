@@ -163,7 +163,7 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
       style: ElevatedButton.styleFrom(
         backgroundColor: isSelected
             ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.primaryExtraLight,
+            : Theme.of(context).colorScheme.primaryLight,
         foregroundColor: isSelected
             ? Colors.white
             : Theme.of(context).colorScheme.textPrimary,

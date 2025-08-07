@@ -22,7 +22,7 @@ class WeightGoalWidget extends ConsumerWidget {
       shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
       color: Theme.of(context).colorScheme.card,
 
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -58,7 +58,7 @@ class WeightGoalWidget extends ConsumerWidget {
             const SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                 ),
@@ -121,7 +121,7 @@ class WeightGoalWidget extends ConsumerWidget {
             const SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                 ),

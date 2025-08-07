@@ -48,13 +48,9 @@ class _MyAppState extends ConsumerState<MyApp> {
 
     return MaterialApp(
       title: 'Weight Tracker',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Theme.of(context).colorScheme.primary,
-        ),
-      ),
-      themeMode: ThemeMode.dark, // or ThemeMode.dark, ThemeMode.light
-
+      theme: appTheme, // Use the predefined light theme
+      darkTheme: appDarkTheme, // Use the predefined dark theme
+      themeMode: ThemeMode.dark, // or ThemeMode.dark, ThemeMode.system
       home: const HomePage(),
     );
   }

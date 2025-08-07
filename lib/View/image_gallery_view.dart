@@ -282,8 +282,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[100],
-        border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
+        color: Theme.of(context).colorScheme.card,
+        border: Border(
+          bottom: BorderSide(color: Theme.of(context).colorScheme.border),
+        ),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -531,9 +534,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
               primary: Theme.of(context).colorScheme.primary,
-              onPrimary: Colors.white,
-              surface: Colors.white,
-              onSurface: Colors.black,
+              onPrimary: Theme.of(context).colorScheme.onPrimary,
+              onSurface: Theme.of(context).colorScheme.textPrimary,
+              background: Theme.of(context).colorScheme.background,
+              surface: Theme.of(context).colorScheme.surface,
+              onBackground: Theme.of(context).colorScheme.textPrimary,
             ),
           ),
           child: child!,
@@ -567,7 +572,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
           children: _allTags.map((tag) {
             final isSelected = _selectedTags.contains(tag);
             return FilterChip(
-              label: Text(tag),
+              label: Text(
+                tag,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.textPrimary,
+                ),
+              ),
               selected: isSelected,
               onSelected: (selected) {
                 setState(() {
@@ -578,7 +588,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                   }
                 });
               },
-              backgroundColor: Colors.grey[200],
+              backgroundColor: Theme.of(context).colorScheme.card,
               selectedColor: Theme.of(
                 context,
               ).colorScheme.primary.withOpacity(0.2),
@@ -621,7 +631,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     _showFrontImages = selected;
                   });
                 },
-                backgroundColor: Colors.grey[200],
+                backgroundColor: Theme.of(context).colorScheme.card,
                 selectedColor: Theme.of(
                   context,
                 ).colorScheme.primary.withOpacity(0.2),
@@ -645,7 +655,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     _showSideImages = selected;
                   });
                 },
-                backgroundColor: Colors.grey[200],
+                backgroundColor: Theme.of(context).colorScheme.card,
                 selectedColor: Theme.of(
                   context,
                 ).colorScheme.primary.withOpacity(0.2),
@@ -669,7 +679,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     _showBackImages = selected;
                   });
                 },
-                backgroundColor: Colors.grey[200],
+                backgroundColor: Theme.of(context).colorScheme.card,
                 selectedColor: Theme.of(
                   context,
                 ).colorScheme.primary.withOpacity(0.2),
@@ -753,7 +763,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.card,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(12),
                   bottomRight: Radius.circular(12),

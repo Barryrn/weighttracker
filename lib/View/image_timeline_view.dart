@@ -25,6 +25,10 @@ class ImageTimelineView extends ConsumerWidget {
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.textTertiary,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       backgroundColor: Theme.of(context).colorScheme.background2,
       body: Padding(

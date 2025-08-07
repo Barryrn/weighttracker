@@ -255,7 +255,7 @@ class _WeightChangeGoalTDEEWidgetState
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background1,
+                    color: Theme.of(context).colorScheme.background2,
 
                     borderRadius: BorderRadius.circular(10),
                   ),

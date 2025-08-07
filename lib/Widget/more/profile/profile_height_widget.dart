@@ -55,8 +55,8 @@ class ProfileHeightWidget extends ConsumerWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(8),
+              color: Theme.of(context).colorScheme.background2,
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(
               Icons.height,
