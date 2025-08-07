@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:weigthtracker/Widget/health_widget.dart';
+import 'package:weigthtracker/theme.dart';
 import '../ViewModel/health_provider.dart';
 
 /// A widget for displaying and managing health sync settings
@@ -13,11 +14,36 @@ class HealthSyncSettings extends ConsumerWidget {
     final healthState = ref.watch(healthStateProvider);
     final healthNotifier = ref.read(healthStateProvider.notifier);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Health Integration')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(children: [HealthWidget()]),
+    return GestureDetector(
+      // Add GestureDetector to dismiss keyboard when tapping anywhere on the screen
+      onTap: () {
+        // Hide the keyboard when tapping outside of text fields
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'TDEE Calculator',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textTertiary,
+            ),
+          ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.textPrimary,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
+        backgroundColor: AppColors.background2,
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(children: [HealthWidget()]),
+        ),
       ),
     );
   }

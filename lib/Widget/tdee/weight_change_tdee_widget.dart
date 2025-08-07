@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weigthtracker/theme.dart';
 import '../../ViewModel/weight_change_tdee_provider.dart';
 
 /// A widget that displays the TDEE calculated based on weight change and calorie intake.
@@ -33,10 +32,7 @@ class WeightChangeTDEEWidget extends ConsumerWidget {
                 const SizedBox(width: 8),
                 Text(
                   'Weight Change TDEE',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
             ),

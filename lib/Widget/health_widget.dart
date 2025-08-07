@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:weigthtracker/theme.dart';
 import '../ViewModel/health_provider.dart';
 
 /// A widget for displaying and managing health sync settings
@@ -12,124 +13,134 @@ class HealthWidget extends ConsumerWidget {
     final healthState = ref.watch(healthStateProvider);
     final healthNotifier = ref.read(healthStateProvider.notifier);
 
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Health service availability card
-          _buildStatusCard(
-            context,
-            title: 'Health Services',
-            subtitle: healthState.isAvailable
-                ? 'Available on your device'
-                : 'Not available on your device',
-            icon: healthState.isAvailable
-                ? Icons.check_circle
-                : Icons.error_outline,
-            iconColor: healthState.isAvailable ? Colors.green : Colors.orange,
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Health service availability card
+        _buildStatusCard(
+          context,
+          title: 'Health Services',
+          subtitle: healthState.isAvailable
+              ? 'Available on your device'
+              : 'Not available on your device',
+          icon: healthState.isAvailable
+              ? Icons.check_circle
+              : Icons.error_outline,
+          iconColor: healthState.isAvailable
+              ? AppColors.success
+              : AppColors.warning,
+        ),
 
-          const SizedBox(height: 16),
+        const SizedBox(height: 12),
 
-          // Authorization status card
-          _buildStatusCard(
-            context,
-            title: 'Authorization',
-            subtitle: healthState.isAuthorized
-                ? 'Access granted'
-                : 'Access not granted',
-            icon: healthState.isAuthorized
-                ? Icons.check_circle
-                : Icons.lock_outline,
-            iconColor: healthState.isAuthorized ? Colors.green : Colors.orange,
-          ),
+        // Authorization status card
+        _buildStatusCard(
+          context,
+          title: 'Authorization',
+          subtitle: healthState.isAuthorized
+              ? 'Access granted'
+              : 'Access not granted',
+          icon: healthState.isAuthorized
+              ? Icons.check_circle
+              : Icons.lock_outline,
+          iconColor: healthState.isAuthorized
+              ? AppColors.success
+              : AppColors.warning,
+        ),
 
-          const SizedBox(height: 16),
+        const SizedBox(height: 12),
 
-          // Last sync time card
-          _buildStatusCard(
-            context,
-            title: 'Last Sync',
-            subtitle: healthState.lastSyncTime != null
-                ? DateFormat(
-                    'MMM d, yyyy h:mm a',
-                  ).format(healthState.lastSyncTime!)
-                : 'Never synced',
-            icon: Icons.sync,
-            iconColor: healthState.lastSyncTime != null
-                ? Colors.blue
-                : Colors.grey,
-          ),
+        // Last sync time card
+        _buildStatusCard(
+          context,
+          title: 'Last Sync',
+          subtitle: healthState.lastSyncTime != null
+              ? DateFormat(
+                  'MMM d, yyyy h:mm a',
+                ).format(healthState.lastSyncTime!)
+              : 'Never synced',
+          icon: Icons.sync,
+          iconColor: healthState.lastSyncTime != null
+              ? AppColors.primary
+              : Colors.grey,
+        ),
 
-          const SizedBox(height: 24),
+        const SizedBox(height: 12),
 
-          // Error message if any
-          if (healthState.errorMessage != null)
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.red.shade50,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.red.shade200),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.error_outline, color: Colors.red.shade700),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      healthState.errorMessage!,
-                      style: TextStyle(color: Colors.red.shade700),
-                    ),
+        // Error message if any
+        if (healthState.errorMessage != null)
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.red.shade50,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.red.shade200),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.error_outline, color: AppColors.error),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    healthState.errorMessage!,
+                    style: TextStyle(color: AppColors.error),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+          ),
 
-          const SizedBox(height: 24),
+        // Action buttons
+        if (healthState.isAvailable && !healthState.isAuthorized)
+          _buildActionButton(
+            context,
+            label: 'Grant Access',
+            labelColor: AppColors.textPrimary,
+            icon: Icons.vpn_key,
+            iconHeight: 24,
+            iconWidth: 24,
+            labelHeight: 12,
+            iconColor: AppColors.primary,
+            onPressed: () => healthNotifier.requestAuthorization(),
+            isLoading: healthState.isSyncing,
+          ),
 
-          // Action buttons
-          if (healthState.isAvailable && !healthState.isAuthorized)
-            _buildActionButton(
-              context,
-              label: 'Grant Access',
-              icon: Icons.vpn_key,
-              onPressed: () => healthNotifier.requestAuthorization(),
-              isLoading: healthState.isSyncing,
-            ),
+        if (healthState.isAvailable && healthState.isAuthorized) ...[
+          _buildActionButton(
+            context,
+            label: 'Sync Now',
+            labelColor: AppColors.textPrimary,
+            icon: Icons.sync,
+            iconHeight: 24,
+            iconWidth: 24,
+            labelHeight: 20,
+            iconColor: AppColors.primary,
+            onPressed: healthState.isSyncing
+                ? null
+                : () => healthNotifier.performTwoWaySync(),
+            isLoading: healthState.isSyncing,
+          ),
 
-          if (healthState.isAvailable && healthState.isAuthorized) ...[
-            _buildActionButton(
-              context,
-              label: 'Sync Now',
-              icon: Icons.sync,
-              onPressed: healthState.isSyncing
-                  ? null
-                  : () => healthNotifier.performTwoWaySync(),
-              isLoading: healthState.isSyncing,
-            ),
+          const SizedBox(height: 16),
 
-            const SizedBox(height: 12),
-
-            // Updated explanation text to include BMI
-            const Text(
-              'Syncing will:\n'
-              '• Send your weight, body fat percentage, and BMI data to Apple Health / Google Health Connect\n'
-              '• Import weight, body fat percentage, and BMI measurements from health services\n'
-              '• Keep both systems up to date',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-
-          if (!healthState.isAvailable) ...[
-            const SizedBox(height: 12),
-            const Text(
-              'Health services are not available on your device. This feature requires Apple Health on iOS or Health Connect on Android.',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
+          // Updated explanation text to include BMI
+          const Text(
+            'Syncing will:\n'
+            '• Send your weight, body fat percentage, and BMI data to Apple Health / Google Health Connect\n'
+            '• Import weight, body fat percentage, and BMI measurements from health services\n'
+            '• Keep both systems up to date',
+            style: TextStyle(color: AppColors.textSecondary),
+          ),
         ],
-      ),
+
+        if (!healthState.isAvailable) ...[
+          const SizedBox(height: 12),
+          const Text(
+            'Health services are not available on your device. This feature requires Apple Health on iOS or Health Connect on Android.',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ],
+      ],
     );
   }
 
@@ -143,6 +154,7 @@ class HealthWidget extends ConsumerWidget {
   }) {
     return Card(
       elevation: 2,
+      color: AppColors.card,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
@@ -155,13 +167,17 @@ class HealthWidget extends ConsumerWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(subtitle, style: TextStyle(color: Colors.grey.shade700)),
+                  Text(
+                    subtitle,
+                    style: TextStyle(color: AppColors.textSecondary),
+                  ),
                 ],
               ),
             ),
@@ -178,6 +194,11 @@ class HealthWidget extends ConsumerWidget {
     required IconData icon,
     required VoidCallback? onPressed,
     required bool isLoading,
+    required Color iconColor,
+    required Color labelColor,
+    double? iconHeight,
+    double? iconWidth,
+    double? labelHeight,
   }) {
     return SizedBox(
       width: double.infinity,
@@ -189,10 +210,17 @@ class HealthWidget extends ConsumerWidget {
                 height: 20,
                 child: CircularProgressIndicator(strokeWidth: 2),
               )
-            : Icon(icon),
-        label: Text(label),
+            : Icon(icon, color: iconColor, size: iconHeight),
+        label: Text(
+          label,
+          style: TextStyle(color: labelColor, fontSize: labelHeight),
+        ),
         style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.card,
           padding: const EdgeInsets.symmetric(vertical: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // Weniger rund
+          ),
         ),
       ),
     );

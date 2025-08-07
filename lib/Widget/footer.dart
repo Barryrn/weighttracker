@@ -39,7 +39,7 @@ class Footer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
-      unselectedItemColor: AppColors.primaryDark,
+      unselectedItemColor: AppColors.primaryLight,
       selectedItemColor: AppColors.primary,
       showUnselectedLabels: true,
       selectedFontSize: 12.0,
@@ -47,7 +47,6 @@ class Footer extends StatelessWidget {
       type: BottomNavigationBarType.fixed,
       onTap: (index) {
         if (index != currentIndex) {
-          // Übergabe des Richtungsparameters: wenn neuer Index > aktueller Index -> Slide von rechts
           bool slideFromRight = index > currentIndex;
 
           onTap(index);
@@ -60,7 +59,6 @@ class Footer extends StatelessWidget {
               _createRoute(ProgressPage(), slideFromRight),
             );
           } else if (index == 2) {
-            // BodyEntrySheet.show kann so bleiben, da es vermutlich ein Dialog oder BottomSheet ist
             BodyEntrySheet.show(context: context);
           } else if (index == 3) {
             Navigator.push(context, _createRoute(GoalsPage(), slideFromRight));
@@ -69,11 +67,13 @@ class Footer extends StatelessWidget {
           }
         }
       },
-      items: const [
+      items: [
         BottomNavigationBarItem(
           icon: HeroIcon(
             HeroIcons.home,
-            style: HeroIconStyle.outline,
+            style: currentIndex == 0
+                ? HeroIconStyle.solid
+                : HeroIconStyle.outline,
             size: 30,
           ),
           label: 'Home',
@@ -81,7 +81,9 @@ class Footer extends StatelessWidget {
         BottomNavigationBarItem(
           icon: HeroIcon(
             HeroIcons.chartBar,
-            style: HeroIconStyle.outline,
+            style: currentIndex == 1
+                ? HeroIconStyle.solid
+                : HeroIconStyle.outline,
             size: 30,
           ),
           label: 'Progress',
@@ -89,19 +91,29 @@ class Footer extends StatelessWidget {
         BottomNavigationBarItem(
           icon: HeroIcon(
             HeroIcons.plusCircle,
-            style: HeroIconStyle.outline,
+            style: currentIndex == 2
+                ? HeroIconStyle.solid
+                : HeroIconStyle.outline,
             size: 30,
           ),
           label: 'Add',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.monitor_weight, size: 30),
+          icon: Icon(
+            Icons.monitor_weight,
+            size: 30,
+            color: currentIndex == 3
+                ? AppColors.primary
+                : AppColors.primaryLight,
+          ),
           label: 'Goals',
         ),
         BottomNavigationBarItem(
           icon: HeroIcon(
             HeroIcons.ellipsisHorizontal,
-            style: HeroIconStyle.outline,
+            style: currentIndex == 4
+                ? HeroIconStyle.solid
+                : HeroIconStyle.outline,
             size: 30,
           ),
           label: 'More',

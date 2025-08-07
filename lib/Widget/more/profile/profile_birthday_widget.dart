@@ -26,12 +26,14 @@ class ProfileBirthdayWidget extends ConsumerWidget {
         : 'Not set';
 
     return ListTile(
+      tileColor: AppColors.card,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       leading: Container(
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: Colors.grey.shade200,
-          borderRadius: BorderRadius.circular(8),
+          color: AppColors.background2,
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(Icons.calendar_today, color: AppColors.primary),
       ),

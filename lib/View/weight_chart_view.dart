@@ -19,7 +19,7 @@ class WeightChartView extends ConsumerStatefulWidget {
 class _WeightChartViewState extends ConsumerState<WeightChartView> {
   // Controller for horizontal scrolling
   final ScrollController _scrollController = ScrollController();
-  
+
   // Visible range for calculating average
   List<WeightEntry> _visibleEntries = [];
 
@@ -32,7 +32,7 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(weightChartViewModelProvider);
-    
+
     return _buildBody(context, viewModel);
   }
 
@@ -57,21 +57,22 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
           // Time period selector
           _buildTimePeriodSelector(context, viewModel),
           const SizedBox(height: 24),
-          
+
           // Average weight display
           _buildAverageWeightDisplay(context, viewModel),
           const SizedBox(height: 16),
-          
+
           // Chart
-          Expanded(
-            child: _buildChart(context, viewModel),
-          ),
+          Expanded(child: _buildChart(context, viewModel)),
         ],
       ),
     );
   }
 
-  Widget _buildTimePeriodSelector(BuildContext context, WeightChartViewModel viewModel) {
+  Widget _buildTimePeriodSelector(
+    BuildContext context,
+    WeightChartViewModel viewModel,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -83,29 +84,39 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
     );
   }
 
-  Widget _buildPeriodButton(BuildContext context, TimePeriod period, String label, WeightChartViewModel viewModel) {
+  Widget _buildPeriodButton(
+    BuildContext context,
+    TimePeriod period,
+    String label,
+    WeightChartViewModel viewModel,
+  ) {
     final isSelected = viewModel.currentTimePeriod == period;
     return ElevatedButton(
       onPressed: () => viewModel.changeTimePeriod(period),
       style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? Theme.of(context).primaryColor : Colors.grey.shade200,
+        backgroundColor: isSelected
+            ? Theme.of(context).primaryColor
+            : Colors.grey.shade200,
         foregroundColor: isSelected ? Colors.white : Colors.black,
       ),
       child: Text(label),
     );
   }
 
-  Widget _buildAverageWeightDisplay(BuildContext context, WeightChartViewModel viewModel) {
+  Widget _buildAverageWeightDisplay(
+    BuildContext context,
+    WeightChartViewModel viewModel,
+  ) {
     final unitPrefs = ref.watch(unitConversionProvider);
     final weightUnit = unitPrefs.useMetricWeight ? 'kg' : 'lb';
-    
+
     // Convert weight to display units if needed
     final displayWeight = viewModel.averageWeight != null
         ? (unitPrefs.useMetricWeight
-            ? viewModel.averageWeight!
-            : viewModel.averageWeight! / 0.45359237)
+              ? viewModel.averageWeight!
+              : viewModel.averageWeight! / 0.45359237)
         : null;
-    
+
     return Card(
       elevation: 2,
       child: Padding(
@@ -113,10 +124,7 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Average Weight:',
-              style: TextStyle(fontSize: 16),
-            ),
+            const Text('Average Weight:', style: TextStyle(fontSize: 16)),
             Text(
               displayWeight != null
                   ? '${displayWeight.toStringAsFixed(1)} $weightUnit'
@@ -132,7 +140,7 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
   Widget _buildChart(BuildContext context, WeightChartViewModel viewModel) {
     final unitPrefs = ref.watch(unitConversionProvider);
     final weightUnit = unitPrefs.useMetricWeight ? 'kg' : 'lb';
-    
+
     // Set initial visible entries
     if (_visibleEntries.isEmpty) {
       _visibleEntries = viewModel.chartData;
@@ -141,36 +149,37 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
         viewModel.calculateVisibleAverage(_visibleEntries);
       });
     }
-    
+
     // For day view, just show a single point
     if (viewModel.currentTimePeriod == TimePeriod.day) {
       return _buildDayChart(context, viewModel, weightUnit);
     }
-    
+
     // For other views, show scrollable chart
     return _buildScrollableChart(context, viewModel, weightUnit);
   }
 
-  Widget _buildDayChart(BuildContext context, WeightChartViewModel viewModel, String weightUnit) {
+  Widget _buildDayChart(
+    BuildContext context,
+    WeightChartViewModel viewModel,
+    String weightUnit,
+  ) {
     final entry = viewModel.chartData.first;
-    
+
     if (entry.weight == null) {
       return const Center(child: Text('No weight data for today'));
     }
-    
+
     final unitPrefs = ref.watch(unitConversionProvider);
     final displayWeight = unitPrefs.useMetricWeight
         ? entry.weight!
         : entry.weight! / 0.45359237;
-    
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            _formatDate(entry.date),
-            style: const TextStyle(fontSize: 18),
-          ),
+          Text(_formatDate(entry.date), style: const TextStyle(fontSize: 18)),
           const SizedBox(height: 16),
           Text(
             '${displayWeight.toStringAsFixed(1)} $weightUnit',
@@ -181,56 +190,66 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
     );
   }
 
-  Widget _buildScrollableChart(BuildContext context, WeightChartViewModel viewModel, String weightUnit) {
+  Widget _buildScrollableChart(
+    BuildContext context,
+    WeightChartViewModel viewModel,
+    String weightUnit,
+  ) {
     final unitPrefs = ref.watch(unitConversionProvider);
-    
+
     // Convert weights to display units
     final spots = viewModel.chartData.asMap().entries.map((entry) {
       final index = entry.key.toDouble();
       final weightEntry = entry.value;
-      
+
       if (weightEntry.weight == null) {
         return FlSpot(index, double.nan); // Use NaN for null values
       }
-      
+
       final displayWeight = unitPrefs.useMetricWeight
           ? weightEntry.weight!
           : weightEntry.weight! / 0.45359237;
-      
+
       return FlSpot(index, displayWeight);
     }).toList();
-    
+
     // Calculate Y-axis range
     final validSpots = spots.where((spot) => !spot.y.isNaN);
     double minY = 0;
     double maxY = 100;
-    
+
     if (validSpots.isNotEmpty) {
       minY = validSpots.map((spot) => spot.y).reduce((a, b) => a < b ? a : b);
       maxY = validSpots.map((spot) => spot.y).reduce((a, b) => a > b ? a : b);
-      
+
       // Add padding
       final padding = (maxY - minY) * 0.1;
       minY = (minY - padding).clamp(0, double.infinity);
       maxY = maxY + padding;
     }
-    
+
     // Set appropriate width based on time period
     double chartWidth;
     switch (viewModel.currentTimePeriod) {
       case TimePeriod.week:
-        chartWidth = MediaQuery.of(context).size.width * 1.5; // 1.5x screen width for week
+        chartWidth =
+            MediaQuery.of(context).size.width *
+            1.5; // 1.5x screen width for week
         break;
       case TimePeriod.month:
-        chartWidth = MediaQuery.of(context).size.width * 3; // 3x screen width for month
+        chartWidth =
+            MediaQuery.of(context).size.width * 3; // 3x screen width for month
         break;
       case TimePeriod.year:
-        chartWidth = MediaQuery.of(context).size.width * 2; // 2x screen width for year (monthly averages)
+        chartWidth =
+            MediaQuery.of(context).size.width *
+            2; // 2x screen width for year (monthly averages)
         break;
       default:
-        chartWidth = MediaQuery.of(context).size.width - 32; // Full width for day
+        chartWidth =
+            MediaQuery.of(context).size.width - 32; // Full width for day
     }
-    
+
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         if (notification is ScrollUpdateNotification) {
@@ -242,101 +261,118 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
       child: SingleChildScrollView(
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
-        child: SizedBox(
-          width: chartWidth,
-          child: LineChart(
-            LineChartData(
-              lineTouchData: LineTouchData(
-                enabled: true,
-                touchTooltipData: LineTouchTooltipData(
-                  getTooltipItems: (touchedSpots) {
-                    return touchedSpots.map((touchedSpot) {
-                      final index = touchedSpot.x.toInt();
-                      if (index >= 0 && index < viewModel.chartData.length) {
-                        final entry = viewModel.chartData[index];
-                        if (touchedSpot.y.isNaN) return null;
-                        
-                        return LineTooltipItem(
-                          '${_formatDate(entry.date)}\n${touchedSpot.y.toStringAsFixed(1)} $weightUnit',
-                          const TextStyle(color: Colors.white),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SizedBox(
+            width: chartWidth,
+            child: LineChart(
+              LineChartData(
+                lineTouchData: LineTouchData(
+                  enabled: true,
+                  touchTooltipData: LineTouchTooltipData(
+                    getTooltipItems: (touchedSpots) {
+                      return touchedSpots.map((touchedSpot) {
+                        final index = touchedSpot.x.toInt();
+                        if (index >= 0 && index < viewModel.chartData.length) {
+                          final entry = viewModel.chartData[index];
+                          if (touchedSpot.y.isNaN) return null;
+
+                          return LineTooltipItem(
+                            '${_formatDate(entry.date)}\n${touchedSpot.y.toStringAsFixed(1)} $weightUnit',
+                            const TextStyle(color: Colors.white),
+                          );
+                        }
+                        return null;
+                      }).toList();
+                    },
+                  ),
+                ),
+                gridData: FlGridData(
+                  show: true,
+                  drawVerticalLine: false,
+                  horizontalInterval: 5,
+                ),
+                titlesData: FlTitlesData(
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 30,
+                      interval: _getXAxisInterval(
+                        viewModel.currentTimePeriod,
+                        viewModel.chartData.length,
+                      ),
+                      getTitlesWidget: (value, meta) {
+                        final index = value.toInt();
+                        if (index >= 0 && index < viewModel.chartData.length) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              _getXAxisLabel(
+                                viewModel.chartData[index].date,
+                                viewModel.currentTimePeriod,
+                              ),
+                              style: const TextStyle(fontSize: 10),
+                            ),
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+                  ),
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 40,
+                      getTitlesWidget: (value, meta) {
+                        return Text(
+                          value.toStringAsFixed(1),
+                          style: const TextStyle(fontSize: 10),
                         );
-                      }
-                      return null;
-                    }).toList();
-                  },
+                      },
+                    ),
+                  ),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                 ),
-              ),
-              gridData: FlGridData(
-                show: true,
-                drawVerticalLine: false,
-                horizontalInterval: 5,
-              ),
-              titlesData: FlTitlesData(
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 30,
-                    interval: _getXAxisInterval(viewModel.currentTimePeriod, viewModel.chartData.length),
-                    getTitlesWidget: (value, meta) {
-                      final index = value.toInt();
-                      if (index >= 0 && index < viewModel.chartData.length) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            _getXAxisLabel(viewModel.chartData[index].date, viewModel.currentTimePeriod),
-                            style: const TextStyle(fontSize: 10),
-                          ),
+                borderData: FlBorderData(show: true),
+                minX: 0,
+                maxX: (viewModel.chartData.length - 1).toDouble(),
+                minY: minY,
+                maxY: maxY,
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: spots,
+                    isCurved: true,
+                    color: Theme.of(context).primaryColor,
+                    barWidth: 3,
+                    isStrokeCapRound: true,
+                    dotData: FlDotData(
+                      show: true,
+                      getDotPainter: (spot, percent, barData, index) {
+                        if (spot.y.isNaN)
+                          return FlDotCirclePainter(
+                            radius: 0,
+                            color: Colors.transparent,
+                          );
+                        return FlDotCirclePainter(
+                          radius: 4,
+                          color: Theme.of(context).primaryColor,
+                          strokeWidth: 2,
+                          strokeColor: Colors.white,
                         );
-                      }
-                      return const SizedBox();
-                    },
+                      },
+                    ),
+                    belowBarData: BarAreaData(
+                      show: true,
+                      color: Theme.of(context).primaryColor.withOpacity(0.2),
+                    ),
                   ),
-                ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 40,
-                    getTitlesWidget: (value, meta) {
-                      return Text(
-                        value.toStringAsFixed(1),
-                        style: const TextStyle(fontSize: 10),
-                      );
-                    },
-                  ),
-                ),
-                rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                ],
               ),
-              borderData: FlBorderData(show: true),
-              minX: 0,
-              maxX: (viewModel.chartData.length - 1).toDouble(),
-              minY: minY,
-              maxY: maxY,
-              lineBarsData: [
-                LineChartBarData(
-                  spots: spots,
-                  isCurved: true,
-                  color: Theme.of(context).primaryColor,
-                  barWidth: 3,
-                  isStrokeCapRound: true,
-                  dotData: FlDotData(
-                    show: true,
-                    getDotPainter: (spot, percent, barData, index) {
-                      if (spot.y.isNaN) return FlDotCirclePainter(radius: 0, color: Colors.transparent);
-                      return FlDotCirclePainter(
-                        radius: 4,
-                        color: Theme.of(context).primaryColor,
-                        strokeWidth: 2,
-                        strokeColor: Colors.white,
-                      );
-                    },
-                  ),
-                  belowBarData: BarAreaData(
-                    show: true,
-                    color: Theme.of(context).primaryColor.withOpacity(0.2),
-                  ),
-                ),
-              ],
             ),
           ),
         ),
@@ -347,25 +383,35 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
   // Update visible entries based on scroll position
   void _updateVisibleEntries(WeightChartViewModel viewModel) {
     if (_scrollController.positions.isEmpty) return;
-    
+
     final scrollPosition = _scrollController.position;
     final viewportWidth = scrollPosition.viewportDimension;
     final scrollOffset = scrollPosition.pixels;
-    
+
     // Calculate visible range
     final startX = scrollOffset;
     final endX = scrollOffset + viewportWidth;
-    
+
     // Calculate visible indices
-    final chartWidth = _scrollController.position.maxScrollExtent + viewportWidth;
+    final chartWidth =
+        _scrollController.position.maxScrollExtent + viewportWidth;
     final pointWidth = chartWidth / viewModel.chartData.length;
-    
-    final startIndex = (startX / pointWidth).floor().clamp(0, viewModel.chartData.length - 1);
-    final endIndex = (endX / pointWidth).ceil().clamp(0, viewModel.chartData.length - 1);
-    
+
+    final startIndex = (startX / pointWidth).floor().clamp(
+      0,
+      viewModel.chartData.length - 1,
+    );
+    final endIndex = (endX / pointWidth).ceil().clamp(
+      0,
+      viewModel.chartData.length - 1,
+    );
+
     // Get visible entries
-    final visibleEntries = viewModel.chartData.sublist(startIndex, endIndex + 1);
-    
+    final visibleEntries = viewModel.chartData.sublist(
+      startIndex,
+      endIndex + 1,
+    );
+
     // Update average if visible entries changed
     if (!_areListsEqual(visibleEntries, _visibleEntries)) {
       _visibleEntries = visibleEntries;
@@ -377,7 +423,8 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
   bool _areListsEqual(List<WeightEntry> list1, List<WeightEntry> list2) {
     if (list1.length != list2.length) return false;
     for (int i = 0; i < list1.length; i++) {
-      if (list1[i].date != list2[i].date || list1[i].weight != list2[i].weight) {
+      if (list1[i].date != list2[i].date ||
+          list1[i].weight != list2[i].weight) {
         return false;
       }
     }
@@ -419,8 +466,18 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
   // Get month name from month number
   String _getMonthName(int month) {
     const monthNames = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return monthNames[month - 1];
   }

@@ -22,6 +22,7 @@ class HealthSettingsWidget extends StatelessWidget {
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
       ),
+
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
@@ -39,7 +40,7 @@ class HealthSettingsWidget extends StatelessWidget {
             HeroIcons.heart,
             style: HeroIconStyle.solid,
             size: 30,
-            color: AppColors.primaryDark,
+            color: AppColors.primary,
           ),
         ),
         title: const Text(
