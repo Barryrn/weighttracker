@@ -7,6 +7,7 @@ import 'package:weigthtracker/Widget/body_entry/note_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/save_button_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/tag_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/delete_button_entry_widget.dart';
+import 'package:weigthtracker/theme.dart';
 import '../Widget/body_entry/date_time_entry_widget.dart';
 import '../Widget/body_entry/weight_entry_widget.dart';
 
@@ -19,8 +20,8 @@ class BodyEntrySheet {
       builder: (context) => FractionallySizedBox(
         heightFactor: 0.8,
         child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.card,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: Padding(
@@ -33,7 +34,7 @@ class BodyEntrySheet {
                     children: [
                       // Sticky Header
                       Container(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.card,
                         padding: const EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

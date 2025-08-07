@@ -51,6 +51,107 @@ extension CustomColorScheme on ColorScheme {
   Color get primaryDark => AppColors.primaryDark;
 }
 
+/// Typography class to define text styles for the application
+class AppTypography {
+  // Headline styles
+  static TextStyle headline1(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+        letterSpacing: -0.5,
+        color: Theme.of(context).colorScheme.textPrimary,
+      );
+
+  static TextStyle headline2(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 28,
+        fontWeight: FontWeight.bold,
+        letterSpacing: -0.25,
+        color: Theme.of(context).colorScheme.textPrimary,
+      );
+
+  static TextStyle headline3(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 24,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0,
+        color: Theme.of(context).colorScheme.textPrimary,
+      );
+
+  // Subtitle styles
+  static TextStyle subtitle1(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.15,
+        color: Theme.of(context).colorScheme.textPrimary,
+      );
+
+  static TextStyle subtitle2(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.1,
+        color: Theme.of(context).colorScheme.textPrimary,
+      );
+
+  // Body text styles
+  static TextStyle bodyLarge(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        letterSpacing: 0.5,
+        color: Theme.of(context).colorScheme.textPrimary,
+      );
+
+  static TextStyle bodyMedium(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 14,
+        fontWeight: FontWeight.normal,
+        letterSpacing: 0.25,
+        color: Theme.of(context).colorScheme.textPrimary,
+      );
+
+  static TextStyle bodySmall(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 12,
+        fontWeight: FontWeight.normal,
+        letterSpacing: 0.4,
+        color: Theme.of(context).colorScheme.textSecondary,
+      );
+
+  // Caption and overline
+  static TextStyle caption(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 11,
+        fontWeight: FontWeight.normal,
+        letterSpacing: 0.4,
+        color: Theme.of(context).colorScheme.textSecondary,
+      );
+
+  static TextStyle overline(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 1.5,
+        color: Theme.of(context).colorScheme.textSecondary,
+      );
+
+  // Button text styles
+  static TextStyle buttonText(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 1.25,
+        color: Theme.of(context).colorScheme.primary,
+      );
+
+  // Card title and content styles that adapt to card background
+  static TextStyle cardTitle(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: Theme.of(context).brightness == Brightness.light
+            ? AppColors.textPrimary
+            : AppColors.textPrimaryDark,
+      );
+
+  static TextStyle cardContent(BuildContext context) => GoogleFonts.poppins(
+        fontSize: 14,
+        color: Theme.of(context).brightness == Brightness.light
+            ? AppColors.textSecondary
+            : AppColors.textSecondaryDark,
+      );
+}
+
 class AppColors {
   // Primary (Blue Shades)
   static const Color primary = Color(0xFF1E90FF); // hsl(210, 100%, 50%)
@@ -128,15 +229,24 @@ final ThemeData appTheme = ThemeData(
     ),
   ),
   textTheme: GoogleFonts.poppinsTextTheme().copyWith(
-    displayLarge: const TextStyle(color: AppColors.textPrimary),
-    displayMedium: const TextStyle(color: AppColors.textPrimary),
+    displayLarge: const TextStyle(color: AppColors.textPrimary, fontSize: 32, fontWeight: FontWeight.bold),
+    displayMedium: const TextStyle(color: AppColors.textPrimary, fontSize: 28, fontWeight: FontWeight.bold),
+    displaySmall: const TextStyle(color: AppColors.textPrimary, fontSize: 24, fontWeight: FontWeight.w600),
+    headlineMedium: const TextStyle(color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.w600),
+    headlineSmall: const TextStyle(color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w500),
     titleLarge: const TextStyle(
       color: AppColors.textPrimary,
+      fontSize: 16,
       fontWeight: FontWeight.bold,
     ),
-    bodyLarge: const TextStyle(color: AppColors.textPrimary),
-    bodyMedium: const TextStyle(color: AppColors.textSecondary),
-    labelLarge: const TextStyle(color: AppColors.primary),
+    titleMedium: const TextStyle(color: AppColors.textPrimary, fontSize: 14, fontWeight: FontWeight.w600),
+    titleSmall: const TextStyle(color: AppColors.textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
+    bodyLarge: const TextStyle(color: AppColors.textPrimary, fontSize: 16),
+    bodyMedium: const TextStyle(color: AppColors.textSecondary, fontSize: 14),
+    bodySmall: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
+    labelLarge: const TextStyle(color: AppColors.primary, fontSize: 14, fontWeight: FontWeight.w600),
+    labelMedium: const TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.w500),
+    labelSmall: const TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.w500),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
@@ -160,8 +270,7 @@ final ThemeData appDarkTheme = ThemeData(
   colorScheme: const ColorScheme.dark(
     primary: AppColors.primary,
     secondary: AppColors.primaryLight,
-    tertiary:
-        AppColors.primaryExtraLight, // Now using the same color as light theme
+    tertiary: AppColors.primaryExtraLightDark, // Now using dark-specific color
     background: AppColors.background1Dark,
     surface: AppColors.cardDark,
     onPrimary: Colors.white,
@@ -183,20 +292,28 @@ final ThemeData appDarkTheme = ThemeData(
     ),
   ),
   textTheme: GoogleFonts.poppinsTextTheme().copyWith(
-    displayLarge: const TextStyle(color: AppColors.textPrimaryDark),
-    displayMedium: const TextStyle(color: AppColors.textPrimaryDark),
+    displayLarge: const TextStyle(color: AppColors.textPrimaryDark, fontSize: 32, fontWeight: FontWeight.bold),
+    displayMedium: const TextStyle(color: AppColors.textPrimaryDark, fontSize: 28, fontWeight: FontWeight.bold),
+    displaySmall: const TextStyle(color: AppColors.textPrimaryDark, fontSize: 24, fontWeight: FontWeight.w600),
+    headlineMedium: const TextStyle(color: AppColors.textPrimaryDark, fontSize: 20, fontWeight: FontWeight.w600),
+    headlineSmall: const TextStyle(color: AppColors.textPrimaryDark, fontSize: 18, fontWeight: FontWeight.w500),
     titleLarge: const TextStyle(
       color: AppColors.textPrimaryDark,
+      fontSize: 16,
       fontWeight: FontWeight.bold,
     ),
-    bodyLarge: const TextStyle(color: AppColors.textPrimaryDark),
-    bodyMedium: const TextStyle(color: AppColors.textSecondaryDark),
-    labelLarge: const TextStyle(color: AppColors.primaryLight),
+    titleMedium: const TextStyle(color: AppColors.textPrimaryDark, fontSize: 14, fontWeight: FontWeight.w600),
+    titleSmall: const TextStyle(color: AppColors.textPrimaryDark, fontSize: 12, fontWeight: FontWeight.w500),
+    bodyLarge: const TextStyle(color: AppColors.textPrimaryDark, fontSize: 16),
+    bodyMedium: const TextStyle(color: AppColors.textSecondaryDark, fontSize: 14),
+    bodySmall: const TextStyle(color: AppColors.textSecondaryDark, fontSize: 12),
+    labelLarge: const TextStyle(color: AppColors.primaryLight, fontSize: 14, fontWeight: FontWeight.w600),
+    labelMedium: const TextStyle(color: AppColors.primaryLight, fontSize: 12, fontWeight: FontWeight.w500),
+    labelSmall: const TextStyle(color: AppColors.primaryLight, fontSize: 10, fontWeight: FontWeight.w500),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor:
-          AppColors.primary, // Changed from primaryLight to primary
+      backgroundColor: AppColors.primary,
       foregroundColor: Colors.white,
       textStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -204,8 +321,7 @@ final ThemeData appDarkTheme = ThemeData(
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: AppColors.cardDark,
-    selectedItemColor:
-        AppColors.primary, // Changed from primaryLight to primary
+    selectedItemColor: AppColors.primary,
     unselectedItemColor: AppColors.textDisabledDark,
     selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
     unselectedLabelStyle: GoogleFonts.poppins(),
