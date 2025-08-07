@@ -101,20 +101,35 @@ class WeightProgressWidget extends ConsumerWidget {
                       shape: BoxShape.circle,
                     ),
                   ),
-                  // Progress circle
-                  SizedBox(
-                    width: 180,
-                    height: 180,
-                    child: CircularProgressIndicator(
-                      value: progressData.progressPercentage,
-                      strokeWidth: 12,
-                      backgroundColor: AppColors.primaryExtraLight,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        AppColors.primary,
-                      ),
+                  // Animated Progress circle
+                  TweenAnimationBuilder<double>(
+                    // Start from 0 and animate to the target progress percentage
+                    tween: Tween<double>(
+                      begin: 0.0,
+                      end: progressData.progressPercentage,
                     ),
+                    // Animation duration - adjust as needed
+                    duration: const Duration(milliseconds: 1000),
+                    // Optional curve for more dynamic animation
+                    curve: Curves.easeIn,
+
+                    // Builder function that updates with the animated value
+                    builder: (context, animatedValue, child) {
+                      return SizedBox(
+                        width: 180,
+                        height: 180,
+                        child: CircularProgressIndicator(
+                          value: animatedValue,
+                          strokeWidth: 12,
+                          backgroundColor: AppColors.primaryExtraLight,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            AppColors.primary,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  // Center content
+                  // Center content with static percentage text
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

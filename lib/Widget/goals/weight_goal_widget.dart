@@ -111,7 +111,7 @@ class WeightGoalWidget extends ConsumerWidget {
 
             // Target weight field
             Text(
-              'Set your target weight (${goalData.unitSuffix})',
+              'Set your goal weight (${goalData.unitSuffix})',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),

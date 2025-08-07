@@ -27,8 +27,43 @@ class ImageTimelineViewWidget extends ConsumerWidget {
 
     return Column(
       children: [
-        // View selector with animated highlight
-        _buildAnimatedSegmentedControl(context, state.selectedView, viewModel),
+        // View selector - Updated with rounded pill-shaped buttons
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(25),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildViewButton(
+                context,
+                'Front',
+                'front',
+                state.selectedView,
+                viewModel,
+              ),
+              const SizedBox(width: 8),
+              _buildViewButton(
+                context,
+                'Side',
+                'side',
+                state.selectedView,
+                viewModel,
+              ),
+              const SizedBox(width: 8),
+              _buildViewButton(
+                context,
+                'Back',
+                'back',
+                state.selectedView,
+                viewModel,
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: 16),
         // Image display - Updated with card-like appearance
         Expanded(
@@ -106,103 +141,31 @@ class ImageTimelineViewWidget extends ConsumerWidget {
     );
   }
 
-  /// Builds an animated segmented control with a moving highlight
-  /// Uses a stable approach with AnimatedPositioned to prevent shaking
-  Widget _buildAnimatedSegmentedControl(
+  Widget _buildViewButton(
     BuildContext context,
+    String label,
+    String viewType,
     String selectedView,
     ImageTimelineViewModel viewModel,
   ) {
-    // Define the segments
-    final segments = [
-      {'label': 'Front', 'value': 'front'},
-      {'label': 'Side', 'value': 'side'},
-      {'label': 'Back', 'value': 'back'},
-    ];
+    final isSelected = viewType == selectedView;
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        // Calculate button width based on available space
-        final buttonWidth = (constraints.maxWidth - 32) / 3; // 32 for padding
-        final buttonHeight = 40.0; // Fixed reasonable height for buttons
-        // Find the selected index
-        final selectedIndex = segments.indexWhere(
-          (segment) => segment['value'] == selectedView,
-        );
-
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(25),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
-          child: Stack(
-            children: [
-              // Animated highlight
-              AnimatedPositioned(
-                duration: const Duration(milliseconds: 250),
-                curve: Curves.easeInOut,
-                left: 8.0 + (buttonWidth * selectedIndex),
-                top: 0,
-                height: buttonHeight, // Fixed height for the highlight
-                width: buttonWidth,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-
-              // Buttons row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(segments.length, (index) {
-                  final segment = segments[index];
-                  final isSelected = segment['value'] == selectedView;
-
-                  return SizedBox(
-                    width: buttonWidth,
-                    height: buttonHeight,
-                    child: TextButton(
-                      onPressed: () =>
-                          viewModel.updateSelectedView(segment['value']!),
-                      style: TextButton.styleFrom(
-                        minimumSize: const Size(0, 0), // keine Mindestgröße
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        // Wichtig: Kein alignment setzen, damit Text natürlich zentriert wird
-                        foregroundColor: isSelected
-                            ? Colors.white
-                            : Colors.black87,
-                        backgroundColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Center(
-                        // Center Widget um den Text, für absolute Zentrierung
-                        child: Text(
-                          segment['label']!,
-                          style: TextStyle(
-                            fontWeight: isSelected
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            fontSize: 16,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ],
-          ),
-        );
-      },
+    return ElevatedButton(
+      onPressed: () => viewModel.updateSelectedView(viewType),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isSelected ? AppColors.primary : Colors.transparent,
+        foregroundColor: isSelected ? Colors.white : Colors.black87,
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          fontSize: 16,
+        ),
+      ),
     );
   }
 

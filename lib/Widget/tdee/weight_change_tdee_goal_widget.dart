@@ -115,7 +115,6 @@ class _WeightChangeGoalTDEEWidgetState
         shadowColor: AppColors.primary.withOpacity(0.2),
         color: AppColors.card,
         elevation: 3,
-        margin: const EdgeInsets.all(16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.all(20),
