@@ -27,7 +27,10 @@ class ImageTimelineView extends ConsumerWidget {
         foregroundColor: AppColors.textTertiary,
       ),
       backgroundColor: AppColors.background2,
-      body: ImageTimelineViewWidget(),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: ImageTimelineViewWidget(),
+      ),
     );
   }
 }

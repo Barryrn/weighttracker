@@ -34,8 +34,9 @@ class ProfileSettingsWidget extends StatelessWidget {
             color: Colors.grey.shade300,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: const Icon(Icons.person, color: AppColors.primaryDark),
+          child: const Icon(Icons.person, color: AppColors.primary),
         ),
+
         title: const Text(
           'Profile',
           style: TextStyle(

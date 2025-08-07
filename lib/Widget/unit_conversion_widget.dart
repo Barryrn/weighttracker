@@ -37,10 +37,16 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
     // Set toggleFatUnit based on the provider state
     toggleFatUnit = !useMetricHeight;
 
-    return Card(
-      child: Column(
-        children: [
-          SwitchListTile(
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.card,
+            borderRadius: BorderRadius.circular(10), // Abgerundete Ecken
+          ),
+
+          padding: const EdgeInsets.all(12),
+          child: SwitchListTile(
             title: Text(
               'Use ${useMetric ? "Kilograms (kg)" : "Pounds (lb)"}',
               style: const TextStyle(
@@ -55,8 +61,15 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
             },
             activeColor: AppColors.primary,
           ),
-
-          SwitchListTile(
+        ),
+        const SizedBox(height: 12),
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.card,
+            borderRadius: BorderRadius.circular(10), // Abgerundete Ecken
+          ),
+          padding: const EdgeInsets.all(12),
+          child: SwitchListTile(
             title: Text(
               'Use ${toggleFatUnit ? "Inches" : "Centimeters"}',
               style: const TextStyle(
@@ -73,16 +86,19 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
               // Update the height unit provider with the new value
               heightUnitNotifier.updateHeightUnit(!toggleFatUnit);
               // Call toggleMeasurementUnits on the ViewModel instead of the ViewState
-              ref.read(fatPercentageViewModelProvider.notifier).toggleMeasurementUnits();
+              ref
+                  .read(fatPercentageViewModelProvider.notifier)
+                  .toggleMeasurementUnits();
             },
             activeColor: AppColors.primary,
           ),
-          Offstage(
-            offstage: true,
-            child: FatPercentageView(key: fatPercentageKey),
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 24),
+        Offstage(
+          offstage: true,
+          child: FatPercentageView(key: fatPercentageKey),
+        ),
+      ],
     );
   }
 }

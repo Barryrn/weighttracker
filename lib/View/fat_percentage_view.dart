@@ -51,141 +51,114 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Body Fat Calculator'),
-        backgroundColor: AppColors.primaryDark,
-        foregroundColor: AppColors.textPrimary,
+        title: const Text(
+          'Fat Percentage Calculator',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textTertiary,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.textTertiary,
       ),
-      body: viewModelState.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : GestureDetector(
-              onTap: () =>
-                  FocusScope.of(context).unfocus(), // dismiss keyboard on tap
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+      backgroundColor: AppColors.background2,
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: viewModelState.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(height: 16),
-
                     Form(
                       key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Gender selection
-                          const Text(
-                            'Gender',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          DropdownButtonFormField<String>(
-                            value: viewModelState.gender,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
-                              ),
-                            ),
-                            items: const [
-                              DropdownMenuItem(
-                                value: 'Male',
-                                child: Text('Male'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Female',
-                                child: Text('Female'),
-                              ),
-                              // DropdownMenuItem(
-                              //   value: 'Other',
-                              //   child: Text('Other'),
-                              // ),
-                            ],
-                            onChanged: (value) {
-                              ref
-                                  .read(fatPercentageViewModelProvider.notifier)
-                                  .updateGender(value);
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select a gender';
-                              }
-                              return null;
-                            },
-                          ),
-
+                          // const Text(
+                          //   'Gender',
+                          //   style: TextStyle(
+                          //     fontSize: 16,
+                          //     fontWeight: FontWeight.w500,
+                          //   ),
+                          // ),
                           const SizedBox(height: 16),
 
                           // Height input
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Height ($lengthUnit)',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  ref
-                                      .read(
-                                        fatPercentageViewModelProvider.notifier,
-                                      )
-                                      .toggleMeasurementUnits();
-                                },
-                                style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  backgroundColor: AppColors.primaryDark,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 8,
-                                  ),
-                                ),
-                                child: Text(
-                                  'Switch to ${unitPrefs.useMetricHeight ? "inches" : "cm"}',
-                                  style: const TextStyle(
-                                    color: AppColors.primary,
-                                  ),
-                                ),
-                              ),
+                              // Text(
+                              //   'Height ($lengthUnit)',
+                              //   style: const TextStyle(
+                              //     fontSize: 16,
+                              //     fontWeight: FontWeight.w500,
+                              //   ),
+                              // ),
+
+                              // TextButton(
+                              //   onPressed: () {
+                              //     ref
+                              //         .read(
+                              //           fatPercentageViewModelProvider.notifier,
+                              //         )
+                              //         .toggleMeasurementUnits();
+                              //   },
+                              //   style: TextButton.styleFrom(
+                              //     shape: RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.circular(20),
+                              //     ),
+                              //     backgroundColor: AppColors.primaryDark,
+                              //     padding: const EdgeInsets.symmetric(
+                              //       horizontal: 12,
+                              //       vertical: 8,
+                              //     ),
+                              //   ),
+                              //   child: Text(
+                              //     'Switch to ${unitPrefs.useMetricHeight ? "inches" : "cm"}',
+                              //     style: const TextStyle(
+                              //       color: AppColors.primary,
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            controller: viewModelState.heightController,
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
-                              ),
-                              suffixText: lengthUnit,
-                            ),
-                            keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true,
-                            ),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9.,]'),
-                              ),
-                            ],
-                            validator: (value) => ref
-                                .read(fatPercentageViewModelProvider.notifier)
-                                .validateNumber(value),
-                            onChanged: (value) {
-                              ref
-                                  .read(fatPercentageViewModelProvider.notifier)
-                                  .updateHeight(value);
-                            },
-                          ),
-                          const SizedBox(height: 16),
+                          // const SizedBox(height: 8),
+                          // TextFormField(
+                          //   controller: viewModelState.heightController,
+                          //   decoration: InputDecoration(
+                          //     filled: true,
+                          //     fillColor: AppColors.card, // Hintergrundfarbe
+                          //     border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(10),
+                          //     ),
+                          //     contentPadding: const EdgeInsets.symmetric(
+                          //       horizontal: 16,
+                          //       vertical: 12,
+                          //     ),
+                          //     suffixText: lengthUnit,
+                          //   ),
+                          //   keyboardType: const TextInputType.numberWithOptions(
+                          //     decimal: true,
+                          //   ),
+                          //   inputFormatters: [
+                          //     FilteringTextInputFormatter.allow(
+                          //       RegExp(r'[0-9.,]'),
+                          //     ),
+                          //   ],
+                          //   validator: (value) => ref
+                          //       .read(fatPercentageViewModelProvider.notifier)
+                          //       .validateNumber(value),
+                          //   onChanged: (value) {
+                          //     ref
+                          //         .read(fatPercentageViewModelProvider.notifier)
+                          //         .updateHeight(value);
+                          //   },
+                          // ),
+                          // const SizedBox(height: 16),
 
                           // Neck circumference input
                           Text(
@@ -199,7 +172,11 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                           TextFormField(
                             controller: viewModelState.neckController,
                             decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
+                              filled: true,
+                              fillColor: AppColors.card, // Hintergrundfarbe
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 12,
@@ -238,7 +215,11 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                           TextFormField(
                             controller: viewModelState.waistController,
                             decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
+                              filled: true,
+                              fillColor: AppColors.card, // Hintergrundfarbe
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 12,
@@ -278,7 +259,11 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                             TextFormField(
                               controller: viewModelState.hipController,
                               decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
+                                filled: true,
+                                fillColor: AppColors.card, // Hintergrundfarbe
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 16,
                                   vertical: 12,
@@ -371,7 +356,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
-                                foregroundColor: Colors.white,
+                                foregroundColor: AppColors.card,
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 16,
                                 ),
@@ -391,7 +376,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               width: double.infinity,
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: AppColors.primaryDark,
+                                color: AppColors.primary,
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Column(
@@ -426,7 +411,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: AppColors.success,
-                                      foregroundColor: Colors.white,
+                                      foregroundColor: AppColors.card,
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 12,
                                         horizontal: 12,
@@ -447,7 +432,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                   ],
                 ),
               ),
-            ),
+      ),
     );
   }
 }

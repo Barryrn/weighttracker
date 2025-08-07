@@ -28,6 +28,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
   bool _showFrontImages = true;
   bool _showSideImages = true;
   bool _showBackImages = true;
+  bool _filtersActive = true; // Activate filters
 
   @override
   void initState() {
@@ -167,9 +168,6 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return images;
   }
 
-  // Add this flag to track if filters should be applied
-  bool _filtersActive = false;
-
   @override
   Widget build(BuildContext context) {
     final entriesState = ref.watch(imageComparisonProvider);
@@ -219,57 +217,61 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
           ],
         ),
         backgroundColor: AppColors.background2,
-        body: Column(
-          children: [
-            // Filter section
-            if (_showFilters) _buildFilterSection(),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              // Filter section
+              if (_showFilters) _buildFilterSection(),
 
-            // Gallery grid
-            Expanded(
-              child: entriesState.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stackTrace) =>
-                    Center(child: Text('Error loading images: $error')),
-                data: (entries) {
-                  // Filter entries based on current filter settings
-                  final filteredEntries = _filterEntries(entries);
+              // Gallery grid
+              Expanded(
+                child: entriesState.when(
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (error, stackTrace) =>
+                      Center(child: Text('Error loading images: $error')),
+                  data: (entries) {
+                    // Filter entries based on current filter settings
+                    final filteredEntries = _filterEntries(entries);
 
-                  // Get all available images from filtered entries
-                  final allImages = <Map<String, dynamic>>[];
-                  for (final entry in filteredEntries) {
-                    allImages.addAll(_getAvailableImages(entry));
-                  }
+                    // Get all available images from filtered entries
+                    final allImages = <Map<String, dynamic>>[];
+                    for (final entry in filteredEntries) {
+                      allImages.addAll(_getAvailableImages(entry));
+                    }
 
-                  if (allImages.isEmpty) {
-                    return const Center(
-                      child: Text('No images match the current filters'),
-                    );
-                  }
-
-                  return GridView.builder(
-                    padding: const EdgeInsets.all(8),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.75,
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                        ),
-                    itemCount: allImages.length,
-                    itemBuilder: (context, index) {
-                      final imageData = allImages[index];
-                      return _buildImageCard(
-                        context,
-                        imageData['entry'] as BodyEntry,
-                        imageData['path'] as String,
-                        imageData['type'] as String,
+                    if (allImages.isEmpty) {
+                      return const Center(
+                        child: Text('No images match the current filters'),
                       );
-                    },
-                  );
-                },
+                    }
+
+                    return GridView.builder(
+                      padding: const EdgeInsets.all(8),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.75,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                          ),
+                      itemCount: allImages.length,
+                      itemBuilder: (context, index) {
+                        final imageData = allImages[index];
+                        return _buildImageCard(
+                          context,
+                          imageData['entry'] as BodyEntry,
+                          imageData['path'] as String,
+                          imageData['type'] as String,
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -309,26 +311,40 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
               TextButton(
                 onPressed: () {
                   setState(() {
-                    _filtersActive = false;
                     _clearFilters();
                   });
                 },
-                child: const Text('Clear Filters'),
+                style: TextButton.styleFrom(
+                  side: BorderSide(
+                    color: AppColors.primary, // Rahmenfarbe
+                    width: 1.5, // Rahmendicke
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      8,
+                    ), // Optional: abgerundete Ecken
+                  ),
+                ),
+                child: const Text(
+                  'Clear Filters',
+                  style: TextStyle(color: AppColors.textPrimary),
+                ),
               ),
               const SizedBox(width: 8),
+
               // Apply filters button
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _filtersActive = true; // Activate filters
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text('Apply Filters'),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     setState(() {
+              //       _filtersActive = true; // Activate filters
+              //     });
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: AppColors.primary,
+              //     foregroundColor: Colors.white,
+              //   ),
+              //   child: const Text('Apply Filters'),
+              // ),
             ],
           ),
         ],
@@ -410,6 +426,8 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             Text(_weightRange!.start.toStringAsFixed(1)),
             Expanded(
               child: RangeSlider(
+                activeColor: AppColors.primary,
+                inactiveColor: AppColors.primaryLight,
                 values: _weightRange!,
                 min: minWeight,
                 max: maxWeight,
@@ -425,7 +443,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                 },
               ),
             ),
-            Text(_weightRange!.end.toStringAsFixed(1)),
+            Text(
+              _weightRange!.end.toStringAsFixed(1),
+              style: TextStyle(color: AppColors.textPrimary),
+            ),
           ],
         ),
       ],
@@ -443,18 +464,36 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Date Range', style: TextStyle(fontWeight: FontWeight.bold)),
+        const Text(
+          'Date Range',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
+        ),
         const SizedBox(height: 8),
         Row(
           children: [
             Expanded(
               child: OutlinedButton(
+                style: TextButton.styleFrom(
+                  side: BorderSide(
+                    color: AppColors.primaryLight, // Rahmenfarbe
+                    width: 1.5, // Rahmendicke
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      8,
+                    ), // Optional: abgerundete Ecken
+                  ),
+                ),
                 onPressed: _selectDateRange,
                 child: Text(
                   _dateRange != null
                       ? '${DateFormat('MMM d, y').format(_dateRange!.start)} - '
                             '${DateFormat('MMM d, y').format(_dateRange!.end)}'
                       : 'Select Date Range',
+                  style: TextStyle(color: AppColors.textPrimary),
                 ),
               ),
             ),
@@ -506,7 +545,13 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Tags', style: TextStyle(fontWeight: FontWeight.bold)),
+        const Text(
+          'Tags',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
+        ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
@@ -542,47 +587,72 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       children: [
         const Text(
           'Image Types',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
         ),
         const SizedBox(height: 8),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            FilterChip(
-              label: const Text('Front'),
-              selected: _showFrontImages,
-              onSelected: (selected) {
-                setState(() {
-                  _showFrontImages = selected;
-                });
-              },
-              backgroundColor: Colors.grey[200],
-              selectedColor: AppColors.primary.withOpacity(0.2),
-              checkmarkColor: AppColors.primary,
+            Expanded(
+              child: FilterChip(
+                label: const Center(
+                  child: Text(
+                    'Front',
+                    style: TextStyle(color: AppColors.textPrimary),
+                  ),
+                ),
+                selected: _showFrontImages,
+                onSelected: (selected) {
+                  setState(() {
+                    _showFrontImages = selected;
+                  });
+                },
+                backgroundColor: Colors.grey[200],
+                selectedColor: AppColors.primary.withOpacity(0.2),
+                checkmarkColor: AppColors.primary,
+              ),
             ),
-            FilterChip(
-              label: const Text('Side'),
-              selected: _showSideImages,
-              onSelected: (selected) {
-                setState(() {
-                  _showSideImages = selected;
-                });
-              },
-              backgroundColor: Colors.grey[200],
-              selectedColor: AppColors.primary.withOpacity(0.2),
-              checkmarkColor: AppColors.primary,
+            const SizedBox(width: 8),
+            Expanded(
+              child: FilterChip(
+                label: const Center(
+                  child: Text(
+                    'Side',
+                    style: TextStyle(color: AppColors.textPrimary),
+                  ),
+                ),
+                selected: _showSideImages,
+                onSelected: (selected) {
+                  setState(() {
+                    _showSideImages = selected;
+                  });
+                },
+                backgroundColor: Colors.grey[200],
+                selectedColor: AppColors.primary.withOpacity(0.2),
+                checkmarkColor: AppColors.primary,
+              ),
             ),
-            FilterChip(
-              label: const Text('Back'),
-              selected: _showBackImages,
-              onSelected: (selected) {
-                setState(() {
-                  _showBackImages = selected;
-                });
-              },
-              backgroundColor: Colors.grey[200],
-              selectedColor: AppColors.primary.withOpacity(0.2),
-              checkmarkColor: AppColors.primary,
+            const SizedBox(width: 8),
+            Expanded(
+              child: FilterChip(
+                label: const Center(
+                  child: Text(
+                    'Back',
+                    style: TextStyle(color: AppColors.textPrimary),
+                  ),
+                ),
+                selected: _showBackImages,
+                onSelected: (selected) {
+                  setState(() {
+                    _showBackImages = selected;
+                  });
+                },
+                backgroundColor: Colors.grey[200],
+                selectedColor: AppColors.primary.withOpacity(0.2),
+                checkmarkColor: AppColors.primary,
+              ),
             ),
           ],
         ),
@@ -692,11 +762,17 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     children: [
                       Text(
                         DateFormat('MMM d, yyyy').format(entry.date),
-                        style: const TextStyle(fontSize: 12),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textPrimary,
+                        ),
                       ),
                       Text(
                         displayViewType,
-                        style: const TextStyle(fontSize: 12),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textPrimary,
+                        ),
                       ),
                     ],
                   ),
@@ -706,7 +782,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     entry.weight != null
                         ? '${entry.weight!.toStringAsFixed(1)} kg'
                         : 'No weight data',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                   // Tags
                   if (entry.tags != null && entry.tags!.isNotEmpty)
@@ -727,7 +806,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                             ),
                             child: Text(
                               tag,
-                              style: const TextStyle(fontSize: 10),
+                              style: const TextStyle(
+                                fontSize: 10,
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                           );
                         }).toList(),
@@ -758,6 +840,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
                           ),
                         ),
                       ),
@@ -782,6 +865,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
                           ),
                         ),
                       ),
@@ -811,7 +895,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('Export to Gallery'),
+                title: const Text(
+                  'Export to Gallery',
+                  style: TextStyle(color: AppColors.textPrimary),
+                ),
                 onTap: () async {
                   Navigator.pop(context);
                   await ref
@@ -834,7 +921,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
 
               ListTile(
                 leading: const Icon(Icons.cancel),
-                title: const Text('Cancel'),
+                title: const Text(
+                  'Cancel',
+                  style: TextStyle(color: AppColors.textPrimary),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                 },

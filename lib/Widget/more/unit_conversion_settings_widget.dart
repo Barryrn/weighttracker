@@ -40,7 +40,7 @@ class UnitConversionSettingsWidget extends StatelessWidget {
             HeroIcons.scale,
             style: HeroIconStyle.solid,
             size: 30,
-            color: AppColors.primaryDark,
+            color: AppColors.primary,
           ),
         ),
         title: const Text(

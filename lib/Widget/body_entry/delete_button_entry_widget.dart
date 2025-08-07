@@ -36,7 +36,7 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
 
               if (shouldDelete && context.mounted) {
                 try {
-                  await dbHelper.deleteAllBodyEntries();
+                  // await dbHelper.deleteAllBodyEntries();
 
                   // Delete the entry
                   final success = await deleteViewModel.deleteEntryForDate(

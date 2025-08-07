@@ -29,7 +29,6 @@ class ImageTimelineViewWidget extends ConsumerWidget {
       children: [
         // View selector - Updated with rounded pill-shaped buttons
         Container(
-          margin: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
             color: Colors.grey.shade100,
             borderRadius: BorderRadius.circular(25),
@@ -65,11 +64,10 @@ class ImageTimelineViewWidget extends ConsumerWidget {
             ],
           ),
         ),
-
+        const SizedBox(height: 16),
         // Image display - Updated with card-like appearance
         Expanded(
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
@@ -92,6 +90,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
         if (currentEntry != null)
           Container(
             margin: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+            width: double.infinity,
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,
               vertical: 8.0,

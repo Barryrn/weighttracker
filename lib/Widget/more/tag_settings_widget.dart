@@ -39,7 +39,7 @@ class TagsSettingsWidget extends StatelessWidget {
             HeroIcons.tag,
             style: HeroIconStyle.solid,
             size: 30,
-            color: AppColors.primaryDark,
+            color: AppColors.primary,
           ),
         ),
         title: const Text(

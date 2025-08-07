@@ -21,6 +21,7 @@ class WeightGoalWidget extends ConsumerWidget {
       elevation: 2,
       shadowColor: AppColors.primary.withOpacity(0.2),
       color: AppColors.card,
+
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),

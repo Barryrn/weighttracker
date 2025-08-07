@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weigthtracker/theme.dart';
 import '../ViewModel/profile_settings_provider.dart';
 import '../Widget/more/profile/profile_birthday_widget.dart';
 import '../Widget/more/profile/profile_gender_widget.dart';
@@ -18,51 +19,64 @@ class ProfileSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+    return GestureDetector(
+      // Add GestureDetector to dismiss keyboard when tapping anywhere on the screen
+      onTap: () {
+        // Hide the keyboard when tapping outside of text fields
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Profil',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textTertiary,
+            ),
+          ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.textPrimary,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Profile avatar section
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24.0),
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.grey.shade300,
-                  child: const Icon(
-                    Icons.person_outline,
-                    size: 50,
-                    color: Colors.black54,
+        backgroundColor: AppColors.background2,
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Profile avatar section
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24.0),
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundColor: AppColors.card,
+                    child: const Icon(
+                      Icons.person_outline,
+                      size: 50,
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
               ),
-            ),
 
-            // Birthday field - using the extracted widget
-            const ProfileBirthdayWidget(),
+              // Birthday field - using the extracted widget
+              ProfileBirthdayWidget(),
+              const SizedBox(height: 16),
 
-            // Gender field - using the extracted widget
-            const ProfileGenderWidget(),
+              // Gender field - using the extracted widget
+              ProfileGenderWidget(),
+              const SizedBox(height: 16),
 
-            // Height field - using the extracted widget
-            const ProfileHeightWidget(),
-
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Our BMI calculation is only for persons over 20 years old. The BMI for younger people is measured by a doctor during routine examinations.',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
+              // Height field - using the extracted widget
+              const ProfileHeightWidget(),
+            ],
+          ),
         ),
       ),
     );

@@ -18,12 +18,37 @@ class TagSettingsView extends ConsumerWidget {
     final tagSettingsData = ref.watch(tagSettingsProvider);
     final viewModel = ref.read(tagSettingsProvider.notifier);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manage Tags'),
-        backgroundColor: AppColors.primaryDark,
+    return GestureDetector(
+      // Add GestureDetector to dismiss keyboard when tapping anywhere on the screen
+      onTap: () {
+        // Hide the keyboard when tapping outside of text fields
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'TDEE Calculator',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textTertiary,
+            ),
+          ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.textPrimary,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
+        backgroundColor: AppColors.background2,
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: _buildBody(context, tagSettingsData, viewModel),
+        ),
       ),
-      body: _buildBody(context, tagSettingsData, viewModel),
     );
   }
 
@@ -62,22 +87,22 @@ class TagSettingsView extends ConsumerWidget {
         child: Text(
           'No tags found. Add tags when entering weight data.',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16, color: AppColors.textPrimary),
         ),
       );
     }
 
     return ListView.builder(
       itemCount: data.allTags.length,
-      padding: const EdgeInsets.all(16),
       itemBuilder: (context, index) {
         final tag = data.allTags[index];
         return Card(
+          color: AppColors.card,
           margin: const EdgeInsets.only(bottom: 8),
           child: ListTile(
             title: Text(tag),
             trailing: IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
+              icon: const Icon(Icons.delete, color: AppColors.error),
               onPressed: () => _showDeleteConfirmation(context, tag, viewModel),
             ),
           ),
@@ -103,7 +128,10 @@ class TagSettingsView extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: AppColors.textPrimary),
+            ),
           ),
           TextButton(
             onPressed: () {
@@ -111,7 +139,10 @@ class TagSettingsView extends ConsumerWidget {
               viewModel.deleteTag(tag);
               // viewModel.cleanupEmptyTags();
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: const Text(
+              'Delete',
+              style: TextStyle(color: AppColors.error),
+            ),
           ),
         ],
       ),

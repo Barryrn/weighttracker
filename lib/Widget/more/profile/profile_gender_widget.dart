@@ -20,6 +20,8 @@ class ProfileGenderWidget extends ConsumerWidget {
     final gender = profileSettings.gender ?? 'Not set';
 
     return ListTile(
+      tileColor: AppColors.card,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       leading: Container(
         width: 40,
         height: 40,
@@ -43,43 +45,66 @@ class ProfileGenderWidget extends ConsumerWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Select Gender'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: const Text('Male'),
-                onTap: () {
-                  // Update provider with selected gender
-                  ref
-                      .read(profileSettingsProvider.notifier)
-                      .updateGender('Male');
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Female'),
-                onTap: () {
-                  // Update provider with selected gender
-                  ref
-                      .read(profileSettingsProvider.notifier)
-                      .updateGender('Female');
-                  Navigator.pop(context);
-                },
-              ),
-              // ListTile(
-              //   title: const Text('Other'),
-              //   onTap: () {
-              //     // Update provider with selected gender
-              //     ref
-              //         .read(profileSettingsProvider.notifier)
-              //         .updateGender('Other');
-              //     Navigator.pop(context);
-              //   },
-              // ),
-            ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          content: SizedBox(
+            width: 1000, // Breitere Dialogbox
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildGenderOption(
+                  context: context,
+                  ref: ref,
+                  label: 'Male',
+                  icon: Icons.male,
+                  genderValue: 'Male',
+                ),
+                const SizedBox(height: 12),
+                _buildGenderOption(
+                  context: context,
+                  ref: ref,
+                  label: 'Female',
+                  icon: Icons.female,
+                  genderValue: 'Female',
+                ),
+              ],
+            ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildGenderOption({
+    required BuildContext context,
+    required WidgetRef ref,
+    required String label,
+    required IconData icon,
+    required String genderValue,
+  }) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(10),
+      onTap: () {
+        ref.read(profileSettingsProvider.notifier).updateGender(genderValue);
+        Navigator.pop(context);
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+        decoration: BoxDecoration(
+          color: AppColors.card,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: AppColors.primary),
+            const SizedBox(width: 16),
+            Text(label, style: const TextStyle(fontSize: 16)),
+          ],
+        ),
+      ),
     );
   }
 }

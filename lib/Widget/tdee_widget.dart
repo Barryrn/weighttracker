@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weigthtracker/theme.dart';
 import '../ViewModel/tdee_provider.dart';
 
 class TDEEWidget extends ConsumerWidget {
@@ -12,6 +13,8 @@ class TDEEWidget extends ConsumerWidget {
     final currentActivityLevel = ref.read(tdeeProvider.notifier).activityLevel;
 
     return Card(
+      shadowColor: AppColors.primary.withOpacity(0.2),
+      color: AppColors.card,
       margin: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 4,
@@ -33,20 +36,25 @@ class TDEEWidget extends ConsumerWidget {
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary,
                 ),
               ),
             ),
             const SizedBox(height: 24),
             const Text(
               'Activity Level',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
             ),
             const SizedBox(height: 8),
             DropdownButtonFormField<ActivityLevel>(
               value: currentActivityLevel,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.grey.shade100,
+                fillColor: AppColors.background1,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -75,6 +83,15 @@ class TDEEWidget extends ConsumerWidget {
                   ref.read(tdeeProvider.notifier).updateActivityLevel(newLevel);
                 }
               },
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'This is a first estimate of your TDEE based on age, weight, gender, and activity level.\nFor a more precise result, track your body weight and calorie intake for at least 7 continous days.',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textSecondary,
+              ),
             ),
           ],
         ),
