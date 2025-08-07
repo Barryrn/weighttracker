@@ -61,7 +61,7 @@
 //                           const Icon(
 //                             Icons.photo_library_outlined,
 //                             size: 64,
-//                             color: AppColors.primary,
+//                             color: Theme.of(context).colorScheme.primary,
 //                           ),
 //                           const SizedBox(height: 16),
 //                           const Text(
@@ -93,7 +93,7 @@
 //                               });
 //                             },
 //                             style: ElevatedButton.styleFrom(
-//                               backgroundColor: AppColors.primary,
+//                               backgroundColor: Theme.of(context).colorScheme.primary,
 //                               foregroundColor: Colors.white,
 //                               padding: const EdgeInsets.symmetric(
 //                                 vertical: 12,
@@ -187,7 +187,7 @@
 //                           });
 //                         },
 //                         style: ElevatedButton.styleFrom(
-//                           backgroundColor: AppColors.primary,
+//                           backgroundColor: Theme.of(context).colorScheme.primary,
 //                           foregroundColor: Colors.white,
 //                           padding: const EdgeInsets.symmetric(vertical: 12),
 //                         ),
@@ -256,7 +256,7 @@
 //             Container(
 //               padding: const EdgeInsets.all(8),
 //               decoration: BoxDecoration(
-//                 color: AppColors.primary.withOpacity(0.1),
+//                 color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
 //                 borderRadius: const BorderRadius.only(
 //                   topLeft: Radius.circular(12),
 //                   topRight: Radius.circular(12),
@@ -339,7 +339,7 @@
 //             Container(
 //               padding: const EdgeInsets.all(8),
 //               decoration: BoxDecoration(
-//                 color: AppColors.primary.withOpacity(0.1),
+//                 color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
 //                 borderRadius: const BorderRadius.only(
 //                   bottomLeft: Radius.circular(12),
 //                   bottomRight: Radius.circular(12),
@@ -373,7 +373,7 @@
 //         onPressed: isAvailable ? () => onChanged(type) : null,
 //         style: TextButton.styleFrom(
 //           backgroundColor: currentType == type
-//               ? AppColors.primary.withOpacity(0.2)
+//               ? Theme.of(context).colorScheme.primary.withOpacity(0.2)
 //               : Colors.transparent,
 //           padding: const EdgeInsets.symmetric(
 //             horizontal: 6,
@@ -389,7 +389,7 @@
 //             fontWeight: currentType == type
 //                 ? FontWeight.bold
 //                 : FontWeight.normal,
-//             color: isAvailable ? AppColors.textPrimary : Colors.grey,
+//             color: isAvailable ? Theme.of(context).colorScheme.textPrimary : Colors.grey,
 //           ),
 //         ),
 //       ),
@@ -408,7 +408,7 @@
 //           Container(
 //             padding: const EdgeInsets.all(8),
 //             decoration: BoxDecoration(
-//               color: AppColors.primary.withOpacity(0.1),
+//               color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
 //               borderRadius: const BorderRadius.only(
 //                 topLeft: Radius.circular(12),
 //                 topRight: Radius.circular(12),
@@ -438,7 +438,7 @@
 //           Container(
 //             padding: const EdgeInsets.all(8),
 //             decoration: BoxDecoration(
-//               color: AppColors.primary.withOpacity(0.1),
+//               color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
 //               borderRadius: const BorderRadius.only(
 //                 bottomLeft: Radius.circular(12),
 //                 bottomRight: Radius.circular(12),

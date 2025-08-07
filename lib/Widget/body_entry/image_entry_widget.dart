@@ -25,12 +25,12 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
   String? _frontImagePath;
   String? _sideImagePath;
   String? _backImagePath;
-  
+
   @override
   void initState() {
     super.initState();
     _initializeImagePaths();
-    
+
     // Add listener to bodyEntryProvider
     ref.listenManual(bodyEntryProvider, (previous, next) {
       if (next.frontImagePath != _frontImagePath ||
@@ -44,7 +44,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
       }
     });
   }
-  
+
   /// Initializes image paths from the bodyEntryProvider
   void _initializeImagePaths() {
     final bodyEntry = ref.read(bodyEntryProvider);
@@ -96,7 +96,10 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
                 ),
                 if (currentImagePath != null)
                   ListTile(
-                    leading: const Icon(Icons.delete, color: AppColors.error),
+                    leading: Icon(
+                      Icons.delete,
+                      color: Theme.of(context).colorScheme.error,
+                    ),
                     title: const Text('Delete Photo'),
                     onTap: () {
                       Navigator.pop(context);
@@ -321,7 +324,9 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
         height: 120,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+          ),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
@@ -377,12 +382,16 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Icon(Icons.camera_alt, size: 40, color: AppColors.primary),
+        Icon(
+          Icons.camera_alt,
+          size: 40,
+          color: Theme.of(context).colorScheme.primary,
+        ),
         const SizedBox(height: 8),
         Text(
           title,
-          style: const TextStyle(
-            color: AppColors.textSecondary,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.textSecondary,
             fontWeight: FontWeight.w500,
           ),
         ),

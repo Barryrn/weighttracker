@@ -1,6 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// Extension on ColorScheme to add custom colors
+extension CustomColorScheme on ColorScheme {
+  // Text colors
+  Color get textPrimary => brightness == Brightness.light
+      ? AppColors.textPrimary
+      : AppColors.textPrimaryDark;
+
+  Color get textSecondary => brightness == Brightness.light
+      ? AppColors.textSecondary
+      : AppColors.textSecondaryDark;
+
+  Color get textTertiary => AppColors.textTertiary;
+
+  Color get textDisabled => brightness == Brightness.light
+      ? AppColors.textDisabled
+      : AppColors.textDisabledDark;
+
+  // Background colors
+  Color get background1 => brightness == Brightness.light
+      ? AppColors.background1
+      : AppColors.background1Dark;
+
+  Color get background2 => brightness == Brightness.light
+      ? AppColors.background2
+      : AppColors.background2Dark;
+
+  Color get background3 => brightness == Brightness.light
+      ? AppColors.background3
+      : AppColors.background3Dark;
+
+  // Card color
+  Color get card =>
+      brightness == Brightness.light ? AppColors.card : AppColors.cardDark;
+
+  // Border color
+  Color get border =>
+      brightness == Brightness.light ? AppColors.border : AppColors.borderDark;
+
+  // Status colors
+  Color get success => AppColors.success;
+  Color get warning => AppColors.warning;
+  Color get info => AppColors.info;
+  Color get error => AppColors.error;
+
+  // Primary variations
+  Color get primaryLight => AppColors.primaryLight;
+  Color get primaryExtraLight => AppColors.primaryExtraLight;
+  Color get primaryDark => AppColors.primaryDark;
+}
+
 class AppColors {
   // Primary (Blue Shades)
   static const Color primary = Color(0xFF1E90FF); // hsl(210, 100%, 50%)

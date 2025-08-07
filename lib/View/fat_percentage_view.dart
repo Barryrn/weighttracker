@@ -51,19 +51,19 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Fat Percentage Calculator',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.w500,
-            color: AppColors.textTertiary,
+            color: Theme.of(context).colorScheme.textTertiary,
           ),
         ),
         centerTitle: true,
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textTertiary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.textTertiary,
       ),
-      backgroundColor: AppColors.background2,
+      backgroundColor: Theme.of(context).colorScheme.background2,
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: viewModelState.isLoading
@@ -111,7 +111,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               //     shape: RoundedRectangleBorder(
                               //       borderRadius: BorderRadius.circular(20),
                               //     ),
-                              //     backgroundColor: AppColors.primaryDark,
+                              //     backgroundColor: Theme.of(context).colorScheme.primaryDark,
                               //     padding: const EdgeInsets.symmetric(
                               //       horizontal: 12,
                               //       vertical: 8,
@@ -120,7 +120,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               //   child: Text(
                               //     'Switch to ${unitPrefs.useMetricHeight ? "inches" : "cm"}',
                               //     style: const TextStyle(
-                              //       color: AppColors.primary,
+                              //       color: Theme.of(context).colorScheme.primary,
                               //     ),
                               //   ),
                               // ),
@@ -131,7 +131,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                           //   controller: viewModelState.heightController,
                           //   decoration: InputDecoration(
                           //     filled: true,
-                          //     fillColor: AppColors.card, // Hintergrundfarbe
+                          //     fillColor: Theme.of(context).colorScheme.card, // Hintergrundfarbe
                           //     border: OutlineInputBorder(
                           //       borderRadius: BorderRadius.circular(10),
                           //     ),
@@ -173,7 +173,9 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                             controller: viewModelState.neckController,
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: AppColors.card, // Hintergrundfarbe
+                              fillColor: Theme.of(
+                                context,
+                              ).colorScheme.card, // Hintergrundfarbe
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -216,7 +218,9 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                             controller: viewModelState.waistController,
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: AppColors.card, // Hintergrundfarbe
+                              fillColor: Theme.of(
+                                context,
+                              ).colorScheme.card, // Hintergrundfarbe
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -260,7 +264,9 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               controller: viewModelState.hipController,
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: AppColors.card, // Hintergrundfarbe
+                                fillColor: Theme.of(
+                                  context,
+                                ).colorScheme.card, // Hintergrundfarbe
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -355,8 +361,12 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
-                                foregroundColor: AppColors.card,
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
+                                foregroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.card,
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 16,
                                 ),
@@ -376,7 +386,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               width: double.infinity,
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: AppColors.primary,
+                                color: Theme.of(context).colorScheme.primary,
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Column(
@@ -391,10 +401,12 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                   const SizedBox(height: 8),
                                   Text(
                                     '${viewModelState.calculatedFatPercentage!.toStringAsFixed(1)}%',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 32,
                                       fontWeight: FontWeight.bold,
-                                      color: AppColors.primary,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
                                     ),
                                   ),
                                   const SizedBox(height: 16),
@@ -410,8 +422,12 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                       Navigator.pop(context, fatPercentage);
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.success,
-                                      foregroundColor: AppColors.card,
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.error,
+                                      foregroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.card,
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 12,
                                         horizontal: 12,

@@ -24,20 +24,20 @@ class HomePage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'Home Page',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.w500,
-              color: AppColors.textTertiary,
+              color: Theme.of(context).colorScheme.textTertiary,
             ),
           ),
           automaticallyImplyLeading: false,
           centerTitle: true,
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.textPrimary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.textPrimary,
         ),
-        backgroundColor: AppColors.background2,
+        backgroundColor: Theme.of(context).colorScheme.background2,
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Center(
@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
                 //   icon: const Icon(Icons.compare),
                 //   label: const Text('Compare Progress Pictures'),
                 //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: AppColors.primary,
+                //     backgroundColor: Theme.of(context).colorScheme.primary,
                 //     foregroundColor: Colors.white,
                 //     padding: const EdgeInsets.symmetric(
                 //       horizontal: 16,

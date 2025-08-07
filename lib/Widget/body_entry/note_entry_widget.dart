@@ -15,7 +15,7 @@ class NotesEntry extends ConsumerWidget {
     // Get the note entry data from the ViewModel
     final noteEntryData = ref.watch(noteEntryProvider);
     final viewModel = ref.read(noteEntryProvider.notifier);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,7 +28,9 @@ class NotesEntry extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+            ),
           ),
           child: TextFormField(
             controller: noteEntryData.notesController,

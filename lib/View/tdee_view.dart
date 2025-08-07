@@ -21,24 +21,24 @@ class TDEEPage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'TDEE Calculator',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.w500,
-              color: AppColors.textTertiary,
+              color: Theme.of(context).colorScheme.textTertiary,
             ),
           ),
           automaticallyImplyLeading: false,
           centerTitle: true,
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.textPrimary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.textPrimary,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        backgroundColor: AppColors.background2,
+        backgroundColor: Theme.of(context).colorScheme.background2,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),

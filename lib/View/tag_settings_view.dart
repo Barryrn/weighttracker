@@ -26,24 +26,24 @@ class TagSettingsView extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'TDEE Calculator',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.w500,
-              color: AppColors.textTertiary,
+              color: Theme.of(context).colorScheme.textTertiary,
             ),
           ),
           automaticallyImplyLeading: false,
           centerTitle: true,
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.textPrimary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.textPrimary,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        backgroundColor: AppColors.background2,
+        backgroundColor: Theme.of(context).colorScheme.background2,
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: _buildBody(context, tagSettingsData, viewModel),
@@ -83,11 +83,14 @@ class TagSettingsView extends ConsumerWidget {
     }
 
     if (data.allTags.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
           'No tags found. Add tags when entering weight data.',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16, color: AppColors.textPrimary),
+          style: TextStyle(
+            fontSize: 16,
+            color: Theme.of(context).colorScheme.textPrimary,
+          ),
         ),
       );
     }
@@ -97,12 +100,15 @@ class TagSettingsView extends ConsumerWidget {
       itemBuilder: (context, index) {
         final tag = data.allTags[index];
         return Card(
-          color: AppColors.card,
+          color: Theme.of(context).colorScheme.card,
           margin: const EdgeInsets.only(bottom: 8),
           child: ListTile(
             title: Text(tag),
             trailing: IconButton(
-              icon: const Icon(Icons.delete, color: AppColors.error),
+              icon: Icon(
+                Icons.delete,
+                color: Theme.of(context).colorScheme.error,
+              ),
               onPressed: () => _showDeleteConfirmation(context, tag, viewModel),
             ),
           ),
@@ -128,9 +134,11 @@ class TagSettingsView extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text(
+            child: Text(
               'Cancel',
-              style: TextStyle(color: AppColors.textPrimary),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.textPrimary,
+              ),
             ),
           ),
           TextButton(
@@ -139,9 +147,9 @@ class TagSettingsView extends ConsumerWidget {
               viewModel.deleteTag(tag);
               // viewModel.cleanupEmptyTags();
             },
-            child: const Text(
+            child: Text(
               'Delete',
-              style: TextStyle(color: AppColors.error),
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
             ),
           ),
         ],

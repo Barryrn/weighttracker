@@ -37,7 +37,10 @@ class DateTimeEntry extends ConsumerWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 1),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+          width: 1,
+        ),
       ),
       child: Material(
         color: Colors.transparent,
@@ -48,6 +51,7 @@ class DateTimeEntry extends ConsumerWidget {
             children: [
               // Left arrow button to decrease date by one day
               _buildArrowButton(
+                context: context,
                 icon: Icons.arrow_back_ios_rounded,
                 onTap: () =>
                     _changeDate(context, bodyEntry.date, bodyEntryNotifier, -1),
@@ -70,9 +74,9 @@ class DateTimeEntry extends ConsumerWidget {
                         Flexible(
                           child: Text(
                             displayText,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
-                              color: AppColors.primary,
+                              color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w500,
                             ),
                             textAlign: TextAlign.center,
@@ -80,9 +84,9 @@ class DateTimeEntry extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(
+                        Icon(
                           Icons.arrow_drop_down,
-                          color: AppColors.primary,
+                          color: Theme.of(context).colorScheme.primary,
                           size: 24,
                         ),
                       ],
@@ -93,6 +97,7 @@ class DateTimeEntry extends ConsumerWidget {
 
               // Right arrow button to increase date by one day
               _buildArrowButton(
+                context: context,
                 icon: Icons.arrow_forward_ios_rounded,
                 onTap: () =>
                     _changeDate(context, bodyEntry.date, bodyEntryNotifier, 1),
@@ -112,6 +117,7 @@ class DateTimeEntry extends ConsumerWidget {
   Widget _buildArrowButton({
     required IconData icon,
     required VoidCallback onTap,
+    required BuildContext context,
   }) {
     return Material(
       color: Colors.transparent,
@@ -120,7 +126,11 @@ class DateTimeEntry extends ConsumerWidget {
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Icon(icon, color: AppColors.primary, size: 18),
+          child: Icon(
+            icon,
+            color: Theme.of(context).colorScheme.primary,
+            size: 18,
+          ),
         ),
       ),
     );
@@ -179,13 +189,15 @@ class DateTimeEntry extends ConsumerWidget {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: AppColors.primaryLight,
+            colorScheme: ColorScheme.light(
+              primary: Theme.of(context).colorScheme.primaryLight,
               onPrimary: Colors.white,
               onSurface: Colors.black,
             ),
             textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(foregroundColor: AppColors.primary),
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.primary,
+              ),
             ),
           ),
           child: child!,

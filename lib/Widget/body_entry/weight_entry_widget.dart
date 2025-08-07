@@ -33,7 +33,7 @@ class WeightEntry extends ConsumerWidget {
             //   onPressed: viewModel.toggleUnit,
             //   child: Text(
             //     'Switch to ${entryData.useMetricWeight ? "lb" : "kg"}',
-            //     style: const TextStyle(fontSize: 14, color: AppColors.primary),
+            //     style: const TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary),
             //   ),
             // ),
           ],
@@ -42,7 +42,9 @@ class WeightEntry extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+            ),
           ),
           child: TextFormField(
             controller: entryData.weightController,

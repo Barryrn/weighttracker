@@ -19,8 +19,8 @@ class WeightGoalWidget extends ConsumerWidget {
 
     return Card(
       elevation: 2,
-      shadowColor: AppColors.primary.withOpacity(0.2),
-      color: AppColors.card,
+      shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      color: Theme.of(context).colorScheme.card,
 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
@@ -34,7 +34,7 @@ class WeightGoalWidget extends ConsumerWidget {
                 Text(
                   'Weight Goal',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: AppColors.textPrimary,
+                    color: Theme.of(context).colorScheme.textPrimary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -43,7 +43,7 @@ class WeightGoalWidget extends ConsumerWidget {
                 //   onPressed: viewModel.toggleUnit,
                 //   child: Text(
                 //     'Switch to ${goalData.useMetricWeight ? "lb" : "kg"}',
-                //     style: const TextStyle(fontSize: 14, color: AppColors.primary),
+                //     style: const TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary),
                 //   ),
                 // ),
               ],
@@ -59,7 +59,9 @@ class WeightGoalWidget extends ConsumerWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                ),
               ),
               child: TextFormField(
                 controller: goalData.startController,
@@ -96,7 +98,9 @@ class WeightGoalWidget extends ConsumerWidget {
                     padding: const EdgeInsets.only(right: 12.0),
                     child: Text(
                       goalData.unitSuffix,
-                      style: const TextStyle(color: AppColors.textPrimary),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.textPrimary,
+                      ),
                     ),
                   ),
                   suffixIconConstraints: const BoxConstraints(
@@ -118,7 +122,9 @@ class WeightGoalWidget extends ConsumerWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                ),
               ),
               child: TextFormField(
                 controller: goalData.goalController,
@@ -155,7 +161,9 @@ class WeightGoalWidget extends ConsumerWidget {
                     padding: const EdgeInsets.only(right: 12.0),
                     child: Text(
                       goalData.unitSuffix,
-                      style: const TextStyle(color: AppColors.textPrimary),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.textPrimary,
+                      ),
                     ),
                   ),
                   suffixIconConstraints: const BoxConstraints(
@@ -169,7 +177,10 @@ class WeightGoalWidget extends ConsumerWidget {
             const SizedBox(height: 16),
             Text(
               'Your progress will be tracked against this goal',
-              style: TextStyle(fontSize: 14, color: AppColors.textPrimary),
+              style: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).colorScheme.textPrimary,
+              ),
             ),
           ],
         ),

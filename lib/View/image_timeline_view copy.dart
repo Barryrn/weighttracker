@@ -18,8 +18,8 @@
 //     return Scaffold(
 //       appBar: AppBar(
 //         title: const Text('Image Timeline'),
-//         backgroundColor: AppColors.primaryDark,
-//         foregroundColor: AppColors.textPrimary,
+//         backgroundColor: Theme.of(context).colorScheme.primaryDark,
+//         foregroundColor: Theme.of(context).colorScheme.textPrimary,
 //       ),
 //       body: state.isLoading
 //           ? const Center(child: CircularProgressIndicator())
@@ -111,7 +111,7 @@
 //     return ElevatedButton(
 //       onPressed: () => viewModel.updateSelectedView(viewType),
 //       style: ElevatedButton.styleFrom(
-//         backgroundColor: isSelected ? AppColors.primary : Colors.grey.shade200,
+//         backgroundColor: isSelected ? Theme.of(context).colorScheme.primary : Colors.grey.shade200,
 //         foregroundColor: isSelected ? Colors.white : Colors.black87,
 //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 //       ),
@@ -133,7 +133,7 @@
 //     return Container(
 //       margin: const EdgeInsets.symmetric(horizontal: 16.0),
 //       decoration: BoxDecoration(
-//         border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+//         border: Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.3)),
 //         borderRadius: BorderRadius.circular(12),
 //       ),
 //       child: ClipRRect(
@@ -162,7 +162,7 @@
 //         children: [
 //           Text(
 //             'Only one image available for this view',
-//             style: TextStyle(color: AppColors.textSecondary),
+//             style: TextStyle(color: Theme.of(context).colorScheme.textSecondary),
 //           ),
 //           const SizedBox(height: 8),
 //           Text(
@@ -195,8 +195,8 @@
 //           max: availableDates.length - 1.0,
 //           divisions: availableDates.length - 1,
 //           value: currentDateIndex.toDouble(),
-//           activeColor: AppColors.primary,
-//           inactiveColor: AppColors.primary.withOpacity(0.3),
+//           activeColor: Theme.of(context).colorScheme.primary,
+//           inactiveColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
 //           onChanged: (value) {
 //             // Find the entry with this date
 //             final date = availableDates[value.round()];

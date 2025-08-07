@@ -47,7 +47,7 @@ class ProgressGraphWidget extends ConsumerWidget {
   ) {
     return Card(
       elevation: 2,
-      color: AppColors.card, // or any other custom color
+      color: Theme.of(context).colorScheme.card, // or any other custom color
 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
@@ -97,9 +97,11 @@ class ProgressGraphWidget extends ConsumerWidget {
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: isSelected
-              ? AppColors.primary
-              : AppColors.primaryExtraLight,
-          foregroundColor: isSelected ? Colors.white : AppColors.textPrimary,
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.primaryExtraLight,
+          foregroundColor: isSelected
+              ? Colors.white
+              : Theme.of(context).colorScheme.textPrimary,
           elevation: isSelected ? 2 : 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(vertical: 12),
