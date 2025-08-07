@@ -140,16 +140,13 @@ class WeightProgressWidget extends ConsumerWidget {
                     children: [
                       Text(
                         '${(progressData.progressPercentage * 100).toStringAsFixed(0)}%',
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
+                        style: AppTypography.headline1(context).copyWith(
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                       Text(
                         'complete',
-                        style: TextStyle(
-                          fontSize: 16,
+                        style: AppTypography.bodyLarge(context).copyWith(
                           color: Theme.of(context).colorScheme.textSecondary,
                         ),
                       ),
@@ -183,20 +180,16 @@ class WeightProgressWidget extends ConsumerWidget {
           children: [
             Text(
               label,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).colorScheme.textPrimary,
-              ),
+              style: AppTypography.bodyLarge(
+                context,
+              ).copyWith(fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 6),
             Text(
               value,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: valueColor,
-              ),
+              style: AppTypography.subtitle1(
+                context,
+              ).copyWith(color: valueColor),
             ),
           ],
         ),
@@ -215,8 +208,7 @@ class WeightProgressWidget extends ConsumerWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
-            fontSize: 14,
+          style: AppTypography.bodyMedium(context).copyWith(
             fontWeight: FontWeight.w500,
             color: Theme.of(context).colorScheme.textSecondary,
           ),
@@ -224,11 +216,7 @@ class WeightProgressWidget extends ConsumerWidget {
         const SizedBox(height: 6),
         Text(
           value,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: valueColor,
-          ),
+          style: AppTypography.subtitle1(context).copyWith(color: valueColor),
         ),
       ],
     );

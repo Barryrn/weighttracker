@@ -20,12 +20,7 @@
 //       appBar: AppBar(
 //         title: const Text(
 //           'Home Page',
-//           style: TextStyle(
-//             fontSize: 30,
-//             fontWeight: FontWeight.w500,
-//             color: Theme.of(context).colorScheme.textTertiary,
-//           ),
-//         ),
+//           //         ),
 //         automaticallyImplyLeading: false,
 //         centerTitle: true,
 //         backgroundColor: Theme.of(context).colorScheme.primary,

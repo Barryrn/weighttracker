@@ -40,14 +40,7 @@ class ProfileSettingsWidget extends StatelessWidget {
           ),
         ),
 
-        title: Text(
-          'Profile',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.textPrimary,
-          ),
-        ),
+        title: Text('Profile'),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
           Navigator.push(

@@ -68,11 +68,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
               children: [
                 Text(
                   DateFormat('MM/dd/yyyy').format(currentEntry.date),
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primaryDark,
-                  ),
+                  style: AppTypography.bodyMedium(context),
                 ),
                 if (currentEntry.weight != null)
                   Container(
@@ -86,11 +82,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
                     ),
                     child: Text(
                       'Weight: ${currentEntry.weight!.toStringAsFixed(1)} kg',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.primaryDark,
-                      ),
+                      style: AppTypography.bodyLarge(context),
                     ),
                   ),
               ],
@@ -186,12 +178,6 @@ class ImageTimelineViewWidget extends ConsumerWidget {
                         // Center Widget um den Text, für absolute Zentrierung
                         child: Text(
                           segment['label']!,
-                          style: TextStyle(
-                            fontWeight: isSelected
-                                ? FontWeight.bold
-                                : FontWeight.normal,
-                            fontSize: 16,
-                          ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -242,17 +228,9 @@ class ImageTimelineViewWidget extends ConsumerWidget {
     if (availableDates.length == 1) {
       return Column(
         children: [
-          Text(
-            'Only one image available for this view',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.textSecondary,
-            ),
-          ),
+          Text('Only one image available for this view'),
           const SizedBox(height: 8),
-          Text(
-            DateFormat('MM/dd/yyyy').format(availableDates.first),
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+          Text(DateFormat('MM/dd/yyyy').format(availableDates.first)),
         ],
       );
     }
@@ -311,20 +289,8 @@ class ImageTimelineViewWidget extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                DateFormat('MM/dd/yyyy').format(availableDates.first),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Theme.of(context).colorScheme.textSecondary,
-                ),
-              ),
-              Text(
-                DateFormat('MM/dd/yyyy').format(availableDates.last),
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Theme.of(context).colorScheme.textSecondary,
-                ),
-              ),
+              Text(DateFormat('MM/dd/yyyy').format(availableDates.first)),
+              Text(DateFormat('MM/dd/yyyy').format(availableDates.last)),
             ],
           ),
         ),

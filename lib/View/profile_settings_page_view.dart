@@ -27,14 +27,7 @@ class ProfileSettingsPage extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Profil',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.textTertiary,
-            ),
-          ),
+          title: Text('Profil'),
           automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.primary,

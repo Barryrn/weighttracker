@@ -129,7 +129,6 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
               displayWeight != null
                   ? '${displayWeight.toStringAsFixed(1)} $weightUnit'
                   : 'N/A',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -181,10 +180,7 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
         children: [
           Text(_formatDate(entry.date), style: const TextStyle(fontSize: 18)),
           const SizedBox(height: 16),
-          Text(
-            '${displayWeight.toStringAsFixed(1)} $weightUnit',
-            style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-          ),
+          Text('${displayWeight.toStringAsFixed(1)} $weightUnit'),
         ],
       ),
     );
@@ -311,7 +307,6 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
                                 viewModel.chartData[index].date,
                                 viewModel.currentTimePeriod,
                               ),
-                              style: const TextStyle(fontSize: 10),
                             ),
                           );
                         }
@@ -324,10 +319,7 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
                       showTitles: true,
                       reservedSize: 40,
                       getTitlesWidget: (value, meta) {
-                        return Text(
-                          value.toStringAsFixed(1),
-                          style: const TextStyle(fontSize: 10),
-                        );
+                        return Text(value.toStringAsFixed(1));
                       },
                     ),
                   ),

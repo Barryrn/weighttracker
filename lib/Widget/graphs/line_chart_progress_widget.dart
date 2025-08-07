@@ -71,6 +71,7 @@ class _LineChartProgressWidgetState
             _buildDataTypeSelector(),
             const SizedBox(height: 16),
             _buildChart(aggregatedData, _selectedDataType),
+            const SizedBox(height: 16),
           ],
         ),
       ),
@@ -144,10 +145,10 @@ class _LineChartProgressWidgetState
               style: ElevatedButton.styleFrom(
                 backgroundColor: isSelected
                     ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.primaryLight,
+                    : Theme.of(context).colorScheme.primaryExtraLight,
                 foregroundColor: isSelected
                     ? Colors.white
-                    : Theme.of(context).colorScheme.textPrimary,
+                    : AppColors.textPrimary,
                 elevation: isSelected ? 2 : 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -182,10 +183,10 @@ class _LineChartProgressWidgetState
             style: ElevatedButton.styleFrom(
               backgroundColor: isSelected
                   ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.primaryLight,
+                  : Theme.of(context).colorScheme.primaryExtraLight,
               foregroundColor: isSelected
                   ? Colors.white
-                  : Theme.of(context).colorScheme.textPrimary,
+                  : AppColors.textPrimary,
               elevation: isSelected ? 2 : 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -321,7 +322,6 @@ class _LineChartProgressWidgetState
                             child: Text(
                               value.toStringAsFixed(0) +
                                   (unit.isNotEmpty ? ' $unit' : ''),
-                              style: const TextStyle(fontSize: 10),
                             ),
                           ),
                         ),
@@ -431,9 +431,6 @@ class _LineChartProgressWidgetState
                                           offset: const Offset(0, 8),
                                           child: Text(
                                             xLabels[index],
-                                            style: const TextStyle(
-                                              fontSize: 10,
-                                            ),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),

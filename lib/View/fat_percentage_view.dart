@@ -53,12 +53,9 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
       appBar: AppBar(
         title: Text(
           'Fat Percentage Calculator',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.textTertiary,
-          ),
+          style: AppTypography.headline3(context),
         ),
+
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.textTertiary,
@@ -80,11 +77,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                           // Gender selection
                           // const Text(
                           //   'Gender',
-                          //   style: TextStyle(
-                          //     fontSize: 16,
-                          //     fontWeight: FontWeight.w500,
-                          //   ),
-                          // ),
+                          //                             // ),
                           const SizedBox(height: 16),
 
                           // Height input
@@ -93,11 +86,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                             children: [
                               // Text(
                               //   'Height ($lengthUnit)',
-                              //   style: const TextStyle(
-                              //     fontSize: 16,
-                              //     fontWeight: FontWeight.w500,
-                              //   ),
-                              // ),
+                              //                                 // ),
 
                               // TextButton(
                               //   onPressed: () {
@@ -119,10 +108,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               //   ),
                               //   child: Text(
                               //     'Switch to ${unitPrefs.useMetricHeight ? "inches" : "cm"}',
-                              //     style: const TextStyle(
-                              //       color: Theme.of(context).colorScheme.primary,
-                              //     ),
-                              //   ),
+                              //                                   //   ),
                               // ),
                             ],
                           ),
@@ -161,13 +147,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                           // const SizedBox(height: 16),
 
                           // Neck circumference input
-                          Text(
-                            'Neck Circumference ($lengthUnit)',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                          Text('Neck Circumference ($lengthUnit)'),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: viewModelState.neckController,
@@ -206,13 +186,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                           const SizedBox(height: 16),
 
                           // Waist circumference input
-                          Text(
-                            'Waist Circumference ($lengthUnit)',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                          Text('Waist Circumference ($lengthUnit)'),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: viewModelState.waistController,
@@ -252,13 +226,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
 
                           // Hip circumference input (only for women)
                           if (viewModelState.gender == 'Female') ...[
-                            Text(
-                              'Hip Circumference ($lengthUnit)',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                            Text('Hip Circumference ($lengthUnit)'),
                             const SizedBox(height: 8),
                             TextFormField(
                               controller: viewModelState.hipController,
@@ -391,23 +359,10 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               ),
                               child: Column(
                                 children: [
-                                  const Text(
-                                    'Calculated Body Fat Percentage',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
+                                  const Text('Calculated Body Fat Percentage'),
                                   const SizedBox(height: 8),
                                   Text(
                                     '${viewModelState.calculatedFatPercentage!.toStringAsFixed(1)}%',
-                                    style: TextStyle(
-                                      fontSize: 32,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                    ),
                                   ),
                                   const SizedBox(height: 16),
                                   // Add a save button below the result

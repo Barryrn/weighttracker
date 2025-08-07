@@ -182,11 +182,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
         appBar: AppBar(
           title: Text(
             'Image Gallery',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.textTertiary,
-            ),
+            style: AppTypography.headline2(
+              context,
+            ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
           ),
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.primary,
@@ -328,12 +326,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     ), // Optional: abgerundete Ecken
                   ),
                 ),
-                child: Text(
-                  'Clear Filters',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.textPrimary,
-                  ),
-                ),
+                child: Text('Clear Filters'),
               ),
               const SizedBox(width: 8),
 
@@ -421,10 +414,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Weight Range (kg)',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        const Text('Weight Range (kg)'),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -448,12 +438,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                 },
               ),
             ),
-            Text(
-              _weightRange!.end.toStringAsFixed(1),
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.textPrimary,
-              ),
-            ),
+            Text(_weightRange!.end.toStringAsFixed(1)),
           ],
         ),
       ],
@@ -471,13 +456,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Date Range',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.textPrimary,
-          ),
-        ),
+        Text('Date Range'),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -502,9 +481,6 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                       ? '${DateFormat('MMM d, y').format(_dateRange!.start)} - '
                             '${DateFormat('MMM d, y').format(_dateRange!.end)}'
                       : 'Select Date Range',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.textPrimary,
-                  ),
                 ),
               ),
             ),
@@ -558,13 +534,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Tags',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.textPrimary,
-          ),
-        ),
+        Text('Tags'),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
@@ -572,12 +542,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
           children: _allTags.map((tag) {
             final isSelected = _selectedTags.contains(tag);
             return FilterChip(
-              label: Text(
-                tag,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.textPrimary,
-                ),
-              ),
+              label: Text(tag, style: AppTypography.bodyMedium(context)),
               selected: isSelected,
               onSelected: (selected) {
                 setState(() {
@@ -605,13 +570,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Image Types',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.textPrimary,
-          ),
-        ),
+        Text('Image Types'),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -620,9 +579,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                 label: Center(
                   child: Text(
                     'Front',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.textPrimary,
-                    ),
+                    style: AppTypography.bodyMedium(context),
                   ),
                 ),
                 selected: _showFrontImages,
@@ -642,12 +599,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             Expanded(
               child: FilterChip(
                 label: Center(
-                  child: Text(
-                    'Side',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.textPrimary,
-                    ),
-                  ),
+                  child: Text('Side', style: AppTypography.bodyMedium(context)),
                 ),
                 selected: _showSideImages,
                 onSelected: (selected) {
@@ -666,12 +618,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             Expanded(
               child: FilterChip(
                 label: Center(
-                  child: Text(
-                    'Back',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.textPrimary,
-                    ),
-                  ),
+                  child: Text('Back', style: AppTypography.bodyMedium(context)),
                 ),
                 selected: _showBackImages,
                 onSelected: (selected) {
@@ -800,17 +747,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     children: [
                       Text(
                         DateFormat('MMM d, yyyy').format(entry.date),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).colorScheme.textPrimary,
-                        ),
+                        style: AppTypography.bodyMedium(context),
                       ),
                       Text(
                         displayViewType,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).colorScheme.textPrimary,
-                        ),
+                        style: AppTypography.bodyMedium(context),
                       ),
                     ],
                   ),
@@ -820,10 +761,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     entry.weight != null
                         ? '${entry.weight!.toStringAsFixed(1)} kg'
                         : 'No weight data',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.textPrimary,
-                    ),
+                    style: AppTypography.bodyMedium(context),
                   ),
                   // Tags
                   if (entry.tags != null && entry.tags!.isNotEmpty)
@@ -844,15 +782,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                               ).colorScheme.primary.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Text(
-                              tag,
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.textPrimary,
-                              ),
-                            ),
+                            child: Text(tag),
                           );
                         }).toList(),
                       ),
@@ -879,10 +809,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                         ),
                         child: Text(
                           'Pic 1',
-                          style: TextStyle(
-                            fontSize: 16,
+                          style: AppTypography.bodyMedium(context).copyWith(
+                            color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.textPrimary,
                           ),
                         ),
                       ),
@@ -904,10 +833,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                         ),
                         child: Text(
                           'Pic 2',
-                          style: TextStyle(
-                            fontSize: 16,
+                          style: AppTypography.bodyMedium(context).copyWith(
+                            color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.textPrimary,
                           ),
                         ),
                       ),
@@ -937,12 +865,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: Text(
-                  'Export to Gallery',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.textPrimary,
-                  ),
-                ),
+                title: Text('Export to Gallery'),
                 onTap: () async {
                   Navigator.pop(context);
                   await ref
@@ -965,12 +888,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
 
               ListTile(
                 leading: const Icon(Icons.cancel),
-                title: Text(
-                  'Cancel',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.textPrimary,
-                  ),
-                ),
+                title: Text('Cancel'),
                 onTap: () {
                   Navigator.pop(context);
                 },

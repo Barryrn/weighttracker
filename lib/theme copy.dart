@@ -45,7 +45,7 @@ extension CustomColorScheme on ColorScheme {
   Color get info => AppColors.info;
   Color get error => AppColors.error;
 
-  // Primary variations
+  // Primary variations - all return the same color regardless of theme
   Color get primaryLight => AppColors.primaryLight;
   Color get primaryExtraLight => AppColors.primaryExtraLight;
   Color get primaryDark => AppColors.primaryDark;
@@ -59,6 +59,11 @@ class AppColors {
     0xFFE6F2FF,
   ); // hsl(210, 100%, 90%)
   static const Color primaryDark = Color(0xFF0066CC); // hsl(210, 100%, 40%)
+
+  // New darker version of primaryExtraLight for dark theme
+  static const Color primaryExtraLightDark = Color(
+    0xFF66B2FF,
+  ); // Darker version for dark theme
 
   // Backgrounds (Light Mode)
   static const Color background1 = Color(0xFFF2F6F9); // hsl(210, 20%, 95%)
@@ -101,6 +106,7 @@ final ThemeData appTheme = ThemeData(
   colorScheme: const ColorScheme.light(
     primary: AppColors.primary,
     secondary: AppColors.primaryLight,
+    tertiary: AppColors.primaryExtraLight,
     background: AppColors.background1,
     surface: AppColors.card,
     onPrimary: Colors.white,
@@ -152,8 +158,10 @@ final ThemeData appTheme = ThemeData(
 final ThemeData appDarkTheme = ThemeData(
   useMaterial3: true,
   colorScheme: const ColorScheme.dark(
-    primary: AppColors.primaryLight,
-    secondary: AppColors.primary,
+    primary: AppColors.primary,
+    secondary: AppColors.primaryLight,
+    tertiary:
+        AppColors.primaryExtraLight, // Now using the same color as light theme
     background: AppColors.background1Dark,
     surface: AppColors.cardDark,
     onPrimary: Colors.white,
@@ -187,7 +195,8 @@ final ThemeData appDarkTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: AppColors.primaryLight,
+      backgroundColor:
+          AppColors.primary, // Changed from primaryLight to primary
       foregroundColor: Colors.white,
       textStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -195,7 +204,8 @@ final ThemeData appDarkTheme = ThemeData(
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: AppColors.cardDark,
-    selectedItemColor: AppColors.primaryLight,
+    selectedItemColor:
+        AppColors.primary, // Changed from primaryLight to primary
     unselectedItemColor: AppColors.textDisabledDark,
     selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
     unselectedLabelStyle: GoogleFonts.poppins(),

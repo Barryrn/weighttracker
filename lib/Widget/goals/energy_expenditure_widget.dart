@@ -45,12 +45,7 @@ class EnergyExpenditureWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Title Section
-            Text(
-              'Energy Expenditure',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Theme.of(context).colorScheme.textPrimary,
-              ),
-            ),
+            Text('Energy Expenditure', style: AppTypography.headline3(context)),
             const SizedBox(height: 16),
             // TDEE Metrics Cards
             Row(
@@ -115,11 +110,7 @@ class EnergyExpenditureWidget extends ConsumerWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             textAlign: TextAlign.center, // center text
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.textPrimary,
-            ),
+            style: AppTypography.bodyMedium(context),
           ),
           const SizedBox(height: 8),
           // Value text with max 2 lines, centered
@@ -128,11 +119,7 @@ class EnergyExpenditureWidget extends ConsumerWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center, // center text
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: accentColor,
-            ),
+            style: AppTypography.subtitle1(context),
           ),
         ],
       ),

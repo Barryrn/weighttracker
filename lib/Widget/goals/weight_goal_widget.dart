@@ -43,18 +43,14 @@ class WeightGoalWidget extends ConsumerWidget {
                 //   onPressed: viewModel.toggleUnit,
                 //   child: Text(
                 //     'Switch to ${goalData.useMetricWeight ? "lb" : "kg"}',
-                //     style: const TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary),
-                //   ),
+                //                     //   ),
                 // ),
               ],
             ),
             const SizedBox(height: 16),
 
             // Start weight field
-            Text(
-              'Set your start weight (${goalData.unitSuffix})',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
+            Text('Set your start weight (${goalData.unitSuffix})'),
             const SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(
@@ -96,28 +92,19 @@ class WeightGoalWidget extends ConsumerWidget {
                   border: InputBorder.none,
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(right: 12.0),
-                    child: Text(
-                      goalData.unitSuffix,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.textPrimary,
-                      ),
-                    ),
+                    child: Text(goalData.unitSuffix),
                   ),
                   suffixIconConstraints: const BoxConstraints(
                     minWidth: 0,
                     minHeight: 0,
                   ),
                 ),
-                style: const TextStyle(fontSize: 18, color: Colors.black87),
               ),
             ),
             const SizedBox(height: 16),
 
             // Target weight field
-            Text(
-              'Set your goal weight (${goalData.unitSuffix})',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
+            Text('Set your goal weight (${goalData.unitSuffix})'),
             const SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(
@@ -159,29 +146,17 @@ class WeightGoalWidget extends ConsumerWidget {
                   border: InputBorder.none,
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(right: 12.0),
-                    child: Text(
-                      goalData.unitSuffix,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.textPrimary,
-                      ),
-                    ),
+                    child: Text(goalData.unitSuffix),
                   ),
                   suffixIconConstraints: const BoxConstraints(
                     minWidth: 0,
                     minHeight: 0,
                   ),
                 ),
-                style: const TextStyle(fontSize: 18, color: Colors.black87),
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              'Your progress will be tracked against this goal',
-              style: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).colorScheme.textPrimary,
-              ),
-            ),
+            Text('Your progress will be tracked against this goal'),
           ],
         ),
       ),

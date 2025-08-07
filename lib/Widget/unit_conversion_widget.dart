@@ -49,9 +49,8 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
           child: SwitchListTile(
             title: Text(
               'Use ${useMetric ? "Kilograms (kg)" : "Pounds (lb)"}',
-              style: TextStyle(
+              style: AppTypography.bodyMedium(context).copyWith(
                 color: Theme.of(context).colorScheme.textPrimary,
-                fontSize: 14,
               ),
             ),
             value: useMetric,
@@ -72,9 +71,8 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
           child: SwitchListTile(
             title: Text(
               'Use ${toggleFatUnit ? "Inches" : "Centimeters"}',
-              style: TextStyle(
+              style: AppTypography.bodyMedium(context).copyWith(
                 color: Theme.of(context).colorScheme.textPrimary,
-                fontSize: 14,
               ),
             ),
             value: !toggleFatUnit, // Invert the value here

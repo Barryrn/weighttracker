@@ -26,11 +26,9 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             'Home Page',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.textTertiary,
-            ),
+            style: AppTypography.headline1(
+              context,
+            ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
           ),
           automaticallyImplyLeading: false,
           centerTitle: true,

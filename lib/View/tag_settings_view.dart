@@ -26,14 +26,7 @@ class TagSettingsView extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            'TDEE Calculator',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.textTertiary,
-            ),
-          ),
+          title: Text('TDEE Calculator'),
           automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.primary,
@@ -67,11 +60,7 @@ class TagSettingsView extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Error: ${data.error}',
-              style: const TextStyle(color: Colors.red),
-              textAlign: TextAlign.center,
-            ),
+            Text('Error: ${data.error}', textAlign: TextAlign.center),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => viewModel.loadAllTags(),
@@ -87,10 +76,6 @@ class TagSettingsView extends ConsumerWidget {
         child: Text(
           'No tags found. Add tags when entering weight data.',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            color: Theme.of(context).colorScheme.textPrimary,
-          ),
         ),
       );
     }
@@ -134,12 +119,7 @@ class TagSettingsView extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text(
-              'Cancel',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.textPrimary,
-              ),
-            ),
+            child: Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
@@ -147,10 +127,7 @@ class TagSettingsView extends ConsumerWidget {
               viewModel.deleteTag(tag);
               // viewModel.cleanupEmptyTags();
             },
-            child: Text(
-              'Delete',
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
+            child: Text('Delete'),
           ),
         ],
       ),

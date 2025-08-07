@@ -323,16 +323,7 @@ class _WeightChangeGoalTDEEWidgetState
               width: selected ? 2 : 1,
             ),
           ),
-          child: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: selected ? color : Colors.grey.shade600,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
-                fontSize: 16,
-              ),
-            ),
-          ),
+          child: Center(child: Text(label)),
         ),
       ),
     );
@@ -348,17 +339,7 @@ class _WeightChangeGoalTDEEWidgetState
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label),
-          Text(
-            value,
-            style: TextStyle(
-              fontWeight: isBold ? FontWeight.w700 : FontWeight.normal,
-              color: valueColor ?? Colors.black,
-              fontSize: isBold ? 16 : 14,
-            ),
-          ),
-        ],
+        children: [Text(label), Text(value)],
       ),
     );
   }

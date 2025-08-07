@@ -86,7 +86,7 @@ class HealthWidget extends ConsumerWidget {
                 Expanded(
                   child: Text(
                     healthState.errorMessage!,
-                    style: TextStyle(
+                    style: AppTypography.bodyMedium(context).copyWith(
                       color: Theme.of(context).colorScheme.error,
                     ),
                   ),
@@ -134,7 +134,7 @@ class HealthWidget extends ConsumerWidget {
             '• Send your weight, body fat percentage, and BMI data to Apple Health / Google Health Connect\n'
             '• Import weight, body fat percentage, and BMI measurements from health services\n'
             '• Keep both systems up to date',
-            style: TextStyle(
+            style: AppTypography.bodyMedium(context).copyWith(
               color: Theme.of(context).colorScheme.textSecondary,
             ),
           ),
@@ -142,9 +142,9 @@ class HealthWidget extends ConsumerWidget {
 
         if (!healthState.isAvailable) ...[
           const SizedBox(height: 12),
-          const Text(
+          Text(
             'Health services are not available on your device. This feature requires Apple Health on iOS or Health Connect on Android.',
-            style: TextStyle(color: Colors.grey),
+            style: AppTypography.bodyMedium(context).copyWith(color: Colors.grey),
           ),
         ],
       ],
@@ -174,16 +174,14 @@ class HealthWidget extends ConsumerWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                    style: AppTypography.subtitle1(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: TextStyle(
+                    style: AppTypography.bodyMedium(context).copyWith(
                       color: Theme.of(context).colorScheme.textSecondary,
                     ),
                   ),
@@ -222,7 +220,7 @@ class HealthWidget extends ConsumerWidget {
             : Icon(icon, color: iconColor, size: iconHeight),
         label: Text(
           label,
-          style: TextStyle(color: labelColor, fontSize: labelHeight),
+          style: AppTypography.buttonText(context).copyWith(color: labelColor),
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.card,

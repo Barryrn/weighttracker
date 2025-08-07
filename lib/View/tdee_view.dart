@@ -21,14 +21,7 @@ class TDEEPage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            'TDEE Calculator',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.textTertiary,
-            ),
-          ),
+          title: Text('TDEE Calculator'),
           automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.primary,

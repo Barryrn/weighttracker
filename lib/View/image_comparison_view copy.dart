@@ -66,17 +66,12 @@
 //                           const SizedBox(height: 16),
 //                           const Text(
 //                             'No images available',
-//                             style: TextStyle(
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                             textAlign: TextAlign.center,
+//                             //                             textAlign: TextAlign.center,
 //                           ),
 //                           const SizedBox(height: 8),
 //                           const Text(
 //                             'Please upload images to track your progress',
-//                             style: TextStyle(fontSize: 14),
-//                             textAlign: TextAlign.center,
+//                             //                             textAlign: TextAlign.center,
 //                           ),
 //                           const SizedBox(height: 16),
 //                           ElevatedButton(
@@ -122,11 +117,7 @@
 //                       // Comparison header
 //                       const Text(
 //                         'Compare your progress',
-//                         style: TextStyle(
-//                           fontSize: 20,
-//                           fontWeight: FontWeight.bold,
-//                         ),
-//                         textAlign: TextAlign.center,
+//                         //                         textAlign: TextAlign.center,
 //                       ),
 //                       const SizedBox(height: 16),
 
@@ -266,8 +257,7 @@
 //                 children: [
 //                   Text(
 //                     title,
-//                     style: const TextStyle(fontWeight: FontWeight.bold),
-//                   ),
+//                     //                   ),
 //                   Text(subtitle, style: const TextStyle(fontSize: 12)),
 //                 ],
 //               ),
@@ -350,8 +340,7 @@
 //                     ? '${weight.toStringAsFixed(1)} kg'
 //                     : 'No weight data',
 //                 textAlign: TextAlign.center,
-//                 style: const TextStyle(fontWeight: FontWeight.bold),
-//               ),
+//                 //               ),
 //             ),
 //           ],
 //         ),
@@ -384,14 +373,7 @@
 //         ),
 //         child: Text(
 //           label,
-//           style: TextStyle(
-//             fontSize: 12,
-//             fontWeight: currentType == type
-//                 ? FontWeight.bold
-//                 : FontWeight.normal,
-//             color: isAvailable ? Theme.of(context).colorScheme.textPrimary : Colors.grey,
-//           ),
-//         ),
+//           //         ),
 //       ),
 //     );
 //   }
@@ -418,8 +400,7 @@
 //               children: [
 //                 Text(
 //                   'No Comparison',
-//                   style: TextStyle(fontWeight: FontWeight.bold),
-//                 ),
+//                   //                 ),
 //                 Text('Add more entries', style: TextStyle(fontSize: 12)),
 //               ],
 //             ),
@@ -447,8 +428,7 @@
 //             child: const Text(
 //               'No similar weight entry',
 //               textAlign: TextAlign.center,
-//               style: TextStyle(fontWeight: FontWeight.bold),
-//             ),
+//               //             ),
 //           ),
 //         ],
 //       ),
