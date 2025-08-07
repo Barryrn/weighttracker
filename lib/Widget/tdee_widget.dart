@@ -13,8 +13,8 @@ class TDEEWidget extends ConsumerWidget {
     final currentActivityLevel = ref.read(tdeeProvider.notifier).activityLevel;
 
     return Card(
-      shadowColor: AppColors.primary.withOpacity(0.2),
-      color: AppColors.card,
+      shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      color: Theme.of(context).colorScheme.card,
       margin: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 4,
@@ -33,20 +33,20 @@ class TDEEWidget extends ConsumerWidget {
                 tdee != null
                     ? '${tdee.toInt()} calories/day'
                     : 'Not calculated',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: Theme.of(context).colorScheme.textPrimary,
                 ),
               ),
             ),
             const SizedBox(height: 24),
-            const Text(
+            Text(
               'Activity Level',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: Theme.of(context).colorScheme.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
@@ -54,7 +54,7 @@ class TDEEWidget extends ConsumerWidget {
               value: currentActivityLevel,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: AppColors.background1,
+                fillColor: Theme.of(context).colorScheme.background1,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -90,7 +90,7 @@ class TDEEWidget extends ConsumerWidget {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textSecondary,
+                color: Theme.of(context).colorScheme.textSecondary,
               ),
             ),
           ],

@@ -47,7 +47,7 @@ class ProfileHeightWidget extends ConsumerWidget {
       children: [
         // TestWidget(),
         ListTile(
-          tileColor: AppColors.card,
+          tileColor: Theme.of(context).colorScheme.card,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -58,7 +58,10 @@ class ProfileHeightWidget extends ConsumerWidget {
               color: Colors.grey.shade200,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(Icons.height, color: AppColors.primary),
+            child: Icon(
+              Icons.height,
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ),
           title: const Text('Height'),
           subtitle: Text(formattedHeight),
@@ -130,10 +133,14 @@ class ProfileHeightWidget extends ConsumerWidget {
                   const SizedBox(height: 20),
                   SliderTheme(
                     data: SliderTheme.of(context).copyWith(
-                      activeTrackColor: AppColors.primary,
-                      inactiveTrackColor: AppColors.primaryLight,
-                      thumbColor: AppColors.primaryLight,
-                      overlayColor: AppColors.primaryLight.withOpacity(0.2),
+                      activeTrackColor: Theme.of(context).colorScheme.primary,
+                      inactiveTrackColor: Theme.of(
+                        context,
+                      ).colorScheme.primaryLight,
+                      thumbColor: Theme.of(context).colorScheme.primaryLight,
+                      overlayColor: Theme.of(
+                        context,
+                      ).colorScheme.primaryLight.withOpacity(0.2),
                       // Make the track thicker for better visibility
                       trackHeight: 6.0,
                     ),

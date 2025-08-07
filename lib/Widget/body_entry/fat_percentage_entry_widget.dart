@@ -31,7 +31,7 @@ class FatPercentageEntry extends ConsumerWidget {
     // Get the fat percentage entry data from the ViewModel
     final entryData = ref.watch(fatPercentageEntryProvider);
     final viewModel = ref.read(fatPercentageEntryProvider.notifier);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -44,7 +44,9 @@ class FatPercentageEntry extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+            ),
           ),
           child: Row(
             children: [
@@ -96,11 +98,18 @@ class FatPercentageEntry extends ConsumerWidget {
                 height: 56,
                 decoration: BoxDecoration(
                   border: Border(
-                    left: BorderSide(color: AppColors.primary.withOpacity(0.3)),
+                    left: BorderSide(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.primary.withOpacity(0.3),
+                    ),
                   ),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.calculate, color: AppColors.primary),
+                  icon: Icon(
+                    Icons.calculate,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                   onPressed: () => _openCalculator(context, ref),
                   tooltip: 'Calculate body fat percentage',
                 ),

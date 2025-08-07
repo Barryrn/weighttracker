@@ -34,8 +34,8 @@ class EnergyExpenditureWidget extends ConsumerWidget {
         : null;
 
     return Card(
-      shadowColor: AppColors.primary.withOpacity(0.2),
-      color: AppColors.card,
+      shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      color: Theme.of(context).colorScheme.card,
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: Container(
@@ -48,8 +48,7 @@ class EnergyExpenditureWidget extends ConsumerWidget {
             Text(
               'Energy Expenditure',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppColors.textPrimary,
-                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.textPrimary,
               ),
             ),
             const SizedBox(height: 16),
@@ -62,7 +61,7 @@ class EnergyExpenditureWidget extends ConsumerWidget {
                     context,
                     'TDEE Calories',
                     tdee?.toStringAsFixed(0) ?? 'N/A',
-                    AppColors.info,
+                    Theme.of(context).colorScheme.info,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -72,7 +71,7 @@ class EnergyExpenditureWidget extends ConsumerWidget {
                     context,
                     'Goal Weight TDEE',
                     goalTDEE?.toStringAsFixed(0) ?? 'N/A',
-                    AppColors.success,
+                    Theme.of(context).colorScheme.error,
                   ),
                 ),
               ],
@@ -93,7 +92,7 @@ class EnergyExpenditureWidget extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       decoration: BoxDecoration(
-        color: AppColors.background1,
+        color: Theme.of(context).colorScheme.background1,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -116,10 +115,10 @@ class EnergyExpenditureWidget extends ConsumerWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             textAlign: TextAlign.center, // center text
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: AppColors.textPrimary,
+              color: Theme.of(context).colorScheme.textPrimary,
             ),
           ),
           const SizedBox(height: 8),

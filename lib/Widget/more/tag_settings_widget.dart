@@ -19,7 +19,7 @@ class TagsSettingsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: Theme.of(context).colorScheme.card,
         borderRadius: BorderRadius.circular(16),
       ),
       child: ListTile(
@@ -35,19 +35,19 @@ class TagsSettingsWidget extends StatelessWidget {
             color: Colors.grey.shade300,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: const HeroIcon(
+          child: HeroIcon(
             HeroIcons.tag,
             style: HeroIconStyle.solid,
             size: 30,
-            color: AppColors.primary,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        title: const Text(
+        title: Text(
           'Tag',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: AppColors.textPrimary,
+            color: Theme.of(context).colorScheme.textPrimary,
           ),
         ),
         trailing: const Icon(Icons.chevron_right),

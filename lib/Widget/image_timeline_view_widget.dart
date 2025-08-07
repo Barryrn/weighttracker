@@ -61,17 +61,17 @@ class ImageTimelineViewWidget extends ConsumerWidget {
               vertical: 8.0,
             ),
             decoration: BoxDecoration(
-              color: AppColors.primaryExtraLight,
+              color: Theme.of(context).colorScheme.primaryExtraLight,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
               children: [
                 Text(
                   DateFormat('MM/dd/yyyy').format(currentEntry.date),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primaryDark,
+                    color: Theme.of(context).colorScheme.primaryDark,
                   ),
                 ),
                 if (currentEntry.weight != null)
@@ -89,7 +89,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.primaryDark,
+                        color: Theme.of(context).colorScheme.primaryDark,
                       ),
                     ),
                   ),
@@ -148,7 +148,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
                 width: buttonWidth,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
@@ -244,7 +244,9 @@ class ImageTimelineViewWidget extends ConsumerWidget {
         children: [
           Text(
             'Only one image available for this view',
-            style: TextStyle(color: AppColors.textSecondary),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.textSecondary,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
@@ -274,11 +276,15 @@ class ImageTimelineViewWidget extends ConsumerWidget {
         SliderTheme(
           data: SliderThemeData(
             trackHeight: 4,
-            activeTrackColor: AppColors.primary,
-            inactiveTrackColor: AppColors.primary.withOpacity(0.2),
-            thumbColor: AppColors.primary,
+            activeTrackColor: Theme.of(context).colorScheme.primary,
+            inactiveTrackColor: Theme.of(
+              context,
+            ).colorScheme.primary.withOpacity(0.2),
+            thumbColor: Theme.of(context).colorScheme.primary,
             thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
-            overlayColor: AppColors.primary.withOpacity(0.2),
+            overlayColor: Theme.of(
+              context,
+            ).colorScheme.primary.withOpacity(0.2),
             overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
           ),
           child: Slider(
@@ -307,16 +313,16 @@ class ImageTimelineViewWidget extends ConsumerWidget {
             children: [
               Text(
                 DateFormat('MM/dd/yyyy').format(availableDates.first),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
-                  color: AppColors.textSecondary,
+                  color: Theme.of(context).colorScheme.textSecondary,
                 ),
               ),
               Text(
                 DateFormat('MM/dd/yyyy').format(availableDates.last),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
-                  color: AppColors.textSecondary,
+                  color: Theme.of(context).colorScheme.textSecondary,
                 ),
               ),
             ],

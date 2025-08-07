@@ -27,8 +27,8 @@ class HealthWidget extends ConsumerWidget {
               ? Icons.check_circle
               : Icons.error_outline,
           iconColor: healthState.isAvailable
-              ? AppColors.success
-              : AppColors.warning,
+              ? Theme.of(context).colorScheme.error
+              : Theme.of(context).colorScheme.warning,
         ),
 
         const SizedBox(height: 12),
@@ -44,8 +44,8 @@ class HealthWidget extends ConsumerWidget {
               ? Icons.check_circle
               : Icons.lock_outline,
           iconColor: healthState.isAuthorized
-              ? AppColors.success
-              : AppColors.warning,
+              ? Theme.of(context).colorScheme.error
+              : Theme.of(context).colorScheme.warning,
         ),
 
         const SizedBox(height: 12),
@@ -61,7 +61,7 @@ class HealthWidget extends ConsumerWidget {
               : 'Never synced',
           icon: Icons.sync,
           iconColor: healthState.lastSyncTime != null
-              ? AppColors.primary
+              ? Theme.of(context).colorScheme.primary
               : Colors.grey,
         ),
 
@@ -78,12 +78,17 @@ class HealthWidget extends ConsumerWidget {
             ),
             child: Row(
               children: [
-                Icon(Icons.error_outline, color: AppColors.error),
+                Icon(
+                  Icons.error_outline,
+                  color: Theme.of(context).colorScheme.error,
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     healthState.errorMessage!,
-                    style: TextStyle(color: AppColors.error),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
                   ),
                 ),
               ],
@@ -95,12 +100,12 @@ class HealthWidget extends ConsumerWidget {
           _buildActionButton(
             context,
             label: 'Grant Access',
-            labelColor: AppColors.textPrimary,
+            labelColor: Theme.of(context).colorScheme.textPrimary,
             icon: Icons.vpn_key,
             iconHeight: 24,
             iconWidth: 24,
             labelHeight: 12,
-            iconColor: AppColors.primary,
+            iconColor: Theme.of(context).colorScheme.primary,
             onPressed: () => healthNotifier.requestAuthorization(),
             isLoading: healthState.isSyncing,
           ),
@@ -109,12 +114,12 @@ class HealthWidget extends ConsumerWidget {
           _buildActionButton(
             context,
             label: 'Sync Now',
-            labelColor: AppColors.textPrimary,
+            labelColor: Theme.of(context).colorScheme.textPrimary,
             icon: Icons.sync,
             iconHeight: 24,
             iconWidth: 24,
             labelHeight: 20,
-            iconColor: AppColors.primary,
+            iconColor: Theme.of(context).colorScheme.primary,
             onPressed: healthState.isSyncing
                 ? null
                 : () => healthNotifier.performTwoWaySync(),
@@ -124,12 +129,14 @@ class HealthWidget extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Updated explanation text to include BMI
-          const Text(
+          Text(
             'Syncing will:\n'
             '• Send your weight, body fat percentage, and BMI data to Apple Health / Google Health Connect\n'
             '• Import weight, body fat percentage, and BMI measurements from health services\n'
             '• Keep both systems up to date',
-            style: TextStyle(color: AppColors.textSecondary),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.textSecondary,
+            ),
           ),
         ],
 
@@ -154,7 +161,7 @@ class HealthWidget extends ConsumerWidget {
   }) {
     return Card(
       elevation: 2,
-      color: AppColors.card,
+      color: Theme.of(context).colorScheme.card,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
@@ -170,13 +177,15 @@ class HealthWidget extends ConsumerWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      color: AppColors.textPrimary,
+                      color: Theme.of(context).colorScheme.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: TextStyle(color: AppColors.textSecondary),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.textSecondary,
+                    ),
                   ),
                 ],
               ),
@@ -216,7 +225,7 @@ class HealthWidget extends ConsumerWidget {
           style: TextStyle(color: labelColor, fontSize: labelHeight),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.card,
+          backgroundColor: Theme.of(context).colorScheme.card,
           padding: const EdgeInsets.symmetric(vertical: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10), // Weniger rund

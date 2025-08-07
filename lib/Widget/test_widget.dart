@@ -42,7 +42,7 @@
 //             title: Text(
 //               'Use ${useMetric ? "Kilograms (kg)" : "Pounds (lb)"}',
 //               style: const TextStyle(
-//                 color: AppColors.textPrimary,
+//                 color: Theme.of(context).colorScheme.textPrimary,
 //                 fontSize: 14,
 //               ),
 //             ),
@@ -51,14 +51,14 @@
 //               goalViewModel.toggleUnit();
 //               entryViewModel.toggleUnit();
 //             },
-//             activeColor: AppColors.primary,
+//             activeColor: Theme.of(context).colorScheme.primary,
 //           ),
 
 //           SwitchListTile(
 //             title: Text(
 //               'Use ${toggleFatUnit ? "Inches" : "Centimeters"}',
 //               style: const TextStyle(
-//                 color: AppColors.textPrimary,
+//                 color: Theme.of(context).colorScheme.textPrimary,
 //                 fontSize: 14,
 //               ),
 //             ),
@@ -71,7 +71,7 @@
 //               heightUnitNotifier.updateHeightUnit(!toggleFatUnit);
 //               fatPercentageKey.currentState?.toggleMeasurementUnits();
 //             },
-//             activeColor: AppColors.primary,
+//             activeColor: Theme.of(context).colorScheme.primary,
 //           ),
 //           Offstage(
 //             offstage: true,

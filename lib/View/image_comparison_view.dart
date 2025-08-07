@@ -27,8 +27,8 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
   Widget build(BuildContext context) {
     final comparisonState = ref.watch(imageComparisonProvider);
     return Card(
-      shadowColor: AppColors.primary.withOpacity(0.2),
-      color: AppColors.card,
+      shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      color: Theme.of(context).colorScheme.card,
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
@@ -62,10 +62,10 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.photo_library_outlined,
                             size: 64,
-                            color: AppColors.primary,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                           const SizedBox(height: 16),
                           const Text(
@@ -88,7 +88,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                               BodyEntrySheet.show(context: context);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary,
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(
                                 vertical: 12,
@@ -118,7 +120,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                       Text(
                         'Compare your progress',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: AppColors.textPrimary,
+                          color: Theme.of(context).colorScheme.textPrimary,
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
@@ -182,7 +184,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
@@ -205,13 +209,15 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
-                          foregroundColor: AppColors.primaryDark,
+                          foregroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primaryDark,
 
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                             side: BorderSide(
-                              color: AppColors.primaryDark,
+                              color: Theme.of(context).colorScheme.primaryDark,
                               width: 1.5,
                             ),
                           ),
@@ -274,7 +280,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: AppColors.info.withOpacity(0.3), // subtle blue border
+            color: Theme.of(
+              context,
+            ).colorScheme.info.withOpacity(0.3), // subtle blue border
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(12),
@@ -292,7 +300,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
@@ -414,7 +422,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
         onPressed: isAvailable ? () => onChanged(type) : null,
         style: TextButton.styleFrom(
           backgroundColor: currentType == type
-              ? AppColors.primary.withOpacity(0.2)
+              ? Theme.of(context).colorScheme.primary.withOpacity(0.2)
               : Colors.transparent,
           padding: const EdgeInsets.symmetric(
             horizontal: 6,
@@ -433,7 +441,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             fontWeight: currentType == type
                 ? FontWeight.bold
                 : FontWeight.normal,
-            color: isAvailable ? AppColors.textPrimary : AppColors.textDisabled,
+            color: isAvailable
+                ? Theme.of(context).colorScheme.textPrimary
+                : Theme.of(context).colorScheme.textDisabled,
           ),
         ),
       ),
@@ -452,7 +462,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
@@ -482,7 +492,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(12),
                 bottomRight: Radius.circular(12),

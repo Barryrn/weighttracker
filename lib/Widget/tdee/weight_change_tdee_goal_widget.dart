@@ -112,8 +112,8 @@ class _WeightChangeGoalTDEEWidgetState
         });
       },
       child: Card(
-        shadowColor: AppColors.primary.withOpacity(0.2),
-        color: AppColors.card,
+        shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+        color: Theme.of(context).colorScheme.card,
         elevation: 3,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
@@ -126,7 +126,7 @@ class _WeightChangeGoalTDEEWidgetState
                 child: Text(
                   'Weight Change Goal TDEE',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: AppColors.textPrimary,
+                    color: Theme.of(context).colorScheme.textPrimary,
                     fontWeight: FontWeight.bold,
                   ),
                   overflow: TextOverflow.clip,
@@ -255,7 +255,7 @@ class _WeightChangeGoalTDEEWidgetState
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.background1,
+                    color: Theme.of(context).colorScheme.background1,
 
                     borderRadius: BorderRadius.circular(10),
                   ),

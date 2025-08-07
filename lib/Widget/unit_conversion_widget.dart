@@ -41,7 +41,7 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: AppColors.card,
+            color: Theme.of(context).colorScheme.card,
             borderRadius: BorderRadius.circular(10), // Abgerundete Ecken
           ),
 
@@ -49,8 +49,8 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
           child: SwitchListTile(
             title: Text(
               'Use ${useMetric ? "Kilograms (kg)" : "Pounds (lb)"}',
-              style: const TextStyle(
-                color: AppColors.textPrimary,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.textPrimary,
                 fontSize: 14,
               ),
             ),
@@ -59,21 +59,21 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
               goalViewModel.toggleUnit();
               entryViewModel.toggleUnit();
             },
-            activeColor: AppColors.primary,
+            activeColor: Theme.of(context).colorScheme.primary,
           ),
         ),
         const SizedBox(height: 12),
         Container(
           decoration: BoxDecoration(
-            color: AppColors.card,
+            color: Theme.of(context).colorScheme.card,
             borderRadius: BorderRadius.circular(10), // Abgerundete Ecken
           ),
           padding: const EdgeInsets.all(12),
           child: SwitchListTile(
             title: Text(
               'Use ${toggleFatUnit ? "Inches" : "Centimeters"}',
-              style: const TextStyle(
-                color: AppColors.textPrimary,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.textPrimary,
                 fontSize: 14,
               ),
             ),
@@ -90,7 +90,7 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
                   .read(fatPercentageViewModelProvider.notifier)
                   .toggleMeasurementUnits();
             },
-            activeColor: AppColors.primary,
+            activeColor: Theme.of(context).colorScheme.primary,
           ),
         ),
         const SizedBox(height: 24),

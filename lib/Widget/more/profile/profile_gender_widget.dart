@@ -20,7 +20,7 @@ class ProfileGenderWidget extends ConsumerWidget {
     final gender = profileSettings.gender ?? 'Not set';
 
     return ListTile(
-      tileColor: AppColors.card,
+      tileColor: Theme.of(context).colorScheme.card,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       leading: Container(
         width: 40,
@@ -29,7 +29,7 @@ class ProfileGenderWidget extends ConsumerWidget {
           color: Colors.grey.shade200,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(Icons.person, color: AppColors.primary),
+        child: Icon(Icons.person, color: Theme.of(context).colorScheme.primary),
       ),
       title: const Text('Gender'),
       subtitle: Text(gender),
@@ -93,13 +93,13 @@ class ProfileGenderWidget extends ConsumerWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
         decoration: BoxDecoration(
-          color: AppColors.card,
+          color: Theme.of(context).colorScheme.card,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: Theme.of(context).colorScheme.border),
         ),
         child: Row(
           children: [
-            Icon(icon, color: AppColors.primary),
+            Icon(icon, color: Theme.of(context).colorScheme.primary),
             const SizedBox(width: 16),
             Text(label, style: const TextStyle(fontSize: 16)),
           ],

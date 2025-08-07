@@ -35,8 +35,8 @@ class WeightProgressWidget extends ConsumerWidget {
 
     return Card(
       elevation: 4,
-      shadowColor: AppColors.primary.withOpacity(0.2),
-      color: AppColors.card,
+      shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      color: Theme.of(context).colorScheme.card,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
 
       child: Column(
@@ -46,7 +46,7 @@ class WeightProgressWidget extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
             decoration: BoxDecoration(
-              color: AppColors.card,
+              color: Theme.of(context).colorScheme.card,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
@@ -58,7 +58,8 @@ class WeightProgressWidget extends ConsumerWidget {
                   progressData.displayCurrentWeight != null
                       ? '${progressData.displayCurrentWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
                       : '-- ${progressData.unitSuffix}',
-                  AppColors.primary,
+                  Theme.of(context).colorScheme.primary,
+                  context,
                 ),
 
                 // Goal weight
@@ -67,7 +68,8 @@ class WeightProgressWidget extends ConsumerWidget {
                   progressData.displayGoalWeight != null
                       ? '${progressData.displayGoalWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
                       : '-- ${progressData.unitSuffix}',
-                  AppColors.success,
+                  Theme.of(context).colorScheme.error,
+                  context,
                 ),
 
                 // Remaining weight
@@ -77,7 +79,8 @@ class WeightProgressWidget extends ConsumerWidget {
                           progressData.goalWeight != null
                       ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
                       : '-- ${progressData.unitSuffix}',
-                  AppColors.warning,
+                  Theme.of(context).colorScheme.warning,
+                  context,
                 ),
               ],
             ),
@@ -97,7 +100,7 @@ class WeightProgressWidget extends ConsumerWidget {
                     width: 180,
                     height: 180,
                     decoration: BoxDecoration(
-                      color: AppColors.primaryExtraLight,
+                      color: Theme.of(context).colorScheme.primaryExtraLight,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -121,9 +124,11 @@ class WeightProgressWidget extends ConsumerWidget {
                         child: CircularProgressIndicator(
                           value: animatedValue,
                           strokeWidth: 12,
-                          backgroundColor: AppColors.primaryExtraLight,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primaryExtraLight,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            AppColors.primary,
+                            Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       );
@@ -135,17 +140,17 @@ class WeightProgressWidget extends ConsumerWidget {
                     children: [
                       Text(
                         '${(progressData.progressPercentage * 100).toStringAsFixed(0)}%',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
-                      const Text(
+                      Text(
                         'complete',
                         style: TextStyle(
                           fontSize: 16,
-                          color: AppColors.textSecondary,
+                          color: Theme.of(context).colorScheme.textSecondary,
                         ),
                       ),
                     ],
@@ -163,9 +168,14 @@ class WeightProgressWidget extends ConsumerWidget {
   }
 
   /// Helper method to build a weight information column
-  Widget _buildWeightInfoColumn(String label, String value, Color valueColor) {
+  Widget _buildWeightInfoColumn(
+    String label,
+    String value,
+    Color valueColor,
+    BuildContext context,
+  ) {
     return Card(
-      color: AppColors.background1,
+      color: Theme.of(context).colorScheme.background1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(15), // You can adjust the padding value
@@ -173,10 +183,10 @@ class WeightProgressWidget extends ConsumerWidget {
           children: [
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textPrimary,
+                color: Theme.of(context).colorScheme.textPrimary,
               ),
             ),
             const SizedBox(height: 6),
@@ -195,15 +205,20 @@ class WeightProgressWidget extends ConsumerWidget {
   }
 
   /// Helper method to build a TDEE information column
-  Widget _buildTDEEInfoColumn(String label, String value, Color valueColor) {
+  Widget _buildTDEEInfoColumn(
+    String label,
+    String value,
+    Color valueColor,
+    BuildContext context,
+  ) {
     return Column(
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: AppColors.textSecondary,
+            color: Theme.of(context).colorScheme.textSecondary,
           ),
         ),
         const SizedBox(height: 6),

@@ -44,7 +44,7 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
 
     return Card(
       elevation: 2,
-      color: AppColors.card, // or any other custom color
+      color: Theme.of(context).colorScheme.card, // or any other custom color
 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
@@ -66,10 +66,12 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
 
             // Data display
             if (aggregatedData.isEmpty)
-              const Center(
+              Center(
                 child: Text(
                   'No data available for this time period',
-                  style: TextStyle(color: AppColors.textSecondary),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.textSecondary,
+                  ),
                 ),
               )
             else
@@ -95,10 +97,10 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
                         // Period label
                         Text(
                           data.periodLabel,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primary,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -131,9 +133,9 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
                         // Entry count
                         Text(
                           'Based on ${data.entryCount} ${data.entryCount == 1 ? 'entry' : 'entries'}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.textSecondary,
+                            color: Theme.of(context).colorScheme.textSecondary,
                             fontStyle: FontStyle.italic,
                           ),
                         ),
@@ -160,9 +162,11 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
       onPressed: () => _selectTimePeriod(period),
       style: ElevatedButton.styleFrom(
         backgroundColor: isSelected
-            ? AppColors.primary
-            : AppColors.primaryExtraLight,
-        foregroundColor: isSelected ? Colors.white : AppColors.textPrimary,
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.primaryExtraLight,
+        foregroundColor: isSelected
+            ? Colors.white
+            : Theme.of(context).colorScheme.textPrimary,
         elevation: isSelected ? 2 : 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -177,7 +181,10 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
       children: [
         Text(
           label,
-          style: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
+          style: TextStyle(
+            fontSize: 14,
+            color: Theme.of(context).colorScheme.textSecondary,
+          ),
         ),
         const SizedBox(height: 4),
         Text(

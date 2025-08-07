@@ -43,12 +43,12 @@ class SaveButtonEntryWidget extends ConsumerWidget {
             // Show success message
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
+                SnackBar(
                   content: Text(
                     'Entry saved successfully',
                     style: TextStyle(color: Colors.white),
                   ),
-                  backgroundColor: AppColors.success,
+                  backgroundColor: Theme.of(context).colorScheme.error,
                   duration: Duration(seconds: 1),
                 ),
               );
@@ -66,7 +66,9 @@ class SaveButtonEntryWidget extends ConsumerWidget {
           }
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary, // Blue background from your theme
+          backgroundColor: Theme.of(
+            context,
+          ).colorScheme.primary, // Blue background from your theme
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),

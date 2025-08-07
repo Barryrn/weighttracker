@@ -32,7 +32,7 @@ class TagEntry extends ConsumerWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             border: Border.all(
-              color: AppColors.primary.withOpacity(0.3),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
               width: 1,
             ),
           ),
@@ -41,11 +41,13 @@ class TagEntry extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Display existing tags
-              if (tags.isNotEmpty) ...[  
+              if (tags.isNotEmpty) ...[
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: tags.map((tag) => _buildTagChip(tag, viewModel)).toList(),
+                  children: tags
+                      .map((tag) => _buildTagChip(tag, viewModel, context))
+                      .toList(),
                 ),
                 const SizedBox(height: 8),
               ],
@@ -67,7 +69,10 @@ class TagEntry extends ConsumerWidget {
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.add, color: AppColors.primary),
+                    icon: Icon(
+                      Icons.add,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     onPressed: viewModel.handleAddButtonPressed,
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
@@ -83,15 +88,21 @@ class TagEntry extends ConsumerWidget {
   }
 
   /// Builds a chip widget for a tag with a delete button
-  Widget _buildTagChip(String tag, TagEntryViewModel viewModel) {
+  Widget _buildTagChip(
+    String tag,
+    TagEntryViewModel viewModel,
+    BuildContext context,
+  ) {
     return Chip(
       label: Text(tag),
       deleteIcon: const Icon(Icons.close, size: 16),
       onDeleted: () => viewModel.removeTag(tag),
-      backgroundColor: AppColors.primary.withOpacity(0.1),
+      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: AppColors.primary.withOpacity(0.3)),
+        side: BorderSide(
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+        ),
       ),
       labelStyle: const TextStyle(fontSize: 14),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),

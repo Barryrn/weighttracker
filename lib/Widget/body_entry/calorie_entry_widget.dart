@@ -34,7 +34,9 @@ class CalorieEntry extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+            ),
           ),
           child: TextFormField(
             controller: entryData.calorieController,
@@ -53,15 +55,9 @@ class CalorieEntry extends ConsumerWidget {
               border: InputBorder.none,
               suffixIcon: Padding(
                 padding: EdgeInsets.only(right: 12.0),
-                child: Text(
-                  'kcal',
-                  style: TextStyle(color: Colors.grey),
-                ),
+                child: Text('kcal', style: TextStyle(color: Colors.grey)),
               ),
-              suffixIconConstraints: BoxConstraints(
-                minWidth: 0,
-                minHeight: 0,
-              ),
+              suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
             ),
             style: const TextStyle(fontSize: 18, color: Colors.black87),
           ),

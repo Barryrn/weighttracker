@@ -180,17 +180,17 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'Image Gallery',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.w500,
-              color: AppColors.textTertiary,
+              color: Theme.of(context).colorScheme.textTertiary,
             ),
           ),
           centerTitle: true,
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.textPrimary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.textPrimary,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
@@ -216,7 +216,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             ),
           ],
         ),
-        backgroundColor: AppColors.background2,
+        backgroundColor: Theme.of(context).colorScheme.background2,
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -316,7 +316,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                 },
                 style: TextButton.styleFrom(
                   side: BorderSide(
-                    color: AppColors.primary, // Rahmenfarbe
+                    color: Theme.of(context).colorScheme.primary, // Rahmenfarbe
                     width: 1.5, // Rahmendicke
                   ),
                   shape: RoundedRectangleBorder(
@@ -325,9 +325,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     ), // Optional: abgerundete Ecken
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Clear Filters',
-                  style: TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.textPrimary,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -340,7 +342,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
               //     });
               //   },
               //   style: ElevatedButton.styleFrom(
-              //     backgroundColor: AppColors.primary,
+              //     backgroundColor: Theme.of(context).colorScheme.primary,
               //     foregroundColor: Colors.white,
               //   ),
               //   child: const Text('Apply Filters'),
@@ -426,8 +428,8 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             Text(_weightRange!.start.toStringAsFixed(1)),
             Expanded(
               child: RangeSlider(
-                activeColor: AppColors.primary,
-                inactiveColor: AppColors.primaryLight,
+                activeColor: Theme.of(context).colorScheme.primary,
+                inactiveColor: Theme.of(context).colorScheme.primaryLight,
                 values: _weightRange!,
                 min: minWeight,
                 max: maxWeight,
@@ -445,7 +447,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             ),
             Text(
               _weightRange!.end.toStringAsFixed(1),
-              style: TextStyle(color: AppColors.textPrimary),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.textPrimary,
+              ),
             ),
           ],
         ),
@@ -464,11 +468,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Date Range',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: Theme.of(context).colorScheme.textPrimary,
           ),
         ),
         const SizedBox(height: 8),
@@ -478,7 +482,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
               child: OutlinedButton(
                 style: TextButton.styleFrom(
                   side: BorderSide(
-                    color: AppColors.primaryLight, // Rahmenfarbe
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primaryLight, // Rahmenfarbe
                     width: 1.5, // Rahmendicke
                   ),
                   shape: RoundedRectangleBorder(
@@ -493,7 +499,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                       ? '${DateFormat('MMM d, y').format(_dateRange!.start)} - '
                             '${DateFormat('MMM d, y').format(_dateRange!.end)}'
                       : 'Select Date Range',
-                  style: TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.textPrimary,
+                  ),
                 ),
               ),
             ),
@@ -522,7 +530,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: AppColors.primary,
+              primary: Theme.of(context).colorScheme.primary,
               onPrimary: Colors.white,
               surface: Colors.white,
               onSurface: Colors.black,
@@ -545,11 +553,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Tags',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: Theme.of(context).colorScheme.textPrimary,
           ),
         ),
         const SizedBox(height: 8),
@@ -571,8 +579,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                 });
               },
               backgroundColor: Colors.grey[200],
-              selectedColor: AppColors.primary.withOpacity(0.2),
-              checkmarkColor: AppColors.primary,
+              selectedColor: Theme.of(
+                context,
+              ).colorScheme.primary.withOpacity(0.2),
+              checkmarkColor: Theme.of(context).colorScheme.primary,
             );
           }).toList(),
         ),
@@ -585,11 +595,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Image Types',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: Theme.of(context).colorScheme.textPrimary,
           ),
         ),
         const SizedBox(height: 8),
@@ -597,10 +607,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
           children: [
             Expanded(
               child: FilterChip(
-                label: const Center(
+                label: Center(
                   child: Text(
                     'Front',
-                    style: TextStyle(color: AppColors.textPrimary),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.textPrimary,
+                    ),
                   ),
                 ),
                 selected: _showFrontImages,
@@ -610,17 +622,21 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                   });
                 },
                 backgroundColor: Colors.grey[200],
-                selectedColor: AppColors.primary.withOpacity(0.2),
-                checkmarkColor: AppColors.primary,
+                selectedColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withOpacity(0.2),
+                checkmarkColor: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(width: 8),
             Expanded(
               child: FilterChip(
-                label: const Center(
+                label: Center(
                   child: Text(
                     'Side',
-                    style: TextStyle(color: AppColors.textPrimary),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.textPrimary,
+                    ),
                   ),
                 ),
                 selected: _showSideImages,
@@ -630,17 +646,21 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                   });
                 },
                 backgroundColor: Colors.grey[200],
-                selectedColor: AppColors.primary.withOpacity(0.2),
-                checkmarkColor: AppColors.primary,
+                selectedColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withOpacity(0.2),
+                checkmarkColor: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(width: 8),
             Expanded(
               child: FilterChip(
-                label: const Center(
+                label: Center(
                   child: Text(
                     'Back',
-                    style: TextStyle(color: AppColors.textPrimary),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.textPrimary,
+                    ),
                   ),
                 ),
                 selected: _showBackImages,
@@ -650,8 +670,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                   });
                 },
                 backgroundColor: Colors.grey[200],
-                selectedColor: AppColors.primary.withOpacity(0.2),
-                checkmarkColor: AppColors.primary,
+                selectedColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withOpacity(0.2),
+                checkmarkColor: Theme.of(context).colorScheme.primary,
               ),
             ),
           ],
@@ -701,7 +723,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
           Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: AppColors.primary.withOpacity(0.3),
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                 width: 3,
               ),
               borderRadius: const BorderRadius.only(
@@ -738,15 +760,21 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                 ),
                 border: Border(
                   left: BorderSide(
-                    color: AppColors.primary.withOpacity(0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withOpacity(0.3),
                     width: 3,
                   ),
                   right: BorderSide(
-                    color: AppColors.primary.withOpacity(0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withOpacity(0.3),
                     width: 3,
                   ),
                   bottom: BorderSide(
-                    color: AppColors.primary.withOpacity(0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withOpacity(0.3),
                     width: 3,
                   ),
                   // kein BorderSide für top, also keine obere Linie
@@ -762,16 +790,16 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     children: [
                       Text(
                         DateFormat('MMM d, yyyy').format(entry.date),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
-                          color: AppColors.textPrimary,
+                          color: Theme.of(context).colorScheme.textPrimary,
                         ),
                       ),
                       Text(
                         displayViewType,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
-                          color: AppColors.textPrimary,
+                          color: Theme.of(context).colorScheme.textPrimary,
                         ),
                       ),
                     ],
@@ -782,9 +810,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     entry.weight != null
                         ? '${entry.weight!.toStringAsFixed(1)} kg'
                         : 'No weight data',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: Theme.of(context).colorScheme.textPrimary,
                     ),
                   ),
                   // Tags
@@ -801,14 +829,18 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withOpacity(0.2),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
                               tag,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 10,
-                                color: AppColors.textPrimary,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.textPrimary,
                               ),
                             ),
                           );
@@ -835,12 +867,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        child: const Text(
+                        child: Text(
                           'Pic 1',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
+                            color: Theme.of(context).colorScheme.textPrimary,
                           ),
                         ),
                       ),
@@ -860,12 +892,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        child: const Text(
+                        child: Text(
                           'Pic 2',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
+                            color: Theme.of(context).colorScheme.textPrimary,
                           ),
                         ),
                       ),
@@ -895,9 +927,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text(
+                title: Text(
                   'Export to Gallery',
-                  style: TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.textPrimary,
+                  ),
                 ),
                 onTap: () async {
                   Navigator.pop(context);
@@ -921,9 +955,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
 
               ListTile(
                 leading: const Icon(Icons.cancel),
-                title: const Text(
+                title: Text(
                   'Cancel',
-                  style: TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.textPrimary,
+                  ),
                 ),
                 onTap: () {
                   Navigator.pop(context);

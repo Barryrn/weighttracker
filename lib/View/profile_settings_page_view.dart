@@ -27,24 +27,24 @@ class ProfileSettingsPage extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'Profil',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.w500,
-              color: AppColors.textTertiary,
+              color: Theme.of(context).colorScheme.textTertiary,
             ),
           ),
           automaticallyImplyLeading: false,
           centerTitle: true,
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.textPrimary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.textPrimary,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        backgroundColor: AppColors.background2,
+        backgroundColor: Theme.of(context).colorScheme.background2,
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -55,11 +55,11 @@ class ProfileSettingsPage extends ConsumerWidget {
                   padding: const EdgeInsets.symmetric(vertical: 24.0),
                   child: CircleAvatar(
                     radius: 50,
-                    backgroundColor: AppColors.card,
-                    child: const Icon(
+                    backgroundColor: Theme.of(context).colorScheme.card,
+                    child: Icon(
                       Icons.person_outline,
                       size: 50,
-                      color: AppColors.primary,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ),

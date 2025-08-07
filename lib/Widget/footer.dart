@@ -39,8 +39,8 @@ class Footer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
-      unselectedItemColor: AppColors.primaryLight,
-      selectedItemColor: AppColors.primary,
+      unselectedItemColor: Theme.of(context).colorScheme.primaryLight,
+      selectedItemColor: Theme.of(context).colorScheme.primary,
       showUnselectedLabels: true,
       selectedFontSize: 12.0,
       unselectedFontSize: 12.0,
@@ -103,8 +103,8 @@ class Footer extends StatelessWidget {
             Icons.monitor_weight,
             size: 30,
             color: currentIndex == 3
-                ? AppColors.primary
-                : AppColors.primaryLight,
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.primaryLight,
           ),
           label: 'Goals',
         ),

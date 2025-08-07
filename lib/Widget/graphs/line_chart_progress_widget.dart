@@ -58,7 +58,7 @@ class _LineChartProgressWidgetState
 
     return Card(
       elevation: 2,
-      color: AppColors.card, // or any other custom color
+      color: Theme.of(context).colorScheme.card, // or any other custom color
 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
@@ -143,11 +143,11 @@ class _LineChartProgressWidgetState
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: isSelected
-                    ? AppColors.primary
-                    : AppColors.primaryExtraLight,
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.primaryExtraLight,
                 foregroundColor: isSelected
                     ? Colors.white
-                    : AppColors.textPrimary,
+                    : Theme.of(context).colorScheme.textPrimary,
                 elevation: isSelected ? 2 : 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -181,11 +181,11 @@ class _LineChartProgressWidgetState
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: isSelected
-                  ? AppColors.primary
-                  : AppColors.primaryExtraLight,
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.primaryExtraLight,
               foregroundColor: isSelected
                   ? Colors.white
-                  : AppColors.textPrimary,
+                  : Theme.of(context).colorScheme.textPrimary,
               elevation: isSelected ? 2 : 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -354,8 +354,9 @@ class _LineChartProgressWidgetState
                               // Add some margin to make the tooltip more visible
                               tooltipMargin: 8,
                               // Make the tooltip background more visible
-                              getTooltipColor: (spot) =>
-                                  AppColors.primary.withOpacity(0.9),
+                              getTooltipColor: (spot) => Theme.of(
+                                context,
+                              ).colorScheme.primary.withOpacity(0.9),
                               // Add rounded corners to the tooltip
 
                               // Add padding inside the tooltip
@@ -473,7 +474,7 @@ class _LineChartProgressWidgetState
                                   0.175, // Wert zwischen 0 und 1, z.B. 0.5 für mittelstarke Kurven
 
                               barWidth: 3,
-                              color: AppColors.primary,
+                              color: Theme.of(context).colorScheme.primary,
                               dotData: FlDotData(show: true),
                               belowBarData: BarAreaData(show: false),
                             ),
