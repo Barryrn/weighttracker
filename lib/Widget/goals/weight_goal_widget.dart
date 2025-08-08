@@ -56,7 +56,7 @@ class WeightGoalWidget extends ConsumerWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                  color: Theme.of(context).colorScheme.textPrimary,
                 ),
               ),
               child: TextFormField(
@@ -110,7 +110,7 @@ class WeightGoalWidget extends ConsumerWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                  color: Theme.of(context).colorScheme.textPrimary,
                 ),
               ),
               child: TextFormField(

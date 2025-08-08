@@ -25,7 +25,7 @@ class TDEEWidget extends ConsumerWidget {
           children: [
             Text(
               'Total Daily Energy Expenditure (TDEE)',
-              style: AppTypography.subtitle1(context),
+              style: AppTypography.headline3(context),
             ),
             const SizedBox(height: 16),
             Center(
@@ -33,17 +33,17 @@ class TDEEWidget extends ConsumerWidget {
                 tdee != null
                     ? '${tdee.toInt()} calories/day'
                     : 'Not calculated',
-                style: AppTypography.headline1(context).copyWith(
-                  color: Theme.of(context).colorScheme.textPrimary,
-                ),
+                style: AppTypography.subtitle1(
+                  context,
+                ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
               ),
             ),
             const SizedBox(height: 24),
             Text(
               'Activity Level',
-              style: AppTypography.subtitle2(context).copyWith(
-                color: Theme.of(context).colorScheme.textPrimary,
-              ),
+              style: AppTypography.subtitle2(
+                context,
+              ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
             ),
             const SizedBox(height: 8),
             DropdownButtonFormField<ActivityLevel>(
@@ -83,9 +83,9 @@ class TDEEWidget extends ConsumerWidget {
             const SizedBox(height: 24),
             Text(
               'This is a first estimate of your TDEE based on age, weight, gender, and activity level.\nFor a more precise result, track your body weight and calorie intake for at least 7 continous days.',
-              style: AppTypography.caption(context).copyWith(
-                color: Theme.of(context).colorScheme.textSecondary,
-              ),
+              style: AppTypography.caption(
+                context,
+              ).copyWith(color: Theme.of(context).colorScheme.textSecondary),
             ),
           ],
         ),

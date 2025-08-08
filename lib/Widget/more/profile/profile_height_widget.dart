@@ -119,16 +119,20 @@ class ProfileHeightWidget extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  const SizedBox(height: 16),
                   Text(
                     'Adjust Height',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
+                  const SizedBox(height: 8),
 
                   Text(
                     useMetric
                         ? '${currentHeight.toStringAsFixed(1)} cm'
                         : '${(currentHeight / inchesInFoot).floor()}\' ${(currentHeight % inchesInFoot).round()}"',
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.textPrimary,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   SliderTheme(
@@ -167,11 +171,23 @@ class ProfileHeightWidget extends ConsumerWidget {
                           useMetric
                               ? '${minHeight.toInt()} cm'
                               : '${(minHeight / inchesInFoot).floor()}\' ${(minHeight % inchesInFoot).round()}"',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.textPrimary,
+                              ),
                         ),
                         Text(
                           useMetric
                               ? '${maxHeight.toInt()} cm'
                               : '${(maxHeight / inchesInFoot).floor()}\' ${(maxHeight % inchesInFoot).round()}"',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.textPrimary,
+                              ),
                         ),
                       ],
                     ),
@@ -182,7 +198,13 @@ class ProfileHeightWidget extends ConsumerWidget {
                     children: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),
-                        child: const Text('CANCEL'),
+                        child: Text(
+                          'CANCEL',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                        ),
                       ),
                       const SizedBox(width: 8),
                       TextButton(

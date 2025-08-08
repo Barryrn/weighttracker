@@ -40,9 +40,18 @@ class ProfileBirthdayWidget extends ConsumerWidget {
           color: Theme.of(context).colorScheme.primary,
         ),
       ),
-      title: const Text('Birthday'),
-      subtitle: Text(formattedBirthday),
-      trailing: const Icon(Icons.chevron_right),
+      title: Text(
+        'Birthday',
+        style: TextStyle(color: Theme.of(context).colorScheme.textPrimary),
+      ),
+      subtitle: Text(
+        formattedBirthday,
+        style: TextStyle(color: Theme.of(context).colorScheme.textPrimary),
+      ),
+      trailing: Icon(
+        Icons.chevron_right,
+        color: Theme.of(context).colorScheme.textPrimary,
+      ),
       onTap: () => _showDatePicker(context, ref),
     );
   }
@@ -61,11 +70,26 @@ class ProfileBirthdayWidget extends ConsumerWidget {
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
               primary: Theme.of(context).colorScheme.primaryLight,
-              onPrimary: Colors.white,
-              onSurface: Colors.black,
+              onPrimary: Theme.of(context).colorScheme.textPrimary,
+              onSurface: Theme.of(context).colorScheme.textPrimary,
+              surface: Theme.of(context).colorScheme.card,
+              background: Theme.of(context).colorScheme.card,
             ),
             textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(foregroundColor: Colors.blue),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.resolveWith((states) {
+                  // Use error color for cancel button, primary color for OK button
+                  if (states.contains(MaterialState.pressed)) {
+                    return Theme.of(context).colorScheme.error;
+                  }
+                  return null; // Use default color from theme
+                }),
+              ),
+            ),
+            // Fix: Change DialogTheme to DialogThemeData
+            dialogTheme: DialogThemeData(
+              // Apply styles to the dialog
+              actionsPadding: const EdgeInsets.symmetric(horizontal: 16.0),
             ),
           ),
           child: child!,
