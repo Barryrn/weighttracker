@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:weigthtracker/ViewModel/unit_conversion_provider.dart';
 import 'package:weigthtracker/model/body_entry_model.dart'; // Changed from Model to model
 import '../viewmodel/image_comparison_provider.dart';
 import '../theme.dart';
@@ -100,8 +101,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return entries.where((entry) {
       // Weight filter
       if (_weightRange != null && entry.weight != null) {
-        if (entry.weight! < _weightRange!.start ||
-            entry.weight! > _weightRange!.end) {
+        // Convert entry weight to display unit if needed
+        final displayWeight = ref.read(unitConversionProvider).useMetricWeight 
+            ? entry.weight! 
+            : ref.read(unitConversionProvider.notifier).kgToLb(entry.weight!);
+        
+        if (displayWeight < _weightRange!.start || displayWeight > _weightRange!.end) {
           return false;
         }
       }
@@ -326,7 +331,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     ), // Optional: abgerundete Ecken
                   ),
                 ),
-                child: Text('Clear Filters'),
+                child: Text(
+                  'Clear Filters',
+                  style: AppTypography.buttonText(
+                    context,
+                  ).copyWith(color: Theme.of(context).colorScheme.primary),
+                ),
               ),
               const SizedBox(width: 8),
 
@@ -414,31 +424,59 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Weight Range (kg)'),
+        Text(
+          'Weight Range (${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'})',
+          style: AppTypography.subtitle1(context),
+        ),
         const SizedBox(height: 8),
         Row(
           children: [
-            Text(_weightRange!.start.toStringAsFixed(1)),
+            Text(
+              (ref.watch(unitConversionProvider).useMetricWeight 
+                  ? _weightRange!.start 
+                  : ref.read(unitConversionProvider.notifier).kgToLb(_weightRange!.start)).toStringAsFixed(1),
+              style: AppTypography.bodyLarge(
+                context,
+              ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
+            ),
             Expanded(
-              child: RangeSlider(
-                activeColor: Theme.of(context).colorScheme.primary,
-                inactiveColor: Theme.of(context).colorScheme.primaryLight,
-                values: _weightRange!,
-                min: minWeight,
-                max: maxWeight,
-                divisions: ((maxWeight - minWeight) * 10).round(),
-                labels: RangeLabels(
-                  _weightRange!.start.toStringAsFixed(1),
-                  _weightRange!.end.toStringAsFixed(1),
+              child: SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  valueIndicatorTextStyle: AppTypography.bodyLarge(
+                    context,
+                  ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
+
+                  showValueIndicator: ShowValueIndicator.always,
                 ),
-                onChanged: (values) {
-                  setState(() {
-                    _weightRange = values;
-                  });
-                },
+
+                child: RangeSlider(
+                  activeColor: Theme.of(context).colorScheme.primary,
+
+                  inactiveColor: Theme.of(context).colorScheme.primaryLight,
+                  values: _weightRange!,
+                  min: minWeight,
+                  max: maxWeight,
+                  divisions: ((maxWeight - minWeight) * 10).round(),
+                  labels: RangeLabels(
+                    _weightRange!.start.toStringAsFixed(1),
+                    _weightRange!.end.toStringAsFixed(1),
+                  ),
+                  onChanged: (values) {
+                    setState(() {
+                      _weightRange = values;
+                    });
+                  },
+                ),
               ),
             ),
-            Text(_weightRange!.end.toStringAsFixed(1)),
+            Text(
+              (ref.watch(unitConversionProvider).useMetricWeight 
+                  ? _weightRange!.end 
+                  : ref.read(unitConversionProvider.notifier).kgToLb(_weightRange!.end)).toStringAsFixed(1),
+              style: AppTypography.bodyLarge(
+                context,
+              ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
+            ),
           ],
         ),
       ],
@@ -456,7 +494,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Date Range'),
+        Text('Date Range', style: AppTypography.subtitle1(context)),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -481,6 +519,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                       ? '${DateFormat('MMM d, y').format(_dateRange!.start)} - '
                             '${DateFormat('MMM d, y').format(_dateRange!.end)}'
                       : 'Select Date Range',
+                  style: AppTypography.bodyLarge(
+                    context,
+                  ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
                 ),
               ),
             ),
@@ -534,7 +575,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Tags'),
+        Text('Tags', style: AppTypography.subtitle1(context)),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
@@ -542,7 +583,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
           children: _allTags.map((tag) {
             final isSelected = _selectedTags.contains(tag);
             return FilterChip(
-              label: Text(tag, style: AppTypography.bodyMedium(context)),
+              label: Text(
+                tag,
+                style: AppTypography.bodyLarge(
+                  context,
+                ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
+              ),
               selected: isSelected,
               onSelected: (selected) {
                 setState(() {
@@ -570,7 +616,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Image Types'),
+        Text(
+          'Image Types',
+          style: AppTypography.subtitle1(
+            context,
+          ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
+        ),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -579,7 +630,9 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                 label: Center(
                   child: Text(
                     'Front',
-                    style: AppTypography.bodyMedium(context),
+                    style: AppTypography.bodyLarge(context).copyWith(
+                      color: Theme.of(context).colorScheme.textPrimary,
+                    ),
                   ),
                 ),
                 selected: _showFrontImages,
@@ -599,7 +652,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             Expanded(
               child: FilterChip(
                 label: Center(
-                  child: Text('Side', style: AppTypography.bodyMedium(context)),
+                  child: Text(
+                    'Side',
+                    style: AppTypography.bodyLarge(context).copyWith(
+                      color: Theme.of(context).colorScheme.textPrimary,
+                    ),
+                  ),
                 ),
                 selected: _showSideImages,
                 onSelected: (selected) {
@@ -618,7 +676,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             Expanded(
               child: FilterChip(
                 label: Center(
-                  child: Text('Back', style: AppTypography.bodyMedium(context)),
+                  child: Text(
+                    'Back',
+                    style: AppTypography.bodyLarge(context).copyWith(
+                      color: Theme.of(context).colorScheme.textPrimary,
+                    ),
+                  ),
                 ),
                 selected: _showBackImages,
                 onSelected: (selected) {
@@ -747,11 +810,15 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     children: [
                       Text(
                         DateFormat('MMM d, yyyy').format(entry.date),
-                        style: AppTypography.bodyMedium(context),
+                        style: AppTypography.bodyLarge(context).copyWith(
+                          color: Theme.of(context).colorScheme.textPrimary,
+                        ),
                       ),
                       Text(
                         displayViewType,
-                        style: AppTypography.bodyMedium(context),
+                        style: AppTypography.bodyLarge(context).copyWith(
+                          color: Theme.of(context).colorScheme.textPrimary,
+                        ),
                       ),
                     ],
                   ),
@@ -759,9 +826,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                   // Weight
                   Text(
                     entry.weight != null
-                        ? '${entry.weight!.toStringAsFixed(1)} kg'
+                        ? '${(ref.watch(unitConversionProvider).useMetricWeight ? entry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(entry.weight!)).toStringAsFixed(1)} ${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'}'
                         : 'No weight data',
-                    style: AppTypography.bodyMedium(context),
+                    style: AppTypography.bodyLarge(context).copyWith(
+                      color: Theme.of(context).colorScheme.textPrimary,
+                    ),
                   ),
                   // Tags
                   if (entry.tags != null && entry.tags!.isNotEmpty)
@@ -809,7 +878,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                         ),
                         child: Text(
                           'Pic 1',
-                          style: AppTypography.bodyMedium(context).copyWith(
+                          style: AppTypography.bodyLarge(context).copyWith(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
                           ),
@@ -833,7 +902,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                         ),
                         child: Text(
                           'Pic 2',
-                          style: AppTypography.bodyMedium(context).copyWith(
+                          style: AppTypography.bodyLarge(context).copyWith(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
                           ),

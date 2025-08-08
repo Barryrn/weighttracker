@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:weigthtracker/viewmodel/unit_conversion_provider.dart';
 import '../ViewModel/image_timeline_view_model.dart';
 import '../ViewModel/image_export_view_model.dart';
 import '../theme.dart';
@@ -16,6 +17,8 @@ class ImageTimelineViewWidget extends ConsumerWidget {
     final state = ref.watch(imageTimelineProvider);
     final viewModel = ref.read(imageTimelineProvider.notifier);
     final currentEntry = viewModel.getCurrentEntry();
+    // Add this line to get the unit conversion provider
+    final unitPreferences = ref.watch(unitConversionProvider);
 
     if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -81,7 +84,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      'Weight: ${currentEntry.weight!.toStringAsFixed(1)} kg',
+                      'Weight: ${(unitPreferences.useMetricWeight ? currentEntry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(currentEntry.weight!)).toStringAsFixed(1)} ${unitPreferences.useMetricWeight ? 'kg' : 'lb'}',
                       style: AppTypography.bodyLarge(context),
                     ),
                   ),
