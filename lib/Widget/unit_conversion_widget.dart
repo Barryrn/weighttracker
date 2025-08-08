@@ -49,9 +49,9 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
           child: SwitchListTile(
             title: Text(
               'Use ${useMetric ? "Kilograms (kg)" : "Pounds (lb)"}',
-              style: AppTypography.bodyMedium(context).copyWith(
-                color: Theme.of(context).colorScheme.textPrimary,
-              ),
+              style: AppTypography.bodyMedium(
+                context,
+              ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
             ),
             value: useMetric,
             onChanged: (value) {
@@ -59,6 +59,7 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
               entryViewModel.toggleUnit();
             },
             activeColor: Theme.of(context).colorScheme.primary,
+            thumbColor: MaterialStateProperty.all(Colors.white),
           ),
         ),
         const SizedBox(height: 12),
@@ -71,9 +72,9 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
           child: SwitchListTile(
             title: Text(
               'Use ${toggleFatUnit ? "Inches" : "Centimeters"}',
-              style: AppTypography.bodyMedium(context).copyWith(
-                color: Theme.of(context).colorScheme.textPrimary,
-              ),
+              style: AppTypography.bodyMedium(
+                context,
+              ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
             ),
             value: !toggleFatUnit, // Invert the value here
             onChanged: (value) {
@@ -89,6 +90,7 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
                   .toggleMeasurementUnits();
             },
             activeColor: Theme.of(context).colorScheme.primary,
+            thumbColor: MaterialStateProperty.all(Colors.white),
           ),
         ),
         const SizedBox(height: 24),

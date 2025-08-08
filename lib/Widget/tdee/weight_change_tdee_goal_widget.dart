@@ -115,7 +115,7 @@ class _WeightChangeGoalTDEEWidgetState
         shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
         color: Theme.of(context).colorScheme.card,
         elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -153,7 +153,8 @@ class _WeightChangeGoalTDEEWidgetState
                   const SizedBox(width: 16),
                   _buildToggleButton(
                     context,
-                    label: 'Lose Weight',
+                    label: 'Lose Weight', 
+                    
                     selected: !isGainingWeight,
                     color: Colors.redAccent,
                     onTap: () {
@@ -180,7 +181,7 @@ class _WeightChangeGoalTDEEWidgetState
                 decoration: InputDecoration(
                   labelText: 'Weight Change per Week (${weightUnit})',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   hintText:
                       'e.g. ${unitPrefs.useMetricWeight ? "0.50" : "1.10"}',
@@ -274,8 +275,8 @@ class _WeightChangeGoalTDEEWidgetState
                         'Calorie Adjustment',
                         '${calorieAdjustment.toStringAsFixed(0)} kcal/day',
                         valueColor: calorieAdjustment >= 0
-                            ? Colors.green
-                            : Colors.red,
+                            ? Theme.of(context).colorScheme.success
+                            : Theme.of(context).colorScheme.error,
                       ),
                       const Divider(height: 20, thickness: 1),
                       _buildSummaryRow(
@@ -291,7 +292,7 @@ class _WeightChangeGoalTDEEWidgetState
                   child: Text(
                     'Insufficient data to calculate goal TDEE.',
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey,
+                      color: theme.colorScheme.textPrimary,
                     ),
                   ),
                 ),
@@ -317,9 +318,12 @@ class _WeightChangeGoalTDEEWidgetState
           padding: const EdgeInsets.symmetric(vertical: 14),
           decoration: BoxDecoration(
             color: selected ? color.withOpacity(0.15) : Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: selected ? color : Colors.grey.shade400,
+              color: selected
+                  ? color
+                  : Theme.of(context).colorScheme.textPrimary,
+
               width: selected ? 2 : 1,
             ),
           ),
@@ -339,7 +343,22 @@ class _WeightChangeGoalTDEEWidgetState
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(label), Text(value)],
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.textPrimary,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              color: valueColor ?? Theme.of(context).colorScheme.textPrimary,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ],
       ),
     );
   }

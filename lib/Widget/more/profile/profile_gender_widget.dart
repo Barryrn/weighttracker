@@ -31,9 +31,15 @@ class ProfileGenderWidget extends ConsumerWidget {
         ),
         child: Icon(Icons.person, color: Theme.of(context).colorScheme.primary),
       ),
-      title: const Text('Gender'),
-      subtitle: Text(gender),
-      trailing: const Icon(Icons.chevron_right),
+      title: Text(
+        'Gender',
+        style: TextStyle(color: Theme.of(context).colorScheme.textPrimary),
+      ),
+      subtitle: Text(
+        gender,
+        style: TextStyle(color: Theme.of(context).colorScheme.textPrimary),
+      ),
+      trailing: Icon(Icons.chevron_right, color: Theme.of(context).colorScheme.textPrimary),
       onTap: () => _showGenderPicker(context, ref),
     );
   }
@@ -44,7 +50,12 @@ class ProfileGenderWidget extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Select Gender'),
+          title: Text(
+            'Select Gender',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: Theme.of(context).colorScheme.textPrimary,
+            ),
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -101,7 +112,13 @@ class ProfileGenderWidget extends ConsumerWidget {
           children: [
             Icon(icon, color: Theme.of(context).colorScheme.primary),
             const SizedBox(width: 16),
-            Text(label, style: const TextStyle(fontSize: 16)),
+            Text(
+              label, 
+              style: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.textPrimary,
+              ),
+            ),
           ],
         ),
       ),

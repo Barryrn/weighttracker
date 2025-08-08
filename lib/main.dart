@@ -50,7 +50,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       title: 'Weight Tracker',
       theme: appTheme, // Use the predefined light theme
       darkTheme: appDarkTheme, // Use the predefined dark theme
-      // themeMode: ThemeMode.dark, // or ThemeMode.dark, ThemeMode.system
+      themeMode: ThemeMode.dark, // or ThemeMode.dark, ThemeMode.system
       home: const HomePage(),
     );
   }
