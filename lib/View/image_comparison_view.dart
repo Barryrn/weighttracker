@@ -6,6 +6,7 @@ import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/View/image_timeline_view.dart';
 import '../model/body_entry_model.dart';
 import '../viewmodel/image_comparison_provider.dart';
+import '../viewmodel/unit_conversion_provider.dart'; // Add this import
 import '../theme.dart';
 import 'image_gallery_view.dart';
 
@@ -384,7 +385,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                 ),
                 child: Text(
                   weight != null
-                      ? '${weight.toStringAsFixed(1)} kg'
+                      ? '${(ref.watch(unitConversionProvider).useMetricWeight ? weight : ref.read(unitConversionProvider.notifier).kgToLb(weight)).toStringAsFixed(1)} ${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'}'
                       : 'No weight data',
                   textAlign: TextAlign.center,
                 ),
@@ -445,10 +446,10 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                 topRight: Radius.circular(12),
               ),
             ),
-            child: const Column(
+            child: Column(
               children: [
-                Text('No Comparison'),
-                Text('Add more entries', style: TextStyle(fontSize: 12)),
+                Text('No Comparison', style: AppTypography.bodyMedium(context)),
+                Text('Add more entries', style: AppTypography.bodySmall(context)),
               ],
             ),
           ),
