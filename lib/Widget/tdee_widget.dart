@@ -16,7 +16,7 @@ class TDEEWidget extends ConsumerWidget {
       shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
       color: Theme.of(context).colorScheme.card,
       margin: const EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 4,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -30,9 +30,7 @@ class TDEEWidget extends ConsumerWidget {
             const SizedBox(height: 16),
             Center(
               child: Text(
-                tdee != null
-                    ? '${tdee.toInt()} calories/day'
-                    : 'Not calculated',
+                tdee != null ? '${tdee.toInt()} kcal/day' : 'Not calculated',
                 style: AppTypography.subtitle1(
                   context,
                 ).copyWith(color: Theme.of(context).colorScheme.textPrimary),

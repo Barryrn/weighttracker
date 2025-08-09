@@ -28,14 +28,14 @@ class CalorieEntry extends ConsumerWidget {
               'Calories (kcal)',
               style: AppTypography.bodyLarge(
                 context,
-              ).copyWith(fontWeight: FontWeight.w500),
+              ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
             ),
           ],
         ),
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
             ),
@@ -49,7 +49,7 @@ class CalorieEntry extends ConsumerWidget {
             ],
             onChanged: viewModel.onCalorieChanged,
             decoration: InputDecoration(
-              hintText: 'Enter your calorie intake',
+              hintText: '0',
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 12,
@@ -66,7 +66,9 @@ class CalorieEntry extends ConsumerWidget {
               ),
               suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
             ),
-            style: AppTypography.subtitle2(context),
+            style: AppTypography.subtitle2(
+              context,
+            ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
           ),
         ),
       ],

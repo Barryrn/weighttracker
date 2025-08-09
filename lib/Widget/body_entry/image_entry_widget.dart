@@ -279,7 +279,9 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
         const SizedBox(height: 16),
         Text(
           'Progress Photos',
-          style: AppTypography.bodyLarge(context).copyWith(fontWeight: FontWeight.w500),
+          style: AppTypography.bodyLarge(
+            context,
+          ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
         ),
         const SizedBox(height: 8),
         Row(
@@ -323,13 +325,13 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
       child: Container(
         height: 120,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
           ),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
           child: imagePath != null
               ? FutureBuilder<bool>(
                   future: File(imagePath).exists(),
@@ -358,10 +360,12 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
                               child: Text(
                                 title,
                                 textAlign: TextAlign.center,
-                                style: AppTypography.bodyMedium(context).copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: AppTypography.bodyLarge(context)
+                                    .copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.textPrimary,
+                                    ),
                               ),
                             ),
                           ),
@@ -390,9 +394,9 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
         const SizedBox(height: 8),
         Text(
           title,
-          style: AppTypography.bodyMedium(context).copyWith(
-            fontWeight: FontWeight.w500,
-          ),
+          style: AppTypography.bodyMedium(
+            context,
+          ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
         ),
       ],
     );

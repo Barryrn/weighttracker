@@ -31,7 +31,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
       shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
       color: Theme.of(context).colorScheme.card,
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(0.0),
         child: Column(
@@ -278,12 +278,12 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             ).colorScheme.info.withOpacity(0.3), // subtle blue border
             width: 1.5,
           ),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Card(
           elevation: 4,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(10),
           ),
           margin: EdgeInsets.zero, // Prevent double padding
           child: Column(
@@ -353,7 +353,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                         return const Center(child: CircularProgressIndicator());
                       } else if (exists) {
                         return ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(10),
                           child: Image.file(
                             File(imagePath!),
                             fit: BoxFit.cover,
@@ -420,7 +420,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
           minimumSize: Size.zero,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4), // Square corners
+            borderRadius: BorderRadius.circular(10), // Square corners
           ),
         ),
         child: Text(label),
@@ -432,7 +432,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
   Widget _buildNoComparisonCard() {
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -449,7 +449,10 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             child: Column(
               children: [
                 Text('No Comparison', style: AppTypography.bodyMedium(context)),
-                Text('Add more entries', style: AppTypography.bodySmall(context)),
+                Text(
+                  'Add more entries',
+                  style: AppTypography.bodySmall(context),
+                ),
               ],
             ),
           ),

@@ -40,12 +40,12 @@ class FatPercentageEntry extends ConsumerWidget {
           'Body Fat Percentage (%)',
           style: AppTypography.bodyLarge(
             context,
-          ).copyWith(fontWeight: FontWeight.w500),
+          ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
         ),
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
             ),
@@ -78,7 +78,7 @@ class FatPercentageEntry extends ConsumerWidget {
                   ],
                   onChanged: viewModel.onFatPercentageChanged,
                   decoration: InputDecoration(
-                    hintText: 'Enter body fat percentage',
+                    hintText: '0.0',
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 12,
@@ -98,7 +98,9 @@ class FatPercentageEntry extends ConsumerWidget {
                       minHeight: 0,
                     ),
                   ),
-                  style: AppTypography.subtitle2(context),
+                  style: AppTypography.subtitle2(
+                    context,
+                  ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
                 ),
               ),
               Container(

@@ -25,7 +25,9 @@ class TagEntry extends ConsumerWidget {
       children: [
         Text(
           'Tags',
-          style: AppTypography.bodyLarge(context).copyWith(fontWeight: FontWeight.w500),
+          style: AppTypography.bodyLarge(
+            context,
+          ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
         ),
         const SizedBox(height: 8),
         Container(
@@ -36,7 +38,7 @@ class TagEntry extends ConsumerWidget {
               width: 1,
             ),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -60,7 +62,7 @@ class TagEntry extends ConsumerWidget {
                       controller: tagEntryData.tagController,
                       focusNode: tagEntryData.focusNode,
                       decoration: const InputDecoration(
-                        hintText: 'Add a tag...',
+                        hintText: '',
                         border: InputBorder.none,
                         isDense: true,
                         contentPadding: EdgeInsets.zero,
@@ -104,7 +106,9 @@ class TagEntry extends ConsumerWidget {
           color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
         ),
       ),
-      labelStyle: AppTypography.bodyMedium(context),
+      labelStyle: AppTypography.subtitle2(
+        context,
+      ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
     );
   }

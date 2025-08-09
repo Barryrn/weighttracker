@@ -16,7 +16,7 @@ class ImageTimelineView extends ConsumerWidget {
       appBar: AppBar(
         title: Text(
           'Image Timeline',
-          style: AppTypography.headline2(
+          style: AppTypography.headline3(
             context,
           ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
         ),

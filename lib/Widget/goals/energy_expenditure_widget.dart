@@ -37,10 +37,10 @@ class EnergyExpenditureWidget extends ConsumerWidget {
       shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
       color: Theme.of(context).colorScheme.card,
       elevation: 8,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -88,7 +88,7 @@ class EnergyExpenditureWidget extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background1,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: accentColor.withOpacity(0.1),

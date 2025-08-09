@@ -22,12 +22,14 @@ class NotesEntry extends ConsumerWidget {
         const SizedBox(height: 16),
         Text(
           'Notes',
-          style: AppTypography.bodyLarge(context).copyWith(fontWeight: FontWeight.w500),
+          style: AppTypography.bodyLarge(
+            context,
+          ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
         ),
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
             ),
@@ -36,7 +38,7 @@ class NotesEntry extends ConsumerWidget {
             controller: noteEntryData.notesController,
             onChanged: viewModel.onNotesChanged,
             decoration: InputDecoration(
-              hintText: 'Enter your Note',
+              hintText: '',
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 12,
@@ -47,7 +49,9 @@ class NotesEntry extends ConsumerWidget {
                 minHeight: 0,
               ),
             ),
-            style: AppTypography.subtitle2(context),
+            style: AppTypography.subtitle2(
+              context,
+            ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
           ),
         ),
       ],

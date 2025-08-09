@@ -37,7 +37,7 @@ class WeightProgressWidget extends ConsumerWidget {
       elevation: 4,
       shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
       color: Theme.of(context).colorScheme.card,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,7 +47,7 @@ class WeightProgressWidget extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.card,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -140,7 +140,7 @@ class WeightProgressWidget extends ConsumerWidget {
                     children: [
                       Text(
                         '${(progressData.progressPercentage * 100).toStringAsFixed(0)}%',
-                        style: AppTypography.headline1(context).copyWith(
+                        style: AppTypography.headline2(context).copyWith(
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
@@ -173,7 +173,7 @@ class WeightProgressWidget extends ConsumerWidget {
   ) {
     return Card(
       color: Theme.of(context).colorScheme.background1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(15), // You can adjust the padding value
         child: Column(

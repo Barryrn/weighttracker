@@ -39,7 +39,10 @@ class ProfileGenderWidget extends ConsumerWidget {
         gender,
         style: TextStyle(color: Theme.of(context).colorScheme.textPrimary),
       ),
-      trailing: Icon(Icons.chevron_right, color: Theme.of(context).colorScheme.textPrimary),
+      trailing: Icon(
+        Icons.chevron_right,
+        color: Theme.of(context).colorScheme.textPrimary,
+      ),
       onTap: () => _showGenderPicker(context, ref),
     );
   }
@@ -57,7 +60,7 @@ class ProfileGenderWidget extends ConsumerWidget {
             ),
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(10),
           ),
           content: SizedBox(
             width: 1000, // Breitere Dialogbox
@@ -113,7 +116,7 @@ class ProfileGenderWidget extends ConsumerWidget {
             Icon(icon, color: Theme.of(context).colorScheme.primary),
             const SizedBox(width: 16),
             Text(
-              label, 
+              label,
               style: TextStyle(
                 fontSize: 16,
                 color: Theme.of(context).colorScheme.textPrimary,

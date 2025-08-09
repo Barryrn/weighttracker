@@ -38,7 +38,8 @@
 //       shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
 //       color: Theme.of(context).colorScheme.card,
 //       elevation: 2,
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)
+// ),
 //       child: Padding(
 //         padding: const EdgeInsets.all(16.0),
 //         child: Column(

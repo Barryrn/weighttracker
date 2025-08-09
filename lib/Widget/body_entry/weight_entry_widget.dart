@@ -26,9 +26,7 @@ class WeightEntry extends ConsumerWidget {
           children: [
             Text(
               'Weight (${entryData.unitSuffix})',
-              style: AppTypography.bodyLarge(
-                context,
-              ).copyWith(fontWeight: FontWeight.w500),
+              style: AppTypography.bodyLarge(context),
             ),
             // Unit toggle button
             // TextButton(
@@ -42,7 +40,7 @@ class WeightEntry extends ConsumerWidget {
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
             ),
@@ -95,7 +93,7 @@ class WeightEntry extends ConsumerWidget {
             ],
             onChanged: viewModel.onWeightChanged,
             decoration: InputDecoration(
-              hintText: 'Enter your weight',
+              hintText: '0.0',
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 12,
@@ -115,7 +113,9 @@ class WeightEntry extends ConsumerWidget {
                 minHeight: 0,
               ),
             ),
-            style: AppTypography.subtitle2(context),
+            style: AppTypography.subtitle2(
+              context,
+            ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
           ),
         ),
       ],

@@ -143,7 +143,7 @@ final ThemeData appTheme = ThemeData(
       backgroundColor: AppColors.primary,
       foregroundColor: Colors.white,
       textStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -199,7 +199,7 @@ final ThemeData appDarkTheme = ThemeData(
           AppColors.primary, // Changed from primaryLight to primary
       foregroundColor: Colors.white,
       textStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ),
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
