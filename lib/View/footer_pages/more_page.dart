@@ -25,9 +25,9 @@ class MorePage extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             'More Settings',
-            style: AppTypography.headline1(context).copyWith(
-              color: Theme.of(context).colorScheme.textTertiary,
-            ),
+            style: AppTypography.headline2(
+              context,
+            ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
           ),
           automaticallyImplyLeading: false,
           centerTitle: true,

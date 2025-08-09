@@ -46,7 +46,7 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
       elevation: 2,
       color: Theme.of(context).colorScheme.card, // or any other custom color
 
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -147,7 +147,7 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
             : Theme.of(context).colorScheme.primaryExtraLight,
         foregroundColor: isSelected ? Colors.white : AppColors.textPrimary,
         elevation: isSelected ? 2 : 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
       child: Text(label),

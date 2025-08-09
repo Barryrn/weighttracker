@@ -36,7 +36,7 @@ class DateTimeEntry extends ConsumerWidget {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
           width: 1,
@@ -60,7 +60,7 @@ class DateTimeEntry extends ConsumerWidget {
               // Date display with calendar picker
               Expanded(
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   onTap: () =>
                       _selectDate(context, bodyEntry.date, bodyEntryNotifier),
                   child: Padding(
@@ -76,6 +76,9 @@ class DateTimeEntry extends ConsumerWidget {
                             displayText,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
+                            style: AppTypography.bodyLarge(context).copyWith(
+                              color: Theme.of(context).colorScheme.textPrimary,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 4),
@@ -117,7 +120,7 @@ class DateTimeEntry extends ConsumerWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(8.0),

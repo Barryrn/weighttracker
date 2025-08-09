@@ -102,11 +102,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       // Weight filter
       if (_weightRange != null && entry.weight != null) {
         // Convert entry weight to display unit if needed
-        final displayWeight = ref.read(unitConversionProvider).useMetricWeight 
-            ? entry.weight! 
+        final displayWeight = ref.read(unitConversionProvider).useMetricWeight
+            ? entry.weight!
             : ref.read(unitConversionProvider.notifier).kgToLb(entry.weight!);
-        
-        if (displayWeight < _weightRange!.start || displayWeight > _weightRange!.end) {
+
+        if (displayWeight < _weightRange!.start ||
+            displayWeight > _weightRange!.end) {
           return false;
         }
       }
@@ -187,7 +188,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
         appBar: AppBar(
           title: Text(
             'Image Gallery',
-            style: AppTypography.headline2(
+            style: AppTypography.headline3(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
           ),
@@ -432,9 +433,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
         Row(
           children: [
             Text(
-              (ref.watch(unitConversionProvider).useMetricWeight 
-                  ? _weightRange!.start 
-                  : ref.read(unitConversionProvider.notifier).kgToLb(_weightRange!.start)).toStringAsFixed(1),
+              (ref.watch(unitConversionProvider).useMetricWeight
+                      ? _weightRange!.start
+                      : ref
+                            .read(unitConversionProvider.notifier)
+                            .kgToLb(_weightRange!.start))
+                  .toStringAsFixed(1),
               style: AppTypography.bodyLarge(
                 context,
               ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
@@ -470,9 +474,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
               ),
             ),
             Text(
-              (ref.watch(unitConversionProvider).useMetricWeight 
-                  ? _weightRange!.end 
-                  : ref.read(unitConversionProvider.notifier).kgToLb(_weightRange!.end)).toStringAsFixed(1),
+              (ref.watch(unitConversionProvider).useMetricWeight
+                      ? _weightRange!.end
+                      : ref
+                            .read(unitConversionProvider.notifier)
+                            .kgToLb(_weightRange!.end))
+                  .toStringAsFixed(1),
               style: AppTypography.bodyLarge(
                 context,
               ).copyWith(color: Theme.of(context).colorScheme.textPrimary),

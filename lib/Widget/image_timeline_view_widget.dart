@@ -38,7 +38,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.05),
@@ -48,7 +48,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
               ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(10),
               child: _buildImageDisplay(context, ref, viewModel),
             ),
           ),
@@ -71,7 +71,9 @@ class ImageTimelineViewWidget extends ConsumerWidget {
               children: [
                 Text(
                   DateFormat('MM/dd/yyyy').format(currentEntry.date),
-                  style: AppTypography.bodyMedium(context),
+                  style: AppTypography.bodyLarge(
+                    context,
+                  ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
                 ),
                 if (currentEntry.weight != null)
                   Container(
@@ -81,11 +83,13 @@ class ImageTimelineViewWidget extends ConsumerWidget {
                       vertical: 4.0,
                     ),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
                       'Weight: ${(unitPreferences.useMetricWeight ? currentEntry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(currentEntry.weight!)).toStringAsFixed(1)} ${unitPreferences.useMetricWeight ? 'kg' : 'lb'}',
-                      style: AppTypography.bodyLarge(context),
+                      style: AppTypography.subtitle2(context).copyWith(
+                        color: Theme.of(context).colorScheme.textPrimary,
+                      ),
                     ),
                   ),
               ],
@@ -128,7 +132,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
         return Container(
           decoration: BoxDecoration(
             color: Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(10),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
           child: Stack(
@@ -144,7 +148,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
@@ -174,7 +178,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
                             : Colors.black87,
                         backgroundColor: Colors.transparent,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       child: Center(

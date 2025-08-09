@@ -73,7 +73,7 @@ class HealthWidget extends ConsumerWidget {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Colors.red.shade50,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.red.shade200),
             ),
             child: Row(
@@ -86,9 +86,9 @@ class HealthWidget extends ConsumerWidget {
                 Expanded(
                   child: Text(
                     healthState.errorMessage!,
-                    style: AppTypography.bodyMedium(context).copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
+                    style: AppTypography.bodyMedium(
+                      context,
+                    ).copyWith(color: Theme.of(context).colorScheme.error),
                   ),
                 ),
               ],
@@ -110,7 +110,7 @@ class HealthWidget extends ConsumerWidget {
             isLoading: healthState.isSyncing,
           ),
 
-        if (healthState.isAvailable && healthState.isAuthorized) ...[  
+        if (healthState.isAvailable && healthState.isAuthorized) ...[
           _buildActionButton(
             context,
             label: 'Sync Now',
@@ -134,19 +134,19 @@ class HealthWidget extends ConsumerWidget {
             '• Send your weight, body fat percentage, and BMI data to Apple Health / Google Health Connect\n'
             '• Import weight, body fat percentage, and BMI measurements from health services\n'
             '• Keep both systems up to date',
-            style: AppTypography.bodyLarge(context).copyWith(
-              color: Theme.of(context).colorScheme.textSecondary,
-            ),
+            style: AppTypography.bodyLarge(
+              context,
+            ).copyWith(color: Theme.of(context).colorScheme.textSecondary),
           ),
         ],
 
-        if (!healthState.isAvailable) ...[  
+        if (!healthState.isAvailable) ...[
           const SizedBox(height: 12),
           Text(
             'Health services are not available on your device. This feature requires Apple Health on iOS or Health Connect on Android.',
-            style: AppTypography.bodySmall(context).copyWith(
-              color: Theme.of(context).colorScheme.textDisabled,
-            ),
+            style: AppTypography.bodySmall(
+              context,
+            ).copyWith(color: Theme.of(context).colorScheme.textDisabled),
           ),
         ],
       ],
@@ -174,15 +174,9 @@ class HealthWidget extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: AppTypography.subtitle2(context),
-                  ),
+                  Text(title, style: AppTypography.subtitle2(context)),
                   const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    style: AppTypography.bodyMedium(context),
-                  ),
+                  Text(subtitle, style: AppTypography.bodyMedium(context)),
                 ],
               ),
             ),

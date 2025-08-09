@@ -26,7 +26,12 @@ class TagSettingsView extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('TDEE Calculator'),
+          title: Text(
+            'Tag Settings',
+            style: AppTypography.headline3(
+              context,
+            ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
+          ),
           automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.primary,

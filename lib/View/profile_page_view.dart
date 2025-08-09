@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
+import 'package:weigthtracker/theme.dart';
 import '../Widget/footer.dart';
 
 class HomePage extends StatelessWidget {
@@ -8,7 +9,15 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('ProfilePage'), centerTitle: true),
+      appBar: AppBar(
+        title: Text(
+          'Profile',
+          style: AppTypography.headline3(
+            context,
+          ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
+        ),
+        centerTitle: true,
+      ),
       body: Center(
         child: ElevatedButton(
           onPressed: () {

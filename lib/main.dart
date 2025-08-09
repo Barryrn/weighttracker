@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weigthtracker/View/onboarding_screen.dart';
 import 'package:weigthtracker/ViewModel/health_provider.dart';
 import 'package:weigthtracker/ViewModel/weight_progress_view_model.dart';
 import 'package:weigthtracker/theme.dart';
@@ -30,6 +32,21 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
+  bool? _onboardingComplete;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkOnboardingStatus();
+  }
+
+  Future<void> _checkOnboardingStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _onboardingComplete = prefs.getBool('onboarding_complete') ?? false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Listen for when the provider is initialized
@@ -51,7 +68,11 @@ class _MyAppState extends ConsumerState<MyApp> {
       theme: appTheme, // Use the predefined light theme
       darkTheme: appDarkTheme, // Use the predefined dark theme
       themeMode: ThemeMode.dark, // or ThemeMode.dark, ThemeMode.system
-      home: const HomePage(),
+      home: _onboardingComplete == null
+          ? const Center(child: CircularProgressIndicator()) // Loading state
+          : _onboardingComplete!
+          ? const HomePage() // Onboarding completed
+          : const OnboardingScreen(), // Show onboarding
     );
   }
 }

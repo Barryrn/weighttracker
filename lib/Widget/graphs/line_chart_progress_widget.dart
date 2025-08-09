@@ -60,7 +60,7 @@ class _LineChartProgressWidgetState
       elevation: 2,
       color: Theme.of(context).colorScheme.card, // or any other custom color
 
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -151,7 +151,7 @@ class _LineChartProgressWidgetState
                     : AppColors.textPrimary,
                 elevation: isSelected ? 2 : 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
@@ -189,7 +189,7 @@ class _LineChartProgressWidgetState
                   : AppColors.textPrimary,
               elevation: isSelected ? 2 : 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(10),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             ),

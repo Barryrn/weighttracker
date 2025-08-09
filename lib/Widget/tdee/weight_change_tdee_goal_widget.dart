@@ -153,8 +153,8 @@ class _WeightChangeGoalTDEEWidgetState
                   const SizedBox(width: 16),
                   _buildToggleButton(
                     context,
-                    label: 'Lose Weight', 
-                    
+                    label: 'Lose Weight',
+
                     selected: !isGainingWeight,
                     color: Colors.redAccent,
                     onTap: () {
@@ -256,7 +256,7 @@ class _WeightChangeGoalTDEEWidgetState
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background2,
+                    color: Theme.of(context).colorScheme.background1,
 
                     borderRadius: BorderRadius.circular(10),
                   ),

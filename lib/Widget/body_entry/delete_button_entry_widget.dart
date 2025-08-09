@@ -79,15 +79,14 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
               backgroundColor: Colors.red, // Red background for delete button
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
             child: Text(
               'Delete',
-              style: AppTypography.subtitle1(context).copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+              style: AppTypography.subtitle1(
+                context,
+              ).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
             ),
           ),
         );
@@ -103,7 +102,10 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Delete Entry', style: AppTypography.subtitle1(context)),
+              title: Text(
+                'Delete Entry',
+                style: AppTypography.subtitle1(context),
+              ),
               content: Text(
                 'Are you sure you want to delete this entry? This action cannot be undone.',
                 style: AppTypography.bodyMedium(context),
@@ -111,12 +113,20 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: Text('Cancel', style: AppTypography.buttonText(context)),
+                  child: Text(
+                    'Cancel',
+                    style: AppTypography.buttonText(context),
+                  ),
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(true),
                   style: TextButton.styleFrom(foregroundColor: Colors.red),
-                  child: Text('Delete', style: AppTypography.buttonText(context).copyWith(color: Colors.red)),
+                  child: Text(
+                    'Delete',
+                    style: AppTypography.buttonText(
+                      context,
+                    ).copyWith(color: Colors.red),
+                  ),
                 ),
               ],
             );

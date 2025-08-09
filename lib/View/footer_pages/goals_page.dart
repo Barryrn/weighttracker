@@ -29,9 +29,9 @@ class GoalsPage extends ConsumerWidget {
         appBar: AppBar(
           title: Text(
             'My Goals',
-            style: AppTypography.headline1(context).copyWith(
-              color: Theme.of(context).colorScheme.textTertiary,
-            ),
+            style: AppTypography.headline2(
+              context,
+            ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
           ),
           automaticallyImplyLeading: false,
           centerTitle: true,

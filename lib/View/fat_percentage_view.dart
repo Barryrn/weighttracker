@@ -98,7 +98,8 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               //   },
                               //   style: TextButton.styleFrom(
                               //     shape: RoundedRectangleBorder(
-                              //       borderRadius: BorderRadius.circular(20),
+                              //       borderRadius: BorderRadius.circular(10)
+                              // ,
                               //     ),
                               //     backgroundColor: Theme.of(context).colorScheme.primaryDark,
                               //     padding: const EdgeInsets.symmetric(
@@ -119,7 +120,8 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                           //     filled: true,
                           //     fillColor: Theme.of(context).colorScheme.card, // Hintergrundfarbe
                           //     border: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.circular(10),
+                          //       borderRadius: BorderRadius.circular(10)
+                          // ,
                           //     ),
                           //     contentPadding: const EdgeInsets.symmetric(
                           //       horizontal: 16,
@@ -339,7 +341,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                   vertical: 16,
                                 ),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                               child: const Text('Calculate Body Fat'),
@@ -355,7 +357,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 color: Theme.of(context).colorScheme.primary,
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                               child: Column(
                                 children: [
@@ -388,7 +390,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                         horizontal: 12,
                                       ),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
                                     child: const Text('Use This Result'),
