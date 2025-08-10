@@ -49,11 +49,8 @@ class WeightEntry extends ConsumerWidget {
             controller: entryData.weightController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
-              // Only allow digits and at most one decimal point
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
-
               TextInputFormatter.withFunction((oldValue, newValue) {
-                // If empty, allow it
+                // ALWAYS allow empty values - this is crucial for null handling
                 if (newValue.text.isEmpty) {
                   return newValue;
                 }
@@ -72,26 +69,46 @@ class WeightEntry extends ConsumerWidget {
                   if (parts[1].length > 1) {
                     // Truncate to one decimal place
                     text = '${parts[0]}.${parts[1].substring(0, 1)}';
-                    return newValue.copyWith(text: text);
+                    return newValue.copyWith(
+                      text: text,
+                      selection: TextSelection.collapsed(offset: text.length),
+                    );
                   }
                 }
 
-                // Try to parse as double to ensure it's a valid number or partial number
-                try {
-                  // Special case: allow a standalone decimal point or number followed by decimal
-                  if (text == '.' || text.endsWith('.')) {
-                    return newValue.copyWith(text: text);
-                  }
-
-                  // Otherwise, it should be a valid number
-                  double.parse(text);
+                // Allow standalone decimal point or number followed by decimal
+                if (text == '.' || text.endsWith('.')) {
                   return newValue.copyWith(text: text);
-                } catch (_) {
+                }
+
+                // Validate that it's a proper number
+                if (RegExp(r'^\d+\.?\d*$').hasMatch(text)) {
+                  try {
+                    double.parse(text);
+                    return newValue.copyWith(text: text);
+                  } catch (_) {
+                    return oldValue;
+                  }
+                } else {
                   return oldValue;
                 }
               }),
             ],
-            onChanged: viewModel.onWeightChanged,
+            onChanged: (value) {
+              // DEBUG: Let's see what's happening
+              print(
+                '🔍 Widget onChanged called with: "$value" (isEmpty: ${value.isEmpty})',
+              );
+
+              // Handle empty string explicitly to ensure null state
+              if (value.isEmpty) {
+                print('🔍 Calling viewModel.onWeightChanged with empty string');
+                viewModel.onWeightChanged('');
+              } else {
+                print('🔍 Calling viewModel.onWeightChanged with: "$value"');
+                viewModel.onWeightChanged(value);
+              }
+            },
             decoration: InputDecoration(
               hintText: '0.0',
               contentPadding: const EdgeInsets.symmetric(

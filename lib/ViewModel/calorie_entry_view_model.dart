@@ -11,10 +11,7 @@ class CalorieEntryData {
   final double? calorie;
   final TextEditingController calorieController;
 
-  CalorieEntryData({
-    this.calorie,
-    required this.calorieController,
-  });
+  CalorieEntryData({this.calorie, required this.calorieController});
 }
 
 /// A ViewModel that manages calorie entry information.
@@ -23,11 +20,7 @@ class CalorieEntryData {
 /// and transforming it into a format that's ready for display in the View.
 class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
   CalorieEntryViewModel(this.ref)
-    : super(
-        CalorieEntryData(
-          calorieController: TextEditingController(),
-        ),
-      ) {
+    : super(CalorieEntryData(calorieController: TextEditingController())) {
     _initializeController();
 
     // Listen for changes in the providers that affect calorie entry
@@ -71,11 +64,20 @@ class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
   void _updateController() {
     final bodyEntry = ref.read(bodyEntryProvider);
 
+    // Don't update controller if user is currently typing (controller has focus)
+    if (state.calorieController.text.isNotEmpty && bodyEntry.calorie == null) {
+      // User just cleared the field, don't interfere
+      return;
+    }
+
     // Update calorie controller
     if (bodyEntry.calorie != null) {
       state.calorieController.text = bodyEntry.calorie!.toInt().toString();
     } else {
-      state.calorieController.text = '';
+      // Only clear if not already empty
+      if (state.calorieController.text.isNotEmpty) {
+        state.calorieController.text = '';
+      }
     }
 
     // Update state
@@ -93,10 +95,14 @@ class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
 
     if (value.isEmpty) {
       notifier.updateCalorie(null);
+      state.calorieController.text = '';
       return;
     }
 
     try {
+      if (value == '.' || value.endsWith('.')) {
+        return;
+      }
       final parsed = double.parse(value);
       notifier.updateCalorie(parsed);
     } catch (_) {

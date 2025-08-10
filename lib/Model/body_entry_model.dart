@@ -46,31 +46,31 @@ class BodyEntry {
   /// @return A new BodyEntry instance with the updated values
   BodyEntry copyWith({
     DateTime? date,
-    double? weight,
-    double? fatPercentage,
-    double? neckCircumference,
-    double? waistCircumference,
-    double? hipCircumference,
-    List<String>? tags,
-    String? notes,
+    Object? weight = _sentinel,
+    Object? fatPercentage = _sentinel,
+    Object? neckCircumference = _sentinel,
+    Object? waistCircumference = _sentinel,
+    Object? hipCircumference = _sentinel,
+    Object? tags = _sentinel,
+    Object? notes = _sentinel,
     bool setFrontImagePathNull = false,
     String? frontImagePath,
     bool setSideImagePathNull = false,
     String? sideImagePath,
     bool setBackImagePathNull = false,
     String? backImagePath,
-    double? bmi, // Added BMI parameter
-    double? calorie,
+    Object? bmi = _sentinel,
+    Object? calorie = _sentinel,
   }) {
     return BodyEntry(
       date: date ?? this.date,
-      weight: weight ?? this.weight,
-      fatPercentage: fatPercentage ?? this.fatPercentage,
-      neckCircumference: neckCircumference ?? this.neckCircumference,
-      waistCircumference: waistCircumference ?? this.waistCircumference,
-      hipCircumference: hipCircumference ?? this.hipCircumference,
-      tags: tags ?? this.tags,
-      notes: notes ?? this.notes,
+      weight: weight == _sentinel ? this.weight : weight as double?,
+      fatPercentage: fatPercentage == _sentinel ? this.fatPercentage : fatPercentage as double?,
+      neckCircumference: neckCircumference == _sentinel ? this.neckCircumference : neckCircumference as double?,
+      waistCircumference: waistCircumference == _sentinel ? this.waistCircumference : waistCircumference as double?,
+      hipCircumference: hipCircumference == _sentinel ? this.hipCircumference : hipCircumference as double?,
+      tags: tags == _sentinel ? this.tags : tags as List<String>?,
+      notes: notes == _sentinel ? this.notes : notes as String?,
       frontImagePath: setFrontImagePathNull
           ? null
           : (frontImagePath ?? this.frontImagePath),
@@ -80,8 +80,8 @@ class BodyEntry {
       backImagePath: setBackImagePathNull
           ? null
           : (backImagePath ?? this.backImagePath),
-      bmi: bmi ?? this.bmi, // Added BMI field
-      calorie: calorie ?? this.calorie,
+      bmi: bmi == _sentinel ? this.bmi : bmi as double?,
+      calorie: calorie == _sentinel ? this.calorie : calorie as double?,
     );
   }
 

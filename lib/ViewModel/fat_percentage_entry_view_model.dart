@@ -74,13 +74,22 @@ class FatPercentageEntryViewModel
   void _updateController() {
     final bodyEntry = ref.read(bodyEntryProvider);
 
+    // Don't update controller if user is currently typing (controller has focus)
+    if (state.fatPercentageController.text.isNotEmpty &&
+        bodyEntry.fatPercentage == null) {
+      // User just cleared the field, don't interfere
+      return;
+    }
+
     // Update fat percentage controller
     if (bodyEntry.fatPercentage != null) {
       state.fatPercentageController.text = _formatFatPercentage(
         bodyEntry.fatPercentage!,
       );
     } else {
-      state.fatPercentageController.text = '';
+      if (state.fatPercentageController.text.isNotEmpty) {
+        state.fatPercentageController.text = '';
+      }
     }
 
     // Update state
@@ -110,6 +119,7 @@ class FatPercentageEntryViewModel
 
     if (value.isEmpty) {
       notifier.updateFatPercentage(null);
+      state.fatPercentageController.text = '';
       return;
     }
 
