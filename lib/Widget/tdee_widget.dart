@@ -58,7 +58,7 @@ class TDEEWidget extends ConsumerWidget {
                 ),
               ),
               isExpanded: true, // expand dropdown width to parent
-              dropdownColor: Colors.white,
+              dropdownColor: Theme.of(context).colorScheme.card,
               items: activityLevels.map((level) {
                 return DropdownMenuItem<ActivityLevel>(
                   value: level,

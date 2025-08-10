@@ -78,6 +78,10 @@ class EnergyExpenditureWidget extends ConsumerWidget {
   }
 
   /// Helper method to build a metric card with improved visual design
+  /// 
+  /// When the value is 'N/A', an information icon will be displayed next to it.
+  /// Tapping the icon will show a popup explaining that the user needs to track
+  /// their weight and calorie intake for 7 consecutive days.
   Widget _buildMetricCard(
     BuildContext context,
     String label,
@@ -114,15 +118,71 @@ class EnergyExpenditureWidget extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           // Value text with max 2 lines, centered
-          Text(
-            value,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center, // center text
-            style: AppTypography.subtitle1(context),
-          ),
+          value == 'N/A'
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      value,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: AppTypography.subtitle1(context),
+                    ),
+                    const SizedBox(width: 4),
+                    GestureDetector(
+                      onTap: () => _showInfoDialog(context),
+                      child: Icon(
+                        Icons.info_outline,
+                        size: 16,
+                        color: Theme.of(context).colorScheme.info,
+                      ),
+                    ),
+                  ],
+                )
+              : Text(
+                  value,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: AppTypography.subtitle1(context),
+                ),
         ],
       ),
+    );
+  }
+
+  /// Shows an information dialog explaining why TDEE data is not available
+  void _showInfoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'TDEE Information',
+            style: AppTypography.subtitle1(context),
+          ),
+          content: Text(
+            'You need to track your weight and calorie intake for 7 consecutive days before the TDEE will be available.',
+            style: AppTypography.bodyMedium(context),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.background1,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                'OK',
+                style: AppTypography.buttonText(context).copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

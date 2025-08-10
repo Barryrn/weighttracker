@@ -4,18 +4,7 @@ import '../service/health_service.dart';
 import '../model/body_entry_model.dart';
 import '../repository/weight_repository.dart';
 import '../model/health_sync_storage_model.dart'; // Add this import
-
-/// Provider for the HealthService
-final healthServiceProvider = Provider<HealthService>((ref) {
-  final weightRepository = WeightRepository();
-  return HealthService(weightRepository: weightRepository);
-});
-
-/// Provider for health integration state
-final healthStateProvider = StateNotifierProvider<HealthStateNotifier, HealthState>((ref) {
-  final healthService = ref.watch(healthServiceProvider);
-  return HealthStateNotifier(healthService);
-});
+import 'package:permission_handler/permission_handler.dart';
 
 /// State class for health integration
 class HealthState {
@@ -24,7 +13,7 @@ class HealthState {
   final bool isSyncing;
   final String? errorMessage;
   final DateTime? lastSyncTime;
-  
+
   const HealthState({
     this.isAvailable = false,
     this.isAuthorized = false,
@@ -32,7 +21,7 @@ class HealthState {
     this.errorMessage,
     this.lastSyncTime,
   });
-  
+
   HealthState copyWith({
     bool? isAvailable,
     bool? isAuthorized,
@@ -54,12 +43,12 @@ class HealthState {
 /// Notifier class for managing health state
 class HealthStateNotifier extends StateNotifier<HealthState> {
   final HealthService _healthService;
-  
+
   HealthStateNotifier(this._healthService) : super(const HealthState()) {
     // Initialize health service and check availability when initialized
     _initializeHealthService();
   }
-  
+
   /// Initialize the health service
   Future<void> _initializeHealthService() async {
     try {
@@ -75,13 +64,13 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
       debugPrint('Error initializing health service: $e');
     }
   }
-  
+
   /// Check if health services are available on the device
   Future<void> checkAvailability() async {
     try {
       final isAvailable = await _healthService.isHealthDataAvailable();
       state = state.copyWith(isAvailable: isAvailable, clearError: true);
-      
+
       if (isAvailable) {
         // If available, check authorization
         await checkAuthorization();
@@ -93,15 +82,15 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
       debugPrint('Error checking health availability: $e');
     }
   }
-  
+
   /// Check if the app is authorized to access health data
   Future<void> checkAuthorization() async {
     if (!state.isAvailable) return;
-    
+
     try {
       final isAuthorized = await _healthService.requestAuthorization();
       state = state.copyWith(isAuthorized: isAuthorized, clearError: true);
-      
+
       // Automatically sync if authorized
       if (isAuthorized) {
         performTwoWaySync();
@@ -110,11 +99,11 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
       // Error handling...
     }
   }
-  
+
   /// Request authorization to access health data
   Future<bool> requestAuthorization() async {
     if (!state.isAvailable) return false;
-    
+
     try {
       state = state.copyWith(clearError: true);
       final isAuthorized = await _healthService.requestAuthorization();
@@ -128,21 +117,18 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
       return false;
     }
   }
-  
+
   /// Sync weight data to health services
   Future<bool> syncToHealth(List<BodyEntry> entries) async {
     if (!state.isAvailable || !state.isAuthorized) return false;
-    
+
     try {
       state = state.copyWith(isSyncing: true, clearError: true);
       final success = await _healthService.syncWeightDataToHealth(entries);
-      
+
       if (success) {
         final now = DateTime.now();
-        state = state.copyWith(
-          isSyncing: false,
-          lastSyncTime: now,
-        );
+        state = state.copyWith(isSyncing: false, lastSyncTime: now);
         // Save last sync time to SharedPreferences
         await HealthSyncStorage.saveLastSyncTime(now);
       } else {
@@ -151,7 +137,7 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
           errorMessage: 'Failed to sync data to health services',
         );
       }
-      
+
       return success;
     } catch (e) {
       state = state.copyWith(
@@ -162,27 +148,30 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
       return false;
     }
   }
-  
+
   /// Fetch weight data from health services
-  Future<List<BodyEntry>> fetchFromHealth(DateTime startDate, DateTime endDate) async {
+  Future<List<BodyEntry>> fetchFromHealth(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
     if (!state.isAvailable || !state.isAuthorized) return [];
-    
+
     try {
       state = state.copyWith(isSyncing: true, clearError: true);
-      final entries = await _healthService.fetchWeightDataFromHealth(startDate, endDate);
-      
+      final entries = await _healthService.fetchWeightDataFromHealth(
+        startDate,
+        endDate,
+      );
+
       if (entries.isNotEmpty) {
         final now = DateTime.now();
-        state = state.copyWith(
-          isSyncing: false,
-          lastSyncTime: now,
-        );
+        state = state.copyWith(isSyncing: false, lastSyncTime: now);
         // Save last sync time to SharedPreferences
         await HealthSyncStorage.saveLastSyncTime(now);
       } else {
         state = state.copyWith(isSyncing: false);
       }
-      
+
       return entries;
     } catch (e) {
       state = state.copyWith(
@@ -193,21 +182,18 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
       return [];
     }
   }
-  
+
   /// Perform a two-way sync between the app and health services
   Future<bool> performTwoWaySync() async {
     if (!state.isAvailable || !state.isAuthorized) return false;
-    
+
     try {
       state = state.copyWith(isSyncing: true, clearError: true);
       final success = await _healthService.performTwoWaySync();
-      
+
       if (success) {
         final now = DateTime.now();
-        state = state.copyWith(
-          isSyncing: false,
-          lastSyncTime: now,
-        );
+        state = state.copyWith(isSyncing: false, lastSyncTime: now);
         // Save last sync time to SharedPreferences
         await HealthSyncStorage.saveLastSyncTime(now);
       } else {
@@ -216,7 +202,7 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
           errorMessage: 'Error performing two-way sync',
         );
       }
-      
+
       return success;
     } catch (e) {
       state = state.copyWith(
@@ -228,3 +214,16 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
     }
   }
 }
+
+/// Provider for the HealthService
+final healthServiceProvider = Provider<HealthService>((ref) {
+  final weightRepository = WeightRepository();
+  return HealthService(weightRepository: weightRepository);
+});
+
+/// Provider for health integration state
+final healthStateProvider =
+    StateNotifierProvider<HealthStateNotifier, HealthState>((ref) {
+      final healthService = ref.watch(healthServiceProvider);
+      return HealthStateNotifier(healthService);
+    });
