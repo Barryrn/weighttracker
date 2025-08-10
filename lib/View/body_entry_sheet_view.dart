@@ -10,9 +10,25 @@ import 'package:weigthtracker/Widget/body_entry/delete_button_entry_widget.dart'
 import 'package:weigthtracker/theme.dart';
 import '../Widget/body_entry/date_time_entry_widget.dart';
 import '../Widget/body_entry/weight_entry_widget.dart';
+import '../ViewModel/entry_form_provider.dart';
+import '../model/database_helper.dart';
+import 'package:intl/intl.dart';
+import 'dart:developer' as developer;
 
 class BodyEntrySheet {
   static Future<void> show({required BuildContext context}) async {
+    // Get the current date and notifier before showing the sheet
+    final bodyEntryNotifier = ProviderScope.containerOf(context).read(bodyEntryProvider.notifier);
+    final currentDate = DateTime.now();
+    
+    // Reset the notifier and set the current date
+    bodyEntryNotifier.reset();
+    bodyEntryNotifier.updateDate(currentDate);
+    
+    // Load data for the current date
+    await _loadEntryForDate(currentDate, bodyEntryNotifier);
+    
+    // Show the sheet
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -97,5 +113,96 @@ class BodyEntrySheet {
         ),
       ),
     );
+  }
+  
+  /// Loads entry data for the specified date from the database and updates the provider
+  ///
+  /// This method queries the database for an entry matching the given date and
+  /// updates the BodyEntryNotifier with all available data fields from the found entry.
+  /// If no entry is found for the date, the notifier remains unchanged.
+  ///
+  /// @param date The date to load data for
+  /// @param notifier The notifier to update with the loaded data
+  static Future<void> _loadEntryForDate(
+    DateTime date,
+    BodyEntryNotifier notifier,
+  ) async {
+    try {
+      final dbHelper = DatabaseHelper();
+      final entry = await dbHelper.findEntryByDate(date);
+
+      if (entry != null) {
+        developer.log(
+          'Found entry for ${DateFormat('yyyy-MM-dd').format(date)}',
+        );
+
+        // Update all fields in the notifier with the loaded data
+        if (entry.weight != null) {
+          notifier.updateWeight(
+            entry.weight,
+            useMetric: true,
+          ); // Data is stored in metric units
+        }
+
+        if (entry.fatPercentage != null) {
+          notifier.updateFatPercentage(entry.fatPercentage);
+        }
+
+        if (entry.neckCircumference != null) {
+          notifier.updateNeckCircumference(
+            entry.neckCircumference,
+            useMetric: true,
+          );
+        }
+
+        if (entry.waistCircumference != null) {
+          notifier.updateWaistCircumference(
+            entry.waistCircumference,
+            useMetric: true,
+          );
+        }
+
+        if (entry.hipCircumference != null) {
+          notifier.updateHipCircumference(
+            entry.hipCircumference,
+            useMetric: true,
+          );
+        }
+
+        if (entry.notes != null) {
+          notifier.updateNotes(entry.notes);
+        }
+
+        if (entry.tags != null) {
+          notifier.updateTags(entry.tags!);
+        }
+
+        if (entry.frontImagePath != null) {
+          notifier.updateFrontImagePath(entry.frontImagePath);
+        }
+
+        if (entry.sideImagePath != null) {
+          notifier.updateSideImagePath(entry.sideImagePath);
+        }
+
+        if (entry.backImagePath != null) {
+          notifier.updateBackImagePath(entry.backImagePath);
+        }
+
+        if (entry.calorie != null) {
+          notifier.updateCalorie(entry.calorie);
+        }
+
+        developer.log(
+          'Successfully loaded entry data for ${DateFormat('yyyy-MM-dd').format(date)}',
+        );
+      } else {
+        developer.log(
+          'No entry found for ${DateFormat('yyyy-MM-dd').format(date)}',
+        );
+      }
+    } catch (e) {
+      developer.log('Error loading entry for date: $e');
+    }
   }
 }
