@@ -48,7 +48,7 @@ class SaveButtonEntryWidget extends ConsumerWidget {
                     'Entry saved successfully',
                     style: AppTypography.bodyMedium(
                       context,
-                    ).copyWith(color: Colors.white),
+                    ).copyWith(color: Theme.of(context).colorScheme.success),
                   ),
                   backgroundColor: Theme.of(context).colorScheme.error,
                   duration: Duration(seconds: 1),
@@ -61,9 +61,16 @@ class SaveButtonEntryWidget extends ConsumerWidget {
           } catch (e) {
             // Show error message if save fails
             if (context.mounted) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text('Failed to save entry: ')));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Failed to save entry',
+                    style: AppTypography.bodyMedium(
+                      context,
+                    ).copyWith(color: Theme.of(context).colorScheme.success),
+                  ),
+                ),
+              );
             }
           }
         },
