@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:weigthtracker/service/permission_service.dart';
 
 /// State class for the image export functionality
 class ImageExportState {
@@ -39,7 +40,11 @@ class ImageExportViewModel extends StateNotifier<ImageExportState> {
   Future<bool> exportImageToGallery(String imagePath) async {
     try {
       // Set state to exporting
-      state = state.copyWith(isExporting: true, errorMessage: null, isSuccess: false);
+      state = state.copyWith(
+        isExporting: true,
+        errorMessage: null,
+        isSuccess: false,
+      );
 
       // Check if we have permission
       final status = await Permission.photos.request();
@@ -47,17 +52,17 @@ class ImageExportViewModel extends StateNotifier<ImageExportState> {
         // Read the file
         final file = File(imagePath);
         final bytes = await file.readAsBytes();
-        
+
         // Save to gallery
         final result = await ImageGallerySaver.saveImage(bytes);
-        
+
         // Update state based on result
         if (result['isSuccess']) {
           state = state.copyWith(isExporting: false, isSuccess: true);
           return true;
         } else {
           state = state.copyWith(
-            isExporting: false, 
+            isExporting: false,
             errorMessage: 'Failed to save image',
             isSuccess: false,
           );
@@ -65,7 +70,7 @@ class ImageExportViewModel extends StateNotifier<ImageExportState> {
         }
       } else {
         state = state.copyWith(
-          isExporting: false, 
+          isExporting: false,
           errorMessage: 'Permission denied to save images',
           isSuccess: false,
         );
@@ -73,7 +78,7 @@ class ImageExportViewModel extends StateNotifier<ImageExportState> {
       }
     } catch (e) {
       state = state.copyWith(
-        isExporting: false, 
+        isExporting: false,
         errorMessage: 'Error saving image: $e',
         isSuccess: false,
       );
@@ -99,9 +104,11 @@ class ImageExportViewModel extends StateNotifier<ImageExportState> {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(success 
-                          ? 'Image saved to gallery' 
-                          : state.errorMessage ?? 'Failed to save image'),
+                        content: Text(
+                          success
+                              ? 'Image saved to gallery'
+                              : state.errorMessage ?? 'Failed to save image',
+                        ),
                       ),
                     );
                   }
@@ -123,6 +130,7 @@ class ImageExportViewModel extends StateNotifier<ImageExportState> {
 }
 
 /// Provider for accessing the ImageExportViewModel
-final imageExportProvider = StateNotifierProvider<ImageExportViewModel, ImageExportState>(
-  (ref) => ImageExportViewModel(),
-);
+final imageExportProvider =
+    StateNotifierProvider<ImageExportViewModel, ImageExportState>(
+      (ref) => ImageExportViewModel(),
+    );

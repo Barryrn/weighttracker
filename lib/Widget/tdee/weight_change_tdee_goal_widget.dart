@@ -20,8 +20,18 @@ class DecimalTextInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
+    // Replace commas with periods first
+    String processedText = newValue.text.replaceAll(',', '.');
+
+    // Check if there are multiple periods
+    if (processedText.split('.').length > 2) {
+      return oldValue; // Reject input with multiple decimal points
+    }
+
+    // Use regex to limit to 2 decimal places
     final regEx = RegExp(r'^\d*\.?\d{0,2}');
-    String newString = regEx.stringMatch(newValue.text) ?? '';
+    String newString = regEx.stringMatch(processedText) ?? '';
+
     return TextEditingValue(
       text: newString,
       selection: TextSelection.collapsed(offset: newString.length),
@@ -176,15 +186,16 @@ class _WeightChangeGoalTDEEWidgetState
                 // Add input formatters to limit decimal places
                 inputFormatters: [
                   DecimalTextInputFormatter(),
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                  FilteringTextInputFormatter.allow(
+                    RegExp(r'[0-9.,]'),
+                  ), // Allow commas too
                 ],
                 decoration: InputDecoration(
                   labelText: 'Weight Change per Week (${weightUnit})',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  hintText:
-                      'e.g. ${unitPrefs.useMetricWeight ? "0.50" : "1.10"}',
+                  hintText: '0.50',
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 14,
                     vertical: 14,

@@ -91,6 +91,12 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
     final bodyEntry = ref.read(bodyEntryProvider);
     final unitPrefs = ref.read(unitConversionProvider);
 
+    // Don't update controller if user is currently typing (controller has focus)
+    if (state.weightController.text.isNotEmpty && bodyEntry.weight == null) {
+      // User just cleared the field, don't interfere
+      return;
+    }
+
     // Update weight controller
     if (bodyEntry.weight != null) {
       final displayWeight = unitPrefs.useMetricWeight
@@ -98,9 +104,17 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
           : bodyEntry.weight! / 0.45359237;
 
       // Format without automatic decimal point for whole numbers
-      state.weightController.text = _formatWeight(displayWeight);
+      final formattedWeight = _formatWeight(displayWeight);
+
+      // Only update if the formatted weight is different from current text
+      if (state.weightController.text != formattedWeight) {
+        state.weightController.text = formattedWeight;
+      }
     } else {
-      state.weightController.text = '';
+      // Only clear if not already empty
+      if (state.weightController.text.isNotEmpty) {
+        state.weightController.text = '';
+      }
     }
 
     // Update state
@@ -156,10 +170,18 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
 
   /// Handles weight text changes
   void onWeightChanged(String value) {
+    print(
+      '🔍 ViewModel onWeightChanged called with: "$value" (isEmpty: ${value.isEmpty})',
+    );
+
     final notifier = ref.read(bodyEntryProvider.notifier);
 
     if (value.isEmpty) {
+      print('🔍 Setting weight to null');
       notifier.updateWeight(null, useMetric: state.useMetricWeight);
+      // Don't let the controller be overwritten by listeners
+      state.weightController.text = '';
+      print('🔍 Controller text set to: "${state.weightController.text}"');
       return;
     }
 

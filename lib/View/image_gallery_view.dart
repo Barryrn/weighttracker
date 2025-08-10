@@ -6,6 +6,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:weigthtracker/ViewModel/unit_conversion_provider.dart';
 import 'package:weigthtracker/model/body_entry_model.dart'; // Changed from Model to model
+import 'package:weigthtracker/service/permission_service.dart';
 import '../viewmodel/image_comparison_provider.dart';
 import '../theme.dart';
 import '../ViewModel/image_export_view_model.dart';
@@ -172,6 +173,13 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     }
 
     return images;
+  }
+
+  Future<bool> _checkPermissions() async {
+    final permissionsService = ref.read(permissionsServiceProvider);
+    final granted = await permissionsService.requestCameraAndPhotos();
+
+    return granted;
   }
 
   @override
@@ -982,6 +990,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     String imagePath,
   ) async {
     try {
+      final granted = await _checkPermissions();
       // Check if we have permission
       final status = await Permission.photos.request();
       if (status.isGranted) {

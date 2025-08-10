@@ -79,7 +79,10 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
       final displayWeight = unitPrefs.useMetricWeight
           ? weightGoal
           : weightGoal / 0.45359237;
-      state.goalController.text = displayWeight.toStringAsFixed(1);
+      // Format without decimal if it's a whole number
+      state.goalController.text = displayWeight % 1 == 0 
+          ? displayWeight.toInt().toString() 
+          : displayWeight.toStringAsFixed(1);
     }
 
     // Initialize start controller
@@ -87,7 +90,10 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
       final displayWeight = unitPrefs.useMetricWeight
           ? startWeight
           : startWeight / 0.45359237;
-      state.startController.text = displayWeight.toStringAsFixed(1);
+      // Format without decimal if it's a whole number
+      state.startController.text = displayWeight % 1 == 0 
+          ? displayWeight.toInt().toString() 
+          : displayWeight.toStringAsFixed(1);
     }
 
     // Update state
@@ -114,7 +120,10 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
       final displayWeight = unitPrefs.useMetricWeight
           ? weightGoal
           : weightGoal / 0.45359237;
-      state.goalController.text = displayWeight.toStringAsFixed(1);
+      // Format without decimal if it's a whole number
+      state.goalController.text = displayWeight % 1 == 0 
+          ? displayWeight.toInt().toString() 
+          : displayWeight.toStringAsFixed(1);
     } else {
       state.goalController.text = '';
     }
@@ -124,7 +133,10 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
       final displayWeight = unitPrefs.useMetricWeight
           ? startWeight
           : startWeight / 0.45359237;
-      state.startController.text = displayWeight.toStringAsFixed(1);
+      // Format without decimal if it's a whole number
+      state.startController.text = displayWeight % 1 == 0 
+          ? displayWeight.toInt().toString() 
+          : displayWeight.toStringAsFixed(1);
     } else {
       state.startController.text = '';
     }

@@ -26,15 +26,7 @@ class NoteEntryViewModel extends StateNotifier<NoteEntryData> {
     _initializeData();
 
     // Listen for changes in the bodyEntryProvider that affect notes
-    ref.listen(
-      bodyEntryProvider,
-      (_, next) => _updateData(
-        NoteEntryData(
-          notes: next.notes,
-          notesController: state.notesController,
-        ),
-      ),
-    );
+    ref.listen(bodyEntryProvider, (_, next) => _updateData(next.notes));
   }
 
   final Ref ref;
@@ -49,6 +41,7 @@ class NoteEntryViewModel extends StateNotifier<NoteEntryData> {
   void _logState() {
     developer.log('===== Note Entry ViewModel State =====');
     developer.log('Notes: ${state.notes}');
+    developer.log('Controller text: "${state.notesController.text}"');
     developer.log('===================================');
   }
 
@@ -70,17 +63,24 @@ class NoteEntryViewModel extends StateNotifier<NoteEntryData> {
   }
 
   /// Updates the data when the underlying bodyEntry changes
-  void _updateData(NoteEntryData bodyEntry) {
-    final currentNotes = bodyEntry.notes;
+  void _updateData(String? newNotes) {
+    // Don't update controller if user is currently typing and cleared the field
+    if (state.notesController.text.isNotEmpty && newNotes == null) {
+      // User just cleared the field, don't interfere
+      return;
+    }
 
-    // Only update controller if the notes have changed
-    if (currentNotes != state.notesController.text) {
-      state.notesController.text = currentNotes ?? '';
+    // Only update controller if the notes have actually changed
+    final controllerText = state.notesController.text;
+    final newText = newNotes ?? '';
+
+    if (controllerText != newText) {
+      state.notesController.text = newText;
     }
 
     // Update state
     state = NoteEntryData(
-      notes: currentNotes,
+      notes: newNotes,
       notesController: state.notesController,
     );
 
@@ -93,6 +93,16 @@ class NoteEntryViewModel extends StateNotifier<NoteEntryData> {
 
     if (value.isEmpty) {
       notifier.updateNotes(null);
+      // Keep the controller explicitly empty
+      state.notesController.text = '';
+      return;
+    }
+
+    // Handle whitespace-only strings as null
+    if (value.trim().isEmpty) {
+      notifier.updateNotes(null);
+      // Keep the controller explicitly empty
+      state.notesController.text = '';
       return;
     }
 
