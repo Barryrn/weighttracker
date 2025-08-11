@@ -77,7 +77,11 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     entriesState.whenData((entries) {
       final tags = <String>{};
       for (final entry in entries) {
-        if (entry.tags != null) {
+        // Only include tags from entries that have at least one image
+        if (entry.tags != null && 
+            (entry.frontImagePath != null || 
+             entry.sideImagePath != null || 
+             entry.backImagePath != null)) {
           tags.addAll(entry.tags!);
         }
       }
