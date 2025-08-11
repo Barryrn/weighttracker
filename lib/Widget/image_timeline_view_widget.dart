@@ -96,11 +96,8 @@ class ImageTimelineViewWidget extends ConsumerWidget {
             ),
           ),
 
-        // Timeline slider - Updated with modern styling
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-          child: _buildTimelineSlider(context, state, viewModel),
-        ),
+        // Navigation buttons
+        Container(child: _buildNavigationButtons(context, state, viewModel)),
       ],
     );
   }
@@ -221,7 +218,8 @@ class ImageTimelineViewWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildTimelineSlider(
+  /// Builds navigation buttons for moving between entries
+  Widget _buildNavigationButtons(
     BuildContext context,
     ImageTimelineState state,
     ImageTimelineViewModel viewModel,
@@ -242,6 +240,7 @@ class ImageTimelineViewWidget extends ConsumerWidget {
       );
     }
 
+    // Get the current index and total entries count
     final currentEntry = viewModel.getCurrentEntry();
     int currentDateIndex = 0;
 
@@ -256,50 +255,105 @@ class ImageTimelineViewWidget extends ConsumerWidget {
       }
     }
 
-    return Column(
+    final bool canGoBack = currentDateIndex > 0;
+    final bool canGoForward = currentDateIndex < availableDates.length - 1;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SliderTheme(
-          data: SliderThemeData(
-            trackHeight: 4,
-            activeTrackColor: Theme.of(context).colorScheme.primary,
-            inactiveTrackColor: Theme.of(
-              context,
-            ).colorScheme.primary.withOpacity(0.2),
-            thumbColor: Theme.of(context).colorScheme.primary,
-            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
-            overlayColor: Theme.of(
-              context,
-            ).colorScheme.primary.withOpacity(0.2),
-            overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
-          ),
-          child: Slider(
-            min: 0,
-            max: availableDates.length - 1.0,
-            divisions: availableDates.length - 1,
-            value: currentDateIndex.toDouble(),
-            onChanged: (value) {
-              final date = availableDates[value.round()];
-              for (int i = 0; i < state.entries.length; i++) {
-                final entry = state.entries[i];
-                if (entry.date.day == date.day &&
-                    entry.date.month == date.month &&
-                    entry.date.year == date.year) {
-                  viewModel.updateSelectedIndex(i);
-                  break;
+        // Jump to earliest entry button
+        IconButton(
+          icon: const Icon(Icons.first_page, size: 45),
+          onPressed: canGoBack
+              ? () {
+                  // Find the entry with the earliest date
+                  for (int i = 0; i < state.entries.length; i++) {
+                    final entry = state.entries[i];
+                    if (entry.date.day == availableDates.first.day &&
+                        entry.date.month == availableDates.first.month &&
+                        entry.date.year == availableDates.first.year) {
+                      viewModel.updateSelectedIndex(i);
+                      break;
+                    }
+                  }
                 }
-              }
-            },
+              : null,
+          color: Theme.of(context).colorScheme.primary,
+          disabledColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+        ),
+
+        // Previous entry button
+        IconButton(
+          icon: const Icon(Icons.navigate_before, size: 45),
+          onPressed: canGoBack
+              ? () {
+                  // Find the previous entry
+                  final previousDate = availableDates[currentDateIndex - 1];
+                  for (int i = 0; i < state.entries.length; i++) {
+                    final entry = state.entries[i];
+                    if (entry.date.day == previousDate.day &&
+                        entry.date.month == previousDate.month &&
+                        entry.date.year == previousDate.year) {
+                      viewModel.updateSelectedIndex(i);
+                      break;
+                    }
+                  }
+                }
+              : null,
+          color: Theme.of(context).colorScheme.primary,
+          disabledColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+        ),
+
+        // Display current position
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            '${currentDateIndex + 1} / ${availableDates.length}',
+            style: AppTypography.bodyLarge(context),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(DateFormat('MM/dd/yyyy').format(availableDates.first)),
-              Text(DateFormat('MM/dd/yyyy').format(availableDates.last)),
-            ],
-          ),
+
+        // Next entry button
+        IconButton(
+          icon: const Icon(Icons.navigate_next, size: 45),
+          onPressed: canGoForward
+              ? () {
+                  // Find the next entry
+                  final nextDate = availableDates[currentDateIndex + 1];
+                  for (int i = 0; i < state.entries.length; i++) {
+                    final entry = state.entries[i];
+                    if (entry.date.day == nextDate.day &&
+                        entry.date.month == nextDate.month &&
+                        entry.date.year == nextDate.year) {
+                      viewModel.updateSelectedIndex(i);
+                      break;
+                    }
+                  }
+                }
+              : null,
+          color: Theme.of(context).colorScheme.primary,
+          disabledColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+        ),
+
+        // Jump to latest entry button
+        IconButton(
+          icon: const Icon(Icons.last_page, size: 45),
+          onPressed: canGoForward
+              ? () {
+                  // Find the entry with the latest date
+                  for (int i = 0; i < state.entries.length; i++) {
+                    final entry = state.entries[i];
+                    if (entry.date.day == availableDates.last.day &&
+                        entry.date.month == availableDates.last.month &&
+                        entry.date.year == availableDates.last.year) {
+                      viewModel.updateSelectedIndex(i);
+                      break;
+                    }
+                  }
+                }
+              : null,
+          color: Theme.of(context).colorScheme.primary,
+          disabledColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
         ),
       ],
     );
