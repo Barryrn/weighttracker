@@ -294,196 +294,180 @@ class _LineChartProgressWidgetState
         // Use the larger of available width or minimum required width
         final double chartWidth = max(availableWidth, minRequiredWidth);
 
+        // Get the unit for display
+        String unit = '';
+        if (selectedDataType.toLowerCase() == 'weight') {
+          unit = unitPrefs.useMetricWeight ? 'kg' : 'lb';
+        } else if (selectedDataType.toLowerCase().contains('fat')) {
+          unit = '%';
+        }
+
         return SizedBox(
           height: 300,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Sticky Y-Axis
-              SizedBox(
-                width: 40, // Muss mit reservedSize der Y-Achse übereinstimmen
-                child: Column(
-                  children: List.generate(
-                    ((displayMax - displayMin) ~/ step + 1),
-                    (i) {
-                      double value = displayMax - (i * step);
-                      // Get the unit for display
-                      String unit = '';
-                      if (selectedDataType.toLowerCase() == 'weight') {
-                        unit = unitPrefs.useMetricWeight ? 'kg' : 'lb';
-                      }
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: chartWidth,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 16, 16, 8),
+                child: LineChart(
+                  LineChartData(
+                    minX: minX,
+                    maxX: maxX,
+                    minY: displayMin,
+                    maxY: displayMax,
+                    lineTouchData: LineTouchData(
+                      touchTooltipData: LineTouchTooltipData(
+                        fitInsideHorizontally: true,
+                        fitInsideVertically: true,
+                        tooltipMargin: 8,
+                        getTooltipColor: (spot) => Theme.of(
+                          context,
+                        ).colorScheme.primary.withOpacity(0.9),
+                        tooltipPadding: const EdgeInsets.all(10),
+                        getTooltipItems: (List<LineBarSpot> touchedSpots) {
+                          return touchedSpots.map((spot) {
+                            final index = spot.x.toInt();
+                            if (index >= 0 && index < reversedData.length) {
+                              final data = reversedData[index];
+                              final value = spot.y.toStringAsFixed(1);
 
-                      return Expanded(
-                        child: Container(
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.only(right: 4),
-                          child: Transform.translate(
-                            offset: const Offset(0, -8), // 🔧 Feinjustierung
-                            child: Text(
-                              value.toStringAsFixed(0) +
-                                  (unit.isNotEmpty ? ' $unit' : ''),
-                            ),
-                          ),
+                              // Get the unit based on selected data type
+                              String unit = '';
+                              switch (selectedDataType.toLowerCase()) {
+                                case 'weight':
+                                  final unitPrefs = ref.watch(
+                                    unitConversionProvider,
+                                  );
+
+                                  unit = unitPrefs.useMetricWeight
+                                      ? 'kg'
+                                      : 'lb';
+
+                                  break;
+                                case 'bmi':
+                                  unit = '';
+                                  break;
+                                case 'fat':
+                                case 'fat %':
+                                  unit = '%';
+                                  break;
+                              }
+
+                              // Include the full date period with year
+                              return LineTooltipItem(
+                                '$value $unit\n${data.periodLabel}',
+                                const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            }
+                            return null;
+                          }).toList();
+                        },
+                      ),
+                      touchSpotThreshold: 20,
+                      handleBuiltInTouches: true,
+                    ),
+                    titlesData: FlTitlesData(
+                      // Keep X-axis (bottom) titles unchanged
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 30,
+                          interval: 1,
+                          getTitlesWidget: (value, meta) {
+                            if (value >= 0 &&
+                                value <= validDataPoints.length - 1 &&
+                                value == value.roundToDouble()) {
+                              int index = value.toInt();
+                              if (index < xLabels.length) {
+                                return SideTitleWidget(
+                                  meta: meta,
+                                  space: 8,
+                                  child: Transform.translate(
+                                    offset: const Offset(0, 8),
+                                    child: Text(
+                                      xLabels[index],
+                                      textAlign: TextAlign.center,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodySmall,
+                                    ),
+                                  ),
+                                );
+                              }
+                            }
+                            return const SizedBox();
+                          },
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-
-              // Scrollable Chart
-              Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: SizedBox(
-                    width: chartWidth,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 16, 16, 8),
-                      child: // Inside _buildChart method, update the LineChart widget
-                      LineChart(
-                        LineChartData(
-                          minX: minX,
-                          maxX: maxX,
-                          minY: displayMin,
-                          maxY: displayMax,
-                          lineTouchData: LineTouchData(
-                            touchTooltipData: LineTouchTooltipData(
-                              // Ensure tooltip fits inside the chart horizontally and vertically
-                              fitInsideHorizontally: true,
-                              fitInsideVertically: true,
-                              // Add some margin to make the tooltip more visible
-                              tooltipMargin: 8,
-                              // Make the tooltip background more visible
-                              getTooltipColor: (spot) => Theme.of(
-                                context,
-                              ).colorScheme.primary.withOpacity(0.9),
-                              // Add rounded corners to the tooltip
-
-                              // Add padding inside the tooltip
-                              tooltipPadding: const EdgeInsets.all(12),
-                              getTooltipItems: (List<LineBarSpot> touchedSpots) {
-                                return touchedSpots.map((spot) {
-                                  final index = spot.x.toInt();
-                                  if (index >= 0 &&
-                                      index < reversedData.length) {
-                                    final data = reversedData[index];
-                                    final value = spot.y.toStringAsFixed(1);
-
-                                    // Get the unit based on selected data type
-                                    String unit = '';
-                                    switch (selectedDataType.toLowerCase()) {
-                                      case 'weight':
-                                        final unitPrefs = ref.watch(
-                                          unitConversionProvider,
-                                        );
-
-                                        unit = unitPrefs.useMetricWeight
-                                            ? 'kg'
-                                            : 'lb';
-
-                                        break;
-                                      case 'bmi':
-                                        unit = '';
-                                        break;
-                                      case 'fat':
-                                      case 'fat %':
-                                        unit = '%';
-                                        break;
-                                    }
-
-                                    // Include the full date period with year
-                                    return LineTooltipItem(
-                                      '$value $unit\n${data.periodLabel}',
-                                      const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    );
-                                  }
-                                  return null;
-                                }).toList();
-                              },
-                            ),
-                            // Make touch interaction more responsive
-                            touchSpotThreshold: 20,
-                            // Handle touch behavior
-                            handleBuiltInTouches: true,
-                          ),
-                          titlesData: FlTitlesData(
-                            bottomTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                reservedSize: 22,
-                                interval: 1,
-                                // Custom title formatter to only show labels for actual data points
-                                getTitlesWidget: (value, meta) {
-                                  // Only show labels for integer values within the data range
-                                  // This ensures padding areas don't get labels
-                                  if (value >= 0 &&
-                                      value <= validDataPoints.length - 1 &&
-                                      value == value.roundToDouble()) {
-                                    int index = value.toInt();
-                                    if (index < xLabels.length) {
-                                      return SideTitleWidget(
-                                        meta: meta,
-                                        space: 8,
-                                        child: Transform.translate(
-                                          offset: const Offset(0, 8),
-                                          child: Text(
-                                            xLabels[index],
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                  return const SizedBox();
-                                },
-                              ),
-                            ),
-                            leftTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                            topTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                            rightTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                          ),
-                          borderData: FlBorderData(
-                            show: true,
-                            border: Border.all(
-                              color: const Color(0xff37434d),
-                              width: 1,
-                            ),
-                          ),
-                          gridData: FlGridData(
-                            show: true,
-                            horizontalInterval: step,
-                            drawVerticalLine: true,
-                          ),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: spots,
-                              isCurved: true,
-                              curveSmoothness:
-                                  0.175, // Wert zwischen 0 und 1, z.B. 0.5 für mittelstarke Kurven
-
-                              barWidth: 3,
-                              color: Theme.of(context).colorScheme.primary,
-                              dotData: FlDotData(show: true),
-                              belowBarData: BarAreaData(show: false),
-                            ),
-                          ],
+                      ),
+                      // Configure Y-axis (left) titles using SideTitles
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 40,
+                          interval: step,
+                          getTitlesWidget: (value, meta) {
+                            // Only show labels at step intervals
+                            if ((value - displayMin) % step < 0.001 ||
+                                (displayMin +
+                                            step *
+                                                (((displayMax - displayMin) ~/
+                                                    step)) -
+                                            value) %
+                                        step <
+                                    0.001) {
+                              return SideTitleWidget(
+                                meta: meta,
+                                space: 8,
+                                child: Text(
+                                  value.toStringAsFixed(0),
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                  textAlign: TextAlign.right,
+                                ),
+                              );
+                            }
+                            return const SizedBox();
+                          },
                         ),
-                        duration: Duration.zero,
+                      ),
+                      topTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      rightTitles: AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
                       ),
                     ),
+                    borderData: FlBorderData(
+                      show: true,
+                      border: Border.all(
+                        color: const Color(0xff37434d),
+                        width: 1,
+                      ),
+                    ),
+                    gridData: FlGridData(
+                      show: true,
+                      horizontalInterval: step,
+                      drawVerticalLine: true,
+                    ),
+                    lineBarsData: [
+                      LineChartBarData(
+                        spots: spots,
+                        isCurved: false,
+                        curveSmoothness: 0.175,
+                        barWidth: 3,
+                        color: Theme.of(context).colorScheme.primary,
+                        dotData: FlDotData(show: true),
+                        belowBarData: BarAreaData(show: false),
+                      ),
+                    ],
                   ),
+                  duration: Duration.zero,
                 ),
               ),
-            ],
+            ),
           ),
         );
       },
