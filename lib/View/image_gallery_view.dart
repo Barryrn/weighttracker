@@ -373,7 +373,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
   Widget _buildWeightRangeFilter() {
     // Get min and max weights from entries
     double minWeight = 40.0; // Default min
-    double maxWeight = 120.0; // Default max
+    double maxWeight = 100.0; // Default max
 
     final entriesState = ref.read(imageComparisonProvider);
     entriesState.whenData((entries) {
@@ -762,14 +762,14 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                 width: 3,
               ),
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
               ),
             ),
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
               ),
               child: Image.file(
                 File(imagePath),
@@ -790,8 +790,8 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.card,
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(12),
-                  bottomRight: Radius.circular(12),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
                 ),
                 border: Border(
                   left: BorderSide(
@@ -825,7 +825,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     children: [
                       Text(
                         DateFormat('MMM d, yyyy').format(entry.date),
-                        style: AppTypography.bodyLarge(context).copyWith(
+                        style: AppTypography.bodyMedium(context).copyWith(
                           color: Theme.of(context).colorScheme.textPrimary,
                         ),
                       ),
@@ -843,7 +843,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     entry.weight != null
                         ? '${(ref.watch(unitConversionProvider).useMetricWeight ? entry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(entry.weight!)).toStringAsFixed(1)} ${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'}'
                         : 'No weight data',
-                    style: AppTypography.bodyLarge(context).copyWith(
+                    style: AppTypography.bodyMedium(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
                   ),

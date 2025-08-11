@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weigthtracker/model/body_entry_model.dart';
 import 'dart:developer' as developer;
 import 'entry_form_provider.dart';
 
@@ -10,8 +11,13 @@ import 'entry_form_provider.dart';
 class NoteEntryData {
   final String? notes;
   final TextEditingController notesController;
+  final DateTime lastUpdatedDate; // Added to track date changes
 
-  NoteEntryData({this.notes, required this.notesController});
+  NoteEntryData({
+    this.notes,
+    required this.notesController,
+    required this.lastUpdatedDate, // Added parameter
+  });
 }
 
 /// A ViewModel that manages note entry information.
@@ -21,12 +27,16 @@ class NoteEntryData {
 class NoteEntryViewModel extends StateNotifier<NoteEntryData> {
   NoteEntryViewModel(this.ref)
     : super(
-        NoteEntryData(notes: null, notesController: TextEditingController()),
+        NoteEntryData(
+          notes: null,
+          notesController: TextEditingController(),
+          lastUpdatedDate: DateTime.now(), // Initialize with current date
+        ),
       ) {
     _initializeData();
 
     // Listen for changes in the bodyEntryProvider that affect notes
-    ref.listen(bodyEntryProvider, (_, next) => _updateData(next.notes));
+    ref.listen(bodyEntryProvider, (_, next) => _updateData(next));
   }
 
   final Ref ref;
@@ -42,6 +52,9 @@ class NoteEntryViewModel extends StateNotifier<NoteEntryData> {
     developer.log('===== Note Entry ViewModel State =====');
     developer.log('Notes: ${state.notes}');
     developer.log('Controller text: "${state.notesController.text}"');
+    developer.log(
+      'Last Updated Date: ${state.lastUpdatedDate}',
+    ); // Log the last updated date
     developer.log('===================================');
   }
 
@@ -57,34 +70,52 @@ class NoteEntryViewModel extends StateNotifier<NoteEntryData> {
     state = NoteEntryData(
       notes: currentNotes,
       notesController: state.notesController,
+      lastUpdatedDate: bodyEntry.date, // Set initial date
     );
 
     _logState();
   }
 
   /// Updates the data when the underlying bodyEntry changes
-  void _updateData(String? newNotes) {
-    // Don't update controller if user is currently typing and cleared the field
-    if (state.notesController.text.isNotEmpty && newNotes == null) {
-      // User just cleared the field, don't interfere
-      return;
-    }
+  void _updateData(BodyEntry bodyEntry) {
+    final newNotes = bodyEntry.notes;
+    final dateChanged = !_isSameDay(state.lastUpdatedDate, bodyEntry.date);
 
-    // Only update controller if the notes have actually changed
-    final controllerText = state.notesController.text;
-    final newText = newNotes ?? '';
+    // Always update controller if the date has changed, regardless of current text
+    if (dateChanged) {
+      state.notesController.text = newNotes ?? '';
+    } else {
+      // Original logic for same-day updates
+      // Don't update controller if user is currently typing and cleared the field
+      if (state.notesController.text.isNotEmpty && newNotes == null) {
+        // User just cleared the field, don't interfere
+        return;
+      }
 
-    if (controllerText != newText) {
-      state.notesController.text = newText;
+      // Only update controller if the notes have actually changed
+      final controllerText = state.notesController.text;
+      final newText = newNotes ?? '';
+
+      if (controllerText != newText) {
+        state.notesController.text = newText;
+      }
     }
 
     // Update state
     state = NoteEntryData(
       notes: newNotes,
       notesController: state.notesController,
+      lastUpdatedDate: bodyEntry.date, // Update the last updated date
     );
 
     _logState();
+  }
+
+  /// Helper method to check if two dates are the same day
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   /// Handles note text changes

@@ -291,18 +291,17 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             children: [
               // Image header
               Container(
-                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
                   ),
                 ),
                 child: Column(
                   children: [
-                    Text(title, style: AppTypography.bodyMedium(context)),
-                    Text(subtitle, style: AppTypography.bodySmall(context)),
+                    Text(title, style: AppTypography.bodyLarge(context)),
+                    Text(subtitle, style: AppTypography.bodyMedium(context)),
                   ],
                 ),
               ),
@@ -379,8 +378,8 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(12),
-                    bottomRight: Radius.circular(12),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
                   ),
                 ),
                 child: Text(
@@ -442,8 +441,8 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
               ),
             ),
             child: Column(
@@ -472,8 +471,8 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
               borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12),
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
               ),
             ),
             child: const Text(

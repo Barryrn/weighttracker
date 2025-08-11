@@ -10,10 +10,12 @@ import 'entry_form_provider.dart';
 class FatPercentageEntryData {
   final double? fatPercentage;
   final TextEditingController fatPercentageController;
+  final DateTime lastUpdatedDate; // Added to track date changes
 
   FatPercentageEntryData({
     this.fatPercentage,
     required this.fatPercentageController,
+    required this.lastUpdatedDate, // Added parameter
   });
 }
 
@@ -27,6 +29,7 @@ class FatPercentageEntryViewModel
     : super(
         FatPercentageEntryData(
           fatPercentageController: TextEditingController(),
+          lastUpdatedDate: DateTime.now(), // Initialize with current date
         ),
       ) {
     _initializeController();
@@ -47,6 +50,7 @@ class FatPercentageEntryViewModel
   void _logState() {
     developer.log('===== Fat Percentage Entry ViewModel State ====');
     developer.log('Fat Percentage: ${state.fatPercentage}');
+    developer.log('Last Updated Date: ${state.lastUpdatedDate}'); // Log the date
     developer.log('===================================');
   }
 
@@ -65,6 +69,7 @@ class FatPercentageEntryViewModel
     state = FatPercentageEntryData(
       fatPercentage: bodyEntry.fatPercentage,
       fatPercentageController: state.fatPercentageController,
+      lastUpdatedDate: bodyEntry.date, // Set initial date
     );
 
     _logState();
@@ -73,32 +78,53 @@ class FatPercentageEntryViewModel
   /// Updates the controller when the underlying data changes
   void _updateController() {
     final bodyEntry = ref.read(bodyEntryProvider);
+    final dateChanged = !_isSameDay(state.lastUpdatedDate, bodyEntry.date);
 
-    // Don't update controller if user is currently typing (controller has focus)
-    if (state.fatPercentageController.text.isNotEmpty &&
-        bodyEntry.fatPercentage == null) {
-      // User just cleared the field, don't interfere
-      return;
-    }
-
-    // Update fat percentage controller
-    if (bodyEntry.fatPercentage != null) {
-      state.fatPercentageController.text = _formatFatPercentage(
-        bodyEntry.fatPercentage!,
-      );
-    } else {
-      if (state.fatPercentageController.text.isNotEmpty) {
+    // Always update if the date has changed, regardless of current text
+    if (dateChanged) {
+      if (bodyEntry.fatPercentage != null) {
+        state.fatPercentageController.text = _formatFatPercentage(
+          bodyEntry.fatPercentage!,
+        );
+      } else {
         state.fatPercentageController.text = '';
+      }
+    } else {
+      // Original behavior for same-day updates
+      // Don't update controller if user is currently typing (controller has focus)
+      if (state.fatPercentageController.text.isNotEmpty &&
+          bodyEntry.fatPercentage == null) {
+        // User just cleared the field, don't interfere
+        return;
+      }
+
+      // Update fat percentage controller
+      if (bodyEntry.fatPercentage != null) {
+        state.fatPercentageController.text = _formatFatPercentage(
+          bodyEntry.fatPercentage!,
+        );
+      } else {
+        if (state.fatPercentageController.text.isNotEmpty) {
+          state.fatPercentageController.text = '';
+        }
       }
     }
 
-    // Update state
+    // Update state with new date
     state = FatPercentageEntryData(
       fatPercentage: bodyEntry.fatPercentage,
       fatPercentageController: state.fatPercentageController,
+      lastUpdatedDate: bodyEntry.date, // Update the date
     );
 
     _logState();
+  }
+
+  /// Helper method to check if two dates are the same day
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year && 
+           date1.month == date2.month && 
+           date1.day == date2.day;
   }
 
   /// Format fat percentage to avoid automatic decimal point for whole numbers
