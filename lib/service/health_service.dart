@@ -11,11 +11,14 @@ import '../repository/weight_repository.dart';
 /// Service class for handling health data integration with Apple Health and Google Health Connect
 class HealthService {
   final Health _health = Health();
-  Future<void> initialize() async {
-    await _health.configure(); // no parameters here anymore
-  }
-
   final WeightRepository _weightRepository;
+
+  /// Set to track synced entries to prevent duplicate writes
+  final Set<String> _syncedEntries = <String>{};
+
+  Future<void> initialize() async {
+    await _health.configure();
+  }
 
   // Define the types of data we want to access
   static const List<HealthDataType> _types = [
@@ -85,7 +88,7 @@ class HealthService {
     }
   }
 
-  /// Sync weight data from the app to health services
+  /// Sync weight data from the app to health services with duplicate prevention
   /// @param entries List of BodyEntry objects to sync
   /// @return Future<bool> Whether the sync was successful
   Future<bool> syncWeightDataToHealth(List<BodyEntry> entries) async {
@@ -97,36 +100,105 @@ class HealthService {
 
       for (final entry in entries) {
         if (entry.weight != null) {
-          // Write weight data
-          final weightSuccess = await _health.writeHealthData(
-            value: entry.weight!, // Required value parameter
-            type: HealthDataType.WEIGHT, // Required type parameter
-            startTime: entry.date, // Required startTime parameter
-            endTime: entry.date, // Required endTime parameter
+          // Create precise timestamp with seconds precision to avoid duplicates
+          final preciseStartTime = DateTime(
+            entry.date.year,
+            entry.date.month,
+            entry.date.day,
+            12, // Use noon to avoid timezone issues
+            0,
+            0,
           );
+          final preciseEndTime = preciseStartTime;
+
+          // Create unique identifier for this entry
+          final entryId =
+              '${DateFormat('yyyy-MM-dd').format(entry.date)}_${entry.weight}';
+
+          // Skip if already synced
+          if (_syncedEntries.contains(entryId)) {
+            continue;
+          }
+
+          // Check for existing data before writing weight
+          final existingWeightData = await _checkExistingHealthData(
+            HealthDataType.WEIGHT,
+            preciseStartTime,
+            preciseEndTime,
+            entry.weight!,
+          );
+
+          bool weightSuccess = true;
+          if (!existingWeightData) {
+            weightSuccess = await _health.writeHealthData(
+              value: entry.weight!,
+              type: HealthDataType.WEIGHT,
+              startTime: preciseStartTime,
+              endTime: preciseEndTime,
+            );
+
+            if (weightSuccess) {
+              _syncedEntries.add(entryId);
+            }
+          }
 
           // Write body fat percentage data if available
           bool fatSuccess = true;
           if (entry.fatPercentage != null) {
-            // Multiply by 10 to convert from decimal to percentage
             final healthFatPercentage = entry.fatPercentage! * 10;
-            fatSuccess = await _health.writeHealthData(
-              value: healthFatPercentage, // Fat percentage multiplied by 10
-              type: HealthDataType.BODY_FAT_PERCENTAGE,
-              startTime: entry.date, // Required startTime parameter
-              endTime: entry.date, // Required endTime parameter
-            );
+            final fatEntryId =
+                '${DateFormat('yyyy-MM-dd').format(entry.date)}_fat_${entry.fatPercentage}';
+
+            if (!_syncedEntries.contains(fatEntryId)) {
+              final existingFatData = await _checkExistingHealthData(
+                HealthDataType.BODY_FAT_PERCENTAGE,
+                preciseStartTime,
+                preciseEndTime,
+                healthFatPercentage,
+              );
+
+              if (!existingFatData) {
+                fatSuccess = await _health.writeHealthData(
+                  value: healthFatPercentage,
+                  type: HealthDataType.BODY_FAT_PERCENTAGE,
+                  startTime: preciseStartTime,
+                  endTime: preciseEndTime,
+                );
+
+                if (fatSuccess) {
+                  _syncedEntries.add(fatEntryId);
+                }
+              }
+            }
           }
 
           // Write BMI data if available
           bool bmiSuccess = true;
           if (entry.bmi != null) {
-            bmiSuccess = await _health.writeHealthData(
-              value: entry.bmi!, // BMI value
-              type: HealthDataType.BODY_MASS_INDEX,
-              startTime: entry.date, // Required startTime parameter
-              endTime: entry.date, // Required endTime parameter
-            );
+            final bmiEntryId =
+                '${DateFormat('yyyy-MM-dd').format(entry.date)}_bmi_${entry.bmi}';
+
+            if (!_syncedEntries.contains(bmiEntryId)) {
+              final existingBmiData = await _checkExistingHealthData(
+                HealthDataType.BODY_MASS_INDEX,
+                preciseStartTime,
+                preciseEndTime,
+                entry.bmi!,
+              );
+
+              if (!existingBmiData) {
+                bmiSuccess = await _health.writeHealthData(
+                  value: entry.bmi!,
+                  type: HealthDataType.BODY_MASS_INDEX,
+                  startTime: preciseStartTime,
+                  endTime: preciseEndTime,
+                );
+
+                if (bmiSuccess) {
+                  _syncedEntries.add(bmiEntryId);
+                }
+              }
+            }
           }
 
           allSuccess = allSuccess && weightSuccess && fatSuccess && bmiSuccess;
@@ -140,11 +212,65 @@ class HealthService {
     }
   }
 
-  /// Fetch weight data from health services
+  /// Check if similar health data already exists in the specified time range
+  /// @param type The health data type to check
+  /// @param startTime Start time for the check
+  /// @param endTime End time for the check
+  /// @param value The value to compare against
+  /// @return Future<bool> True if similar data exists, false otherwise
+  Future<bool> _checkExistingHealthData(
+    HealthDataType type,
+    DateTime startTime,
+    DateTime endTime,
+    double value,
+  ) async {
+    try {
+      // Expand the time range slightly to catch nearby entries
+      final checkStartTime = startTime.subtract(const Duration(minutes: 30));
+      final checkEndTime = endTime.add(const Duration(minutes: 30));
+
+      final existingData = await _health.getHealthDataFromTypes(
+        types: [type],
+        startTime: checkStartTime,
+        endTime: checkEndTime,
+      );
+
+      // Check if any existing data has a similar value (within 0.1% tolerance)
+      for (final data in existingData) {
+        double? existingValue;
+
+        if (data.value is num) {
+          existingValue = (data.value as num).toDouble();
+        } else if (data.value.toString().contains('numericValue:')) {
+          final valueStr = data.value.toString();
+          final regex = RegExp(r'numericValue: (\d+\.?\d*)');
+          final match = regex.firstMatch(valueStr);
+          if (match != null && match.groupCount >= 1) {
+            existingValue = double.tryParse(match.group(1)!);
+          }
+        }
+
+        if (existingValue != null) {
+          // Check if values are similar (within 0.1% tolerance)
+          final tolerance = value * 0.001; // 0.1% tolerance
+          if ((existingValue - value).abs() <= tolerance) {
+            return true; // Similar data exists
+          }
+        }
+      }
+
+      return false; // No similar data found
+    } catch (e) {
+      debugPrint('Error checking existing health data: $e');
+      return false; // Assume no existing data on error
+    }
+  }
+
+  /// Fetch weight data from health services with improved timestamp handling
   /// @param startDate The start date for fetching data
   /// @param endDate The end date for fetching data
   /// @return Future<List<BodyEntry>> List of BodyEntry objects from health services
-  Future<List<BodyEntry>> fetchWeightDataFromHealth(
+  Future<List<BodyEntry>> fetchtDataFromHealth(
     DateTime startDate,
     DateTime endDate,
   ) async {
@@ -304,24 +430,33 @@ class HealthService {
     }
   }
 
+  /// Clear the synced entries cache (useful for testing or manual reset)
+  void clearSyncedEntriesCache() {
+    _syncedEntries.clear();
+  }
+
   /// Perform a two-way sync between the app and health services
   /// @return Future<bool> Whether the sync was successful
   Future<bool> performTwoWaySync() async {
     try {
-      //print('Starting two-way sync');
+      debugPrint('Starting two-way sync');
       final authorized = await requestAuthorization();
       if (!authorized) {
-        //print('Health data authorization failed during sync');
+        debugPrint('Health data authorization failed during sync');
         return false;
       }
-      //print('Health data authorization successful for sync');
+      debugPrint('Health data authorization successful for sync');
 
-      // Get the date range for syncing
+      // Get the date range for syncing - use a wider range to ensure we get all data
       final earliestDate =
           await _weightRepository.getEarliestEntry() ??
-          DateTime.now().subtract(const Duration(days: 365));
-      final latestDate = DateTime.now();
-      //print('Sync date range: $earliestDate to $latestDate');
+          DateTime.now().subtract(
+            const Duration(days: 730),
+          ); // 2 years instead of 1
+      final latestDate = DateTime.now().add(
+        const Duration(days: 1),
+      ); // Include today
+      debugPrint('Sync date range: $earliestDate to $latestDate');
 
       // Step 1: Fetch all entries from our app database
       final appEntries = await _weightRepository.getAllBodyEntries();
@@ -334,7 +469,7 @@ class HealthService {
 
       // Step 3: Fetch data from health services
       //print('Fetching data from health services...');
-      final healthEntries = await fetchWeightDataFromHealth(
+      final healthEntries = await fetchtDataFromHealth(
         earliestDate,
         latestDate,
       );
@@ -346,26 +481,32 @@ class HealthService {
       bool syncSuccess = true;
 
       for (final healthEntry in healthEntries) {
-        //print('Processing health entry: date=${healthEntry.date}, weight=${healthEntry.weight}');
+        // Skip entries that don't have essential data (weight is required)
+        if (healthEntry.weight == null) {
+          debugPrint(
+            'Skipping health entry with null weight for date: ${healthEntry.date}',
+          );
+          continue;
+        }
+
         // Check if this entry already exists in our database
         final existingEntryId = await DatabaseHelper().findEntryIdByDate(
           healthEntry.date,
         );
-        //print('Existing entry ID for date ${healthEntry.date}: $existingEntryId');
 
         if (existingEntryId == null) {
-          //print('New entry from health services, adding to database');
           // This is a new entry from health services, add it to our database
-          final entryMap = healthEntry.toMap();
-          //print('Entry map for insertion: $entryMap');
-          final success = await db.insert('body_entries', entryMap);
-          //print('Insert result: $success');
-          syncSuccess = syncSuccess && success > 0;
+          try {
+            final insertResult = await DatabaseHelper().insertBodyEntry(
+              healthEntry,
+            );
+            syncSuccess = syncSuccess && insertResult > 0;
+          } catch (e) {
+            debugPrint('Error inserting health entry: $e');
+            syncSuccess = false;
+          }
         } else {
-          //print('Entry exists with ID: $existingEntryId, updating');
           // This entry already exists, check if values are identical before updating
-
-          // First, get the existing entry
           final existingEntry = await DatabaseHelper().findEntryByDate(
             healthEntry.date,
           );
@@ -375,38 +516,31 @@ class HealthService {
             bool isDuplicate = _isIdenticalEntry(existingEntry, healthEntry);
 
             if (isDuplicate) {
-              //print('Skipping duplicate entry with identical values');
               continue; // Skip this entry as it's a duplicate
             }
 
-            // Create a merged entry that preserves existing data
+            // Create a merged entry that preserves existing data and only updates non-null health data
             final mergedEntry = existingEntry.copyWith(
-              weight: healthEntry.weight,
-              fatPercentage: healthEntry.fatPercentage,
-              bmi: healthEntry.bmi,
+              // Only update weight if health entry has a valid weight
+              weight: healthEntry.weight ?? existingEntry.weight,
+              // Only update fat percentage if health entry has it
+              fatPercentage:
+                  healthEntry.fatPercentage ?? existingEntry.fatPercentage,
+              // Only update BMI if health entry has it
+              bmi: healthEntry.bmi ?? existingEntry.bmi,
             );
 
-            // Update with the merged data
-            final entryMap = mergedEntry.toMap();
-            //print('Entry map for update: $entryMap');
-            final success = await db.update(
-              'body_entries',
-              entryMap,
-              where: 'id = ?',
-              whereArgs: [existingEntryId],
-            );
-            //print('Update result: $success');
-            syncSuccess = syncSuccess && success > 0;
-          } else {
-            // This shouldn't happen, but just in case
-            final entryMap = healthEntry.toMap();
-            final success = await db.update(
-              'body_entries',
-              entryMap,
-              where: 'id = ?',
-              whereArgs: [existingEntryId],
-            );
-            syncSuccess = syncSuccess && success > 0;
+            // Use DatabaseHelper's updateBodyEntry method
+            try {
+              final updateResult = await DatabaseHelper().updateBodyEntry(
+                existingEntryId,
+                mergedEntry,
+              );
+              syncSuccess = syncSuccess && updateResult > 0;
+            } catch (e) {
+              debugPrint('Error updating health entry: $e');
+              syncSuccess = false;
+            }
           }
         }
       }

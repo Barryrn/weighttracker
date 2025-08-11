@@ -42,7 +42,7 @@ When data is entered in the WeightTracker app:
 
 When syncing from the health platform to the app:
 
-1. The app calls `fetchWeightDataFromHealth()` which:
+1. The app calls `fetchtDataFromHealth()` which:
    - Retrieves weight data from the health platform for a specified date range
    - Retrieves body fat percentage data for the same date range
    - Combines this data into BodyEntry objects
@@ -55,7 +55,7 @@ The complete two-way sync process is implemented in the `performTwoWaySync()` me
 2. Determine the date range for syncing (from earliest entry to current date)
 3. Fetch all entries from the app's database
 4. Upload app data to the health platform using `syncWeightDataToHealth()`
-5. Download data from the health platform using `fetchWeightDataFromHealth()`
+5. Download data from the health platform using `fetchtDataFromHealth()`
 6. For each entry downloaded from the health platform:
    - Check if an entry with the same date already exists in the app's database
    - If no matching entry exists, add the new entry to the database
