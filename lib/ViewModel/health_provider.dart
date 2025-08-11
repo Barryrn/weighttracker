@@ -158,7 +158,7 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
 
     try {
       state = state.copyWith(isSyncing: true, clearError: true);
-      final entries = await _healthService.fetchWeightDataFromHealth(
+      final entries = await _healthService.fetchtDataFromHealth(
         startDate,
         endDate,
       );
@@ -199,15 +199,17 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
       } else {
         state = state.copyWith(
           isSyncing: false,
-          errorMessage: 'Error performing two-way sync',
+          errorMessage:
+              'Two-way sync failed. Please check your health data permissions and try again.',
         );
+        debugPrint('Two-way sync failed - health service returned false');
       }
 
       return success;
     } catch (e) {
       state = state.copyWith(
         isSyncing: false,
-        errorMessage: 'Error performing two-way sync: $e',
+        errorMessage: 'Error performing two-way sync: ${e.toString()}',
       );
       debugPrint('Error performing two-way sync: $e');
       return false;

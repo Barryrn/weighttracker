@@ -210,11 +210,11 @@
 		</data>
 		<key>Modules/DKImagePickerController.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		TpH6UZrw09tl8q1ZJanUGtM6X8o=
+		tknZkuvVXtSm5zWtp3rD7yVexxI=
 		</data>
 		<key>Modules/DKImagePickerController.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		JcU41o9y95Q7ArY5TnlWIaXgpKM=
+		frV/nv02wn3GZhPupYizpSSQXgE=
 		</data>
 		<key>Modules/DKImagePickerController.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
@@ -566,22 +566,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TpH6UZrw09tl8q1ZJanUGtM6X8o=
+			tknZkuvVXtSm5zWtp3rD7yVexxI=
 			</data>
 			<key>hash2</key>
 			<data>
-			rc8/GOwdu2h8lZDfyiMndL39fJwWPRzn0VTGHpQoo4U=
+			+S74HtoTObdJbBBsGHtOIWWSwqrBcPmcH4ju2fN75F0=
 			</data>
 		</dict>
 		<key>Modules/DKImagePickerController.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JcU41o9y95Q7ArY5TnlWIaXgpKM=
+			frV/nv02wn3GZhPupYizpSSQXgE=
 			</data>
 			<key>hash2</key>
 			<data>
-			ArhO8VlQvtk9p7wowgJ9+wCE+hSM3l/OSP8CoN3GdF4=
+			L/g5bsBvxUbMQIgZMnBuCpMATdsmJsu+MYuccGnhPa4=
 			</data>
 		</dict>
 		<key>Modules/DKImagePickerController.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
