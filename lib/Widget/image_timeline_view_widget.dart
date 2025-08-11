@@ -6,14 +6,22 @@ import 'package:weigthtracker/viewmodel/unit_conversion_provider.dart';
 import '../ViewModel/image_timeline_view_model.dart';
 import '../ViewModel/image_export_view_model.dart';
 import '../theme.dart';
+import 'image_timeline_filter.dart';
 
 /// A widget that displays the timeline content of progress images.
 /// Does NOT include a Scaffold, so you can use it inside any Scaffold.
-class ImageTimelineViewWidget extends ConsumerWidget {
+class ImageTimelineViewWidget extends ConsumerStatefulWidget {
   const ImageTimelineViewWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ImageTimelineViewWidget> createState() => _ImageTimelineViewWidgetState();
+}
+
+class _ImageTimelineViewWidgetState extends ConsumerState<ImageTimelineViewWidget> {
+  bool _showFilters = false;
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(imageTimelineProvider);
     final viewModel = ref.read(imageTimelineProvider.notifier);
     final currentEntry = viewModel.getCurrentEntry();
@@ -24,80 +32,119 @@ class ImageTimelineViewWidget extends ConsumerWidget {
       return const Center(child: CircularProgressIndicator());
     } else if (state.errorMessage != null) {
       return Center(child: Text(state.errorMessage!));
-    } else if (state.entries.isEmpty) {
-      return const Center(child: Text('No images available'));
     }
-
+    
+    // Always show the filter toggle and filter section, even when no entries match
     return Column(
       children: [
-        // View selector with animated highlight
-        _buildAnimatedSegmentedControl(context, state.selectedView, viewModel),
-        const SizedBox(height: 16),
-        // Image display - Updated with card-like appearance
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  spreadRadius: 1,
+        // Filter toggle button
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton.icon(
+              icon: Icon(
+                _showFilters ? Icons.filter_list_off : Icons.filter_list,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              label: Text(
+                _showFilters ? 'Hide Filters' : 'Show Filters',
+                style: AppTypography.bodyMedium(context).copyWith(
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-              ],
+              ),
+              onPressed: () {
+                setState(() {
+                  _showFilters = !_showFilters;
+                });
+              },
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: _buildImageDisplay(context, ref, viewModel),
-            ),
-          ),
+          ],
         ),
-
-        // Date and weight display - Updated with modern styling
-        if (currentEntry != null)
-          Container(
-            margin: const EdgeInsets.only(top: 16.0, bottom: 8.0),
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8.0,
-            ),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryLight,
-              borderRadius: BorderRadius.circular(10),
-            ),
+        
+        // Filter section - always show if _showFilters is true
+        if (_showFilters) const ImageTimelineFilter(),
+        const SizedBox(height: 16),
+        
+        // Show message when no entries match the filter criteria
+        if (state.entries.isEmpty) 
+          Expanded(
+            child: Center(child: Text('No images match the current filter criteria')),
+          )
+        else
+          Expanded(
             child: Column(
               children: [
-                Text(
-                  DateFormat('MM/dd/yyyy').format(currentEntry.date),
-                  style: AppTypography.bodyLarge(
-                    context,
-                  ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
-                ),
-                if (currentEntry.weight != null)
-                  Container(
-                    margin: const EdgeInsets.only(top: 4.0),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 4.0,
-                    ),
+                // View selector with animated highlight
+                _buildAnimatedSegmentedControl(context, state.selectedView, viewModel),
+                const SizedBox(height: 16),
+                // Image display - Updated with card-like appearance
+                Expanded(
+                  child: Container(
                     decoration: BoxDecoration(
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          spreadRadius: 1,
+                        ),
+                      ],
                     ),
-                    child: Text(
-                      'Weight: ${(unitPreferences.useMetricWeight ? currentEntry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(currentEntry.weight!)).toStringAsFixed(1)} ${unitPreferences.useMetricWeight ? 'kg' : 'lb'}',
-                      style: AppTypography.subtitle2(context).copyWith(
-                        color: Theme.of(context).colorScheme.textPrimary,
-                      ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: _buildImageDisplay(context, ref, viewModel),
                     ),
                   ),
+                ),
+
+                // Date and weight display - Updated with modern styling
+                if (currentEntry != null)
+                  Container(
+                    margin: const EdgeInsets.only(top: 16.0, bottom: 8.0),
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 8.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryLight,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          DateFormat('MM/dd/yyyy').format(currentEntry.date),
+                          style: AppTypography.bodyLarge(
+                            context,
+                          ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
+                        ),
+                        if (currentEntry.weight != null)
+                          Container(
+                            margin: const EdgeInsets.only(top: 4.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 4.0,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              'Weight: ${(unitPreferences.useMetricWeight ? currentEntry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(currentEntry.weight!)).toStringAsFixed(1)} ${unitPreferences.useMetricWeight ? 'kg' : 'lb'}',
+                              style: AppTypography.subtitle2(context).copyWith(
+                                color: Theme.of(context).colorScheme.textPrimary,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+
+                // Navigation buttons
+                Container(child: _buildNavigationButtons(context, state, viewModel)),
               ],
             ),
           ),
-
-        // Navigation buttons
-        Container(child: _buildNavigationButtons(context, state, viewModel)),
       ],
     );
   }
