@@ -10,8 +10,13 @@ import 'entry_form_provider.dart';
 class CalorieEntryData {
   final double? calorie;
   final TextEditingController calorieController;
+  final DateTime lastUpdatedDate; // Added to track date changes
 
-  CalorieEntryData({this.calorie, required this.calorieController});
+  CalorieEntryData({
+    this.calorie, 
+    required this.calorieController,
+    required this.lastUpdatedDate, // Added parameter
+  });
 }
 
 /// A ViewModel that manages calorie entry information.
@@ -20,7 +25,12 @@ class CalorieEntryData {
 /// and transforming it into a format that's ready for display in the View.
 class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
   CalorieEntryViewModel(this.ref)
-    : super(CalorieEntryData(calorieController: TextEditingController())) {
+    : super(
+        CalorieEntryData(
+          calorieController: TextEditingController(),
+          lastUpdatedDate: DateTime.now(), // Initialize with current date
+        )
+      ) {
     _initializeController();
 
     // Listen for changes in the providers that affect calorie entry
@@ -39,6 +49,7 @@ class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
   void _logState() {
     developer.log('===== Calorie Entry ViewModel State =====');
     developer.log('Calorie: ${state.calorie}');
+    developer.log('Last Updated Date: ${state.lastUpdatedDate}'); // Log the last updated date
     developer.log('===================================');
   }
 
@@ -55,6 +66,7 @@ class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
     state = CalorieEntryData(
       calorie: bodyEntry.calorie,
       calorieController: state.calorieController,
+      lastUpdatedDate: bodyEntry.date, // Set initial date
     );
 
     _logState();
@@ -63,20 +75,31 @@ class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
   /// Updates the controller when the underlying data changes
   void _updateController() {
     final bodyEntry = ref.read(bodyEntryProvider);
+    final dateChanged = !_isSameDay(state.lastUpdatedDate, bodyEntry.date);
 
-    // Don't update controller if user is currently typing (controller has focus)
-    if (state.calorieController.text.isNotEmpty && bodyEntry.calorie == null) {
-      // User just cleared the field, don't interfere
-      return;
-    }
-
-    // Update calorie controller
-    if (bodyEntry.calorie != null) {
-      state.calorieController.text = bodyEntry.calorie!.toInt().toString();
-    } else {
-      // Only clear if not already empty
-      if (state.calorieController.text.isNotEmpty) {
+    // Always update controller if the date has changed, regardless of current text
+    if (dateChanged) {
+      if (bodyEntry.calorie != null) {
+        state.calorieController.text = bodyEntry.calorie!.toInt().toString();
+      } else {
         state.calorieController.text = '';
+      }
+    } else {
+      // Original logic for same-day updates
+      // Don't update controller if user is currently typing (controller has focus)
+      if (state.calorieController.text.isNotEmpty && bodyEntry.calorie == null) {
+        // User just cleared the field, don't interfere
+        return;
+      }
+
+      // Update calorie controller
+      if (bodyEntry.calorie != null) {
+        state.calorieController.text = bodyEntry.calorie!.toInt().toString();
+      } else {
+        // Only clear if not already empty
+        if (state.calorieController.text.isNotEmpty) {
+          state.calorieController.text = '';
+        }
       }
     }
 
@@ -84,9 +107,17 @@ class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
     state = CalorieEntryData(
       calorie: bodyEntry.calorie,
       calorieController: state.calorieController,
+      lastUpdatedDate: bodyEntry.date, // Update the last updated date
     );
 
     _logState();
+  }
+
+  /// Helper method to check if two dates are the same day
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year && 
+           date1.month == date2.month && 
+           date1.day == date2.day;
   }
 
   /// Handles calorie text changes

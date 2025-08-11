@@ -11,11 +11,13 @@ class TagEntryData {
   final List<String> tags;
   final TextEditingController tagController;
   final FocusNode focusNode;
+  final DateTime lastUpdatedDate; // Added to track date changes
 
   TagEntryData({
     required this.tags,
     required this.tagController,
     required this.focusNode,
+    required this.lastUpdatedDate, // Added parameter
   });
 }
 
@@ -29,6 +31,7 @@ class TagEntryViewModel extends StateNotifier<TagEntryData> {
       tags: [],
       tagController: TextEditingController(),
       focusNode: FocusNode(),
+      lastUpdatedDate: DateTime.now(), // Initialize with current date
     )
   ) {
     _initializeData();
@@ -50,6 +53,7 @@ class TagEntryViewModel extends StateNotifier<TagEntryData> {
   void _logState() {
     developer.log('===== Tag Entry ViewModel State =====');
     developer.log('Tags: ${state.tags}');
+    developer.log('Last Updated Date: ${state.lastUpdatedDate}'); // Log the date
     developer.log('===================================');
   }
 
@@ -63,6 +67,7 @@ class TagEntryViewModel extends StateNotifier<TagEntryData> {
       tags: currentTags,
       tagController: state.tagController,
       focusNode: state.focusNode,
+      lastUpdatedDate: bodyEntry.date, // Set initial date
     );
 
     _logState();
@@ -72,15 +77,32 @@ class TagEntryViewModel extends StateNotifier<TagEntryData> {
   void _updateData() {
     final bodyEntry = ref.read(bodyEntryProvider);
     final currentTags = bodyEntry.tags ?? [];
+    final dateChanged = !_isSameDay(state.lastUpdatedDate, bodyEntry.date);
 
-    // Update state
+    // Always update if the date has changed
+    // For tags, we just need to update the list, not the controller text
+    
+    // Update state with new date
     state = TagEntryData(
       tags: currentTags,
       tagController: state.tagController,
       focusNode: state.focusNode,
+      lastUpdatedDate: bodyEntry.date, // Update the date
     );
 
+    // If date changed, clear the tag controller
+    if (dateChanged && state.tagController.text.isNotEmpty) {
+      state.tagController.clear();
+    }
+
     _logState();
+  }
+
+  /// Helper method to check if two dates are the same day
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year && 
+           date1.month == date2.month && 
+           date1.day == date2.day;
   }
 
   /// Adds a new tag to the list if it's not empty and not already in the list

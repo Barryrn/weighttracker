@@ -175,7 +175,7 @@ class WeightProgressWidget extends ConsumerWidget {
       color: Theme.of(context).colorScheme.background1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
-        padding: const EdgeInsets.all(15), // You can adjust the padding value
+        padding: const EdgeInsets.all(12),
         child: Column(
           children: [
             Text(
@@ -187,7 +187,7 @@ class WeightProgressWidget extends ConsumerWidget {
             const SizedBox(height: 6),
             Text(
               value,
-              style: AppTypography.subtitle1(
+              style: AppTypography.subtitle2(
                 context,
               ).copyWith(color: valueColor),
             ),

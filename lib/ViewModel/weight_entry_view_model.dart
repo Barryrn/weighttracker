@@ -13,12 +13,14 @@ class WeightEntryData {
   final String unitSuffix;
   final bool useMetricWeight;
   final TextEditingController weightController;
+  final DateTime lastUpdatedDate; // Added to track date changes
 
   WeightEntryData({
     this.weight,
     required this.unitSuffix,
     required this.useMetricWeight,
     required this.weightController,
+    required this.lastUpdatedDate, // Added parameter
   });
 }
 
@@ -33,6 +35,7 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
           unitSuffix: 'kg',
           useMetricWeight: true,
           weightController: TextEditingController(),
+          lastUpdatedDate: DateTime.now(), // Initialize with current date
         ),
       ) {
     _initializeController();
@@ -56,6 +59,7 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
     developer.log('Weight: ${state.weight}');
     developer.log('Unit Suffix: ${state.unitSuffix}');
     developer.log('Use Metric Weight: ${state.useMetricWeight}');
+    developer.log('Last Updated Date: ${state.lastUpdatedDate}'); // Log the last updated date
     developer.log('===================================');
   }
 
@@ -81,6 +85,7 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
       unitSuffix: unitSuffix,
       useMetricWeight: unitPrefs.useMetricWeight,
       weightController: state.weightController,
+      lastUpdatedDate: bodyEntry.date, // Set initial date
     );
 
     _logState();
@@ -90,30 +95,44 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
   void _updateController() {
     final bodyEntry = ref.read(bodyEntryProvider);
     final unitPrefs = ref.read(unitConversionProvider);
+    final dateChanged = !_isSameDay(state.lastUpdatedDate, bodyEntry.date);
 
-    // Don't update controller if user is currently typing (controller has focus)
-    if (state.weightController.text.isNotEmpty && bodyEntry.weight == null) {
-      // User just cleared the field, don't interfere
-      return;
-    }
-
-    // Update weight controller
-    if (bodyEntry.weight != null) {
-      final displayWeight = unitPrefs.useMetricWeight
-          ? bodyEntry.weight!
-          : bodyEntry.weight! / 0.45359237;
-
-      // Format without automatic decimal point for whole numbers
-      final formattedWeight = _formatWeight(displayWeight);
-
-      // Only update if the formatted weight is different from current text
-      if (state.weightController.text != formattedWeight) {
-        state.weightController.text = formattedWeight;
+    // Always update controller if the date has changed, regardless of current text
+    if (dateChanged) {
+      if (bodyEntry.weight != null) {
+        final displayWeight = unitPrefs.useMetricWeight
+            ? bodyEntry.weight!
+            : bodyEntry.weight! / 0.45359237;
+        state.weightController.text = _formatWeight(displayWeight);
+      } else {
+        state.weightController.text = '';
       }
     } else {
-      // Only clear if not already empty
-      if (state.weightController.text.isNotEmpty) {
-        state.weightController.text = '';
+      // Original logic for same-day updates
+      // Don't update controller if user is currently typing (controller has focus)
+      if (state.weightController.text.isNotEmpty && bodyEntry.weight == null) {
+        // User just cleared the field, don't interfere
+        return;
+      }
+
+      // Update weight controller
+      if (bodyEntry.weight != null) {
+        final displayWeight = unitPrefs.useMetricWeight
+            ? bodyEntry.weight!
+            : bodyEntry.weight! / 0.45359237;
+
+        // Format without automatic decimal point for whole numbers
+        final formattedWeight = _formatWeight(displayWeight);
+
+        // Only update if the formatted weight is different from current text
+        if (state.weightController.text != formattedWeight) {
+          state.weightController.text = formattedWeight;
+        }
+      } else {
+        // Only clear if not already empty
+        if (state.weightController.text.isNotEmpty) {
+          state.weightController.text = '';
+        }
       }
     }
 
@@ -123,9 +142,17 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
       unitSuffix: state.unitSuffix,
       useMetricWeight: state.useMetricWeight,
       weightController: state.weightController,
+      lastUpdatedDate: bodyEntry.date, // Update the last updated date
     );
 
     _logState();
+  }
+
+  /// Helper method to check if two dates are the same day
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year && 
+           date1.month == date2.month && 
+           date1.day == date2.day;
   }
 
   /// Updates the unit preferences when they change
@@ -140,6 +167,7 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
       unitSuffix: unitSuffix,
       useMetricWeight: unitPrefs.useMetricWeight,
       weightController: state.weightController,
+      lastUpdatedDate: state.lastUpdatedDate, // Preserve the last updated date
     );
 
     // Update controller with converted value
