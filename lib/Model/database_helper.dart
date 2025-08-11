@@ -194,21 +194,24 @@ class DatabaseHelper {
     try {
       Database db = await database;
 
-      // Normalize the date to start of day to ensure consistent comparison
+      // Use the exact date and time instead of normalizing to start of day
+      final exactDateTime = bodyEntry.date;
+      
+      // Convert the exact date and time to milliseconds
+      final dateMillis = exactDateTime.millisecondsSinceEpoch;
+
+      // Check if an entry already exists for this day (still check by day for updates)
       final normalizedDate = DateTime(
         bodyEntry.date.year,
         bodyEntry.date.month,
         bodyEntry.date.day,
       );
-
-      // Convert the normalized date to milliseconds
-      final dateMillis = normalizedDate.millisecondsSinceEpoch;
-
-      // Check if an entry already exists for this exact date
+      final normalizedDateMillis = normalizedDate.millisecondsSinceEpoch;
+      
       final List<Map<String, dynamic>> existingEntries = await db.query(
         tableBodyEntries,
-        where: '$columnDate = ?',  // Changed to exact match instead of range
-        whereArgs: [dateMillis],
+        where: '$columnDate >= ? AND $columnDate < ?',
+        whereArgs: [normalizedDateMillis, normalizedDateMillis + 86400000], // +24 hours in milliseconds
       );
 
       // Calculate BMI if weight is available
@@ -228,7 +231,7 @@ class DatabaseHelper {
       // Convert the BodyEntry object to a map for database storage
       Map<String, dynamic> row = {
         columnWeight: bodyEntry.weight,
-        columnDate: dateMillis, // Use normalized date
+        columnDate: dateMillis, // Use exact date with time
         columnFatPercentage: bodyEntry.fatPercentage,
         columnNeckCircumference: bodyEntry.neckCircumference,
         columnWaistCircumference: bodyEntry.waistCircumference,
@@ -243,10 +246,10 @@ class DatabaseHelper {
       };
       print('Inserting into DB: $bodyEntry with BMI: $bmi');
 
-      // If an entry exists for this exact date, update it
+      // If an entry exists for this day, update it
       if (existingEntries.isNotEmpty) {
         final existingId = existingEntries.first[columnId];
-        print('Updating existing entry with ID: $existingId for date: ${normalizedDate.toIso8601String()}');
+        print('Updating existing entry with ID: $existingId for date: ${exactDateTime.toIso8601String()}');
         return await db.update(
           tableBodyEntries,
           row,
@@ -256,7 +259,7 @@ class DatabaseHelper {
       }
       // Otherwise, insert a new entry
       else {
-        print('Creating new entry for date: ${normalizedDate.toIso8601String()}');
+        print('Creating new entry for date: ${exactDateTime.toIso8601String()}');
         return await db.insert(tableBodyEntries, row);
       }
     } catch (e) {
@@ -327,17 +330,16 @@ class DatabaseHelper {
     try {
       Database db = await database;
 
-      // Normalize the date to start of day
-      final normalizedDate = DateTime(
-        bodyEntry.date.year,
-        bodyEntry.date.month,
-        bodyEntry.date.day,
-      );
+      // Use the exact date and time instead of normalizing to start of day
+      final exactDateTime = bodyEntry.date;
+      
+      // Convert the exact date and time to milliseconds
+      final dateMillis = exactDateTime.millisecondsSinceEpoch;
 
       // Convert the BodyEntry object to a map for database storage
       Map<String, dynamic> row = {
         columnWeight: bodyEntry.weight,
-        columnDate: normalizedDate.millisecondsSinceEpoch,
+        columnDate: dateMillis, // Use exact date with time
         columnFatPercentage: bodyEntry.fatPercentage,
         columnNeckCircumference: bodyEntry.neckCircumference,
         columnWaistCircumference: bodyEntry.waistCircumference,
@@ -350,6 +352,7 @@ class DatabaseHelper {
         columnCalorie: bodyEntry.calorie,
       };
 
+      print('Updating entry with ID: $id for date: ${exactDateTime.toIso8601String()}');
       return await db.update(
         tableBodyEntries,
         row,
