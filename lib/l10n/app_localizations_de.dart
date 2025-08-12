@@ -656,4 +656,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get turkish => 'Türkisch';
+
+  @override
+  String get polish => 'Polnisch';
 }

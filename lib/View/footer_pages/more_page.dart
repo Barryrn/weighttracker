@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weigthtracker/Widget/more/language_settings_widget.dart';
 import '../../l10n/app_localizations.dart';
 
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
@@ -51,6 +52,8 @@ class MorePage extends StatelessWidget {
                 const TDEESettingsWidget(),
                 const SizedBox(height: 16),
                 const HealthSettingsWidget(),
+                const SizedBox(height: 16),
+                const LanguageChangeSettignsWidget(),
 
                 // ElevatedButton(
                 //   onPressed: () {

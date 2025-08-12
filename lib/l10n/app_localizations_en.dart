@@ -652,4 +652,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get turkish => 'Turkish';
+
+  @override
+  String get polish => 'Polish';
 }
