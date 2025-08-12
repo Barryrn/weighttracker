@@ -101,21 +101,14 @@ class HealthService {
 
       for (final entry in entries) {
         if (entry.weight != null) {
-          // Create precise timestamp using current time instead of hardcoded noon
-          final now = DateTime.now();
-          final preciseStartTime = DateTime(
-            entry.date.year,
-            entry.date.month,
-            entry.date.day,
-            now.hour, // Use current hour instead of hardcoded 12
-            now.minute, // Use current minute instead of hardcoded 0
-            now.second, // Use current second instead of hardcoded 0
-          );
-          final preciseEndTime = preciseStartTime;
+          // Use the original timestamp from the entry instead of current time
+          final originalTimestamp = entry.date;
+          final preciseStartTime = originalTimestamp;
+          final preciseEndTime = originalTimestamp;
 
           // Create unique identifier for this entry
           final entryId =
-              '${DateFormat('yyyy-MM-dd').format(entry.date)}_${entry.weight}';
+              '${DateFormat('yyyy-MM-dd-HH-mm-ss').format(entry.date)}_${entry.weight}';
 
           // Skip if already synced
           if (_syncedEntries.contains(entryId)) {
@@ -345,13 +338,10 @@ class HealthService {
         //print('Processing weight: dateKey=$dateKey, weight=$weight');
 
         if (weight != null) {
-          final date = DateTime(
-            data.dateFrom.year,
-            data.dateFrom.month,
-            data.dateFrom.day,
-          );
-          //print('Creating BodyEntry with date=$date, weight=$weight');
-          entriesByDate[dateKey] = BodyEntry(date: date, weight: weight);
+          // Use the exact timestamp from Health app instead of normalizing to start of day
+          final exactDate = data.dateFrom; // Preserve the exact time
+          //print('Creating BodyEntry with exact date=$exactDate, weight=$weight');
+          entriesByDate[dateKey] = BodyEntry(date: exactDate, weight: weight);
         } else {
           //print('Failed to parse weight value: ${data.value}');
         }
@@ -620,56 +610,3 @@ Future<bool> hasReadPermissions() async {
     return false;
   }
 }
-
-/// Perform initial historical sync to import all past health data
-/// @return Future<bool> Whether the historical sync was successful
-// Future<bool> performHistoricalSync() async {
-//   try {
-//     debugPrint('Starting historical sync');
-//     final authorized = await requestAuthorization();
-//     if (!authorized) {
-//       debugPrint('Health data authorization failed during historical sync');
-//       return false;
-//     }
-
-//     // Use maximum possible date range for historical data
-//     final earliestDate = DateTime(2014, 1, 1); // Apple Health launch year
-//     final latestDate = DateTime.now().add(const Duration(days: 1));
-//     debugPrint('Historical sync date range: $earliestDate to $latestDate');
-
-//     // Fetch ALL historical data from health services
-//     final healthEntries = await fetchtDataFromHealth(
-//       earliestDate,
-//       latestDate,
-//     );
-//     debugPrint('Historical entries fetched: ${healthEntries.length}');
-
-//     // Process and save historical entries to database
-//     bool syncSuccess = true;
-//     for (final healthEntry in healthEntries) {
-//       if (healthEntry.weight == null) continue;
-
-//       final existingEntryId = await DatabaseHelper().findEntryIdByDate(
-//         healthEntry.date,
-//       );
-
-//       if (existingEntryId == null) {
-//         try {
-//           final insertResult = await DatabaseHelper().insertBodyEntry(
-//             healthEntry,
-//           );
-//           syncSuccess = syncSuccess && insertResult > 0;
-//         } catch (e) {
-//           debugPrint('Error inserting historical entry: $e');
-//           syncSuccess = false;
-//         }
-//       }
-//     }
-
-//     debugPrint('Historical sync completed with success: $syncSuccess');
-//     return syncSuccess;
-//   } catch (e) {
-//     debugPrint('Error during historical sync: $e');
-//     return false;
-//   }
-// }

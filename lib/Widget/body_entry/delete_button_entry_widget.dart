@@ -50,7 +50,13 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
                       // Show success message
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Entry deleted successfully'),
+                          content: Text(
+                            'Entry deleted successfully',
+                            style: TextStyle(
+                              color: Colors.white,
+                              backgroundColor: Colors.red,
+                            ),
+                          ),
                         ),
                       );
 
