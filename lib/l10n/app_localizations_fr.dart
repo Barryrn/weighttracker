@@ -658,5 +658,32 @@ class AppLocalizationsFr extends AppLocalizations {
   String get turkish => 'Turc';
 
   @override
-  String get polish => 'Polir';
+  String get polish => 'Polonais';
+
+  @override
+  String get healthServices => 'Services de santé';
+
+  @override
+  String get availableOnYourDevice => 'Disponible sur votre appareil';
+
+  @override
+  String get notAvailableOnYourDevice => 'Non disponible sur votre appareil';
+
+  @override
+  String get authorization => 'Autorisation';
+
+  @override
+  String get accessGranted => 'Accès accordé';
+
+  @override
+  String get accessNotGranted => 'Accès non accordé';
+
+  @override
+  String get neverSynced => 'Jamais synchronisé';
+
+  @override
+  String get grantAccess => 'Accorder l\'accès';
+
+  @override
+  String get lastSync => 'Dernière synchronisation';
 }

@@ -656,4 +656,31 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get polish => 'Polish';
+
+  @override
+  String get healthServices => 'Health Services';
+
+  @override
+  String get availableOnYourDevice => 'Available on your device';
+
+  @override
+  String get notAvailableOnYourDevice => 'Not available on your device';
+
+  @override
+  String get authorization => 'Authorization';
+
+  @override
+  String get accessGranted => 'Access granted';
+
+  @override
+  String get accessNotGranted => 'Access not granted';
+
+  @override
+  String get neverSynced => 'Never synced';
+
+  @override
+  String get grantAccess => 'Grant Access';
+
+  @override
+  String get lastSync => 'Last Sync';
 }

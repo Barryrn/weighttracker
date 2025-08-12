@@ -658,4 +658,31 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get polish => 'Polish';
+
+  @override
+  String get healthServices => 'Serviços de saúde';
+
+  @override
+  String get availableOnYourDevice => 'Disponível no seu dispositivo';
+
+  @override
+  String get notAvailableOnYourDevice => 'Não disponível no seu dispositivo';
+
+  @override
+  String get authorization => 'Autorização';
+
+  @override
+  String get accessGranted => 'Acesso concedido';
+
+  @override
+  String get accessNotGranted => 'Acesso não concedido';
+
+  @override
+  String get neverSynced => 'Nunca sincronizado';
+
+  @override
+  String get grantAccess => 'Conceder Acesso';
+
+  @override
+  String get lastSync => 'Última Sincronização';
 }

@@ -40,7 +40,7 @@
   "calculateBodyFat": "Körperfett berechnen",
   "calculatedBodyFatPercentage": "Berechneter Körperfettanteil",
   "useThisResult": "Dieses Ergebnis verwenden",
-  "healthSyncSettings": "Gesundheitssynchronisation Einstellungen",
+  "healthSyncSettings": "Health Sync",
   "compareYourProgress": "Vergleichen Sie Ihren Fortschritt",
   "noWeightData": "Keine Gewichtsdaten",
   "imageGallery": "Bildergalerie",
@@ -203,6 +203,15 @@
   "russian": "Russisch",
   "chinese": "Chinesisch",
   "turkish": "Türkisch",
-  "polish": "Polnisch"
-  
+  "polish": "Polnisch",
+  "healthServices": "Gesundheitsdienste",
+  "availableOnYourDevice": "Auf Ihrem Gerät verfügbar",
+  "notAvailableOnYourDevice": "Auf Ihrem Gerät nicht verfügbar",
+  "authorization": "Authorisierung",
+  "accessGranted": "Zugriff gewährt",
+  "accessNotGranted": "Zugriff nicht gewährt",
+  "neverSynced": "Nie synchronisiert",
+  "grantAccess": "Zugriff gewähren",
+  "lastSync": "Letzte Synchronisierung"
+
 }

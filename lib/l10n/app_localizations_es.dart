@@ -659,4 +659,31 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get polish => 'Polaco';
+
+  @override
+  String get healthServices => 'Servicios de salud';
+
+  @override
+  String get availableOnYourDevice => 'Disponible en tu dispositivo';
+
+  @override
+  String get notAvailableOnYourDevice => 'No disponible en tu dispositivo';
+
+  @override
+  String get authorization => 'Autorización';
+
+  @override
+  String get accessGranted => 'Acceso concedido';
+
+  @override
+  String get accessNotGranted => 'Acceso no concedido';
+
+  @override
+  String get neverSynced => 'Nunca sincronizado';
+
+  @override
+  String get grantAccess => 'Conceder acceso';
+
+  @override
+  String get lastSync => 'Última sincronización';
 }
