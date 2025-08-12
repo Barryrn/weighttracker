@@ -18,16 +18,18 @@ import 'dart:developer' as developer;
 class BodyEntrySheet {
   static Future<void> show({required BuildContext context}) async {
     // Get the current date and notifier before showing the sheet
-    final bodyEntryNotifier = ProviderScope.containerOf(context).read(bodyEntryProvider.notifier);
-    final currentDate = DateTime.now();
-    
-    // Reset the notifier and set the current date
+    final bodyEntryNotifier = ProviderScope.containerOf(
+      context,
+    ).read(bodyEntryProvider.notifier);
+    final currentDate = DateTime.now(); // This already includes current time
+
+    // Reset the notifier and set the current date with time
     bodyEntryNotifier.reset();
-    bodyEntryNotifier.updateDate(currentDate);
-    
+    bodyEntryNotifier.updateDate(currentDate); // Now preserves the current time
+
     // Load data for the current date
     await _loadEntryForDate(currentDate, bodyEntryNotifier);
-    
+
     // Show the sheet
     await showModalBottomSheet(
       context: context,
@@ -114,7 +116,7 @@ class BodyEntrySheet {
       ),
     );
   }
-  
+
   /// Loads entry data for the specified date from the database and updates the provider
   ///
   /// This method queries the database for an entry matching the given date and

@@ -196,7 +196,7 @@ class DatabaseHelper {
 
       // Use the exact date and time instead of normalizing to start of day
       final exactDateTime = bodyEntry.date;
-      
+
       // Convert the exact date and time to milliseconds
       final dateMillis = exactDateTime.millisecondsSinceEpoch;
 
@@ -207,11 +207,14 @@ class DatabaseHelper {
         bodyEntry.date.day,
       );
       final normalizedDateMillis = normalizedDate.millisecondsSinceEpoch;
-      
+
       final List<Map<String, dynamic>> existingEntries = await db.query(
         tableBodyEntries,
         where: '$columnDate >= ? AND $columnDate < ?',
-        whereArgs: [normalizedDateMillis, normalizedDateMillis + 86400000], // +24 hours in milliseconds
+        whereArgs: [
+          normalizedDateMillis,
+          normalizedDateMillis + 86400000,
+        ], // +24 hours in milliseconds
       );
 
       // Calculate BMI if weight is available
@@ -249,7 +252,9 @@ class DatabaseHelper {
       // If an entry exists for this day, update it
       if (existingEntries.isNotEmpty) {
         final existingId = existingEntries.first[columnId];
-        print('Updating existing entry with ID: $existingId for date: ${exactDateTime.toIso8601String()}');
+        print(
+          'Updating existing entry with ID: $existingId for date: ${exactDateTime.toIso8601String()}',
+        );
         return await db.update(
           tableBodyEntries,
           row,
@@ -259,7 +264,9 @@ class DatabaseHelper {
       }
       // Otherwise, insert a new entry
       else {
-        print('Creating new entry for date: ${exactDateTime.toIso8601String()}');
+        print(
+          'Creating new entry for date: ${exactDateTime.toIso8601String()}',
+        );
         return await db.insert(tableBodyEntries, row);
       }
     } catch (e) {
@@ -332,7 +339,7 @@ class DatabaseHelper {
 
       // Use the exact date and time instead of normalizing to start of day
       final exactDateTime = bodyEntry.date;
-      
+
       // Convert the exact date and time to milliseconds
       final dateMillis = exactDateTime.millisecondsSinceEpoch;
 
@@ -352,7 +359,9 @@ class DatabaseHelper {
         columnCalorie: bodyEntry.calorie,
       };
 
-      print('Updating entry with ID: $id for date: ${exactDateTime.toIso8601String()}');
+      print(
+        'Updating entry with ID: $id for date: ${exactDateTime.toIso8601String()}',
+      );
       return await db.update(
         tableBodyEntries,
         row,
@@ -387,9 +396,7 @@ class DatabaseHelper {
   Future<int> deleteAllBodyEntries() async {
     try {
       Database db = await database;
-      return await db.delete(
-        tableBodyEntries,
-      );
+      return await db.delete(tableBodyEntries);
     } catch (e) {
       print('Error deleting all body entries: $e');
       throw e; // Re-throw to allow handling by caller

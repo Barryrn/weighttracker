@@ -33,7 +33,7 @@ Before any synchronization can occur, the app requests authorization from the he
 When data is entered in the WeightTracker app:
 
 1. The data is first saved to the app's local SQLite database
-2. The app then calls `syncWeightDataToHealth()` which:
+2. The app then calls `syncDataToHealth()` which:
    - Iterates through each entry in the app's database
    - For each entry, writes the weight data to the health platform using `writeHealthData()`
    - If fat percentage data is available, it also writes that data
@@ -54,7 +54,7 @@ The complete two-way sync process is implemented in the `performTwoWaySync()` me
 1. Request authorization from the health platform
 2. Determine the date range for syncing (from earliest entry to current date)
 3. Fetch all entries from the app's database
-4. Upload app data to the health platform using `syncWeightDataToHealth()`
+4. Upload app data to the health platform using `syncDataToHealth()`
 5. Download data from the health platform using `fetchtDataFromHealth()`
 6. For each entry downloaded from the health platform:
    - Check if an entry with the same date already exists in the app's database

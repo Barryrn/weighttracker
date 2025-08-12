@@ -7,6 +7,7 @@ import 'package:weigthtracker/model/database_helper.dart';
 import '../model/body_entry_model.dart';
 import '../model/weight_entry_model.dart';
 import '../repository/weight_repository.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 /// Service class for handling health data integration with Apple Health and Google Health Connect
 class HealthService {
@@ -91,7 +92,7 @@ class HealthService {
   /// Sync weight data from the app to health services with duplicate prevention
   /// @param entries List of BodyEntry objects to sync
   /// @return Future<bool> Whether the sync was successful
-  Future<bool> syncWeightDataToHealth(List<BodyEntry> entries) async {
+  Future<bool> syncDataToHealth(List<BodyEntry> entries) async {
     try {
       final authorized = await requestAuthorization();
       if (!authorized) return false;
@@ -100,14 +101,15 @@ class HealthService {
 
       for (final entry in entries) {
         if (entry.weight != null) {
-          // Create precise timestamp with seconds precision to avoid duplicates
+          // Create precise timestamp using current time instead of hardcoded noon
+          final now = DateTime.now();
           final preciseStartTime = DateTime(
             entry.date.year,
             entry.date.month,
             entry.date.day,
-            12, // Use noon to avoid timezone issues
-            0,
-            0,
+            now.hour, // Use current hour instead of hardcoded 12
+            now.minute, // Use current minute instead of hardcoded 0
+            now.second, // Use current second instead of hardcoded 0
           );
           final preciseEndTime = preciseStartTime;
 
@@ -275,22 +277,26 @@ class HealthService {
     DateTime endDate,
   ) async {
     try {
-      //print('Fetching health data from $startDate to $endDate');
+      print(
+        'Fetching health data from $startDate to $endDate',
+      ); // Uncomment this
       final authorized = await requestAuthorization();
       if (!authorized) {
-        //print('Health data authorization failed');
+        print('Health data authorization failed'); // Uncomment this
         return [];
       }
-      //print('Health data authorization successful');
+      print('Health data authorization successful'); // Uncomment this
 
       // Fetch weight data
-      //print('Fetching weight data...');
+      print('Fetching weight data...'); // Uncomment this
       final weightData = await _health.getHealthDataFromTypes(
         types: [HealthDataType.WEIGHT],
         startTime: startDate,
         endTime: endDate,
       );
-      //print('Weight data fetched: ${weightData.length} entries');
+      print(
+        'Weight data fetched: ${weightData.length} entries',
+      ); // Uncomment this
 
       // Debug weight data
       for (final data in weightData) {
@@ -448,11 +454,8 @@ class HealthService {
       debugPrint('Health data authorization successful for sync');
 
       // Get the date range for syncing - use a wider range to ensure we get all data
-      final earliestDate =
-          await _weightRepository.getEarliestEntry() ??
-          DateTime.now().subtract(
-            const Duration(days: 730),
-          ); // 2 years instead of 1
+      final earliestDate = DateTime(2000);
+
       final latestDate = DateTime.now().add(
         const Duration(days: 1),
       ); // Include today
@@ -464,7 +467,7 @@ class HealthService {
 
       // Step 2: Sync app data to health services
       //print('Syncing app data to health services...');
-      await syncWeightDataToHealth(appEntries);
+      await syncDataToHealth(appEntries);
       //print('App data synced to health services');
 
       // Step 3: Fetch data from health services
@@ -590,3 +593,83 @@ extension PlatformExtension on TargetPlatform {
   bool get isIOS => this == TargetPlatform.iOS;
   bool get isAndroid => this == TargetPlatform.android;
 }
+
+/// Check if we have read permissions for health data
+final Health _health = Health();
+final List<HealthDataType> _types = [
+  HealthDataType.WEIGHT,
+  HealthDataType.BODY_MASS_INDEX,
+  // add other data types you need
+];
+final List<HealthDataAccess> _permissions = [
+  HealthDataAccess.READ,
+  HealthDataAccess.READ,
+  // match the number of _types
+];
+
+Future<bool> hasReadPermissions() async {
+  try {
+    final hasPermissions = await _health.hasPermissions(
+      _types,
+      permissions: _permissions,
+    );
+    debugPrint('Health read permissions status: $hasPermissions');
+    return hasPermissions ?? false;
+  } catch (e) {
+    debugPrint('Error checking health permissions: $e');
+    return false;
+  }
+}
+
+/// Perform initial historical sync to import all past health data
+/// @return Future<bool> Whether the historical sync was successful
+// Future<bool> performHistoricalSync() async {
+//   try {
+//     debugPrint('Starting historical sync');
+//     final authorized = await requestAuthorization();
+//     if (!authorized) {
+//       debugPrint('Health data authorization failed during historical sync');
+//       return false;
+//     }
+
+//     // Use maximum possible date range for historical data
+//     final earliestDate = DateTime(2014, 1, 1); // Apple Health launch year
+//     final latestDate = DateTime.now().add(const Duration(days: 1));
+//     debugPrint('Historical sync date range: $earliestDate to $latestDate');
+
+//     // Fetch ALL historical data from health services
+//     final healthEntries = await fetchtDataFromHealth(
+//       earliestDate,
+//       latestDate,
+//     );
+//     debugPrint('Historical entries fetched: ${healthEntries.length}');
+
+//     // Process and save historical entries to database
+//     bool syncSuccess = true;
+//     for (final healthEntry in healthEntries) {
+//       if (healthEntry.weight == null) continue;
+
+//       final existingEntryId = await DatabaseHelper().findEntryIdByDate(
+//         healthEntry.date,
+//       );
+
+//       if (existingEntryId == null) {
+//         try {
+//           final insertResult = await DatabaseHelper().insertBodyEntry(
+//             healthEntry,
+//           );
+//           syncSuccess = syncSuccess && insertResult > 0;
+//         } catch (e) {
+//           debugPrint('Error inserting historical entry: $e');
+//           syncSuccess = false;
+//         }
+//       }
+//     }
+
+//     debugPrint('Historical sync completed with success: $syncSuccess');
+//     return syncSuccess;
+//   } catch (e) {
+//     debugPrint('Error during historical sync: $e');
+//     return false;
+//   }
+// }
