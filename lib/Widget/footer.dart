@@ -6,6 +6,8 @@ import 'package:weigthtracker/View/profile_settings_page_view.dart';
 import 'package:weigthtracker/theme.dart';
 
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:weigthtracker/View/footer_pages/home_page.dart';
 import 'package:weigthtracker/view/footer_pages/goals_page.dart';
 import 'package:weigthtracker/view/footer_pages/progress_page.dart';

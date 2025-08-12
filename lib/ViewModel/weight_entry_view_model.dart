@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:developer' as developer;
 import 'entry_form_provider.dart';
@@ -59,7 +61,9 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
     developer.log('Weight: ${state.weight}');
     developer.log('Unit Suffix: ${state.unitSuffix}');
     developer.log('Use Metric Weight: ${state.useMetricWeight}');
-    developer.log('Last Updated Date: ${state.lastUpdatedDate}'); // Log the last updated date
+    developer.log(
+      'Last Updated Date: ${state.lastUpdatedDate}',
+    ); // Log the last updated date
     developer.log('===================================');
   }
 
@@ -150,9 +154,9 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
 
   /// Helper method to check if two dates are the same day
   bool _isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year && 
-           date1.month == date2.month && 
-           date1.day == date2.day;
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   /// Updates the unit preferences when they change

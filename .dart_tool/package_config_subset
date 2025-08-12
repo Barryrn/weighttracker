@@ -223,9 +223,9 @@ image_picker_windows
 file:///Users/barryazihuwa/.pub-cache/hosted/pub.dev/image_picker_windows-0.2.1+1/
 file:///Users/barryazihuwa/.pub-cache/hosted/pub.dev/image_picker_windows-0.2.1+1/lib/
 intl
-2.12
-file:///Users/barryazihuwa/.pub-cache/hosted/pub.dev/intl-0.18.1/
-file:///Users/barryazihuwa/.pub-cache/hosted/pub.dev/intl-0.18.1/lib/
+3.3
+file:///Users/barryazihuwa/.pub-cache/hosted/pub.dev/intl-0.20.2/
+file:///Users/barryazihuwa/.pub-cache/hosted/pub.dev/intl-0.20.2/lib/
 js
 2.19
 file:///Users/barryazihuwa/.pub-cache/hosted/pub.dev/js-0.6.7/
@@ -498,6 +498,10 @@ flutter
 3.7
 file:///Users/barryazihuwa/development/flutter/flutterSDK/packages/flutter/
 file:///Users/barryazihuwa/development/flutter/flutterSDK/packages/flutter/lib/
+flutter_localizations
+3.7
+file:///Users/barryazihuwa/development/flutter/flutterSDK/packages/flutter_localizations/
+file:///Users/barryazihuwa/development/flutter/flutterSDK/packages/flutter_localizations/lib/
 flutter_test
 3.7
 file:///Users/barryazihuwa/development/flutter/flutterSDK/packages/flutter_test/

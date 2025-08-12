@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/Widget/more/health_settings_widget.dart';
 import 'package:weigthtracker/Widget/more/profile/profile_settings_widget.dart';

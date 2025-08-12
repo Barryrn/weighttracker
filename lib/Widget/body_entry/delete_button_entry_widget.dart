@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/ViewModel/delete_entry_view_model.dart';
 import 'package:weigthtracker/ViewModel/entry_form_provider.dart';
@@ -49,14 +51,15 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
                     if (success) {
                       // Show success message
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           content: Text(
                             'Entry deleted successfully',
-                            style: TextStyle(
-                              color: Colors.white,
-                              backgroundColor: Colors.red,
-                            ),
+                            style: AppTypography.bodyMedium(
+                              context,
+                            ).copyWith(color: Colors.white),
                           ),
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                          duration: Duration(seconds: 1),
                         ),
                       );
 
@@ -65,7 +68,14 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
                     } else {
                       // Show error message
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Failed to delete entry')),
+                        SnackBar(
+                          content: Text(
+                            'Failed to delete entry',
+                            style: AppTypography.bodyMedium(
+                              context,
+                            ).copyWith(color: Colors.white),
+                          ),
+                        ),
                       );
                     }
                   }
@@ -74,7 +84,12 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Error deleting entry: ${e.toString()}'),
+                        content: Text(
+                          'Error deleting entry: ${e.toString()}',
+                          style: AppTypography.bodyMedium(
+                            context,
+                          ).copyWith(color: Colors.white),
+                        ),
                       ),
                     );
                   }
@@ -82,7 +97,9 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red, // Red background for delete button
+              backgroundColor: Theme.of(context)
+                  .colorScheme
+                  .error, // Use theme error color instead of hardcoded red
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),

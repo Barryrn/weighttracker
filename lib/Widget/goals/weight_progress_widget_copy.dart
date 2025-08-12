@@ -1,4 +1,6 @@
 // import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:path/path.dart';
 // import 'package:weigthtracker/ViewModel/weight_change_tdee_goal_provider.dart';

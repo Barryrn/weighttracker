@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/ViewModel/weight_change_tdee_goal_provider.dart';
 import 'package:weigthtracker/theme.dart';
@@ -45,7 +47,10 @@ class EnergyExpenditureWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Title Section
-            Text('Energy Expenditure', style: AppTypography.headline3(context)),
+            Text(
+              AppLocalizations.of(context)!.energyExpenditure,
+              style: AppTypography.headline3(context),
+            ),
             const SizedBox(height: 16),
             // TDEE Metrics Cards
             Row(
@@ -54,7 +59,7 @@ class EnergyExpenditureWidget extends ConsumerWidget {
                 Expanded(
                   child: _buildMetricCard(
                     context,
-                    'TDEE Calories',
+                    AppLocalizations.of(context)!.tdeeCalories,
                     tdee?.toStringAsFixed(0) ?? 'N/A',
                     Theme.of(context).colorScheme.info,
                   ),
@@ -64,7 +69,7 @@ class EnergyExpenditureWidget extends ConsumerWidget {
                 Expanded(
                   child: _buildMetricCard(
                     context,
-                    'Goal Weight TDEE',
+                    AppLocalizations.of(context)!.goalWeightTdee,
                     goalTDEE?.toStringAsFixed(0) ?? 'N/A',
                     Theme.of(context).colorScheme.error,
                   ),
@@ -78,7 +83,7 @@ class EnergyExpenditureWidget extends ConsumerWidget {
   }
 
   /// Helper method to build a metric card with improved visual design
-  /// 
+  ///
   /// When the value is 'N/A', an information icon will be displayed next to it.
   /// Tapping the icon will show a popup explaining that the user needs to track
   /// their weight and calorie intake for 7 consecutive days.
@@ -159,11 +164,11 @@ class EnergyExpenditureWidget extends ConsumerWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'TDEE Information',
+            AppLocalizations.of(context)!.tdeeInformation,
             style: AppTypography.subtitle1(context),
           ),
           content: Text(
-            'You need to track your weight and calorie intake for 7 consecutive days before the TDEE will be available.',
+            AppLocalizations.of(context)!.needToTrackYourInformation,
             style: AppTypography.bodyMedium(context),
           ),
           backgroundColor: Theme.of(context).colorScheme.background1,
@@ -175,9 +180,9 @@ class EnergyExpenditureWidget extends ConsumerWidget {
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 'OK',
-                style: AppTypography.buttonText(context).copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                style: AppTypography.buttonText(
+                  context,
+                ).copyWith(color: Theme.of(context).colorScheme.primary),
               ),
             ),
           ],

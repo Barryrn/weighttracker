@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:weigthtracker/Widget/image_timeline_filter.dart';
@@ -67,7 +69,9 @@ class _ImageTimelineViewState extends ConsumerState<ImageTimelineView> {
                   ),
                 // Use SizedBox with a fixed height for the image timeline widget
                 SizedBox(
-                  height: MediaQuery.of(context).size.height - 150, // Adjust height as needed
+                  height:
+                      MediaQuery.of(context).size.height -
+                      150, // Adjust height as needed
                   child: ImageTimelineViewWidget(),
                 ),
               ],

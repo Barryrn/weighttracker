@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:weigthtracker/View/unit_conversion_view.dart';
 import 'package:weigthtracker/theme.dart';
 import '../../../View/tag_settings_view.dart';

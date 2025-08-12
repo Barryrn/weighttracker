@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../model/weight_entry_model.dart';
@@ -166,7 +168,7 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
     final entry = viewModel.chartData.first;
 
     if (entry.weight == null) {
-      return const Center(child: Text('No weight data for today'));
+      return const Center(child: Text('Average Weight'));
     }
 
     final unitPrefs = ref.watch(unitConversionProvider);

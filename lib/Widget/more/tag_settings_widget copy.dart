@@ -1,4 +1,6 @@
 // // import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 // // import 'package:weigthtracker/View/health_sync_settings.dart';
 // // import 'package:weigthtracker/theme.dart';
 // // import 'package:heroicons/heroicons.dart';

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:weigthtracker/theme.dart';
 import '../Widget/tdee_widget.dart';
 import '../Widget/tdee/weight_change_tdee_widget.dart';

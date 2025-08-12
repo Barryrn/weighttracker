@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:weigthtracker/viewmodel/unit_conversion_provider.dart';
@@ -45,9 +47,7 @@ class _ImageTimelineViewWidgetState
 
         // Show message when no entries match the filter criteria
         if (state.entries.isEmpty)
-          Center(
-            child: Text('No images match the current filter criteria'),
-          )
+          Center(child: Text('No images match the current filter criteria'))
         else
           Column(
             children: [
@@ -60,7 +60,9 @@ class _ImageTimelineViewWidgetState
               const SizedBox(height: 16),
               // Image display - Updated with card-like appearance and fixed height
               Container(
-                height: MediaQuery.of(context).size.height * 0.5, // Fixed height for image container
+                height:
+                    MediaQuery.of(context).size.height *
+                    0.5, // Fixed height for image container
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -112,9 +114,7 @@ class _ImageTimelineViewWidgetState
                           child: Text(
                             'Weight: ${(unitPreferences.useMetricWeight ? currentEntry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(currentEntry.weight!)).toStringAsFixed(1)} ${unitPreferences.useMetricWeight ? 'kg' : 'lb'}',
                             style: AppTypography.subtitle2(context).copyWith(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.textPrimary,
+                              color: Theme.of(context).colorScheme.textPrimary,
                             ),
                           ),
                         ),

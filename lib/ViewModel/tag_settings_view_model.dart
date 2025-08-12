@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:developer' as developer;
 import '../Model/database_helper.dart';
@@ -103,14 +105,14 @@ class TagSettingsViewModel extends StateNotifier<TagSettingsData> {
         final entry = entries[i];
         if (entry.tags != null) {
           bool tagFound = false;
-          
+
           // For empty tags, we need to check differently
           if (tag.isEmpty) {
             tagFound = entry.tags!.contains('');
           } else {
             tagFound = entry.tags!.contains(tag);
           }
-          
+
           if (tagFound) {
             // Create a new list without the tag
             final updatedTags = List<String>.from(entry.tags!)
@@ -184,7 +186,6 @@ class TagSettingsViewModel extends StateNotifier<TagSettingsData> {
     }
   }
 }
-
 
 /// A provider for accessing the TagSettingsViewModel.
 ///

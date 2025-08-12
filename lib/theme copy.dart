@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 /// Extension on ColorScheme to add custom colors
