@@ -98,19 +98,19 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             _buildDataColumn(
-                              'Weight',
+                              AppLocalizations.of(context)!.weight,
                               displayWeight != null
                                   ? '${displayWeight.toStringAsFixed(1)} $weightUnit'
                                   : '--',
                             ),
                             _buildDataColumn(
-                              'BMI',
+                              AppLocalizations.of(context)!.bmi,
                               data.avgBmi != null
                                   ? data.avgBmi!.toStringAsFixed(1)
                                   : '--',
                             ),
                             _buildDataColumn(
-                              'Body Fat',
+                              AppLocalizations.of(context)!.bodyFat,
                               data.avgFatPercentage != null
                                   ? '${data.avgFatPercentage!.toStringAsFixed(1)}%'
                                   : '--',
@@ -120,7 +120,7 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
 
                         // Entry count
                         Text(
-                          'Based on ${data.entryCount} ${data.entryCount == 1 ? 'entry' : 'entries'}',
+                          '${AppLocalizations.of(context)!.basedOn} ${data.entryCount} ${data.entryCount == 1 ? AppLocalizations.of(context)!.entry : AppLocalizations.of(context)!.entries}',
                         ),
                       ],
                     ),

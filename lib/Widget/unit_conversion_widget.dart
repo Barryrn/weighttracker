@@ -50,7 +50,7 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
           padding: const EdgeInsets.all(12),
           child: SwitchListTile(
             title: Text(
-              'Use ${useMetric ? "Kilograms (kg)" : "Pounds (lb)"}',
+              '${AppLocalizations.of(context)!.use} ${useMetric ? "${AppLocalizations.of(context)!.kilograms} (kg)" : "${AppLocalizations.of(context)!.pounds} (lb)"}',
               style: AppTypography.bodyMedium(
                 context,
               ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
@@ -73,7 +73,7 @@ class _UnitConversionWidgetState extends ConsumerState<UnitConversionWidget> {
           padding: const EdgeInsets.all(12),
           child: SwitchListTile(
             title: Text(
-              'Use ${toggleFatUnit ? "Inches" : "Centimeters"}',
+              '${AppLocalizations.of(context)!.use} ${toggleFatUnit ? "Inches" : "Centimeters"}',
               style: AppTypography.bodyMedium(
                 context,
               ).copyWith(color: Theme.of(context).colorScheme.textPrimary),

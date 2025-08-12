@@ -24,7 +24,7 @@ class TDEEPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'TDEE Calculator',
+            AppLocalizations.of(context)!.tdeeCalculator,
             style: AppTypography.headline3(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textTertiary),

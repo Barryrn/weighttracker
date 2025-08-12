@@ -139,7 +139,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: Text(_currentPage == 3 ? 'Finish' : 'Next'),
+                          child: Text(
+                            _currentPage == 3
+                                ? AppLocalizations.of(context)!.finish
+                                : AppLocalizations.of(context)!.next,
+                          ),
                         ),
                       ),
                     ],
@@ -156,7 +160,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 child: TextButton(
                   onPressed: _completeOnboarding,
                   child: Text(
-                    'Skip',
+                    AppLocalizations.of(context)!.skip,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -187,19 +191,21 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           ),
           const SizedBox(height: 32),
           Text(
-            'Welcome to Weight Tracker',
+            AppLocalizations.of(context)!.welcomeToWeightTracker,
             style: AppTypography.headline1(context),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
           Text(
-            'Track your weight, set goals, and monitor your progress over time.',
+            AppLocalizations.of(
+              context,
+            )!.trackYourWeightSetGoalsAndMonitorYourProgressOverTime,
             style: AppTypography.bodyLarge(context),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
           Text(
-            'Let\'s set up your profile to get started!',
+            AppLocalizations.of(context)!.letsSetupYourProfileToGetStarted,
             style: AppTypography.bodyMedium(context),
             textAlign: TextAlign.center,
           ),
@@ -221,13 +227,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'Choose Your Units',
+            AppLocalizations.of(context)!.chooseYourUnits,
             style: AppTypography.headline2(context),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
           Text(
-            'Select your preferred units for weight and height measurements.',
+            AppLocalizations.of(
+              context,
+            )!.selectYourPreferredUnitsForWeightAndHeightMeasurements,
             style: AppTypography.bodyMedium(context),
             textAlign: TextAlign.center,
           ),
@@ -251,13 +259,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'Your Information',
+            AppLocalizations.of(context)!.yourInformation,
             style: AppTypography.headline2(context),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
           Text(
-            'We need some basic information to calculate your goals accurately.',
+            AppLocalizations.of(
+              context,
+            )!.weNeedSomeBasicInformationToCalculateYourGoalsAccurately,
             style: AppTypography.bodyMedium(context),
             textAlign: TextAlign.center,
           ),
@@ -270,7 +280,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           const SizedBox(height: 16),
           if (!_isFormComplete)
             Text(
-              'Please fill in all fields to continue',
+              AppLocalizations.of(context)!.pleaseFillInAllFieldsToContinue,
               style: TextStyle(color: Theme.of(context).colorScheme.error),
               textAlign: TextAlign.center,
             ),
@@ -304,13 +314,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'Your Daily Energy Needs',
+            AppLocalizations.of(context)!.yourDailyEnergyNeeds,
             style: AppTypography.headline2(context),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
           Text(
-            'Based on your information, we can estimate your daily calorie needs.',
+            AppLocalizations.of(
+              context,
+            )!.basedOnYourInformationWeCanEstimateYourDailyCalorieNeeds,
             style: AppTypography.bodyMedium(context),
             textAlign: TextAlign.center,
           ),

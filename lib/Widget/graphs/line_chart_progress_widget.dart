@@ -25,19 +25,32 @@ class _LineChartProgressWidgetState
   final ScrollController _scrollController = ScrollController();
 
   // Currently selected data type to display
-  String _selectedDataType = 'Weight';
+  String _selectedDataType = 'Weight'; // This will be initialized in initState
 
-  // Available data types
-  final List<String> _dataTypes = ['Weight', 'BMI', 'Fat %'];
+  // Available data types - will be initialized with localized strings
+  List<String> _dataTypes = [];
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    // Initialize with default, will be updated in build
+    _selectedDataType = 'Weight';
   }
 
   @override
   Widget build(BuildContext context) {
+    // Initialize localized data types
+    final weight = AppLocalizations.of(context)!.weight;
+    final bmi = AppLocalizations.of(context)!.bmi;
+    final fatPercentSign = AppLocalizations.of(context)!.fatPercentSign;
+
+    _dataTypes = [weight, bmi, fatPercentSign];
+
+    // Set default selected type if not already set to a localized value
+    if (!_dataTypes.contains(_selectedDataType)) {
+      _selectedDataType = weight;
+    }
+
     // Get the current time period from the provider
     final selectedTimePeriod = ref.watch(selectedTimePeriodLineChartProvider);
 
@@ -205,35 +218,37 @@ class _LineChartProgressWidgetState
   /// Builds the chart based on the selected data type and time period
   /// Handles empty data cases and ensures proper layout constraints
   Widget _buildChart(List<AggregatedBodyData> data, String selectedDataType) {
-    if (data.isEmpty) return const Text("No data available");
+    if (data.isEmpty)
+      return Text(AppLocalizations.of(context)!.noDataAvailable);
 
     final reversedData = data.reversed.toList();
 
     // Get the unit preferences
     final unitPrefs = ref.watch(unitConversionProvider);
 
+    String weight = AppLocalizations.of(context)!.weight;
+    String bmi = AppLocalizations.of(context)!.bmi;
+    String fat = AppLocalizations.of(context)!.fat;
+    String fatPercentSign = AppLocalizations.of(context)!.fatPercentSign;
+
     // Create a list of data points with their indices
     List<MapEntry<int, double?>> dataPoints = List.generate(
       reversedData.length,
       (i) {
         double? value;
-        switch (selectedDataType.toLowerCase()) {
-          case 'weight':
-            value = reversedData[i].avgWeight;
-            // Convert weight value based on unit preference
-            if (value != null && !unitPrefs.useMetricWeight) {
-              value = ref.read(unitConversionProvider.notifier).kgToLb(value);
-            }
-            break;
-          case 'bmi':
-            value = reversedData[i].avgBmi;
-            break;
-          case 'fat':
-          case 'fat %':
-            value = reversedData[i].avgFatPercentage;
-            break;
-          default:
-            value = null;
+        // Use localized strings for comparison
+        if (selectedDataType == weight) {
+          value = reversedData[i].avgWeight;
+          // Convert weight value based on unit preference
+          if (value != null && !unitPrefs.useMetricWeight) {
+            value = ref.read(unitConversionProvider.notifier).kgToLb(value);
+          }
+        } else if (selectedDataType == bmi) {
+          value = reversedData[i].avgBmi;
+        } else if (selectedDataType == fatPercentSign) {
+          value = reversedData[i].avgFatPercentage;
+        } else {
+          value = null;
         }
         return MapEntry(i, value);
       },
@@ -247,7 +262,9 @@ class _LineChartProgressWidgetState
 
     // If no valid data points, show a message
     if (validDataPoints.isEmpty) {
-      return const Text("No data available for selected metric");
+      return Text(
+        AppLocalizations.of(context)!.noDataAvailableForSelectedMetric,
+      );
     }
 
     // Extract valid y-values for min/max calculation
@@ -298,9 +315,9 @@ class _LineChartProgressWidgetState
 
         // Get the unit for display
         String unit = '';
-        if (selectedDataType.toLowerCase() == 'weight') {
+        if (selectedDataType == weight) {
           unit = unitPrefs.useMetricWeight ? 'kg' : 'lb';
-        } else if (selectedDataType.toLowerCase().contains('fat')) {
+        } else if (selectedDataType == fatPercentSign) {
           unit = '%';
         }
 
@@ -336,24 +353,15 @@ class _LineChartProgressWidgetState
 
                               // Get the unit based on selected data type
                               String unit = '';
-                              switch (selectedDataType.toLowerCase()) {
-                                case 'weight':
-                                  final unitPrefs = ref.watch(
-                                    unitConversionProvider,
-                                  );
-
-                                  unit = unitPrefs.useMetricWeight
-                                      ? 'kg'
-                                      : 'lb';
-
-                                  break;
-                                case 'bmi':
-                                  unit = '';
-                                  break;
-                                case 'fat':
-                                case 'fat %':
-                                  unit = '%';
-                                  break;
+                              if (selectedDataType == weight) {
+                                final unitPrefs = ref.watch(
+                                  unitConversionProvider,
+                                );
+                                unit = unitPrefs.useMetricWeight ? 'kg' : 'lb';
+                              } else if (selectedDataType == bmi) {
+                                unit = '';
+                              } else if (selectedDataType == fatPercentSign) {
+                                unit = '%';
                               }
 
                               // Include the full date period with year

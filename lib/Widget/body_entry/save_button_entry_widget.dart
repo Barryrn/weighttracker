@@ -47,7 +47,7 @@ class SaveButtonEntryWidget extends ConsumerWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'Entry saved successfully',
+                    AppLocalizations.of(context)!.entrySavedSuccessfully,
                     style: AppTypography.bodyMedium(
                       context,
                     ).copyWith(color: Colors.white),
@@ -66,7 +66,7 @@ class SaveButtonEntryWidget extends ConsumerWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'Failed to save entry',
+                    AppLocalizations.of(context)!.failedToSaveEntry,
                     style: AppTypography.bodyMedium(
                       context,
                     ).copyWith(color: Colors.white),
@@ -86,7 +86,7 @@ class SaveButtonEntryWidget extends ConsumerWidget {
           ),
         ),
         child: Text(
-          'Save',
+          AppLocalizations.of(context)!.save,
           style: AppTypography.subtitle1(
             context,
           ).copyWith(color: Colors.white, fontWeight: FontWeight.bold),

@@ -115,7 +115,7 @@ class HealthWidget extends ConsumerWidget {
         if (healthState.isAvailable && healthState.isAuthorized) ...[
           _buildActionButton(
             context,
-            label: 'Sync Now',
+            label: AppLocalizations.of(context)!.syncNow,
             labelColor: Theme.of(context).colorScheme.textPrimary,
             icon: Icons.sync,
             iconHeight: 24,
@@ -133,10 +133,10 @@ class HealthWidget extends ConsumerWidget {
 
           // Updated explanation text to include BMI
           Text(
-            'Syncing will:\n'
-            '• Send your weight, body fat percentage, and BMI data to Apple Health / Google Health Connect\n'
-            '• Import weight, body fat percentage, and BMI measurements from health services\n'
-            '• Keep both systems up to date',
+            '${AppLocalizations.of(context)!.syncingWill}\n'
+            '${AppLocalizations.of(context)!.dataSendToHealthApp}\n'
+            '${AppLocalizations.of(context)!.importDataFromHealthApp}\n'
+            '${AppLocalizations.of(context)!.keepBothSystemsUpToDate}',
             style: AppTypography.bodyLarge(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textSecondary),
@@ -146,7 +146,7 @@ class HealthWidget extends ConsumerWidget {
         if (!healthState.isAvailable) ...[
           const SizedBox(height: 12),
           Text(
-            'Health services are not available on your device. This feature requires Apple Health on iOS or Health Connect on Android.',
+            AppLocalizations.of(context)!.infoHealthServicesNotAvailable,
             style: AppTypography.bodySmall(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textDisabled),

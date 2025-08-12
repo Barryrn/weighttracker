@@ -201,7 +201,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Image Gallery',
+            AppLocalizations.of(context)!.imageGallery,
             style: AppTypography.headline3(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
@@ -247,8 +247,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                 child: entriesState.when(
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
-                  error: (error, stackTrace) =>
-                      Center(child: Text('Error loading images: $error')),
+                  error: (error, stackTrace) => Center(
+                    child: Text(
+                      AppLocalizations.of(context)!.errorLoadingImages +
+                          ': $error',
+                    ),
+                  ),
                   data: (entries) {
                     // Filter entries based on current filter settings
                     final filteredEntries = _filterEntries(entries);
@@ -260,8 +264,12 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                     }
 
                     if (allImages.isEmpty) {
-                      return const Center(
-                        child: Text('No images match the current filters'),
+                      return Center(
+                        child: Text(
+                          AppLocalizations.of(
+                            context,
+                          )!.noImagesMatchTheCurrentFilters,
+                        ),
                       );
                     }
 
@@ -347,7 +355,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                   ),
                 ),
                 child: Text(
-                  'Clear Filters',
+                  AppLocalizations.of(context)!.clearFilters,
                   style: AppTypography.buttonText(
                     context,
                   ).copyWith(color: Theme.of(context).colorScheme.primary),
@@ -440,7 +448,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Weight Range (${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'})',
+          '${AppLocalizations.of(context)!.weightRange} (${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'})',
           style: AppTypography.subtitle1(context),
         ),
         const SizedBox(height: 8),
@@ -515,7 +523,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Date Range', style: AppTypography.subtitle1(context)),
+        Text(
+          '${AppLocalizations.of(context)!.dateRange}',
+          style: AppTypography.subtitle1(context),
+        ),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -539,7 +550,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                   _dateRange != null
                       ? '${DateFormat('MMM d, y').format(_dateRange!.start)} - '
                             '${DateFormat('MMM d, y').format(_dateRange!.end)}'
-                      : 'Select Date Range',
+                      : '${AppLocalizations.of(context)!.selectDateRange}',
                   style: AppTypography.bodyLarge(
                     context,
                   ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
@@ -596,7 +607,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Tags', style: AppTypography.subtitle1(context)),
+        Text(
+          '${AppLocalizations.of(context)!.tags}',
+          style: AppTypography.subtitle1(context),
+        ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
@@ -638,7 +652,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Image Types',
+          AppLocalizations.of(context)!.imageTypes,
           style: AppTypography.subtitle1(
             context,
           ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
@@ -650,7 +664,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
               child: FilterChip(
                 label: Center(
                   child: Text(
-                    'Front',
+                    AppLocalizations.of(context)!.front,
                     style: AppTypography.bodyLarge(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
@@ -674,7 +688,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
               child: FilterChip(
                 label: Center(
                   child: Text(
-                    'Side',
+                    AppLocalizations.of(context)!.side,
                     style: AppTypography.bodyLarge(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
@@ -698,7 +712,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
               child: FilterChip(
                 label: Center(
                   child: Text(
-                    'Back',
+                    AppLocalizations.of(context)!.back,
                     style: AppTypography.bodyLarge(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
@@ -848,7 +862,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                   Text(
                     entry.weight != null
                         ? '${(ref.watch(unitConversionProvider).useMetricWeight ? entry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(entry.weight!)).toStringAsFixed(1)} ${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'}'
-                        : 'No weight data',
+                        : AppLocalizations.of(context)!.noWeightData,
                     style: AppTypography.bodyMedium(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
@@ -898,7 +912,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         child: Text(
-                          'Pic 1',
+                          AppLocalizations.of(context)!.pic1,
                           style: AppTypography.bodyLarge(context).copyWith(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
@@ -922,7 +936,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         child: Text(
-                          'Pic 2',
+                          AppLocalizations.of(context)!.pic2,
                           style: AppTypography.bodyLarge(context).copyWith(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
@@ -955,7 +969,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: Text('Export to Gallery'),
+                title: Text(AppLocalizations.of(context)!.exportToGallery),
                 onTap: () async {
                   Navigator.pop(context);
                   await ref
@@ -967,8 +981,13 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
                       SnackBar(
                         content: Text(
                           state.isSuccess
-                              ? 'Image saved to gallery'
-                              : state.errorMessage ?? 'Failed to save image',
+                              ? AppLocalizations.of(
+                                  context,
+                                )!.imageSavedToGallery
+                              : state.errorMessage ??
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.failedToSaveImage,
                         ),
                       ),
                     );
@@ -978,7 +997,7 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
 
               ListTile(
                 leading: const Icon(Icons.cancel),
-                title: Text('Cancel'),
+                title: Text(AppLocalizations.of(context)!.cancel),
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -1010,22 +1029,30 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
         // Show success message
         if (result['isSuccess']) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Image saved to gallery')),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.imageSavedToGallery),
+            ),
           );
         } else {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('Failed to save image')));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.failedToSaveImage),
+            ),
+          );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Permission denied to save images')),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.permissionDeniedToSaveImages,
+            ),
+          ),
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error saving image: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.errorSavingImage)),
+      );
     }
   }
 }

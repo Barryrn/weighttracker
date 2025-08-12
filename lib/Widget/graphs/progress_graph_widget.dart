@@ -70,7 +70,7 @@ class ProgressGraphWidget extends ConsumerWidget {
               context,
               ref,
               GraphViewType.table,
-              'Table View',
+              AppLocalizations.of(context)!.tableView,
               Icons.table_chart,
               currentType,
             ),

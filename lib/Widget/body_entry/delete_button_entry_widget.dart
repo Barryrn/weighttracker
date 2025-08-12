@@ -53,7 +53,9 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Entry deleted successfully',
+                            AppLocalizations.of(
+                              context,
+                            )!.entryDeletedSuccessfully,
                             style: AppTypography.bodyMedium(
                               context,
                             ).copyWith(color: Colors.white),
@@ -70,7 +72,7 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Failed to delete entry',
+                            AppLocalizations.of(context)!.failedToDeleteEntry,
                             style: AppTypography.bodyMedium(
                               context,
                             ).copyWith(color: Colors.white),
@@ -85,7 +87,9 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Error deleting entry: ${e.toString()}',
+                          AppLocalizations.of(context)!.errorDeletingEntry +
+                              ': ' +
+                              e.toString(),
                           style: AppTypography.bodyMedium(
                             context,
                           ).copyWith(color: Colors.white),
@@ -106,7 +110,7 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
               ),
             ),
             child: Text(
-              'Delete',
+              AppLocalizations.of(context)!.delete,
               style: AppTypography.subtitle1(
                 context,
               ).copyWith(color: Colors.white, fontWeight: FontWeight.bold),
@@ -126,18 +130,18 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(
-                'Delete Entry',
+                AppLocalizations.of(context)!.deleteEntry,
                 style: AppTypography.subtitle1(context),
               ),
               content: Text(
-                'Are you sure you want to delete this entry? This action cannot be undone.',
+                AppLocalizations.of(context)!.deleteEntryConfirmation,
                 style: AppTypography.bodyMedium(context),
               ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
                   child: Text(
-                    'Cancel',
+                    AppLocalizations.of(context)!.cancel,
                     style: AppTypography.buttonText(context),
                   ),
                 ),
@@ -145,7 +149,7 @@ class DeleteButtonEntryWidget extends ConsumerWidget {
                   onPressed: () => Navigator.of(context).pop(true),
                   style: TextButton.styleFrom(foregroundColor: Colors.red),
                   child: Text(
-                    'Delete',
+                    AppLocalizations.of(context)!.delete,
                     style: AppTypography.buttonText(
                       context,
                     ).copyWith(color: Colors.red),

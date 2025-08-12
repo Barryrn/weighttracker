@@ -33,23 +33,23 @@ class WeightChangeTDEEWidget extends ConsumerWidget {
                 const Icon(Icons.local_fire_department, color: Colors.orange),
                 const SizedBox(width: 8),
                 Text(
-                  'Weight Change TDEE',
+                  AppLocalizations.of(context)!.weightChangeTdee,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Based on your weight change and calorie intake over time:',
+            Text(
+              AppLocalizations.of(
+                context,
+              )!.basedOnYourWeightChangeAndCalorieIntakeOverTime,
             ),
             const SizedBox(height: 8),
             _buildTDEEDisplay(context, tdee),
             const SizedBox(height: 16),
-            const Text(
-              'This calculation uses the formula: TDEE = (CaloriesConsumed + (WeightChange_kg × 7700)) / Days',
-            ),
+            Text(AppLocalizations.of(context)!.calculationFormulaText),
             const SizedBox(height: 8),
-            _buildRequirementsText(tdee),
+            _buildRequirementsText(tdee, context),
           ],
         ),
       ),
@@ -59,13 +59,13 @@ class WeightChangeTDEEWidget extends ConsumerWidget {
   /// Builds the display for the calculated TDEE value
   Widget _buildTDEEDisplay(BuildContext context, double? tdee) {
     if (tdee == null) {
-      return const Card(
+      return Card(
         color: Colors.grey,
         child: Padding(
           padding: EdgeInsets.all(16),
           child: Center(
             child: Text(
-              'Insufficient data for TDEE calculation. Please track your weight and calories for at least 7 consecutive days.',
+              AppLocalizations.of(context)!.insufficientDataToCalculateGoalTdee,
               textAlign: TextAlign.center,
             ),
           ),
@@ -80,9 +80,13 @@ class WeightChangeTDEEWidget extends ConsumerWidget {
         child: Center(
           child: Column(
             children: [
-              Text('${tdee.toStringAsFixed(0)} calories'),
+              Text(
+                '${tdee.toStringAsFixed(0)} ${AppLocalizations.of(context)!.calories}',
+              ),
               const SizedBox(height: 4),
-              const Text('Your estimated daily calorie needs'),
+              Text(
+                AppLocalizations.of(context)!.yourEstimatedDailyCalorieNeeds,
+              ),
             ],
           ),
         ),
@@ -91,14 +95,14 @@ class WeightChangeTDEEWidget extends ConsumerWidget {
   }
 
   /// Builds the requirements text based on whether TDEE is calculated
-  Widget _buildRequirementsText(double? tdee) {
+  Widget _buildRequirementsText(double? tdee, BuildContext context) {
     if (tdee == null) {
-      return const Text(
-        'Note: This calculation requires at least 7 consecutive days of weight and calorie data. It will use up to 14 days of continuous data for more accuracy.',
-      );
+      return Text(AppLocalizations.of(context)!.infoNoteCalorieTimeCalculation);
     } else {
-      return const Text(
-        'This calculation automatically updates when you add new entries.',
+      return Text(
+        AppLocalizations.of(
+          context,
+        )!.thisCalculationAutomaticallyUpdatesWhenYouAddNewEntries,
       );
     }
   }

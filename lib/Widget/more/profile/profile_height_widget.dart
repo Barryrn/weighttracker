@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/Widget/test_widget.dart';
@@ -64,7 +65,7 @@ class ProfileHeightWidget extends ConsumerWidget {
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
-          title: const Text('Height'),
+          title: Text(AppLocalizations.of(context)!.height),
           subtitle: Text(formattedHeight),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => _showHeightSlider(context, ref),
@@ -122,7 +123,7 @@ class ProfileHeightWidget extends ConsumerWidget {
                 children: [
                   const SizedBox(height: 16),
                   Text(
-                    'Adjust Height',
+                    AppLocalizations.of(context)!.adjustHeight,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 8),
@@ -200,7 +201,7 @@ class ProfileHeightWidget extends ConsumerWidget {
                       TextButton(
                         onPressed: () => Navigator.pop(context),
                         child: Text(
-                          'CANCEL',
+                          AppLocalizations.of(context)!.cancel,
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
                                 color: Theme.of(context).colorScheme.error,
@@ -222,7 +223,7 @@ class ProfileHeightWidget extends ConsumerWidget {
                               .updateHeight(heightToSave);
                           Navigator.pop(context);
                         },
-                        child: const Text('SAVE'),
+                        child: Text(AppLocalizations.of(context)!.save),
                       ),
                     ],
                   ),

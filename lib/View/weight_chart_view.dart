@@ -48,7 +48,9 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
     }
 
     if (viewModel.chartData.isEmpty) {
-      return const Center(child: Text('No weight data available'));
+      return Center(
+        child: Text(AppLocalizations.of(context)!.noWeightDataAvailable),
+      );
     }
 
     return Padding(
@@ -78,10 +80,30 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildPeriodButton(context, TimePeriod.day, 'Day', viewModel),
-        _buildPeriodButton(context, TimePeriod.week, 'Week', viewModel),
-        _buildPeriodButton(context, TimePeriod.month, 'Month', viewModel),
-        _buildPeriodButton(context, TimePeriod.year, 'Year', viewModel),
+        _buildPeriodButton(
+          context,
+          TimePeriod.day,
+          AppLocalizations.of(context)!.day,
+          viewModel,
+        ),
+        _buildPeriodButton(
+          context,
+          TimePeriod.week,
+          AppLocalizations.of(context)!.week,
+          viewModel,
+        ),
+        _buildPeriodButton(
+          context,
+          TimePeriod.month,
+          AppLocalizations.of(context)!.month,
+          viewModel,
+        ),
+        _buildPeriodButton(
+          context,
+          TimePeriod.year,
+          AppLocalizations.of(context)!.year,
+          viewModel,
+        ),
       ],
     );
   }
@@ -126,7 +148,10 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('Average Weight:', style: TextStyle(fontSize: 16)),
+            Text(
+              AppLocalizations.of(context)!.averageWeight + ':',
+              style: TextStyle(fontSize: 16),
+            ),
             Text(
               displayWeight != null
                   ? '${displayWeight.toStringAsFixed(1)} $weightUnit'
@@ -168,7 +193,7 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
     final entry = viewModel.chartData.first;
 
     if (entry.weight == null) {
-      return const Center(child: Text('Average Weight'));
+      return Center(child: Text(AppLocalizations.of(context)!.averageWeight));
     }
 
     final unitPrefs = ref.watch(unitConversionProvider);

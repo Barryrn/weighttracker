@@ -25,7 +25,7 @@ class HealthSyncSettings extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Health Sync Settings',
+            AppLocalizations.of(context)!.healthSyncSettings,
             style: AppTypography.headline3(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textTertiary),

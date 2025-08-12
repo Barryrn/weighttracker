@@ -41,7 +41,7 @@ class TDEESettingsWidget extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        title: Text('TDEE Calculator (Calories)'),
+        title: Text(AppLocalizations.of(context)!.tdeeCalculatorCalories),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
           Navigator.push(

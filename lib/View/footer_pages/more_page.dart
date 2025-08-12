@@ -26,7 +26,7 @@ class MorePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'More Settings',
+            AppLocalizations.of(context)!.moreSettings,
             style: AppTypography.headline2(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textTertiary),

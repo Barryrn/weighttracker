@@ -29,7 +29,7 @@ class TagSettingsView extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Tag Settings',
+            AppLocalizations.of(context)!.tagSettings,
             style: AppTypography.headline3(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
@@ -67,11 +67,14 @@ class TagSettingsView extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Error: ${data.error}', textAlign: TextAlign.center),
+            Text(
+              AppLocalizations.of(context)!.error + ' ' + data.error!,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => viewModel.loadAllTags(),
-              child: const Text('Retry'),
+              child: Text(AppLocalizations.of(context)!.retry),
             ),
           ],
         ),
@@ -81,7 +84,9 @@ class TagSettingsView extends ConsumerWidget {
     if (data.allTags.isEmpty) {
       return Center(
         child: Text(
-          'No tags found. Add tags when entering weight data.',
+          AppLocalizations.of(
+            context,
+          )!.noTagsFoundAddTagsWhenEnteringWeightData,
           textAlign: TextAlign.center,
         ),
       );
@@ -118,15 +123,18 @@ class TagSettingsView extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Tag'),
+        title: Text(AppLocalizations.of(context)!.deleteTag),
         content: Text(
-          'Are you sure you want to delete the tag "$tag"? '
-          'This will remove it from all entries in the database.',
+          AppLocalizations.of(context)!.areYouSureYouWantToDeleteTheTag +
+              ' "$tag"? ' +
+              AppLocalizations.of(
+                context,
+              )!.thisWillRemoveItFromAllEntriesInTheDatabase,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -134,7 +142,7 @@ class TagSettingsView extends ConsumerWidget {
               viewModel.deleteTag(tag);
               // viewModel.cleanupEmptyTags();
             },
-            child: Text('Delete'),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),
