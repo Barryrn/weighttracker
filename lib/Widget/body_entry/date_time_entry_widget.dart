@@ -147,7 +147,17 @@ class DateTimeEntry extends ConsumerWidget {
     BodyEntryNotifier notifier,
     int days,
   ) async {
-    final newDate = currentDate.add(Duration(days: days));
+    // Preserve the current time when changing the date
+    final now = DateTime.now();
+    final newDate = DateTime(
+      currentDate.add(Duration(days: days)).year,
+      currentDate.add(Duration(days: days)).month,
+      currentDate.add(Duration(days: days)).day,
+      now.hour,
+      now.minute,
+      now.second,
+      now.millisecond,
+    );
 
     // Reset the bodyEntryProvider by creating a new instance with only the date
     notifier.reset();
@@ -204,13 +214,25 @@ class DateTimeEntry extends ConsumerWidget {
     );
 
     if (picked != null && picked != initialDate) {
+      // Preserve the current time when updating the date
+      final now = DateTime.now();
+      final newDateWithTime = DateTime(
+        picked.year,
+        picked.month,
+        picked.day,
+        now.hour,
+        now.minute,
+        now.second,
+        now.millisecond,
+      );
+
       // Reset the bodyEntryProvider by creating a new instance with only the date
       notifier.reset();
       // Update the date after resetting
-      notifier.updateDate(picked);
+      notifier.updateDate(newDateWithTime);
 
       // Load data for this date from the database
-      await _loadEntryForDate(picked, notifier);
+      await _loadEntryForDate(newDateWithTime, notifier);
 
       // Show a snackbar to inform the user about the date change
       // if (context.mounted) {

@@ -123,6 +123,7 @@ class HealthWidget extends ConsumerWidget {
             onPressed: healthState.isSyncing
                 ? null
                 : () => healthNotifier.performTwoWaySync(),
+
             isLoading: healthState.isSyncing,
           ),
 

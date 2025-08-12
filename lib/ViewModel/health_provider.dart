@@ -124,7 +124,7 @@ class HealthStateNotifier extends StateNotifier<HealthState> {
 
     try {
       state = state.copyWith(isSyncing: true, clearError: true);
-      final success = await _healthService.syncWeightDataToHealth(entries);
+      final success = await _healthService.syncDataToHealth(entries);
 
       if (success) {
         final now = DateTime.now();
