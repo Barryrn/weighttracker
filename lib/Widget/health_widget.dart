@@ -21,10 +21,10 @@ class HealthWidget extends ConsumerWidget {
         // Health service availability card
         _buildStatusCard(
           context,
-          title: 'Health Services',
+          title: AppLocalizations.of(context)!.healthServices,
           subtitle: healthState.isAvailable
-              ? 'Available on your device'
-              : 'Not available on your device',
+              ? AppLocalizations.of(context)!.availableOnYourDevice
+              : AppLocalizations.of(context)!.notAvailableOnYourDevice,
           icon: healthState.isAvailable
               ? Icons.check_circle
               : Icons.error_outline,
@@ -38,10 +38,10 @@ class HealthWidget extends ConsumerWidget {
         // Authorization status card
         _buildStatusCard(
           context,
-          title: 'Authorization',
+          title: AppLocalizations.of(context)!.authorization,
           subtitle: healthState.isAuthorized
-              ? 'Access granted'
-              : 'Access not granted',
+              ? AppLocalizations.of(context)!.accessGranted
+              : AppLocalizations.of(context)!.accessNotGranted,
           icon: healthState.isAuthorized
               ? Icons.check_circle
               : Icons.lock_outline,
@@ -55,12 +55,12 @@ class HealthWidget extends ConsumerWidget {
         // Last sync time card
         _buildStatusCard(
           context,
-          title: 'Last Sync',
+          title: AppLocalizations.of(context)!.lastSync,
           subtitle: healthState.lastSyncTime != null
               ? DateFormat(
                   'MMM d, yyyy h:mm a',
                 ).format(healthState.lastSyncTime!)
-              : 'Never synced',
+              : AppLocalizations.of(context)!.neverSynced,
           icon: Icons.sync,
           iconColor: healthState.lastSyncTime != null
               ? Theme.of(context).colorScheme.primary
@@ -132,15 +132,15 @@ class HealthWidget extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Updated explanation text to include BMI
-          Text(
-            '${AppLocalizations.of(context)!.syncingWill}\n'
-            '${AppLocalizations.of(context)!.dataSendToHealthApp}\n'
-            '${AppLocalizations.of(context)!.importDataFromHealthApp}\n'
-            '${AppLocalizations.of(context)!.keepBothSystemsUpToDate}',
-            style: AppTypography.bodyLarge(
-              context,
-            ).copyWith(color: Theme.of(context).colorScheme.textSecondary),
-          ),
+          // Text(
+          //   '${AppLocalizations.of(context)!.syncingWill}\n'
+          //   '${AppLocalizations.of(context)!.dataSendToHealthApp}\n'
+          //   '${AppLocalizations.of(context)!.importDataFromHealthApp}\n'
+          //   '${AppLocalizations.of(context)!.keepBothSystemsUpToDate}',
+          //   style: AppTypography.bodyLarge(
+          //     context,
+          //   ).copyWith(color: Theme.of(context).colorScheme.textSecondary),
+          // ),
         ],
 
         if (!healthState.isAvailable) ...[

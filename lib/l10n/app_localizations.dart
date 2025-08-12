@@ -1333,6 +1333,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Polish'**
   String get polish;
+
+  /// No description provided for @healthServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Health Services'**
+  String get healthServices;
+
+  /// No description provided for @availableOnYourDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Available on your device'**
+  String get availableOnYourDevice;
+
+  /// No description provided for @notAvailableOnYourDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available on your device'**
+  String get notAvailableOnYourDevice;
+
+  /// No description provided for @authorization.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorization'**
+  String get authorization;
+
+  /// No description provided for @accessGranted.
+  ///
+  /// In en, this message translates to:
+  /// **'Access granted'**
+  String get accessGranted;
+
+  /// No description provided for @accessNotGranted.
+  ///
+  /// In en, this message translates to:
+  /// **'Access not granted'**
+  String get accessNotGranted;
+
+  /// No description provided for @neverSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Never synced'**
+  String get neverSynced;
+
+  /// No description provided for @grantAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Grant Access'**
+  String get grantAccess;
+
+  /// No description provided for @lastSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Sync'**
+  String get lastSync;
 }
 
 class _AppLocalizationsDelegate

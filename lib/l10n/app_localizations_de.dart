@@ -135,7 +135,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get useThisResult => 'Dieses Ergebnis verwenden';
 
   @override
-  String get healthSyncSettings => 'Gesundheitssynchronisation Einstellungen';
+  String get healthSyncSettings => 'Health Sync';
 
   @override
   String get compareYourProgress => 'Vergleichen Sie Ihren Fortschritt';
@@ -659,4 +659,31 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get polish => 'Polnisch';
+
+  @override
+  String get healthServices => 'Gesundheitsdienste';
+
+  @override
+  String get availableOnYourDevice => 'Auf Ihrem Gerät verfügbar';
+
+  @override
+  String get notAvailableOnYourDevice => 'Auf Ihrem Gerät nicht verfügbar';
+
+  @override
+  String get authorization => 'Authorisierung';
+
+  @override
+  String get accessGranted => 'Zugriff gewährt';
+
+  @override
+  String get accessNotGranted => 'Zugriff nicht gewährt';
+
+  @override
+  String get neverSynced => 'Nie synchronisiert';
+
+  @override
+  String get grantAccess => 'Zugriff gewähren';
+
+  @override
+  String get lastSync => 'Letzte Synchronisierung';
 }

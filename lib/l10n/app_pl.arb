@@ -201,6 +201,15 @@
   "korean": "Koreański",
   "russian": "Rosyjski",
   "chinese": "Chiński",
-  "turkish": "Turecki"
+  "turkish": "Turecki",
+  "healthServices": "Usługi zdrowotne",
+  "availableOnYourDevice": "Dostępne na Twoim urządzeniu",
+  "notAvailableOnYourDevice": "Nie dostępne na Twoim urządzeniu",
+  "authorization": "Autorizacja",
+  "accessGranted": "Dostęp przyznany",
+  "accessNotGranted": "Dostęp nie przyznany",
+  "neverSynced": "Nigdy nie synchronizowano",
+  "grantAccess": "Przyznaj dostęp",
+  "lastSync": "Ostatnia synchronizacja"
 }
 

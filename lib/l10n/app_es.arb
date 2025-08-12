@@ -202,5 +202,14 @@
   "russian": "Ruso",
   "chinese": "Chino",
   "turkish": "Turco",
-  "polish": "Polaco"
+  "polish": "Polaco",
+  "healthServices": "Servicios de salud",
+  "availableOnYourDevice": "Disponible en tu dispositivo",
+  "notAvailableOnYourDevice": "No disponible en tu dispositivo",
+  "authorization": "Autorización",
+  "accessGranted": "Acceso concedido",
+  "accessNotGranted": "Acceso no concedido",
+  "neverSynced": "Nunca sincronizado",
+  "grantAccess": "Conceder acceso",
+  "lastSync": "Última sincronización"
 }

@@ -140,7 +140,7 @@ class HealthService {
           // Write body fat percentage data if available
           bool fatSuccess = true;
           if (entry.fatPercentage != null) {
-            final healthFatPercentage = entry.fatPercentage! * 10;
+            final healthFatPercentage = entry.fatPercentage! / 100;
             final fatEntryId =
                 '${DateFormat('yyyy-MM-dd').format(entry.date)}_fat_${entry.fatPercentage}';
 
@@ -355,8 +355,8 @@ class HealthService {
         double? fatPercentage;
         if (data.value is num) {
           fatPercentage = (data.value as num).toDouble();
-          // Divide by 10 to convert from percentage to decimal
-          fatPercentage = fatPercentage / 10;
+          // Multiply by 100 to convert from decimal to percentage
+          fatPercentage = fatPercentage * 100;
         } else if (data.value.toString().contains('numericValue:')) {
           // Extract the numeric value from the string representation
           final valueStr = data.value.toString();
@@ -364,9 +364,9 @@ class HealthService {
           final match = regex.firstMatch(valueStr);
           if (match != null && match.groupCount >= 1) {
             fatPercentage = double.tryParse(match.group(1)!);
-            // Divide by 10 to convert from percentage to decimal
+            // Multiply by 100 to convert from decimal to percentage
             if (fatPercentage != null) {
-              fatPercentage = fatPercentage / 10;
+              fatPercentage = fatPercentage * 100;
             }
           }
         }
