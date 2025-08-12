@@ -34,7 +34,7 @@ class WeightGoalWidget extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Weight Goal',
+                  AppLocalizations.of(context)!.weightGoal,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Theme.of(context).colorScheme.textPrimary,
                     fontWeight: FontWeight.bold,
@@ -52,7 +52,10 @@ class WeightGoalWidget extends ConsumerWidget {
             const SizedBox(height: 16),
 
             // Start weight field
-            Text('Set your start weight (${goalData.unitSuffix})'),
+            Text(
+              AppLocalizations.of(context)!.setYourStartWeight +
+                  ' (${goalData.unitSuffix})',
+            ),
             const SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(
@@ -106,7 +109,10 @@ class WeightGoalWidget extends ConsumerWidget {
             const SizedBox(height: 16),
 
             // Target weight field
-            Text('Set your goal weight (${goalData.unitSuffix})'),
+            Text(
+              AppLocalizations.of(context)!.setYourGoalWeight +
+                  ' (${goalData.unitSuffix})',
+            ),
             const SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(
@@ -158,7 +164,11 @@ class WeightGoalWidget extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Text('Your progress will be tracked against this goal'),
+            Text(
+              AppLocalizations.of(
+                context,
+              )!.yourProgressWillBeTrackedAgainstThisGoal,
+            ),
           ],
         ),
       ),

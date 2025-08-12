@@ -23,7 +23,7 @@ class NotesEntry extends ConsumerWidget {
       children: [
         const SizedBox(height: 16),
         Text(
-          'Notes',
+          AppLocalizations.of(context)!.notes,
           style: AppTypography.bodyLarge(
             context,
           ).copyWith(color: Theme.of(context).colorScheme.textPrimary),

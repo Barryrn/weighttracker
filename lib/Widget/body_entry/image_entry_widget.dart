@@ -82,7 +82,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
               children: [
                 ListTile(
                   leading: const Icon(Icons.camera_alt),
-                  title: const Text('Take Photo'),
+                  title: Text(AppLocalizations.of(context)!.takePhoto),
                   onTap: () {
                     Navigator.pop(context);
                     _getImage(ImageSource.camera, viewType);
@@ -90,7 +90,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.photo_library),
-                  title: const Text('Choose from Gallery'),
+                  title: Text(AppLocalizations.of(context)!.chooseFromGallery),
                   onTap: () {
                     Navigator.pop(context);
                     _getImage(ImageSource.gallery, viewType);
@@ -102,7 +102,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
                       Icons.delete,
                       color: Theme.of(context).colorScheme.error,
                     ),
-                    title: const Text('Delete Photo'),
+                    title: Text(AppLocalizations.of(context)!.deletePhoto),
                     onTap: () {
                       Navigator.pop(context);
                       _deleteImage(viewType);
@@ -114,7 +114,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],
         );
@@ -129,8 +129,12 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
         var status = await Permission.camera.request();
         if (status.isDenied) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Camera permission is required to take photos'),
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(
+                  context,
+                )!.cameraPermissionIsRequiredToTakePhotos,
+              ),
             ),
           );
           return;
@@ -139,8 +143,12 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
         var status = await Permission.photos.request();
         if (status.isDenied) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Photos permission is required to select images'),
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(
+                  context,
+                )!.photosPermissionIsRequiredToSelectImages,
+              ),
             ),
           );
           return;
@@ -198,9 +206,9 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
         }
       }
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.error + ': $e')),
+      );
     }
   }
 
@@ -251,9 +259,13 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
             break;
         }
       } catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error deleting image: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.errorDeletingImage + ': $e',
+            ),
+          ),
+        );
       }
     } else {
       // Even if there's no image path, we should still ensure the state is updated to null
@@ -280,7 +292,7 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
       children: [
         const SizedBox(height: 16),
         Text(
-          'Progress Photos',
+          AppLocalizations.of(context)!.progressPhotos,
           style: AppTypography.bodyLarge(
             context,
           ).copyWith(color: Theme.of(context).colorScheme.textPrimary),

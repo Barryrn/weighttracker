@@ -27,7 +27,7 @@ class ProgressPage extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Progress Page',
+            AppLocalizations.of(context)!.progressPage,
             style: AppTypography.headline2(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textTertiary),

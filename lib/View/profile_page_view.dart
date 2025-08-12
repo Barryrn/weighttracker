@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Profile',
+          AppLocalizations.of(context)!.profile,
           style: AppTypography.headline3(
             context,
           ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
@@ -31,7 +31,10 @@ class HomePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          child: const Text('Click Me', style: TextStyle(fontSize: 18)),
+          child: Text(
+            AppLocalizations.of(context)!.clickMe,
+            style: const TextStyle(fontSize: 18),
+          ),
         ),
       ),
       bottomNavigationBar: Footer(currentIndex: 0, onTap: (index) {}),

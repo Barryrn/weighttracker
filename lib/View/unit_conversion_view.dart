@@ -31,7 +31,7 @@ class UnitConversionSettingsPage extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Unit Conversion',
+            AppLocalizations.of(context)!.unitConversion,
             style: AppTypography.headline3(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textTertiary),

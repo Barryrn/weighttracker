@@ -166,6 +166,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tags => 'Tags';
 
   @override
+  String get tag => 'Tag';
+
+  @override
   String get imageTypes => 'Bildtypen';
 
   @override
@@ -342,9 +345,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get save => 'Speichern';
-
-  @override
-  String get weight => 'Gewicht';
 
   @override
   String get tdeeInformation => 'TDEE-Informationen';
@@ -525,4 +525,76 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get infoTextTdeeEstimate =>
       'Dies ist eine erste Schätzung Ihres TDEE basierend auf Alter, Gewicht, Geschlecht und Aktivitätslevel.\nFür ein genaueres Ergebnis verfolgen Sie bitte Ihr Gewicht und Ihre Kalorienaufnahme mindestens 7 Tage in Folge.';
+
+  @override
+  String get bmi => 'BMI';
+
+  @override
+  String get fat => 'Fett:';
+
+  @override
+  String get weight => 'Gewicht';
+
+  @override
+  String get fatPercentSign => 'Fett %';
+
+  @override
+  String get bodyFat => 'Körperfett';
+
+  @override
+  String get tableView => 'Tabellenansicht';
+
+  @override
+  String get graphView => 'Graphansicht';
+
+  @override
+  String get entry => 'Eintrag';
+
+  @override
+  String get entries => 'Einträgen';
+
+  @override
+  String get notSet => 'Nicht festgelegt';
+
+  @override
+  String get gainWeight => 'Gewicht erhöhen';
+
+  @override
+  String get loseWeight => 'Gewicht verringern';
+
+  @override
+  String get weightChangePerWeek => 'Gewichtsänderung pro Woche';
+
+  @override
+  String get baseTdee => 'Basis TDEE';
+
+  @override
+  String get weightChange => 'Gewichtsänderung';
+
+  @override
+  String get calorieAdjustment => 'Kalorienanpassung';
+
+  @override
+  String get goalTdee => 'Ziel TDEE';
+
+  @override
+  String get kcalDay => 'kcal/day';
+
+  @override
+  String get syncNow => 'Jetzt synchronisieren';
+
+  @override
+  String get use => 'Benutze';
+
+  @override
+  String get kilograms => 'Kilogramm';
+
+  @override
+  String get pounds => 'Pfund';
+
+  @override
+  String get centimeters => 'Zentimeter';
+
+  @override
+  String get inches => 'Zoll';
 }

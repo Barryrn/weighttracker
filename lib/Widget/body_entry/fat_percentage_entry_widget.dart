@@ -39,7 +39,7 @@ class FatPercentageEntry extends ConsumerWidget {
       children: [
         const SizedBox(height: 16),
         Text(
-          'Body Fat Percentage (%)',
+          AppLocalizations.of(context)!.bodyFatPercentage,
           style: AppTypography.bodyLarge(
             context,
           ).copyWith(color: Theme.of(context).colorScheme.textPrimary),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 
 import 'package:weigthtracker/theme.dart';
 import '../../../View/profile_settings_page_view.dart';
@@ -41,7 +42,7 @@ class ProfileSettingsWidget extends StatelessWidget {
           ),
         ),
 
-        title: Text('Profile'),
+        title: Text(AppLocalizations.of(context)!.profile),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
           Navigator.push(

@@ -27,7 +27,8 @@ class WeightEntry extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Weight (${entryData.unitSuffix})',
+              AppLocalizations.of(context)!.weight +
+                  ' (${entryData.unitSuffix})',
               style: AppTypography.bodyLarge(context),
             ),
             // Unit toggle button

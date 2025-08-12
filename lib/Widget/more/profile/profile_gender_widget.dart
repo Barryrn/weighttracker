@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/theme.dart';
@@ -71,7 +72,7 @@ class ProfileGenderWidget extends ConsumerWidget {
                 _buildGenderOption(
                   context: context,
                   ref: ref,
-                  label: 'Male',
+                  label: AppLocalizations.of(context)!.male,
                   icon: Icons.male,
                   genderValue: 'Male',
                 ),
@@ -79,7 +80,7 @@ class ProfileGenderWidget extends ConsumerWidget {
                 _buildGenderOption(
                   context: context,
                   ref: ref,
-                  label: 'Female',
+                  label: AppLocalizations.of(context)!.female,
                   icon: Icons.female,
                   genderValue: 'Female',
                 ),

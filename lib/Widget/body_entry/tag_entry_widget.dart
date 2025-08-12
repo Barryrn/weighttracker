@@ -26,7 +26,7 @@ class TagEntry extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Tags',
+          AppLocalizations.of(context)!.tags,
           style: AppTypography.bodyLarge(
             context,
           ).copyWith(color: Theme.of(context).colorScheme.textPrimary),

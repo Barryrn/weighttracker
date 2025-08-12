@@ -30,7 +30,7 @@ class ProfileSettingsPage extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Profile Settings',
+            AppLocalizations.of(context)!.profileSettings,
             style: AppTypography.headline3(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textTertiary),

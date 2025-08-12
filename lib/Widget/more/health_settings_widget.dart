@@ -45,7 +45,7 @@ class HealthSettingsWidget extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        title: Text('Health Integration'),
+        title: Text(AppLocalizations.of(context)!.healthIntegration),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
           Navigator.push(

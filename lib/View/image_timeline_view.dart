@@ -26,7 +26,7 @@ class _ImageTimelineViewState extends ConsumerState<ImageTimelineView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Image Timeline',
+          AppLocalizations.of(context)!.imageTimeline,
           style: AppTypography.headline3(
             context,
           ).copyWith(color: Theme.of(context).colorScheme.textTertiary),

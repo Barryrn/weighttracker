@@ -30,7 +30,7 @@ class GoalsPage extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'My Goals',
+            AppLocalizations.of(context)!.myGoals,
             style: AppTypography.headline2(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textTertiary),

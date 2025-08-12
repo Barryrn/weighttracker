@@ -404,6 +404,12 @@ abstract class AppLocalizations {
   /// **'Tags'**
   String get tags;
 
+  /// No description provided for @tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag'**
+  String get tag;
+
   /// No description provided for @imageTypes.
   ///
   /// In en, this message translates to:
@@ -734,12 +740,6 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get save;
 
-  /// No description provided for @weight.
-  ///
-  /// In en, this message translates to:
-  /// **'Weight'**
-  String get weight;
-
   /// No description provided for @tdeeInformation.
   ///
   /// In en, this message translates to:
@@ -1057,6 +1057,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This is a first estimate of your TDEE based on age, weight, gender, and activity level.\nFor a more precise result, track your body weight and calorie intake for at least 7 continuous days.'**
   String get infoTextTdeeEstimate;
+
+  /// No description provided for @bmi.
+  ///
+  /// In en, this message translates to:
+  /// **'BMI'**
+  String get bmi;
+
+  /// No description provided for @fat.
+  ///
+  /// In en, this message translates to:
+  /// **'Fat:'**
+  String get fat;
+
+  /// No description provided for @weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get weight;
+
+  /// No description provided for @fatPercentSign.
+  ///
+  /// In en, this message translates to:
+  /// **'Fat %'**
+  String get fatPercentSign;
+
+  /// No description provided for @bodyFat.
+  ///
+  /// In en, this message translates to:
+  /// **'Body Fat'**
+  String get bodyFat;
+
+  /// No description provided for @tableView.
+  ///
+  /// In en, this message translates to:
+  /// **'Table View'**
+  String get tableView;
+
+  /// No description provided for @graphView.
+  ///
+  /// In en, this message translates to:
+  /// **'Graph View'**
+  String get graphView;
+
+  /// No description provided for @entry.
+  ///
+  /// In en, this message translates to:
+  /// **'entry'**
+  String get entry;
+
+  /// No description provided for @entries.
+  ///
+  /// In en, this message translates to:
+  /// **'entries'**
+  String get entries;
+
+  /// No description provided for @notSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get notSet;
+
+  /// No description provided for @gainWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Gain Weight'**
+  String get gainWeight;
+
+  /// No description provided for @loseWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Lose Weight'**
+  String get loseWeight;
+
+  /// No description provided for @weightChangePerWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight Change per Week'**
+  String get weightChangePerWeek;
+
+  /// No description provided for @baseTdee.
+  ///
+  /// In en, this message translates to:
+  /// **'Base TDEE'**
+  String get baseTdee;
+
+  /// No description provided for @weightChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight Change'**
+  String get weightChange;
+
+  /// No description provided for @calorieAdjustment.
+  ///
+  /// In en, this message translates to:
+  /// **'Calorie Adjustment'**
+  String get calorieAdjustment;
+
+  /// No description provided for @goalTdee.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal TDEE'**
+  String get goalTdee;
+
+  /// No description provided for @kcalDay.
+  ///
+  /// In en, this message translates to:
+  /// **'kcal/day'**
+  String get kcalDay;
+
+  /// No description provided for @syncNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync Now'**
+  String get syncNow;
+
+  /// No description provided for @use.
+  ///
+  /// In en, this message translates to:
+  /// **'Use'**
+  String get use;
+
+  /// No description provided for @kilograms.
+  ///
+  /// In en, this message translates to:
+  /// **'Kilograms'**
+  String get kilograms;
+
+  /// No description provided for @pounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Pounds'**
+  String get pounds;
+
+  /// No description provided for @centimeters.
+  ///
+  /// In en, this message translates to:
+  /// **'Centimeters'**
+  String get centimeters;
+
+  /// No description provided for @inches.
+  ///
+  /// In en, this message translates to:
+  /// **'Inches'**
+  String get inches;
 }
 
 class _AppLocalizationsDelegate

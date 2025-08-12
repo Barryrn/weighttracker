@@ -60,7 +60,7 @@ class BodyEntrySheet {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Add Weight Entry',
+                              AppLocalizations.of(context)!.addWeightEntry,
                               style: AppTypography.headline3(context),
                             ),
 

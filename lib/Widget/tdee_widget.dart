@@ -26,7 +26,7 @@ class TDEEWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Total Daily Energy Expenditure (TDEE)',
+              AppLocalizations.of(context)!.totalDailyEnergyExpenditureTdee,
               style: AppTypography.headline3(context),
             ),
             const SizedBox(height: 16),
@@ -40,7 +40,7 @@ class TDEEWidget extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'Activity Level',
+              AppLocalizations.of(context)!.activityLevel,
               style: AppTypography.subtitle2(
                 context,
               ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
@@ -82,7 +82,7 @@ class TDEEWidget extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'This is a first estimate of your TDEE based on age, weight, gender, and activity level.\nFor a more precise result, track your body weight and calorie intake for at least 7 continous days.',
+              AppLocalizations.of(context)!.infoTextTdeeEstimate,
               style: AppTypography.caption(
                 context,
               ).copyWith(color: Theme.of(context).colorScheme.textSecondary),

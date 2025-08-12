@@ -44,7 +44,7 @@ class TagsSettingsWidget extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        title: Text('Tag'),
+        title: Text(AppLocalizations.of(context)!.tag),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
           Navigator.push(

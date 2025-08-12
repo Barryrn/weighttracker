@@ -45,7 +45,7 @@ class UnitConversionSettingsWidget extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        title: Text('Unit Conversion'),
+        title: Text(AppLocalizations.of(context)!.unitConversion),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
           Navigator.push(
