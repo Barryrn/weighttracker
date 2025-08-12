@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'dart:developer' as developer;
 import 'weight_goal_provider.dart';
 import 'start_weight_provider.dart';
@@ -32,16 +34,17 @@ class WeightGoalData {
 /// This class follows the MVVM pattern by processing data from multiple providers
 /// and transforming it into a format that's ready for display in the View.
 class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
-  WeightGoalViewModel(this.ref) : super(
-    WeightGoalData(
-      unitSuffix: 'kg',
-      useMetricWeight: true,
-      goalController: TextEditingController(),
-      startController: TextEditingController(),
-    )
-  ) {
+  WeightGoalViewModel(this.ref)
+    : super(
+        WeightGoalData(
+          unitSuffix: 'kg',
+          useMetricWeight: true,
+          goalController: TextEditingController(),
+          startController: TextEditingController(),
+        ),
+      ) {
     _initializeControllers();
-    
+
     // Listen for changes in the providers that affect weight goals
     ref.listen(weightGoalProvider, (_, __) => _updateControllers());
     ref.listen(startWeightProvider, (_, __) => _updateControllers());
@@ -80,8 +83,8 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
           ? weightGoal
           : weightGoal / 0.45359237;
       // Format without decimal if it's a whole number
-      state.goalController.text = displayWeight % 1 == 0 
-          ? displayWeight.toInt().toString() 
+      state.goalController.text = displayWeight % 1 == 0
+          ? displayWeight.toInt().toString()
           : displayWeight.toStringAsFixed(1);
     }
 
@@ -91,8 +94,8 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
           ? startWeight
           : startWeight / 0.45359237;
       // Format without decimal if it's a whole number
-      state.startController.text = displayWeight % 1 == 0 
-          ? displayWeight.toInt().toString() 
+      state.startController.text = displayWeight % 1 == 0
+          ? displayWeight.toInt().toString()
           : displayWeight.toStringAsFixed(1);
     }
 
@@ -121,8 +124,8 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
           ? weightGoal
           : weightGoal / 0.45359237;
       // Format without decimal if it's a whole number
-      state.goalController.text = displayWeight % 1 == 0 
-          ? displayWeight.toInt().toString() 
+      state.goalController.text = displayWeight % 1 == 0
+          ? displayWeight.toInt().toString()
           : displayWeight.toStringAsFixed(1);
     } else {
       state.goalController.text = '';
@@ -134,8 +137,8 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
           ? startWeight
           : startWeight / 0.45359237;
       // Format without decimal if it's a whole number
-      state.startController.text = displayWeight % 1 == 0 
-          ? displayWeight.toInt().toString() 
+      state.startController.text = displayWeight % 1 == 0
+          ? displayWeight.toInt().toString()
           : displayWeight.toStringAsFixed(1);
     } else {
       state.startController.text = '';
@@ -218,6 +221,7 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
 ///
 /// This provider makes the WeightGoalViewModel available to widgets
 /// that need to display and modify weight goal information.
-final weightGoalViewModelProvider = StateNotifierProvider<WeightGoalViewModel, WeightGoalData>(
-  (ref) => WeightGoalViewModel(ref),
-);
+final weightGoalViewModelProvider =
+    StateNotifierProvider<WeightGoalViewModel, WeightGoalData>(
+      (ref) => WeightGoalViewModel(ref),
+    );

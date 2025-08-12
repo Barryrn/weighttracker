@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:developer' as developer;
 import 'entry_form_provider.dart';
@@ -50,7 +52,9 @@ class FatPercentageEntryViewModel
   void _logState() {
     developer.log('===== Fat Percentage Entry ViewModel State ====');
     developer.log('Fat Percentage: ${state.fatPercentage}');
-    developer.log('Last Updated Date: ${state.lastUpdatedDate}'); // Log the date
+    developer.log(
+      'Last Updated Date: ${state.lastUpdatedDate}',
+    ); // Log the date
     developer.log('===================================');
   }
 
@@ -122,9 +126,9 @@ class FatPercentageEntryViewModel
 
   /// Helper method to check if two dates are the same day
   bool _isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year && 
-           date1.month == date2.month && 
-           date1.day == date2.day;
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   /// Format fat percentage to avoid automatic decimal point for whole numbers

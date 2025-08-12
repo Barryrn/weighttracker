@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/ViewModel/weight_change_tdee_goal_provider.dart';
 import 'package:weigthtracker/theme.dart';
@@ -54,7 +56,7 @@ class WeightProgressWidget extends ConsumerWidget {
               children: [
                 // Current weight
                 _buildWeightInfoColumn(
-                  'Current',
+                  AppLocalizations.of(context)!.current,
                   progressData.displayCurrentWeight != null
                       ? '${progressData.displayCurrentWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
                       : '-- ${progressData.unitSuffix}',
@@ -64,7 +66,7 @@ class WeightProgressWidget extends ConsumerWidget {
 
                 // Goal weight
                 _buildWeightInfoColumn(
-                  'Goal',
+                  AppLocalizations.of(context)!.goal,
                   progressData.displayGoalWeight != null
                       ? '${progressData.displayGoalWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
                       : '-- ${progressData.unitSuffix}',
@@ -74,7 +76,7 @@ class WeightProgressWidget extends ConsumerWidget {
 
                 // Remaining weight
                 _buildWeightInfoColumn(
-                  'Remaining',
+                  AppLocalizations.of(context)!.remaining,
                   progressData.currentWeight != null &&
                           progressData.goalWeight != null
                       ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
@@ -145,7 +147,7 @@ class WeightProgressWidget extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        'complete',
+                        AppLocalizations.of(context)!.complete,
                         style: AppTypography.bodyLarge(context).copyWith(
                           color: Theme.of(context).colorScheme.textSecondary,
                         ),

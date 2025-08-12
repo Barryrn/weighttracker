@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
@@ -78,10 +80,10 @@ class _ImageGalleryViewState extends ConsumerState<ImageGalleryView> {
       final tags = <String>{};
       for (final entry in entries) {
         // Only include tags from entries that have at least one image
-        if (entry.tags != null && 
-            (entry.frontImagePath != null || 
-             entry.sideImagePath != null || 
-             entry.backImagePath != null)) {
+        if (entry.tags != null &&
+            (entry.frontImagePath != null ||
+                entry.sideImagePath != null ||
+                entry.backImagePath != null)) {
           tags.addAll(entry.tags!);
         }
       }

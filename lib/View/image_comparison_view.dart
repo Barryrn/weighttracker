@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
@@ -38,8 +40,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
           children: [
             comparisonState.when(
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stackTrace) =>
-                  Center(child: Text('Error loading images')),
+              error: (error, stackTrace) => Center(
+                child: Text(AppLocalizations.of(context)!.errorLoadingImages),
+              ),
               data: (entries) {
                 final latestEntry = ref
                     .read(imageComparisonProvider.notifier)
@@ -69,13 +72,15 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           const SizedBox(height: 16),
-                          const Text(
-                            'No images available',
+                          Text(
+                            AppLocalizations.of(context)!.noImagesAvailable,
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 8),
-                          const Text(
-                            'Please upload images to track your progress',
+                          Text(
+                            AppLocalizations.of(
+                              context,
+                            )!.pleaseUploadImagesToTrackYourProgress,
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 16),
@@ -93,7 +98,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                                 horizontal: 24,
                               ),
                             ),
-                            child: const Text('Upload Images'),
+                            child: Text(
+                              AppLocalizations.of(context)!.uploadImages,
+                            ),
                           ),
                         ],
                       ),
@@ -102,8 +109,8 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                 }
 
                 if (latestEntry == null) {
-                  return const Center(
-                    child: Text('No images available for comparison'),
+                  return Center(
+                    child: Text(AppLocalizations.of(context)!.uploadImages),
                   );
                 }
 
@@ -114,7 +121,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                     children: [
                       // Comparison header
                       Text(
-                        'Compare your progress',
+                        AppLocalizations.of(context)!.compareYourProgress,
                         style: AppTypography.headline3(context),
                         textAlign: TextAlign.center,
                       ),
@@ -188,7 +195,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                             ), // Square corners
                           ),
                         ),
-                        child: const Text('View All Images'),
+                        child: Text(
+                          AppLocalizations.of(context)!.viewAllImages,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       ElevatedButton(
@@ -215,7 +224,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                             ),
                           ),
                         ),
-                        child: const Text('Image Timeline'),
+                        child: Text(
+                          AppLocalizations.of(context)!.imageTimeline,
+                        ),
                       ),
                     ],
                   ),
@@ -385,7 +396,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                 child: Text(
                   weight != null
                       ? '${(ref.watch(unitConversionProvider).useMetricWeight ? weight : ref.read(unitConversionProvider.notifier).kgToLb(weight)).toStringAsFixed(1)} ${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'}'
-                      : 'No weight data',
+                      : AppLocalizations.of(context)!.noWeightData,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -447,9 +458,12 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             ),
             child: Column(
               children: [
-                Text('No Comparison', style: AppTypography.bodyMedium(context)),
                 Text(
-                  'Add more entries',
+                  AppLocalizations.of(context)!.noComparison,
+                  style: AppTypography.bodyMedium(context),
+                ),
+                Text(
+                  AppLocalizations.of(context)!.addMoreEntries,
                   style: AppTypography.bodySmall(context),
                 ),
               ],
@@ -475,8 +489,8 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                 bottomRight: Radius.circular(10),
               ),
             ),
-            child: const Text(
-              'No similar weight entry',
+            child: Text(
+              AppLocalizations.of(context)!.noSimilarWeightEntryFound,
               textAlign: TextAlign.center,
             ),
           ),

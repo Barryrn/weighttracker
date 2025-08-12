@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'body_entry_model.dart';
 
 /// Model class for handling image comparison logic
@@ -7,17 +9,26 @@ class ImageComparisonModel {
   /// @param referenceEntry The reference body entry
   /// @param allEntries List of all body entries
   /// @return The body entry with the closest weight to the reference entry
-  static BodyEntry? findClosestWeightImage(BodyEntry referenceEntry, List<BodyEntry> allEntries) {
+  static BodyEntry? findClosestWeightImage(
+    BodyEntry referenceEntry,
+    List<BodyEntry> allEntries,
+  ) {
     if (referenceEntry.weight == null || allEntries.isEmpty) {
       return null;
     }
 
     // Filter entries that have at least one image and a weight value
-    final entriesWithImages = allEntries.where((entry) => 
-      entry.date != referenceEntry.date && // Exclude the reference entry
-      entry.weight != null && 
-      (entry.frontImagePath != null || entry.sideImagePath != null || entry.backImagePath != null)
-    ).toList();
+    final entriesWithImages = allEntries
+        .where(
+          (entry) =>
+              entry.date !=
+                  referenceEntry.date && // Exclude the reference entry
+              entry.weight != null &&
+              (entry.frontImagePath != null ||
+                  entry.sideImagePath != null ||
+                  entry.backImagePath != null),
+        )
+        .toList();
 
     if (entriesWithImages.isEmpty) {
       return null;
@@ -53,35 +64,50 @@ class ImageComparisonModel {
     bool showBackImages = true,
   }) {
     // Start with entries that have at least one image of the selected types
-    var filteredEntries = entries.where((entry) =>
-      (showFrontImages && entry.frontImagePath != null) ||
-      (showSideImages && entry.sideImagePath != null) ||
-      (showBackImages && entry.backImagePath != null)
-    ).toList();
+    var filteredEntries = entries
+        .where(
+          (entry) =>
+              (showFrontImages && entry.frontImagePath != null) ||
+              (showSideImages && entry.sideImagePath != null) ||
+              (showBackImages && entry.backImagePath != null),
+        )
+        .toList();
 
     // Filter by weight range
     if (weightRange != null) {
-      filteredEntries = filteredEntries.where((entry) =>
-        entry.weight != null &&
-        entry.weight! >= weightRange.start &&
-        entry.weight! <= weightRange.end
-      ).toList();
+      filteredEntries = filteredEntries
+          .where(
+            (entry) =>
+                entry.weight != null &&
+                entry.weight! >= weightRange.start &&
+                entry.weight! <= weightRange.end,
+          )
+          .toList();
     }
 
     // Filter by date range
     if (dateRange != null) {
-      filteredEntries = filteredEntries.where((entry) =>
-        entry.date.isAfter(dateRange.start.subtract(const Duration(days: 1))) &&
-        entry.date.isBefore(dateRange.end.add(const Duration(days: 1)))
-      ).toList();
+      filteredEntries = filteredEntries
+          .where(
+            (entry) =>
+                entry.date.isAfter(
+                  dateRange.start.subtract(const Duration(days: 1)),
+                ) &&
+                entry.date.isBefore(dateRange.end.add(const Duration(days: 1))),
+          )
+          .toList();
     }
 
     // Filter by tags - Only apply tag filtering when tags are selected
     if (tags != null && tags.isNotEmpty) {
-      filteredEntries = filteredEntries.where((entry) =>
-        // Only include entries that have at least one of the selected tags
-        entry.tags != null && entry.tags!.any((entryTag) => tags.contains(entryTag))
-      ).toList();
+      filteredEntries = filteredEntries
+          .where(
+            (entry) =>
+                // Only include entries that have at least one of the selected tags
+                entry.tags != null &&
+                entry.tags!.any((entryTag) => tags.contains(entryTag)),
+          )
+          .toList();
     }
 
     return filteredEntries;

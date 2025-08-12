@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/theme.dart';
 import '../Widget/footer.dart';

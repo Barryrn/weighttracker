@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:developer' as developer;
 import 'entry_form_provider.dart';
@@ -13,7 +15,7 @@ class CalorieEntryData {
   final DateTime lastUpdatedDate; // Added to track date changes
 
   CalorieEntryData({
-    this.calorie, 
+    this.calorie,
     required this.calorieController,
     required this.lastUpdatedDate, // Added parameter
   });
@@ -29,7 +31,7 @@ class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
         CalorieEntryData(
           calorieController: TextEditingController(),
           lastUpdatedDate: DateTime.now(), // Initialize with current date
-        )
+        ),
       ) {
     _initializeController();
 
@@ -49,7 +51,9 @@ class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
   void _logState() {
     developer.log('===== Calorie Entry ViewModel State =====');
     developer.log('Calorie: ${state.calorie}');
-    developer.log('Last Updated Date: ${state.lastUpdatedDate}'); // Log the last updated date
+    developer.log(
+      'Last Updated Date: ${state.lastUpdatedDate}',
+    ); // Log the last updated date
     developer.log('===================================');
   }
 
@@ -87,7 +91,8 @@ class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
     } else {
       // Original logic for same-day updates
       // Don't update controller if user is currently typing (controller has focus)
-      if (state.calorieController.text.isNotEmpty && bodyEntry.calorie == null) {
+      if (state.calorieController.text.isNotEmpty &&
+          bodyEntry.calorie == null) {
         // User just cleared the field, don't interfere
         return;
       }
@@ -115,9 +120,9 @@ class CalorieEntryViewModel extends StateNotifier<CalorieEntryData> {
 
   /// Helper method to check if two dates are the same day
   bool _isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year && 
-           date1.month == date2.month && 
-           date1.day == date2.day;
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   /// Handles calorie text changes

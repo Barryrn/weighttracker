@@ -1,4 +1,6 @@
 // import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:weigthtracker/View/fat_percentage_view.dart';
 // import 'package:weigthtracker/ViewModel/weight_entry_view_model.dart';

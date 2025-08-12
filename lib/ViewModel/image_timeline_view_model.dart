@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../model/body_entry_model.dart';
 import '../model/database_helper.dart';
@@ -63,7 +65,7 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
         loadEntries();
       }
     });
-    
+
     // Listen for filter changes
     ref.listen(imageTimelineFilterProvider, (previous, next) {
       if (previous != next) {
@@ -94,10 +96,10 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
 
       // Store all entries for filtering
       _allEntries = entriesWithImages;
-      
+
       // Load all available tags for filtering
       _loadAllTags();
-      
+
       // Apply filters
       _applyFilters();
     } catch (e) {
@@ -107,7 +109,7 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
       );
     }
   }
-  
+
   /// Load all unique tags from entries
   void _loadAllTags() {
     final tags = <String>{};
@@ -118,11 +120,11 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
     }
     ref.read(imageTimelineFilterProvider.notifier).setAllTags(tags.toList());
   }
-  
+
   /// Apply filters to entries
   void _applyFilters() {
     final filterState = ref.read(imageTimelineFilterProvider);
-    
+
     // If filters aren't active, use all entries
     if (!filterState.filtersActive) {
       state = state.copyWith(
@@ -132,7 +134,7 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
       );
       return;
     }
-    
+
     // Apply filters
     final filteredEntries = _allEntries.where((entry) {
       // Weight filter
@@ -174,19 +176,19 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
 
       return hasValidImage;
     }).toList();
-    
+
     // Update state with filtered entries
     state = state.copyWith(
       entries: filteredEntries,
       isLoading: false,
       selectedIndex: filteredEntries.isNotEmpty ? 0 : 0,
     );
-    
+
     // Update selected view if needed
     if (filteredEntries.isNotEmpty) {
       final entry = filteredEntries[0];
       String? viewToSelect;
-      
+
       // Select the first available view type for the first entry
       if (filterState.showFrontImages && entry.frontImagePath != null) {
         viewToSelect = 'front';
@@ -195,7 +197,7 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
       } else if (filterState.showBackImages && entry.backImagePath != null) {
         viewToSelect = 'back';
       }
-      
+
       if (viewToSelect != null && viewToSelect != state.selectedView) {
         state = state.copyWith(selectedView: viewToSelect);
       }
@@ -347,17 +349,18 @@ class ImageTimelineFilterState {
 }
 
 /// Notifier for the image timeline filter state
-class ImageTimelineFilterNotifier extends StateNotifier<ImageTimelineFilterState> {
+class ImageTimelineFilterNotifier
+    extends StateNotifier<ImageTimelineFilterState> {
   ImageTimelineFilterNotifier()
-      : super(
-          ImageTimelineFilterState(
-            weightRange: const RangeValues(40.0, 100.0),
-            minWeight: 40.0,
-            maxWeight: 100.0,
-            selectedTags: [],
-            allTags: [],
-          ),
-        );
+    : super(
+        ImageTimelineFilterState(
+          weightRange: const RangeValues(40.0, 100.0),
+          minWeight: 40.0,
+          maxWeight: 100.0,
+          selectedTags: [],
+          allTags: [],
+        ),
+      );
 
   /// Set the weight range
   void setWeightRange(RangeValues range) {
@@ -478,6 +481,7 @@ class ImageTimelineFilterNotifier extends StateNotifier<ImageTimelineFilterState
 
 /// Provider for accessing the ImageTimelineFilterState
 final imageTimelineFilterProvider =
-    StateNotifierProvider<ImageTimelineFilterNotifier, ImageTimelineFilterState>(
-      (ref) => ImageTimelineFilterNotifier(),
-    );
+    StateNotifierProvider<
+      ImageTimelineFilterNotifier,
+      ImageTimelineFilterState
+    >((ref) => ImageTimelineFilterNotifier());

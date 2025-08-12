@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weigthtracker/View/onboarding_screen.dart';
@@ -11,6 +13,8 @@ import 'View/body_entry_sheet_view.dart';
 import 'model/body_entry_model.dart';
 import 'View/footer_pages/home_page.dart';
 import 'model/mock_data_importer.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +53,9 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    Locale? _currentLocale; // switch to German, e.g.
+    _currentLocale = Locale('de'); // switch to German, e.g.
+
     // Listen for when the provider is initialized
     ref.listen<HealthState>(healthStateProvider, (previous, current) {
       // Only run once when the provider becomes available and authorized
@@ -64,7 +71,11 @@ class _MyAppState extends ConsumerState<MyApp> {
     ref.watch(weightProgressProvider);
 
     return MaterialApp(
-      title: 'Weight Tracker',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: _currentLocale, // <-- control this to switch language
+
+      title: 'BodyTrack',
       theme: appTheme, // Use the predefined light theme
       darkTheme: appDarkTheme, // Use the predefined dark theme
       // themeMode: ThemeMode.dark, // or ThemeMode.dark, ThemeMode.system

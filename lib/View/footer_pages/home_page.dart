@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:weigthtracker/View/body_entry_sheet_view.dart';
 import 'package:weigthtracker/View/image_comparison_view%20copy.dart';
 import 'package:weigthtracker/View/image_comparison_view.dart';
@@ -10,6 +12,7 @@ import 'package:weigthtracker/Widget/tdee/weight_change_tdee_widget.dart';
 import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/widget/goals/weight_progress_widget.dart';
 import '../../Widget/footer.dart';
+import '../../l10n/app_localizations.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,7 +28,7 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Home Page',
+            AppLocalizations.of(context)!.homePage,
             style: AppTypography.headline2(
               context,
             ).copyWith(color: Theme.of(context).colorScheme.textTertiary),

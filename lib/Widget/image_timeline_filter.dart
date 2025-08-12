@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:weigthtracker/viewmodel/unit_conversion_provider.dart';
@@ -30,9 +32,15 @@ class ImageTimelineFilter extends ConsumerWidget {
           // Image type filter
           _buildImageTypeFilter(context, filterState, filterNotifier),
           const SizedBox(height: 16),
-          
+
           // Weight range filter
-          _buildWeightRangeFilter(context, filterState, filterNotifier, unitPreferences, ref),
+          _buildWeightRangeFilter(
+            context,
+            filterState,
+            filterNotifier,
+            unitPreferences,
+            ref,
+          ),
           const SizedBox(height: 16),
 
           // Date range filter
@@ -40,7 +48,7 @@ class ImageTimelineFilter extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Tags filter
-          if (filterState.allTags.isNotEmpty) 
+          if (filterState.allTags.isNotEmpty)
             _buildTagsFilter(context, filterState, filterNotifier),
           const SizedBox(height: 16),
 
@@ -62,8 +70,9 @@ class ImageTimelineFilter extends ConsumerWidget {
                 ),
                 child: Text(
                   'Clear Filters',
-                  style: AppTypography.buttonText(context)
-                      .copyWith(color: Theme.of(context).colorScheme.primary),
+                  style: AppTypography.buttonText(
+                    context,
+                  ).copyWith(color: Theme.of(context).colorScheme.primary),
                 ),
               ),
             ],
@@ -84,8 +93,9 @@ class ImageTimelineFilter extends ConsumerWidget {
       children: [
         Text(
           'Image Types',
-          style: AppTypography.subtitle1(context)
-              .copyWith(color: Theme.of(context).colorScheme.textPrimary),
+          style: AppTypography.subtitle1(
+            context,
+          ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
         ),
         const SizedBox(height: 8),
         Row(
@@ -101,9 +111,12 @@ class ImageTimelineFilter extends ConsumerWidget {
                   ),
                 ),
                 selected: filterState.showFrontImages,
-                onSelected: (selected) => filterNotifier.setShowFrontImages(selected),
+                onSelected: (selected) =>
+                    filterNotifier.setShowFrontImages(selected),
                 backgroundColor: Theme.of(context).colorScheme.card,
-                selectedColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                selectedColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withOpacity(0.2),
                 checkmarkColor: Theme.of(context).colorScheme.primary,
               ),
             ),
@@ -119,9 +132,12 @@ class ImageTimelineFilter extends ConsumerWidget {
                   ),
                 ),
                 selected: filterState.showSideImages,
-                onSelected: (selected) => filterNotifier.setShowSideImages(selected),
+                onSelected: (selected) =>
+                    filterNotifier.setShowSideImages(selected),
                 backgroundColor: Theme.of(context).colorScheme.card,
-                selectedColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                selectedColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withOpacity(0.2),
                 checkmarkColor: Theme.of(context).colorScheme.primary,
               ),
             ),
@@ -137,9 +153,12 @@ class ImageTimelineFilter extends ConsumerWidget {
                   ),
                 ),
                 selected: filterState.showBackImages,
-                onSelected: (selected) => filterNotifier.setShowBackImages(selected),
+                onSelected: (selected) =>
+                    filterNotifier.setShowBackImages(selected),
                 backgroundColor: Theme.of(context).colorScheme.card,
-                selectedColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                selectedColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withOpacity(0.2),
                 checkmarkColor: Theme.of(context).colorScheme.primary,
               ),
             ),
@@ -155,7 +174,7 @@ class ImageTimelineFilter extends ConsumerWidget {
     ImageTimelineFilterState filterState,
     ImageTimelineFilterNotifier filterNotifier,
     UnitPreferences unitPreferences,
-    WidgetRef ref,  // Add this parameter
+    WidgetRef ref, // Add this parameter
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,17 +189,20 @@ class ImageTimelineFilter extends ConsumerWidget {
             Text(
               (unitPreferences.useMetricWeight
                       ? filterState.weightRange.start
-                      : ref.read(unitConversionProvider.notifier)
-                          .kgToLb(filterState.weightRange.start))
+                      : ref
+                            .read(unitConversionProvider.notifier)
+                            .kgToLb(filterState.weightRange.start))
                   .toStringAsFixed(1),
-              style: AppTypography.bodyLarge(context)
-                  .copyWith(color: Theme.of(context).colorScheme.textPrimary),
+              style: AppTypography.bodyLarge(
+                context,
+              ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
             ),
             Expanded(
               child: SliderTheme(
                 data: SliderTheme.of(context).copyWith(
-                  valueIndicatorTextStyle: AppTypography.bodyLarge(context)
-                      .copyWith(color: Theme.of(context).colorScheme.textPrimary),
+                  valueIndicatorTextStyle: AppTypography.bodyLarge(
+                    context,
+                  ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
                   showValueIndicator: ShowValueIndicator.always,
                 ),
                 child: RangeSlider(
@@ -189,7 +211,9 @@ class ImageTimelineFilter extends ConsumerWidget {
                   values: filterState.weightRange,
                   min: filterState.minWeight,
                   max: filterState.maxWeight,
-                  divisions: ((filterState.maxWeight - filterState.minWeight) * 10).round(),
+                  divisions:
+                      ((filterState.maxWeight - filterState.minWeight) * 10)
+                          .round(),
                   labels: RangeLabels(
                     filterState.weightRange.start.toStringAsFixed(1),
                     filterState.weightRange.end.toStringAsFixed(1),
@@ -201,11 +225,13 @@ class ImageTimelineFilter extends ConsumerWidget {
             Text(
               (unitPreferences.useMetricWeight
                       ? filterState.weightRange.end
-                      : ref.read(unitConversionProvider.notifier)
-                          .kgToLb(filterState.weightRange.end))
+                      : ref
+                            .read(unitConversionProvider.notifier)
+                            .kgToLb(filterState.weightRange.end))
                   .toStringAsFixed(1),
-              style: AppTypography.bodyLarge(context)
-                  .copyWith(color: Theme.of(context).colorScheme.textPrimary),
+              style: AppTypography.bodyLarge(
+                context,
+              ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
             ),
           ],
         ),
@@ -237,14 +263,16 @@ class ImageTimelineFilter extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () => _selectDateRange(context, filterState, filterNotifier),
+                onPressed: () =>
+                    _selectDateRange(context, filterState, filterNotifier),
                 child: Text(
                   filterState.dateRange != null
                       ? '${DateFormat('MMM d, y').format(filterState.dateRange!.start)} - '
-                          '${DateFormat('MMM d, y').format(filterState.dateRange!.end)}'
+                            '${DateFormat('MMM d, y').format(filterState.dateRange!.end)}'
                       : 'Select Date Range',
-                  style: AppTypography.bodyLarge(context)
-                      .copyWith(color: Theme.of(context).colorScheme.textPrimary),
+                  style: AppTypography.bodyLarge(
+                    context,
+                  ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
                 ),
               ),
             ),
@@ -260,10 +288,12 @@ class ImageTimelineFilter extends ConsumerWidget {
     ImageTimelineFilterState filterState,
     ImageTimelineFilterNotifier filterNotifier,
   ) async {
-    final initialRange = filterState.dateRange ?? DateTimeRange(
-      start: DateTime.now().subtract(const Duration(days: 365)),
-      end: DateTime.now(),
-    );
+    final initialRange =
+        filterState.dateRange ??
+        DateTimeRange(
+          start: DateTime.now().subtract(const Duration(days: 365)),
+          end: DateTime.now(),
+        );
 
     final newRange = await showDateRangePicker(
       context: context,
@@ -311,13 +341,16 @@ class ImageTimelineFilter extends ConsumerWidget {
             return FilterChip(
               label: Text(
                 tag,
-                style: AppTypography.bodyLarge(context)
-                    .copyWith(color: Theme.of(context).colorScheme.textPrimary),
+                style: AppTypography.bodyLarge(
+                  context,
+                ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
               ),
               selected: isSelected,
               onSelected: (selected) => filterNotifier.toggleTag(tag),
               backgroundColor: Theme.of(context).colorScheme.card,
-              selectedColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+              selectedColor: Theme.of(
+                context,
+              ).colorScheme.primary.withOpacity(0.2),
               checkmarkColor: Theme.of(context).colorScheme.primary,
             );
           }).toList(),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/Widget/body_entry/calorie_entry_widget.dart';
 import 'package:weigthtracker/Widget/body_entry/fat_percentage_entry_widget.dart';

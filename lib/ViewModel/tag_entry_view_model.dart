@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:developer' as developer;
 import 'entry_form_provider.dart';
@@ -26,16 +28,17 @@ class TagEntryData {
 /// This class follows the MVVM pattern by processing data from the bodyEntryProvider
 /// and transforming it into a format that's ready for display in the View.
 class TagEntryViewModel extends StateNotifier<TagEntryData> {
-  TagEntryViewModel(this.ref) : super(
-    TagEntryData(
-      tags: [],
-      tagController: TextEditingController(),
-      focusNode: FocusNode(),
-      lastUpdatedDate: DateTime.now(), // Initialize with current date
-    )
-  ) {
+  TagEntryViewModel(this.ref)
+    : super(
+        TagEntryData(
+          tags: [],
+          tagController: TextEditingController(),
+          focusNode: FocusNode(),
+          lastUpdatedDate: DateTime.now(), // Initialize with current date
+        ),
+      ) {
     _initializeData();
-    
+
     // Listen for changes in the bodyEntryProvider that affect tags
     ref.listen(bodyEntryProvider, (_, __) => _updateData());
   }
@@ -53,7 +56,9 @@ class TagEntryViewModel extends StateNotifier<TagEntryData> {
   void _logState() {
     developer.log('===== Tag Entry ViewModel State =====');
     developer.log('Tags: ${state.tags}');
-    developer.log('Last Updated Date: ${state.lastUpdatedDate}'); // Log the date
+    developer.log(
+      'Last Updated Date: ${state.lastUpdatedDate}',
+    ); // Log the date
     developer.log('===================================');
   }
 
@@ -81,7 +86,7 @@ class TagEntryViewModel extends StateNotifier<TagEntryData> {
 
     // Always update if the date has changed
     // For tags, we just need to update the list, not the controller text
-    
+
     // Update state with new date
     state = TagEntryData(
       tags: currentTags,
@@ -100,9 +105,9 @@ class TagEntryViewModel extends StateNotifier<TagEntryData> {
 
   /// Helper method to check if two dates are the same day
   bool _isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year && 
-           date1.month == date2.month && 
-           date1.day == date2.day;
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   /// Adds a new tag to the list if it's not empty and not already in the list
