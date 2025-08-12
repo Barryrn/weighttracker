@@ -15,6 +15,7 @@ import 'View/footer_pages/home_page.dart';
 import 'model/mock_data_importer.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
+import 'model/language_settings_storage_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,11 +38,13 @@ class MyApp extends ConsumerStatefulWidget {
 
 class _MyAppState extends ConsumerState<MyApp> {
   bool? _onboardingComplete;
+  Locale? _currentLocale;
 
   @override
   void initState() {
     super.initState();
     _checkOnboardingStatus();
+    _loadSavedLanguage();
   }
 
   Future<void> _checkOnboardingStatus() async {
@@ -51,11 +54,15 @@ class _MyAppState extends ConsumerState<MyApp> {
     });
   }
 
+  Future<void> _loadSavedLanguage() async {
+    final savedLocale = await LanguageSettingsStorageModel.getSavedLocale();
+    setState(() {
+      _currentLocale = savedLocale;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    Locale? _currentLocale; // switch to German, e.g.
-    _currentLocale = Locale('de'); // switch to German, e.g.
-
     // Listen for when the provider is initialized
     ref.listen<HealthState>(healthStateProvider, (previous, current) {
       // Only run once when the provider becomes available and authorized
@@ -73,7 +80,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: _currentLocale, // <-- control this to switch language
+      locale: _currentLocale, // Use saved language preference
 
       title: 'BodyTrack',
       theme: appTheme, // Use the predefined light theme

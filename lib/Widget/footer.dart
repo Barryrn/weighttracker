@@ -118,7 +118,7 @@ class Footer extends StatelessWidget {
                 : HeroIconStyle.outline,
             size: 30,
           ),
-          label: 'More',
+          label: AppLocalizations.of(context)!.more,
         ),
       ],
     );
