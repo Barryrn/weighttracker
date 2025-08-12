@@ -166,6 +166,7 @@
   "bodyFat": "Body Fat",
   "tableView": "Table View",
   "graphView": "Graph View",
+  "chartView": "Chart View",
   "entry": "entry",
   "entries": "entries",
   "notSet": "Not set",

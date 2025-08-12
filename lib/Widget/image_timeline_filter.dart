@@ -69,7 +69,7 @@ class ImageTimelineFilter extends ConsumerWidget {
                   ),
                 ),
                 child: Text(
-                  'Clear Filters',
+                  AppLocalizations.of(context)!.clearFilters,
                   style: AppTypography.buttonText(
                     context,
                   ).copyWith(color: Theme.of(context).colorScheme.primary),
@@ -92,7 +92,7 @@ class ImageTimelineFilter extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Image Types',
+          AppLocalizations.of(context)!.imageTypes,
           style: AppTypography.subtitle1(
             context,
           ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
@@ -104,7 +104,7 @@ class ImageTimelineFilter extends ConsumerWidget {
               child: FilterChip(
                 label: Center(
                   child: Text(
-                    'Front',
+                    AppLocalizations.of(context)!.front,
                     style: AppTypography.bodyLarge(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
@@ -125,7 +125,7 @@ class ImageTimelineFilter extends ConsumerWidget {
               child: FilterChip(
                 label: Center(
                   child: Text(
-                    'Side',
+                    AppLocalizations.of(context)!.side,
                     style: AppTypography.bodyLarge(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
@@ -146,7 +146,7 @@ class ImageTimelineFilter extends ConsumerWidget {
               child: FilterChip(
                 label: Center(
                   child: Text(
-                    'Back',
+                    AppLocalizations.of(context)!.back,
                     style: AppTypography.bodyLarge(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
@@ -180,7 +180,7 @@ class ImageTimelineFilter extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Weight Range (${unitPreferences.useMetricWeight ? 'kg' : 'lb'})',
+          '${AppLocalizations.of(context)!.weightRange} (${unitPreferences.useMetricWeight ? 'kg' : 'lb'})',
           style: AppTypography.subtitle1(context),
         ),
         const SizedBox(height: 8),
@@ -248,7 +248,10 @@ class ImageTimelineFilter extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Date Range', style: AppTypography.subtitle1(context)),
+        Text(
+          AppLocalizations.of(context)!.dateRange,
+          style: AppTypography.subtitle1(context),
+        ),
         const SizedBox(height: 8),
         Row(
           children: [
@@ -269,7 +272,7 @@ class ImageTimelineFilter extends ConsumerWidget {
                   filterState.dateRange != null
                       ? '${DateFormat('MMM d, y').format(filterState.dateRange!.start)} - '
                             '${DateFormat('MMM d, y').format(filterState.dateRange!.end)}'
-                      : 'Select Date Range',
+                      : AppLocalizations.of(context)!.selectDateRange,
                   style: AppTypography.bodyLarge(
                     context,
                   ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
@@ -331,7 +334,10 @@ class ImageTimelineFilter extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Tags', style: AppTypography.subtitle1(context)),
+        Text(
+          AppLocalizations.of(context)!.tags,
+          style: AppTypography.subtitle1(context),
+        ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,

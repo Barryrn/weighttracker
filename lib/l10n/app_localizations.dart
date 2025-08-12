@@ -1100,6 +1100,12 @@ abstract class AppLocalizations {
   /// **'Graph View'**
   String get graphView;
 
+  /// No description provided for @chartView.
+  ///
+  /// In en, this message translates to:
+  /// **'Chart View'**
+  String get chartView;
+
   /// No description provided for @entry.
   ///
   /// In en, this message translates to:

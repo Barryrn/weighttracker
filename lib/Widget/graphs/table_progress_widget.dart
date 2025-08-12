@@ -58,10 +58,26 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildPeriodButton(TimePeriod.day, 'Day', selectedPeriod),
-                _buildPeriodButton(TimePeriod.week, 'Week', selectedPeriod),
-                _buildPeriodButton(TimePeriod.month, 'Month', selectedPeriod),
-                _buildPeriodButton(TimePeriod.year, 'Year', selectedPeriod),
+                _buildPeriodButton(
+                  TimePeriod.day,
+                  AppLocalizations.of(context)!.day,
+                  selectedPeriod,
+                ),
+                _buildPeriodButton(
+                  TimePeriod.week,
+                  AppLocalizations.of(context)!.week,
+                  selectedPeriod,
+                ),
+                _buildPeriodButton(
+                  TimePeriod.month,
+                  AppLocalizations.of(context)!.month,
+                  selectedPeriod,
+                ),
+                _buildPeriodButton(
+                  TimePeriod.year,
+                  AppLocalizations.of(context)!.year,
+                  selectedPeriod,
+                ),
               ],
             ),
             const SizedBox(height: 24),

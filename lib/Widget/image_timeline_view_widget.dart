@@ -47,7 +47,13 @@ class _ImageTimelineViewWidgetState
 
         // Show message when no entries match the filter criteria
         if (state.entries.isEmpty)
-          Center(child: Text('No images match the current filter criteria'))
+          Center(
+            child: Text(
+              AppLocalizations.of(
+                context,
+              )!.noImagesMatchTheCurrentFilterCriteria,
+            ),
+          )
         else
           Column(
             children: [
@@ -112,7 +118,7 @@ class _ImageTimelineViewWidgetState
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
-                            'Weight: ${(unitPreferences.useMetricWeight ? currentEntry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(currentEntry.weight!)).toStringAsFixed(1)} ${unitPreferences.useMetricWeight ? 'kg' : 'lb'}',
+                            '${AppLocalizations.of(context)!.weight}: ${(unitPreferences.useMetricWeight ? currentEntry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(currentEntry.weight!)).toStringAsFixed(1)} ${unitPreferences.useMetricWeight ? 'kg' : 'lb'}',
                             style: AppTypography.subtitle2(context).copyWith(
                               color: Theme.of(context).colorScheme.textPrimary,
                             ),
@@ -234,7 +240,9 @@ class _ImageTimelineViewWidgetState
     final imagePath = viewModel.getCurrentImagePath();
 
     if (imagePath == null) {
-      return const Center(child: Text('No image available for this view'));
+      return Center(
+        child: Text(AppLocalizations.of(context)!.noImageAvailableForThisView),
+      );
     }
 
     return GestureDetector(
@@ -257,13 +265,13 @@ class _ImageTimelineViewWidgetState
     final availableDates = viewModel.getAvailableDates();
 
     if (availableDates.isEmpty) {
-      return const Text('No images available for this view');
+      return Text(AppLocalizations.of(context)!.noImagesAvailableForThisView);
     }
 
     if (availableDates.length == 1) {
       return Column(
         children: [
-          Text('Only one image available for this view'),
+          Text(AppLocalizations.of(context)!.onlyOneImageAvailableForThisView),
           const SizedBox(height: 8),
           Text(DateFormat('MM/dd/yyyy').format(availableDates.first)),
         ],

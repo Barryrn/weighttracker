@@ -61,7 +61,7 @@ class ProgressGraphWidget extends ConsumerWidget {
               context,
               ref,
               GraphViewType.chart,
-              'Chart View',
+              AppLocalizations.of(context)!.chartView,
               Icons.show_chart,
               currentType,
             ),

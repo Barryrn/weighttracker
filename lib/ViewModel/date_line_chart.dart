@@ -1,10 +1,36 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../model/body_entry_model.dart';
 import '../model/database_helper.dart';
 import 'dart:developer' as developer;
 
 /// Enum representing different time periods for data aggregation
 enum TimePeriodLineChart { day, week, month, year }
+
+/// Extension to get localized strings for TimePeriodLineChart enum
+extension TimePeriodLineChartExtension on TimePeriodLineChart {
+  /// Returns the localized string for the time period
+  String getLocalizedName(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    switch (this) {
+      case TimePeriodLineChart.day:
+        return localizations.day;
+      case TimePeriodLineChart.week:
+        return localizations.week;
+      case TimePeriodLineChart.month:
+        return localizations.month;
+      case TimePeriodLineChart.year:
+        return localizations.year;
+    }
+  }
+
+  /// Returns the capitalized localized string for the time period
+  String getLocalizedNameCapitalized(BuildContext context) {
+    final name = getLocalizedName(context);
+    return name.isNotEmpty ? name[0].toUpperCase() + name.substring(1) : name;
+  }
+}
 
 /// Class representing aggregated body data for a specific time period
 class AggregatedBodyData {
@@ -148,7 +174,7 @@ class TimeAggregationNotifier extends StateNotifier<List<AggregatedBodyData>> {
             entriesForDay.first.date.month,
             entriesForDay.first.date.day,
           );
-          
+
           // Calculate averages
           double? avgWeight;
           double? avgBmi;
@@ -172,8 +198,7 @@ class TimeAggregationNotifier extends StateNotifier<List<AggregatedBodyData>> {
               .toList();
           if (bmisWithValues.isNotEmpty) {
             avgBmi =
-                bmisWithValues.reduce((a, b) => a + b) /
-                bmisWithValues.length;
+                bmisWithValues.reduce((a, b) => a + b) / bmisWithValues.length;
           }
 
           // Fat percentage average

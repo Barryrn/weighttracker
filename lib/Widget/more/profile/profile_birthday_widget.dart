@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weigthtracker/theme.dart';
 import '../../../ViewModel/profile_settings_provider.dart';
@@ -23,7 +25,7 @@ class ProfileBirthdayWidget extends ConsumerWidget {
     // Format the birthday if it exists, otherwise show "Not set"
     final formattedBirthday = birthday != null
         ? DateFormat('MMM d, yyyy').format(birthday)
-        : 'Not set';
+        : AppLocalizations.of(context)!.notSet;
 
     return ListTile(
       tileColor: Theme.of(context).colorScheme.card,
