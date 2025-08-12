@@ -78,7 +78,7 @@ class Footer extends StatelessWidget {
                 : HeroIconStyle.outline,
             size: 30,
           ),
-          label: 'Home',
+          label: AppLocalizations.of(context)!.home,
         ),
         BottomNavigationBarItem(
           icon: HeroIcon(
@@ -88,7 +88,7 @@ class Footer extends StatelessWidget {
                 : HeroIconStyle.outline,
             size: 30,
           ),
-          label: 'Progress',
+          label: AppLocalizations.of(context)!.progress,
         ),
         BottomNavigationBarItem(
           icon: HeroIcon(
@@ -98,7 +98,7 @@ class Footer extends StatelessWidget {
                 : HeroIconStyle.outline,
             size: 30,
           ),
-          label: 'Add',
+          label: AppLocalizations.of(context)!.add,
         ),
         BottomNavigationBarItem(
           icon: Icon(
@@ -108,7 +108,7 @@ class Footer extends StatelessWidget {
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).colorScheme.primaryLight,
           ),
-          label: 'Goals',
+          label: AppLocalizations.of(context)!.goals,
         ),
         BottomNavigationBarItem(
           icon: HeroIcon(

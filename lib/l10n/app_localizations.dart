@@ -263,13 +263,13 @@ abstract class AppLocalizations {
   /// No description provided for @progressPage.
   ///
   /// In en, this message translates to:
-  /// **'Progress Page'**
+  /// **'Progress'**
   String get progressPage;
 
   /// No description provided for @addWeightEntry.
   ///
   /// In en, this message translates to:
-  /// **'Add Weight Entry'**
+  /// **'Add Entry'**
   String get addWeightEntry;
 
   /// No description provided for @fatPercentageCalculator.
@@ -1207,6 +1207,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Inches'**
   String get inches;
+
+  /// No description provided for @sedentary.
+  ///
+  /// In en, this message translates to:
+  /// **'Sedentary (little or no exercise)'**
+  String get sedentary;
+
+  /// No description provided for @lightlyActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Lightly active (1-3 days per week)'**
+  String get lightlyActive;
+
+  /// No description provided for @moderatelyActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderately Active (moderate exercise 3-5 days/week)'**
+  String get moderatelyActive;
+
+  /// No description provided for @veryActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Very Active (hard exercise 6-7 days/week)'**
+  String get veryActive;
+
+  /// No description provided for @extraActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra Active (very hard exercise & physical job or 2x training)'**
+  String get extraActive;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @pleaseSelectYourLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select your language'**
+  String get pleaseSelectYourLanguage;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @spanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get spanish;
+
+  /// No description provided for @portuguese.
+  ///
+  /// In en, this message translates to:
+  /// **'Portuguese'**
+  String get portuguese;
+
+  /// No description provided for @german.
+  ///
+  /// In en, this message translates to:
+  /// **'German'**
+  String get german;
+
+  /// No description provided for @french.
+  ///
+  /// In en, this message translates to:
+  /// **'French'**
+  String get french;
+
+  /// No description provided for @italian.
+  ///
+  /// In en, this message translates to:
+  /// **'Italian'**
+  String get italian;
+
+  /// No description provided for @japanese.
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese'**
+  String get japanese;
+
+  /// No description provided for @korean.
+  ///
+  /// In en, this message translates to:
+  /// **'Korean'**
+  String get korean;
+
+  /// No description provided for @russian.
+  ///
+  /// In en, this message translates to:
+  /// **'Russian'**
+  String get russian;
+
+  /// No description provided for @chinese.
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese'**
+  String get chinese;
+
+  /// No description provided for @turkish.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkish'**
+  String get turkish;
 }
 
 class _AppLocalizationsDelegate

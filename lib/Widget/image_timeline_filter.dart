@@ -104,7 +104,7 @@ class ImageTimelineFilter extends ConsumerWidget {
               child: FilterChip(
                 label: Center(
                   child: Text(
-                    AppLocalizations.of(context)!.front,
+                    AppLocalizations.of(context)!.frontCapital,
                     style: AppTypography.bodyLarge(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
@@ -125,7 +125,7 @@ class ImageTimelineFilter extends ConsumerWidget {
               child: FilterChip(
                 label: Center(
                   child: Text(
-                    AppLocalizations.of(context)!.side,
+                    AppLocalizations.of(context)!.sideCapital,
                     style: AppTypography.bodyLarge(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
@@ -146,7 +146,7 @@ class ImageTimelineFilter extends ConsumerWidget {
               child: FilterChip(
                 label: Center(
                   child: Text(
-                    AppLocalizations.of(context)!.back,
+                    AppLocalizations.of(context)!.backCapital,
                     style: AppTypography.bodyLarge(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),

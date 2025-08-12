@@ -135,7 +135,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                             child: _buildImageCard(
                               context: context,
                               entry: latestEntry,
-                              title: 'Pic 1',
+                              title: AppLocalizations.of(context)!.pic1,
                               subtitle: _formatDate(latestEntry.date),
                               weight: latestEntry.weight,
                               imageType: _leftImageType,
@@ -153,7 +153,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                                 ? _buildImageCard(
                                     context: context,
                                     entry: comparisonEntry,
-                                    title: 'Pic 2',
+                                    title: AppLocalizations.of(context)!.pic2,
                                     subtitle: _formatDate(comparisonEntry.date),
                                     weight: comparisonEntry.weight,
                                     imageType: _rightImageType,
@@ -251,23 +251,26 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
   }) {
     // Determine which image to show based on selected type
     String? imagePath;
-    if (imageType == 'front' && entry.frontImagePath != null) {
+    if (imageType == AppLocalizations.of(context)!.frontCapital &&
+        entry.frontImagePath != null) {
       imagePath = entry.frontImagePath;
-    } else if (imageType == 'side' && entry.sideImagePath != null) {
+    } else if (imageType == AppLocalizations.of(context)!.sideCapital &&
+        entry.sideImagePath != null) {
       imagePath = entry.sideImagePath;
-    } else if (imageType == 'back' && entry.backImagePath != null) {
+    } else if (imageType == AppLocalizations.of(context)!.backCapital &&
+        entry.backImagePath != null) {
       imagePath = entry.backImagePath;
     } else {
       // Fallback to any available image if the selected type is not available
       if (entry.frontImagePath != null) {
         imagePath = entry.frontImagePath;
-        imageType = 'front';
+        imageType = AppLocalizations.of(context)!.frontCapital;
       } else if (entry.sideImagePath != null) {
         imagePath = entry.sideImagePath;
-        imageType = 'side';
+        imageType = AppLocalizations.of(context)!.sideCapital;
       } else if (entry.backImagePath != null) {
         imagePath = entry.backImagePath;
-        imageType = 'back';
+        imageType = AppLocalizations.of(context)!.backCapital;
       }
     }
 
@@ -328,22 +331,22 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                   alignment: WrapAlignment.spaceEvenly,
                   children: [
                     _buildImageTypeButton(
-                      'Front',
-                      'front',
+                      AppLocalizations.of(context)!.frontCapital,
+                      AppLocalizations.of(context)!.front,
                       imageType,
                       entry.frontImagePath != null,
                       onImageTypeChanged,
                     ),
                     _buildImageTypeButton(
-                      'Side',
-                      'side',
+                      AppLocalizations.of(context)!.sideCapital,
+                      AppLocalizations.of(context)!.side,
                       imageType,
                       entry.sideImagePath != null,
                       onImageTypeChanged,
                     ),
                     _buildImageTypeButton(
-                      'Back',
-                      'back',
+                      AppLocalizations.of(context)!.backCapital,
+                      AppLocalizations.of(context)!.back,
                       imageType,
                       entry.backImagePath != null,
                       onImageTypeChanged,
@@ -433,7 +436,14 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
             borderRadius: BorderRadius.circular(10), // Square corners
           ),
         ),
-        child: Text(label),
+        child: Text(
+          label, 
+          style: AppTypography.bodySmall(context).copyWith(
+            color: isAvailable 
+                ? Theme.of(context).colorScheme.primary 
+                : null, // Use default color for disabled buttons
+          ),
+        ),
       ),
     );
   }

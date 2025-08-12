@@ -9,7 +9,7 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
-  String get homePage => 'Startseite';
+  String get homePage => 'Home Page';
 
   @override
   String get current => 'Aktuell';
@@ -21,16 +21,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get remaining => 'Verbleibend';
 
   @override
-  String get complete => 'Abgeschlossen';
+  String get complete => 'vollständig';
 
   @override
   String get energyExpenditure => 'Energieverbrauch';
 
   @override
-  String get tdeeCalories => 'TDEE Kalorien';
+  String get tdeeCalories => 'GEV Kalorien';
 
   @override
-  String get goalWeightTdee => 'TDEE bei Zielgewicht';
+  String get goalWeightTdee => 'GEV bei Zielgewicht';
 
   @override
   String get noImagesAvailable => 'Keine Bilder verfügbar';
@@ -46,7 +46,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get viewAllImages => 'Alle Bilder anzeigen';
 
   @override
-  String get imageTimeline => 'Bilder-Zeitleiste';
+  String get imageTimeline => 'Bilder Timeline';
 
   @override
   String get noComparison => 'Kein Vergleich';
@@ -65,7 +65,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get back => 'hinten';
 
   @override
-  String get side => 'seitlich';
+  String get side => 'seite';
 
   @override
   String get frontCapital => 'Vorne';
@@ -74,7 +74,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get backCapital => 'Hinten';
 
   @override
-  String get sideCapital => 'Seitlich';
+  String get sideCapital => 'Seite';
 
   @override
   String get pic1 => 'Bild 1';
@@ -92,10 +92,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get moreSettings => 'Weitere Einstellungen';
 
   @override
-  String get progressPage => 'Fortschrittsseite';
+  String get progressPage => 'Fortschritt';
 
   @override
-  String get addWeightEntry => 'Gewichtseintrag hinzufügen';
+  String get addWeightEntry => 'Eintrag hinzufügen';
 
   @override
   String get fatPercentageCalculator => 'Körperfett-Rechner';
@@ -272,7 +272,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get delete => 'Löschen';
 
   @override
-  String get tdeeCalculator => 'TDEE-Rechner';
+  String get tdeeCalculator => 'GEV-Rechner';
 
   @override
   String get unitConversion => 'Einheitenumrechnung';
@@ -347,11 +347,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get save => 'Speichern';
 
   @override
-  String get tdeeInformation => 'TDEE-Informationen';
+  String get tdeeInformation => 'GEV-Informationen';
 
   @override
   String get needToTrackYourInformation =>
-      'Sie müssen Ihr Gewicht und Ihre Kalorienaufnahme 7 Tage in Folge aufzeichnen, bevor der TDEE verfügbar ist';
+      'Sie müssen Ihr Gewicht und Ihre Kalorienaufnahme 7 Tage in Folge aufzeichnen, bevor der GEV verfügbar ist';
 
   @override
   String get ok => 'OK';
@@ -420,10 +420,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get healthIntegration => 'Gesundheitsintegration';
 
   @override
-  String get tdeeCalculatorCalories => 'TDEE-Rechner (Kalorien)';
+  String get tdeeCalculatorCalories => 'GEV-Rechner (Kalorien)';
 
   @override
-  String get weightChangeGoalTdee => 'TDEE für Gewichtsänderungsziel';
+  String get weightChangeGoalTdee => 'GEV für Gewichtsänderungsziel';
 
   @override
   String get pleaseEnterAValidPositiveNumber =>
@@ -431,10 +431,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get insufficientDataToCalculateGoalTdee =>
-      'Nicht genügend Daten zur Berechnung des Ziel-TDEE';
+      'Nicht genügend Daten zur Berechnung des Ziel-GEV';
 
   @override
-  String get weightChangeTdee => 'TDEE bei Gewichtsänderung';
+  String get weightChangeTdee => 'GEV bei Gewichtsänderung';
 
   @override
   String get basedOnYourWeightChangeAndCalorieIntakeOverTime =>
@@ -442,7 +442,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get calculationFormulaText =>
-      'Diese Berechnung verwendet die Formel: TDEE = (Kalorienaufnahme + (Gewichtsänderung_kg × 7700)) / Tage';
+      'Diese Berechnung verwendet die Formel: GEV = (Kalorienaufnahme + (Gewichtsänderung_kg × 7700)) / Tage';
 
   @override
   String get calories => 'Kalorien';
@@ -511,7 +511,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get totalDailyEnergyExpenditureTdee =>
-      'Gesamttäglicher Energieverbrauch (TDEE)';
+      'Gesamttäglicher Energieverbrauch (GEV)';
 
   @override
   String get kcalPerDay => 'kcal/Tag';
@@ -524,7 +524,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get infoTextTdeeEstimate =>
-      'Dies ist eine erste Schätzung Ihres TDEE basierend auf Alter, Gewicht, Geschlecht und Aktivitätslevel.\nFür ein genaueres Ergebnis verfolgen Sie bitte Ihr Gewicht und Ihre Kalorienaufnahme mindestens 7 Tage in Folge.';
+      'Dies ist eine erste Schätzung Ihres GEV basierend auf Alter, Gewicht, Geschlecht und Aktivitätslevel.\nFür ein genaueres Ergebnis verfolgen Sie bitte Ihr Gewicht und Ihre Kalorienaufnahme mindestens 7 Tage in Folge.';
 
   @override
   String get bmi => 'BMI';
@@ -569,7 +569,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get weightChangePerWeek => 'Gewichtsänderung pro Woche';
 
   @override
-  String get baseTdee => 'Basis TDEE';
+  String get baseTdee => 'Basis GEV';
 
   @override
   String get weightChange => 'Gewichtsänderung';
@@ -578,7 +578,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get calorieAdjustment => 'Kalorienanpassung';
 
   @override
-  String get goalTdee => 'Ziel TDEE';
+  String get goalTdee => 'Ziel GEV';
 
   @override
   String get kcalDay => 'kcal/day';
@@ -600,4 +600,60 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get inches => 'Zoll';
+
+  @override
+  String get sedentary => 'Bewegungsarm (wenig oder keine Bewegung)';
+
+  @override
+  String get lightlyActive => 'Leicht aktiv (1–3 Tage pro Woche)';
+
+  @override
+  String get moderatelyActive =>
+      'Mäßig aktiv (moderate Bewegung 3–5 Tage pro Woche)';
+
+  @override
+  String get veryActive => 'Sehr aktiv (hartes Training 6–7 Tage pro Woche)';
+
+  @override
+  String get extraActive =>
+      'Extra aktiv (sehr hartes Training und körperliche Arbeit oder 2x Training)';
+
+  @override
+  String get language => 'Sprache';
+
+  @override
+  String get pleaseSelectYourLanguage => 'Bitte wählen Sie Ihre Sprache';
+
+  @override
+  String get english => 'Englisch';
+
+  @override
+  String get spanish => 'Spanisch';
+
+  @override
+  String get portuguese => 'Portugiesisch';
+
+  @override
+  String get german => 'Deutsch';
+
+  @override
+  String get french => 'Französisch';
+
+  @override
+  String get italian => 'Italienisch';
+
+  @override
+  String get japanese => 'Japanisch';
+
+  @override
+  String get korean => 'Koreanisch';
+
+  @override
+  String get russian => 'Russisch';
+
+  @override
+  String get chinese => 'Chinesisch';
+
+  @override
+  String get turkish => 'Türkisch';
 }
