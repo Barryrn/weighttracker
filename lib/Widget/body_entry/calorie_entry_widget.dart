@@ -27,7 +27,7 @@ class CalorieEntry extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Calories (kcal)',
+              AppLocalizations.of(context)!.caloriesKcal,
               style: AppTypography.bodyLarge(
                 context,
               ).copyWith(color: Theme.of(context).colorScheme.textPrimary),

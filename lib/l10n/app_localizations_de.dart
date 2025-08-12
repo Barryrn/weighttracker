@@ -548,6 +548,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get graphView => 'Graphansicht';
 
   @override
+  String get chartView => 'Chartansicht';
+
+  @override
   String get entry => 'Eintrag';
 
   @override

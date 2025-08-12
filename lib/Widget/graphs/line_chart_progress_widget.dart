@@ -4,7 +4,7 @@ import '../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' show max;
-import '../../viewmodel/date_line_chart.dart';
+import '../../ViewModel/date_line_chart.dart';
 import '../../theme.dart';
 import '../../viewmodel/unit_conversion_provider.dart';
 import 'package:intl/intl.dart';
@@ -104,12 +104,12 @@ class _LineChartProgressWidgetState
     // Get the aggregated data to display date ranges
     final aggregatedData = ref.watch(timeAggregationProvider);
     String periodRangeText = '';
-
+  
     if (aggregatedData.isNotEmpty) {
       // Find the earliest and latest dates in the current view
       final firstDate = aggregatedData.last.periodStart;
       final lastDate = aggregatedData.first.periodEnd;
-
+  
       switch (selectedPeriod) {
         case TimePeriodLineChart.week:
           // Format: Jul XX - Jul YY 2025
@@ -145,7 +145,7 @@ class _LineChartProgressWidgetState
           periodRangeText = '';
       }
     }
-
+  
     return Column(
       children: [
         Row(
@@ -173,7 +173,8 @@ class _LineChartProgressWidgetState
                   vertical: 8,
                 ),
               ),
-              child: Text(period.name.capitalize()),
+              // Fixed: Use 'period' instead of 'selectedTimePeriod'
+              child: Text(period.getLocalizedNameCapitalized(context)),
             );
           }).toList(),
         ),

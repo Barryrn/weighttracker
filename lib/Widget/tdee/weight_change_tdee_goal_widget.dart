@@ -136,7 +136,7 @@ class _WeightChangeGoalTDEEWidgetState
             children: [
               Flexible(
                 child: Text(
-                  'Weight Change Goal TDEE',
+                  AppLocalizations.of(context)!.weightChangeGoalTdee,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Theme.of(context).colorScheme.textPrimary,
                     fontWeight: FontWeight.bold,
@@ -153,7 +153,7 @@ class _WeightChangeGoalTDEEWidgetState
                 children: [
                   _buildToggleButton(
                     context,
-                    label: 'Gain Weight',
+                    label: AppLocalizations.of(context)!.gainWeight,
                     selected: isGainingWeight,
                     color: Colors.green,
                     onTap: () {
@@ -165,7 +165,7 @@ class _WeightChangeGoalTDEEWidgetState
                   const SizedBox(width: 16),
                   _buildToggleButton(
                     context,
-                    label: 'Lose Weight',
+                    label: AppLocalizations.of(context)!.loseWeight,
 
                     selected: !isGainingWeight,
                     color: Colors.redAccent,
@@ -193,7 +193,7 @@ class _WeightChangeGoalTDEEWidgetState
                   ), // Allow commas too
                 ],
                 decoration: InputDecoration(
-                  labelText: 'Weight Change per Week (${weightUnit})',
+                  labelText: AppLocalizations.of(context)!.weightChangePerWeek,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -247,8 +247,12 @@ class _WeightChangeGoalTDEEWidgetState
                     _weightChangeController.text = displayWeightChange
                         .toStringAsFixed(2);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please enter a valid positive number'),
+                      SnackBar(
+                        content: Text(
+                          AppLocalizations.of(
+                            context,
+                          )!.pleaseEnterAValidPositiveNumber,
+                        ),
                       ),
                     );
                   }
@@ -277,24 +281,24 @@ class _WeightChangeGoalTDEEWidgetState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildSummaryRow(
-                        'Base TDEE',
-                        '${baseTDEE.toStringAsFixed(0)} kcal/day',
+                        AppLocalizations.of(context)!.baseTdee,
+                        '${baseTDEE.toStringAsFixed(0)} ${AppLocalizations.of(context)!.kcalDay}',
                       ),
                       _buildSummaryRow(
-                        'Weight Change',
+                        AppLocalizations.of(context)!.weightChange,
                         '${(unitPrefs.useMetricWeight ? weightChangePerWeek : weightChangePerWeek / 0.45359237).toStringAsFixed(2)} ${weightUnit}/week',
                       ),
                       _buildSummaryRow(
-                        'Calorie Adjustment',
-                        '${calorieAdjustment.toStringAsFixed(0)} kcal/day',
+                        AppLocalizations.of(context)!.calorieAdjustment,
+                        '${calorieAdjustment.toStringAsFixed(0)} ${AppLocalizations.of(context)!.kcalDay}',
                         valueColor: calorieAdjustment >= 0
                             ? Theme.of(context).colorScheme.success
                             : Theme.of(context).colorScheme.error,
                       ),
                       const Divider(height: 20, thickness: 1),
                       _buildSummaryRow(
-                        'Goal TDEE',
-                        '${goalTDEE?.toStringAsFixed(0) ?? 'N/A'} kcal/day',
+                        AppLocalizations.of(context)!.goalTdee,
+                        '${goalTDEE?.toStringAsFixed(0) ?? 'N/A'} ${AppLocalizations.of(context)!.kcalDay}',
                         isBold: true,
                       ),
                     ],
@@ -303,7 +307,9 @@ class _WeightChangeGoalTDEEWidgetState
               else
                 Center(
                   child: Text(
-                    'Insufficient data to calculate goal TDEE.',
+                    AppLocalizations.of(
+                      context,
+                    )!.insufficientDataToCalculateGoalTdee,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: theme.colorScheme.textPrimary,
                     ),

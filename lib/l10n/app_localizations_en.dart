@@ -544,6 +544,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get graphView => 'Graph View';
 
   @override
+  String get chartView => 'Chart View';
+
+  @override
   String get entry => 'entry';
 
   @override
