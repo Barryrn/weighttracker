@@ -91,10 +91,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moreSettings => 'More Settings';
 
   @override
-  String get progressPage => 'Progress Page';
+  String get progressPage => 'Progress';
 
   @override
-  String get addWeightEntry => 'Add Weight Entry';
+  String get addWeightEntry => 'Add Entry';
 
   @override
   String get fatPercentageCalculator => 'Fat Percentage Calculator';
@@ -596,4 +596,60 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inches => 'Inches';
+
+  @override
+  String get sedentary => 'Sedentary (little or no exercise)';
+
+  @override
+  String get lightlyActive => 'Lightly active (1-3 days per week)';
+
+  @override
+  String get moderatelyActive =>
+      'Moderately Active (moderate exercise 3-5 days/week)';
+
+  @override
+  String get veryActive => 'Very Active (hard exercise 6-7 days/week)';
+
+  @override
+  String get extraActive =>
+      'Extra Active (very hard exercise & physical job or 2x training)';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get pleaseSelectYourLanguage => 'Please select your language';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get spanish => 'Spanish';
+
+  @override
+  String get portuguese => 'Portuguese';
+
+  @override
+  String get german => 'German';
+
+  @override
+  String get french => 'French';
+
+  @override
+  String get italian => 'Italian';
+
+  @override
+  String get japanese => 'Japanese';
+
+  @override
+  String get korean => 'Korean';
+
+  @override
+  String get russian => 'Russian';
+
+  @override
+  String get chinese => 'Chinese';
+
+  @override
+  String get turkish => 'Turkish';
 }

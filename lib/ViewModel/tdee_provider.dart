@@ -5,22 +5,53 @@ import 'dart:developer' as developer;
 import 'latest_weight_provider.dart';
 import 'profile_settings_provider.dart';
 import '../provider/database_change_provider.dart';
+import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 
 /// Activity factor levels for TDEE calculation
 enum ActivityLevel {
-  sedentary(1.2, 'Sedentary (little or no exercise)'),
-  lightlyActive(1.375, 'Lightly Active (light exercise 1-3 days/week)'),
-  moderatelyActive(1.55, 'Moderately Active (moderate exercise 3-5 days/week)'),
-  veryActive(1.725, 'Very Active (hard exercise 6-7 days/week)'),
-  extraActive(
-    1.9,
-    'Extra Active (very hard exercise & physical job or 2x training)',
-  );
+  sedentary(1.2),
+  lightlyActive(1.375),
+  moderatelyActive(1.55),
+  veryActive(1.725),
+  extraActive(1.9);
 
   final double factor;
-  final String description;
 
-  const ActivityLevel(this.factor, this.description);
+  const ActivityLevel(this.factor);
+
+  /// Get the localized description for this activity level
+  String getLocalizedDescription(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    switch (this) {
+      case ActivityLevel.sedentary:
+        return localizations.sedentary;
+      case ActivityLevel.lightlyActive:
+        return localizations.lightlyActive;
+      case ActivityLevel.moderatelyActive:
+        return localizations.moderatelyActive;
+      case ActivityLevel.veryActive:
+        return localizations.veryActive;
+      case ActivityLevel.extraActive:
+        return localizations.extraActive; // Note: you had veryActive here, should be extraActive
+    }
+  }
+
+  /// Get a non-localized description (fallback for logging or when context is not available)
+  String get description {
+    switch (this) {
+      case ActivityLevel.sedentary:
+        return 'Sedentary';
+      case ActivityLevel.lightlyActive:
+        return 'Lightly Active';
+      case ActivityLevel.moderatelyActive:
+        return 'Moderately Active';
+      case ActivityLevel.veryActive:
+        return 'Very Active';
+      case ActivityLevel.extraActive:
+        return 'Extra Active';
+    }
+  }
 }
 
 /// A provider that calculates the Total Daily Energy Expenditure (TDEE) using the Mifflin-St Jeor Equation.

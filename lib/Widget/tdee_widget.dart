@@ -67,7 +67,7 @@ class TDEEWidget extends ConsumerWidget {
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 250),
                     child: Text(
-                      level.description,
+                      level.getLocalizedDescription(context),
                       softWrap: true,
                       style: AppTypography.bodyMedium(context),
                     ),

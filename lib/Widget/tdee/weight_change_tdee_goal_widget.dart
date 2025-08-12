@@ -305,14 +305,12 @@ class _WeightChangeGoalTDEEWidgetState
                   ),
                 )
               else
-                Center(
-                  child: Text(
-                    AppLocalizations.of(
-                      context,
-                    )!.insufficientDataToCalculateGoalTdee,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.textPrimary,
-                    ),
+                Text(
+                  AppLocalizations.of(
+                    context,
+                  )!.insufficientDataToCalculateGoalTdee,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.textSecondary,
                   ),
                 ),
             ],
