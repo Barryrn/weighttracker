@@ -97,6 +97,9 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
       // Store all entries for filtering
       _allEntries = entriesWithImages;
 
+      // Initialize weight range based on actual data
+      ref.read(imageTimelineFilterProvider.notifier).initializeWeightRange(_allEntries);
+
       // Load all available tags for filtering
       _loadAllTags();
 
