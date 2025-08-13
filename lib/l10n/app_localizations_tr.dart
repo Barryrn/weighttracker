@@ -82,7 +82,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pic2 => 'Fotoğraf 2';
 
   @override
-  String get errorLoadingImages => 'Görseller yüklenirken hata oluştu';
+  String get errorLoadingImages => 'Henüz resim yüklenmedi';
 
   @override
   String get myGoals => 'Hedeflerim';
@@ -655,32 +655,32 @@ class AppLocalizationsTr extends AppLocalizations {
   String get turkish => 'Türkçe';
 
   @override
-  String get polish => 'Polish';
+  String get polish => 'Polonca';
 
   @override
-  String get healthServices => 'Health Services';
+  String get healthServices => 'Sağlık Hizmetleri';
 
   @override
-  String get availableOnYourDevice => 'Available on your device';
+  String get availableOnYourDevice => 'Cihazınızda Mevcut';
 
   @override
-  String get notAvailableOnYourDevice => 'Not available on your device';
+  String get notAvailableOnYourDevice => 'Cihazınızda Mevcut Değil';
 
   @override
-  String get authorization => 'Authorization';
+  String get authorization => 'Yetkilendirme';
 
   @override
-  String get accessGranted => 'Access granted';
+  String get accessGranted => 'Erişim Verildi';
 
   @override
-  String get accessNotGranted => 'Access not granted';
+  String get accessNotGranted => 'Erişim Verilmedi';
 
   @override
-  String get neverSynced => 'Never synced';
+  String get neverSynced => 'Sürekli Senkronizasyon Yapılmadı';
 
   @override
-  String get grantAccess => 'Grant Access';
+  String get grantAccess => 'Erişim Ver';
 
   @override
-  String get lastSync => 'Last Sync';
+  String get lastSync => 'Son Senkronizasyon';
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weigthtracker/View/language_change_view.dart';
+import 'package:weigthtracker/Widget/restart_widget.dart';
 import 'package:weigthtracker/model/language_settings_storage_model.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:weigthtracker/theme.dart';
@@ -34,7 +35,7 @@ class _LanguageChangeWidgetState extends State<LanguageChangeWidget> {
   }
 
   /// Changes the app language and saves it to storage
-  /// Shows a confirmation message to the user
+  /// Automatically restarts the app to apply the new language
   Future<void> _changeLanguage(String languageCode) async {
     setState(() {
       _selectedLanguage = languageCode;
@@ -42,17 +43,21 @@ class _LanguageChangeWidgetState extends State<LanguageChangeWidget> {
 
     await LanguageSettingsStorageModel.saveLanguage(languageCode);
 
-    // Show confirmation and restart app
+    // Show confirmation message
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            AppLocalizations.of(context)!.language +
-                ' updated. Please restart the app.',
-          ),
-          duration: const Duration(seconds: 3),
+          content: Text(AppLocalizations.of(context)!.language + ' updated!'),
+          duration: const Duration(seconds: 1),
         ),
       );
+
+      // Wait a moment for the snackbar to show, then restart the app
+      await Future.delayed(const Duration(milliseconds: 1500));
+
+      if (mounted) {
+        RestartWidget.restartApp(context);
+      }
     }
   }
 
@@ -125,9 +130,7 @@ class _LanguageChangeWidgetState extends State<LanguageChangeWidget> {
               style: TextStyle(
                 color: isSelected
                     ? Theme.of(context).colorScheme.primary.withOpacity(0.7)
-                    : Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withOpacity(0.6),
+                    : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               ),
             ),
             trailing: isSelected
@@ -135,10 +138,7 @@ class _LanguageChangeWidgetState extends State<LanguageChangeWidget> {
                     Icons.check_circle,
                     color: Theme.of(context).colorScheme.primary,
                   )
-                : const Icon(
-                    Icons.radio_button_unchecked,
-                    color: Colors.grey,
-                  ),
+                : const Icon(Icons.radio_button_unchecked, color: Colors.grey),
             onTap: () {
               if (!isSelected) {
                 _changeLanguage(languageCode);

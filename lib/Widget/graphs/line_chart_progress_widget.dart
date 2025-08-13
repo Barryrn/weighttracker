@@ -104,12 +104,12 @@ class _LineChartProgressWidgetState
     // Get the aggregated data to display date ranges
     final aggregatedData = ref.watch(timeAggregationProvider);
     String periodRangeText = '';
-  
+
     if (aggregatedData.isNotEmpty) {
       // Find the earliest and latest dates in the current view
       final firstDate = aggregatedData.last.periodStart;
       final lastDate = aggregatedData.first.periodEnd;
-  
+
       switch (selectedPeriod) {
         case TimePeriodLineChart.week:
           // Format: Jul XX - Jul YY 2025
@@ -145,7 +145,7 @@ class _LineChartProgressWidgetState
           periodRangeText = '';
       }
     }
-  
+
     return Column(
       children: [
         Row(
@@ -271,8 +271,8 @@ class _LineChartProgressWidgetState
     // Extract valid y-values for min/max calculation
     List<double> yValues = validDataPoints.map((e) => e.value).toList();
 
-    double minY = yValues.reduce((a, b) => a < b ? a : b);
-    double maxY = yValues.reduce((a, b) => a > b ? a : b);
+    double minY = yValues.reduce((a, b) => a < b ? a : b) - 1;
+    double maxY = yValues.reduce((a, b) => a > b ? a : b) + 1;
 
     double range = (maxY - minY).abs();
     if (range == 0) range = 1;

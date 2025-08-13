@@ -21,36 +21,65 @@ class SaveButtonEntryWidget extends ConsumerWidget {
       width: double.infinity, // Makes the button full-width
       child: ElevatedButton(
         onPressed: () async {
-          print('Button pressed'); // add this line
+          print('Button pressed');
 
           // Get the current body entry from the provider
           final bodyEntry = ref.read(bodyEntryProvider);
+          
+          // Validate that we have some data to save
+          if (bodyEntry.weight == null && 
+              bodyEntry.fatPercentage == null && 
+              bodyEntry.calorie == null &&
+              (bodyEntry.notes == null || bodyEntry.notes!.isEmpty)) {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Please enter at least one measurement before saving.',
+                    style: AppTypography.bodyMedium(context).copyWith(color: Colors.white),
+                  ),
+                  backgroundColor: Colors.orange,
+                ),
+              );
+            }
+            return;
+          }
 
           // Create database helper instance
           final dbHelper = DatabaseHelper();
 
           try {
-            // Save the entry to the database
-            await dbHelper.insertBodyEntry(bodyEntry);
+            // Save the entry to the database and check result
+            final result = await dbHelper.insertBodyEntry(bodyEntry);
+            
+            // Verify the save was successful (result should be > 0)
+            if (result <= 0) {
+              throw Exception('Failed to save entry - no rows affected');
+            }
+            
+            // Print all entries for debugging
             await dbHelper.printAllBodyEntries();
+            
+            // After successful save, verify the data exists
+            final savedEntry = await dbHelper.findEntryByDate(bodyEntry.date);
+            if (savedEntry == null) {
+              throw Exception('Entry was not found after save operation');
+            }
+            print('Verified saved entry: $savedEntry');
+            
+            // Perform health sync
             await ref.read(healthStateProvider.notifier).performTwoWaySync();
 
-            print('Test');
-
             // Notify that database has changed
-            print('Notifying database change to update TDEE calculation');
             ref.read(databaseChangeProvider.notifier).notifyDatabaseChanged();
-            print('Database change notification sent');
 
-            // Show success message
+            // Show success message only after confirming save
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
                     AppLocalizations.of(context)!.entrySavedSuccessfully,
-                    style: AppTypography.bodyMedium(
-                      context,
-                    ).copyWith(color: Colors.white),
+                    style: AppTypography.bodyMedium(context).copyWith(color: Colors.white),
                   ),
                   backgroundColor: Theme.of(context).colorScheme.success,
                   duration: Duration(seconds: 1),
@@ -61,16 +90,18 @@ class SaveButtonEntryWidget extends ConsumerWidget {
               Navigator.pop(context);
             }
           } catch (e) {
-            // Show error message if save fails
+            print('Error saving entry: $e');
+            
+            // Show specific error message
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    AppLocalizations.of(context)!.failedToSaveEntry,
-                    style: AppTypography.bodyMedium(
-                      context,
-                    ).copyWith(color: Colors.white),
+                    'Failed to save entry: ${e.toString()}',
+                    style: AppTypography.bodyMedium(context).copyWith(color: Colors.white),
                   ),
+                  backgroundColor: Colors.red,
+                  duration: Duration(seconds: 3),
                 ),
               );
             }
@@ -95,3 +126,4 @@ class SaveButtonEntryWidget extends ConsumerWidget {
     );
   }
 }
+
