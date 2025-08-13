@@ -174,8 +174,17 @@ class ImageTimelineFilter extends ConsumerWidget {
     ImageTimelineFilterState filterState,
     ImageTimelineFilterNotifier filterNotifier,
     UnitPreferences unitPreferences,
-    WidgetRef ref, // Add this parameter
+    WidgetRef ref,
   ) {
+    // Get dynamic min and max weights from filter state
+    double minWeight = filterState.minWeight;
+    double maxWeight = filterState.maxWeight;
+
+    // Ensure min and max are different to avoid division by zero
+    if (minWeight >= maxWeight) {
+      maxWeight = minWeight + 5.0;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -209,10 +218,10 @@ class ImageTimelineFilter extends ConsumerWidget {
                   activeColor: Theme.of(context).colorScheme.primary,
                   inactiveColor: Theme.of(context).colorScheme.primaryLight,
                   values: filterState.weightRange,
-                  min: filterState.minWeight,
-                  max: filterState.maxWeight,
+                  min: minWeight,
+                  max: maxWeight,
                   divisions:
-                      ((filterState.maxWeight - filterState.minWeight) * 10)
+                      ((maxWeight - minWeight) * 10)
                           .round(),
                   labels: RangeLabels(
                     filterState.weightRange.start.toStringAsFixed(1),
