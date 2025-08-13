@@ -23,7 +23,7 @@
   "sideCapital": "Yan",
   "pic1": "Fotoğraf 1",
   "pic2": "Fotoğraf 2",
-  "errorLoadingImages": "Görseller yüklenirken hata oluştu",
+  "errorLoadingImages": "Henüz resim yüklenmedi",
   "myGoals": "Hedeflerim",
   "moreSettings": "Daha Fazla Ayar",
   "progressPage": "İlerleme",
@@ -201,5 +201,15 @@
   "korean": "Korece",
   "russian": "Rusça",
   "chinese": "Çince",
-  "turkish": "Türkçe"
+  "turkish": "Türkçe",
+  "polish": "Polonca",
+  "healthServices": "Sağlık Hizmetleri",
+  "availableOnYourDevice": "Cihazınızda Mevcut",
+  "notAvailableOnYourDevice": "Cihazınızda Mevcut Değil",
+  "authorization": "Yetkilendirme",
+  "accessGranted": "Erişim Verildi",
+  "accessNotGranted": "Erişim Verilmedi",
+  "neverSynced": "Sürekli Senkronizasyon Yapılmadı",
+  "grantAccess": "Erişim Ver",
+  "lastSync": "Son Senkronizasyon"
 }

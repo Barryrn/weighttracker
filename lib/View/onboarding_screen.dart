@@ -85,7 +85,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       _buildWelcomeScreen(),
                       _buildUnitConversionScreen(),
                       _buildUserInfoScreen(),
-                      _buildTDEEScreen(),
+                      // Removed _buildTDEEScreen()
                     ],
                   ),
                 ),
@@ -97,7 +97,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(
-                          4,
+                          3, // Changed from 4 to 3 pages
                           (index) => Container(
                             margin: const EdgeInsets.symmetric(horizontal: 4.0),
                             width: 8,
@@ -118,7 +118,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           onPressed: _currentPage == 2 && !_isFormComplete
                               ? null
                               : () {
-                                  if (_currentPage < 3) {
+                                  if (_currentPage < 2) { // Changed from 3 to 2
                                     _pageController.nextPage(
                                       duration: const Duration(
                                         milliseconds: 300,
@@ -140,7 +140,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                             ),
                           ),
                           child: Text(
-                            _currentPage == 3
+                            _currentPage == 2 // Changed from 3 to 2
                                 ? AppLocalizations.of(context)!.finish
                                 : AppLocalizations.of(context)!.next,
                           ),

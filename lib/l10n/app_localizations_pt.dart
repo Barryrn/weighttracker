@@ -83,7 +83,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pic2 => 'Foto 2';
 
   @override
-  String get errorLoadingImages => 'Erro ao carregar imagens';
+  String get errorLoadingImages => 'Ainda não foi carregada nenhuma imagem';
 
   @override
   String get myGoals => 'Minhas Metas';
@@ -657,7 +657,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get turkish => 'Turco';
 
   @override
-  String get polish => 'Polish';
+  String get polish => 'polir';
 
   @override
   String get healthServices => 'Serviços de saúde';

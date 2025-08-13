@@ -23,7 +23,7 @@
   "sideCapital": "Côté",
   "pic1": "Photo 1",
   "pic2": "Photo 2",
-  "errorLoadingImages": "Erreur lors du chargement des images",
+  "errorLoadingImages": "Aucune image n'a encore été téléchargée",
   "myGoals": "Mes objectifs",
   "moreSettings": "Plus de paramètres",
   "progressPage": "Progrès",

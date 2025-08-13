@@ -16,6 +16,7 @@ import 'model/mock_data_importer.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'model/language_settings_storage_model.dart';
+import 'Widget/restart_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +26,8 @@ void main() async {
   await dbHelper.database;
   await dbHelper.printDatabasePath();
 
-  // Run the app with ProviderScope
-  runApp(const ProviderScope(child: MyApp()));
+  // Run the app with ProviderScope and RestartWidget
+  runApp(RestartWidget(child: const ProviderScope(child: MyApp())));
 }
 
 class MyApp extends ConsumerStatefulWidget {

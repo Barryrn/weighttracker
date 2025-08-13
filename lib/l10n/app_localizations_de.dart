@@ -30,7 +30,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tdeeCalories => 'GEV Kalorien';
 
   @override
-  String get goalWeightTdee => 'GEV bei Zielgewicht';
+  String get goalWeightTdee => 'GEV Zielgewicht';
 
   @override
   String get noImagesAvailable => 'Keine Bilder verfügbar';
@@ -83,7 +83,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pic2 => 'Bild 2';
 
   @override
-  String get errorLoadingImages => 'Fehler beim Laden der Bilder';
+  String get errorLoadingImages => 'Bisher noch kein Bild hochgeladen';
 
   @override
   String get myGoals => 'Meine Ziele';

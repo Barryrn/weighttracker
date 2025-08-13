@@ -83,7 +83,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get pic2 => 'Zdjęcie 2';
 
   @override
-  String get errorLoadingImages => 'Błąd ładowania zdjęć';
+  String get errorLoadingImages => 'Nie przesłano jeszcze żadnego obrazu';
 
   @override
   String get myGoals => 'Moje cele';
@@ -659,7 +659,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get turkish => 'Turecki';
 
   @override
-  String get polish => 'Polish';
+  String get polish => 'Polski';
 
   @override
   String get healthServices => 'Usługi zdrowotne';

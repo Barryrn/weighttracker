@@ -82,7 +82,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get pic2 => 'Foto 2';
 
   @override
-  String get errorLoadingImages => 'Errore nel caricamento delle immagini';
+  String get errorLoadingImages => 'Nessuna immagine caricata ancora';
 
   @override
   String get myGoals => 'I miei obiettivi';
