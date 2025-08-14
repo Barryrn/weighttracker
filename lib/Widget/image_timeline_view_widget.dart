@@ -8,7 +8,7 @@ import 'package:weigthtracker/viewmodel/unit_conversion_provider.dart';
 import '../ViewModel/image_timeline_view_model.dart';
 import '../ViewModel/image_export_view_model.dart';
 import '../theme.dart';
-import 'image_timeline_filter.dart';
+import 'image_timeline_filter_widget.dart';
 
 /// A widget that displays the timeline content of progress images.
 /// Does NOT include a Scaffold, so you can use it inside any Scaffold.
