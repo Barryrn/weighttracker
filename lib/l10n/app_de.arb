@@ -58,7 +58,7 @@
   "failedToSaveImage": "Speichern des Bildes fehlgeschlagen",
   "permissionDeniedToSaveImages": "Berechtigung zum Speichern von Bildern verweigert",
   "errorSavingImage": "Fehler beim Speichern des Bildes",
-  "finish": "Fertigstellen",
+  "finish": "Fertig",
   "next": "Weiter",
   "skip": "Überspringen",
   "welcomeToWeightTracker": "Willkommen bei Weight Tracker",
@@ -212,6 +212,8 @@
   "accessNotGranted": "Zugriff nicht gewährt",
   "neverSynced": "Nie synchronisiert",
   "grantAccess": "Zugriff gewähren",
-  "lastSync": "Letzte Synchronisierung"
+  "lastSync": "Letzte Synchronisierung",
+  "chooseYourLanguage": "Wählen Sie Ihre Sprache",
+  "selectYourPreferredLanguageForTheApp": "Wählen Sie Ihre bevorzugte Sprache für die App. Die App wird neu gestartet, um die Änderungen zu übernehmen"
 
 }

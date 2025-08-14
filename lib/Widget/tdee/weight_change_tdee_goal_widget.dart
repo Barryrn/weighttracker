@@ -197,7 +197,7 @@ class _WeightChangeGoalTDEEWidgetState
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  hintText: '0.50',
+                  hintText: '0.5',
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 14,
                     vertical: 14,

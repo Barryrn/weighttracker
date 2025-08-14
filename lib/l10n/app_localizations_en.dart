@@ -682,4 +682,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lastSync => 'Last Sync';
+
+  @override
+  String get chooseYourLanguage => 'Choose your language';
+
+  @override
+  String get selectYourPreferredLanguageForTheApp =>
+      'Select your preferred language for the app. The app will restart to apply the changes';
 }
