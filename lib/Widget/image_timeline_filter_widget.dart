@@ -190,7 +190,9 @@ class ImageTimelineFilter extends ConsumerWidget {
       children: [
         Text(
           '${AppLocalizations.of(context)!.weightRange} (${unitPreferences.useMetricWeight ? 'kg' : 'lb'})',
-          style: AppTypography.subtitle1(context),
+          style: AppTypography.subtitle1(
+            context,
+          ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
         ),
         const SizedBox(height: 8),
         Row(
@@ -220,9 +222,7 @@ class ImageTimelineFilter extends ConsumerWidget {
                   values: filterState.weightRange,
                   min: minWeight,
                   max: maxWeight,
-                  divisions:
-                      ((maxWeight - minWeight) * 10)
-                          .round(),
+                  divisions: ((maxWeight - minWeight) * 10).round(),
                   labels: RangeLabels(
                     filterState.weightRange.start.toStringAsFixed(1),
                     filterState.weightRange.end.toStringAsFixed(1),
@@ -259,14 +259,16 @@ class ImageTimelineFilter extends ConsumerWidget {
       children: [
         Text(
           AppLocalizations.of(context)!.dateRange,
-          style: AppTypography.subtitle1(context),
+          style: AppTypography.subtitle1(
+            context,
+          ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
         ),
         const SizedBox(height: 8),
         Row(
           children: [
             Expanded(
               child: OutlinedButton(
-                style: TextButton.styleFrom(
+                style: OutlinedButton.styleFrom(
                   side: BorderSide(
                     color: Theme.of(context).colorScheme.primaryLight,
                     width: 1.5,
@@ -345,7 +347,9 @@ class ImageTimelineFilter extends ConsumerWidget {
       children: [
         Text(
           AppLocalizations.of(context)!.tags,
-          style: AppTypography.subtitle1(context),
+          style: AppTypography.subtitle1(
+            context,
+          ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
         ),
         const SizedBox(height: 8),
         Wrap(

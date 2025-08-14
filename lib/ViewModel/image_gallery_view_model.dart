@@ -54,12 +54,7 @@ class ImageGalleryViewModel extends StateNotifier<ImageGalleryState> {
   List<BodyEntry> _allEntries = []; // Store all entries for filtering
 
   ImageGalleryViewModel(this.ref)
-      : super(
-          ImageGalleryState(
-            entries: [],
-            isLoading: true,
-          ),
-        ) {
+    : super(ImageGalleryState(entries: [], isLoading: true)) {
     // Load entries when the ViewModel is initialized
     loadEntries();
 
@@ -102,13 +97,15 @@ class ImageGalleryViewModel extends StateNotifier<ImageGalleryState> {
       _allEntries = entriesWithImages;
 
       // Initialize weight range based on actual data
-      ref.read(imageGalleryFilterProvider.notifier).initializeWeightRange(_allEntries);
+      ref
+          .read(imageGalleryFilterProvider.notifier)
+          .initializeWeightRange(_allEntries);
 
       // Load all available tags for filtering
       _loadAllTags();
 
       // Initialize date range based on latest entry
-      ref.read(imageGalleryFilterProvider.notifier).initializeDateRange(_allEntries);
+      // ref.read(imageGalleryFilterProvider.notifier).initializeDateRange(_allEntries);
 
       // Apply filters
       _applyFilters();
@@ -141,10 +138,7 @@ class ImageGalleryViewModel extends StateNotifier<ImageGalleryState> {
 
     // If filters aren't active, use all entries
     if (!filterState.filtersActive) {
-      state = state.copyWith(
-        entries: _allEntries,
-        isLoading: false,
-      );
+      state = state.copyWith(entries: _allEntries, isLoading: false);
       return;
     }
 
@@ -191,10 +185,7 @@ class ImageGalleryViewModel extends StateNotifier<ImageGalleryState> {
     }).toList();
 
     // Update state with filtered entries
-    state = state.copyWith(
-      entries: filteredEntries,
-      isLoading: false,
-    );
+    state = state.copyWith(entries: filteredEntries, isLoading: false);
   }
 
   /// Get all available images from an entry based on filter settings
@@ -238,7 +229,10 @@ class ImageGalleryViewModel extends StateNotifier<ImageGalleryState> {
 
   /// Get filtered entries based on the provided filter state
   /// This method applies filters to the given entries and returns the filtered result
-  List<BodyEntry> getFilteredEntries(List<BodyEntry> entries, ImageGalleryFilterState filterState) {
+  List<BodyEntry> getFilteredEntries(
+    List<BodyEntry> entries,
+    ImageGalleryFilterState filterState,
+  ) {
     // If filters aren't active, return all entries
     if (!filterState.filtersActive) {
       return entries;
@@ -291,8 +285,8 @@ class ImageGalleryViewModel extends StateNotifier<ImageGalleryState> {
 /// Provider for accessing the ImageGalleryViewModel
 final imageGalleryProvider =
     StateNotifierProvider<ImageGalleryViewModel, ImageGalleryState>(
-  (ref) => ImageGalleryViewModel(ref),
-);
+      (ref) => ImageGalleryViewModel(ref),
+    );
 
 /// Data class to hold the filter state for the image gallery
 class ImageGalleryFilterState {
@@ -352,15 +346,15 @@ class ImageGalleryFilterState {
 class ImageGalleryFilterNotifier
     extends StateNotifier<ImageGalleryFilterState> {
   ImageGalleryFilterNotifier()
-      : super(
-          ImageGalleryFilterState(
-            weightRange: const RangeValues(40.0, 100.0),
-            minWeight: 40.0,
-            maxWeight: 100.0,
-            selectedTags: [],
-            allTags: [],
-          ),
-        );
+    : super(
+        ImageGalleryFilterState(
+          weightRange: const RangeValues(40.0, 100.0),
+          minWeight: 40.0,
+          maxWeight: 100.0,
+          selectedTags: [],
+          allTags: [],
+        ),
+      );
 
   /// Set the weight range
   void setWeightRange(RangeValues range) {
@@ -482,9 +476,11 @@ class ImageGalleryFilterNotifier
 /// Provider for accessing the ImageGalleryViewModel
 final imageGalleryViewModelProvider =
     StateNotifierProvider<ImageGalleryViewModel, ImageGalleryState>(
-        (ref) => ImageGalleryViewModel(ref));
+      (ref) => ImageGalleryViewModel(ref),
+    );
 
 /// Provider for accessing the ImageGalleryFilterState
 final imageGalleryFilterProvider =
     StateNotifierProvider<ImageGalleryFilterNotifier, ImageGalleryFilterState>(
-        (ref) => ImageGalleryFilterNotifier());
+      (ref) => ImageGalleryFilterNotifier(),
+    );
