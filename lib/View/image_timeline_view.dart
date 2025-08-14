@@ -4,7 +4,7 @@ import '../../l10n/app_localizations.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:weigthtracker/Widget/image_timeline_filter.dart';
+import 'package:weigthtracker/Widget/image_timeline_filter_widget.dart';
 import 'package:weigthtracker/Widget/image_timeline_view_widget.dart';
 import '../ViewModel/image_timeline_view_model.dart';
 import '../theme.dart';
