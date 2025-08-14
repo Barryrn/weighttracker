@@ -191,7 +191,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get errorSavingImage => 'Fehler beim Speichern des Bildes';
 
   @override
-  String get finish => 'Fertigstellen';
+  String get finish => 'Fertig';
 
   @override
   String get next => 'Weiter';
@@ -686,4 +686,11 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get lastSync => 'Letzte Synchronisierung';
+
+  @override
+  String get chooseYourLanguage => 'Wählen Sie Ihre Sprache';
+
+  @override
+  String get selectYourPreferredLanguageForTheApp =>
+      'Wählen Sie Ihre bevorzugte Sprache für die App. Die App wird neu gestartet, um die Änderungen zu übernehmen';
 }

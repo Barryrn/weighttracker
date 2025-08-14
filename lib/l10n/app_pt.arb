@@ -211,5 +211,7 @@
   "accessNotGranted": "Acesso não concedido",
   "neverSynced": "Nunca sincronizado",
   "grantAccess": "Conceder Acesso",
-  "lastSync": "Última Sincronização"
+  "lastSync": "Última Sincronização",
+    "chooseYourLanguage": "Escolha o seu idioma",
+  "selectYourPreferredLanguageForTheApp": "Selecione o seu idioma preferido para a aplicação. A aplicação será reiniciada para aplicar as alterações"
 }

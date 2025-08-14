@@ -211,5 +211,7 @@
   "accessNotGranted": "Erişim Verilmedi",
   "neverSynced": "Sürekli Senkronizasyon Yapılmadı",
   "grantAccess": "Erişim Ver",
-  "lastSync": "Son Senkronizasyon"
+  "lastSync": "Son Senkronizasyon",
+    "chooseYourLanguage": "Dilinizi seçin",
+  "selectYourPreferredLanguageForTheApp": "Uygulama için tercih ettiğiniz dili seçin. Değişiklikleri uygulamak için uygulama yeniden başlatılacaktır"
 }

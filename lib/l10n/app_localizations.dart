@@ -1387,6 +1387,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last Sync'**
   String get lastSync;
+
+  /// No description provided for @chooseYourLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your language'**
+  String get chooseYourLanguage;
+
+  /// No description provided for @selectYourPreferredLanguageForTheApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your preferred language for the app. The app will restart to apply the changes'**
+  String get selectYourPreferredLanguageForTheApp;
 }
 
 class _AppLocalizationsDelegate

@@ -687,4 +687,11 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get lastSync => 'Ostatnia synchronizacja';
+
+  @override
+  String get chooseYourLanguage => 'Wybierz język';
+
+  @override
+  String get selectYourPreferredLanguageForTheApp =>
+      'Wybierz preferowany język aplikacji. Aplikacja zostanie ponownie uruchomiona, aby zastosować zmiany';
 }

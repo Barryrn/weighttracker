@@ -683,4 +683,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get lastSync => 'Son Senkronizasyon';
+
+  @override
+  String get chooseYourLanguage => 'Dilinizi seçin';
+
+  @override
+  String get selectYourPreferredLanguageForTheApp =>
+      'Uygulama için tercih ettiğiniz dili seçin. Değişiklikleri uygulamak için uygulama yeniden başlatılacaktır';
 }
