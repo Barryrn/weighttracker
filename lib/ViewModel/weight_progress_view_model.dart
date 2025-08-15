@@ -104,7 +104,9 @@ class WeightProgressViewModel extends StateNotifier<WeightProgressData> {
         progressPercentage = totalToLose > 0
             ? (alreadyLost / totalToLose)
             : 0.0;
-        remainingWeight = currentWeight - weightGoal;
+        
+        // Set remaining weight to 0 if current weight is below goal weight
+        remainingWeight = currentWeight <= weightGoal ? 0.0 : currentWeight - weightGoal;
       } else {
         // For weight gain: calculate how much has been gained as a percentage of total goal
         final totalToGain = weightGoal - startWeight;
@@ -113,7 +115,9 @@ class WeightProgressViewModel extends StateNotifier<WeightProgressData> {
         progressPercentage = totalToGain > 0
             ? (alreadyGained / totalToGain)
             : 0.0;
-        remainingWeight = weightGoal - currentWeight;
+        
+        // Set remaining weight to 0 if current weight is above goal weight
+        remainingWeight = currentWeight >= weightGoal ? 0.0 : weightGoal - currentWeight;
       }
 
       // Ensure percentage is between 0 and 1

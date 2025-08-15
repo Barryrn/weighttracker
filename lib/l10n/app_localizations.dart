@@ -131,7 +131,7 @@ abstract class AppLocalizations {
   /// No description provided for @remaining.
   ///
   /// In en, this message translates to:
-  /// **'Remaining'**
+  /// **'Remain'**
   String get remaining;
 
   /// No description provided for @complete.

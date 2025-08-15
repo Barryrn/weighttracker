@@ -18,7 +18,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get goal => 'Ziel';
 
   @override
-  String get remaining => 'Verbleibend';
+  String get remaining => 'Verbleib';
 
   @override
   String get complete => 'vollständig';

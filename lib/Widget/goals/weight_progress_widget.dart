@@ -55,34 +55,44 @@ class WeightProgressWidget extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 // Current weight
-                _buildWeightInfoColumn(
-                  AppLocalizations.of(context)!.current,
-                  progressData.displayCurrentWeight != null
-                      ? '${progressData.displayCurrentWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
-                      : '-- ${progressData.unitSuffix}',
-                  Theme.of(context).colorScheme.primary,
-                  context,
+                Expanded(
+                  child: _buildWeightInfoColumn(
+                    AppLocalizations.of(context)!.current,
+                    progressData.displayCurrentWeight != null
+                        ? '${progressData.displayCurrentWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
+                        : '-- ${progressData.unitSuffix}',
+                    Theme.of(context).colorScheme.primary,
+                    context,
+                  ),
                 ),
+
+                const SizedBox(width: 8),
 
                 // Goal weight
-                _buildWeightInfoColumn(
-                  AppLocalizations.of(context)!.goal,
-                  progressData.displayGoalWeight != null
-                      ? '${progressData.displayGoalWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
-                      : '-- ${progressData.unitSuffix}',
-                  Theme.of(context).colorScheme.error,
-                  context,
+                Expanded(
+                  child: _buildWeightInfoColumn(
+                    AppLocalizations.of(context)!.goal,
+                    progressData.displayGoalWeight != null
+                        ? '${progressData.displayGoalWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
+                        : '-- ${progressData.unitSuffix}',
+                    Theme.of(context).colorScheme.error,
+                    context,
+                  ),
                 ),
 
+                const SizedBox(width: 8),
+
                 // Remaining weight
-                _buildWeightInfoColumn(
-                  AppLocalizations.of(context)!.remaining,
-                  progressData.currentWeight != null &&
-                          progressData.goalWeight != null
-                      ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
-                      : '-- ${progressData.unitSuffix}',
-                  Theme.of(context).colorScheme.warning,
-                  context,
+                Expanded(
+                  child: _buildWeightInfoColumn(
+                    AppLocalizations.of(context)!.remaining,
+                    progressData.currentWeight != null &&
+                            progressData.goalWeight != null
+                        ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
+                        : '-- ${progressData.unitSuffix}',
+                    Theme.of(context).colorScheme.warning,
+                    context,
+                  ),
                 ),
               ],
             ),

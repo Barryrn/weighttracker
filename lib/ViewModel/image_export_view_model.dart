@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+// import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:weigthtracker/service/permission_service.dart';
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart'; // NEW
 
 /// State class for the image export functionality
 class ImageExportState {
@@ -56,7 +57,8 @@ class ImageExportViewModel extends StateNotifier<ImageExportState> {
         final bytes = await file.readAsBytes();
 
         // Save to gallery
-        final result = await ImageGallerySaver.saveImage(bytes);
+        // final result = await ImageGallerySaver.saveImage(bytes);
+        final result = await ImageGallerySaverPlus.saveImage(bytes);
 
         // Update state based on result
         if (result['isSuccess']) {

@@ -7,8 +7,8 @@ plugins {
 
 android {
     namespace = "com.example.weigthtracker"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 36
+    ndkVersion = "27.0.12077973"  // Updated to the required version
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -24,8 +24,8 @@ android {
         applicationId = "com.example.weigthtracker"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdk = 26  // Keep this for health plugin compatibility
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

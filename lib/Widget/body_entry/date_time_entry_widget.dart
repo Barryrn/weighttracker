@@ -199,11 +199,18 @@ class DateTimeEntry extends ConsumerWidget {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Theme.of(context).colorScheme.primaryLight,
-              onPrimary: Colors.white,
-              onSurface: Colors.black,
-            ),
+            colorScheme: Theme.of(context).brightness == Brightness.dark
+                ? ColorScheme.dark(
+                    primary: Theme.of(context).colorScheme.primary,
+                    onPrimary: Colors.white,
+                    surface: Theme.of(context).colorScheme.surface,
+                    onSurface: Theme.of(context).colorScheme.onSurface,
+                  )
+                : ColorScheme.light(
+                    primary: Theme.of(context).colorScheme.primaryLight,
+                    onPrimary: Colors.white,
+                    onSurface: Colors.black,
+                  ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
                 foregroundColor: Theme.of(context).colorScheme.primary,

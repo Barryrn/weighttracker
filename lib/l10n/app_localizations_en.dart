@@ -18,7 +18,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goal => 'Goal';
 
   @override
-  String get remaining => 'Remaining';
+  String get remaining => 'Remain';
 
   @override
   String get complete => 'Complete';
