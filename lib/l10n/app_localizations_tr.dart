@@ -690,4 +690,31 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get selectYourPreferredLanguageForTheApp =>
       'Uygulama için tercih ettiğiniz dili seçin. Değişiklikleri uygulamak için uygulama yeniden başlatılacaktır';
+
+  @override
+  String get grantAppleHealthAccess => 'Apple Health erişimi ver';
+
+  @override
+  String get syncWithAppleHealth => 'Apple Health ile senkronize et';
+
+  @override
+  String get appleHealthIntegration => 'Apple Health Entegrasyonu';
+
+  @override
+  String get healthConnectIntegration => 'Health Connect Entegrasyonu';
+
+  @override
+  String get appleHealthExplanation =>
+      'Bu uygulama kilo ve aktiviteyi takip etmek için Apple Health verilerini kullanır. Bunu Apple Health ayarlarından istediğiniz zaman etkinleştirebilir veya devre dışı bırakabilirsiniz.';
+
+  @override
+  String get healthConnectExplanation =>
+      'Bu uygulama kilo ve aktiviteyi takip etmek için Health Connect verilerini kullanır. Bunu Health Connect ayarlarından istediğiniz zaman etkinleştirebilir veya devre dışı bırakabilirsiniz.';
+
+  @override
+  String get importWeightFromAppleHealth => 'Apple Health\'ten kilo içe aktar';
+
+  @override
+  String get importWeightFromHealthConnect =>
+      'Health Connect\'ten kilo içe aktar';
 }

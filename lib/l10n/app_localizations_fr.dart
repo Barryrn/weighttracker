@@ -693,4 +693,32 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get selectYourPreferredLanguageForTheApp =>
       'Sélectionnez votre langue préférée pour l\'application. L\'application redémarrera pour appliquer les modifications';
+
+  @override
+  String get grantAppleHealthAccess => 'Accorder l\'accès à Apple Health';
+
+  @override
+  String get syncWithAppleHealth => 'Synchroniser avec Apple Health';
+
+  @override
+  String get appleHealthIntegration => 'Intégration Apple Health';
+
+  @override
+  String get healthConnectIntegration => 'Intégration Health Connect';
+
+  @override
+  String get appleHealthExplanation =>
+      'Cette application utilise les données Apple Health pour suivre le poids et l\'activité. Vous pouvez activer ou désactiver cela à tout moment dans les paramètres Apple Health.';
+
+  @override
+  String get healthConnectExplanation =>
+      'Cette application utilise les données Health Connect pour suivre le poids et l\'activité. Vous pouvez activer ou désactiver cela à tout moment dans les paramètres Health Connect.';
+
+  @override
+  String get importWeightFromAppleHealth =>
+      'Importer le poids depuis Apple Health';
+
+  @override
+  String get importWeightFromHealthConnect =>
+      'Importer le poids depuis Health Connect';
 }

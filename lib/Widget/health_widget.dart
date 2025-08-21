@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import '../../l10n/app_localizations.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,19 +15,22 @@ class HealthWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final healthState = ref.watch(healthStateProvider);
     final healthNotifier = ref.read(healthStateProvider.notifier);
+    final isIOS = defaultTargetPlatform == TargetPlatform.iOS;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Health service availability card
+        // Health service availability card with platform-specific naming
         _buildStatusCard(
           context,
-          title: AppLocalizations.of(context)!.healthServices,
+          title: isIOS 
+              ? AppLocalizations.of(context)!.appleHealthIntegration
+              : AppLocalizations.of(context)!.healthConnectIntegration,
           subtitle: healthState.isAvailable
               ? AppLocalizations.of(context)!.availableOnYourDevice
               : AppLocalizations.of(context)!.notAvailableOnYourDevice,
           icon: healthState.isAvailable
-              ? Icons.check_circle
+              ? (isIOS ? Icons.favorite : Icons.health_and_safety)
               : Icons.error_outline,
           iconColor: healthState.isAvailable
               ? Theme.of(context).colorScheme.success
@@ -97,13 +101,15 @@ class HealthWidget extends ConsumerWidget {
             ),
           ),
 
-        // Action buttons
+        // Action buttons with explicit Apple Health/Health Connect labeling
         if (healthState.isAvailable && !healthState.isAuthorized)
           _buildActionButton(
             context,
-            label: 'Grant Access',
+            label: isIOS 
+                ? AppLocalizations.of(context)!.grantAppleHealthAccess
+                : 'Grant Health Connect Access',
             labelColor: Theme.of(context).colorScheme.textPrimary,
-            icon: Icons.vpn_key,
+            icon: isIOS ? Icons.favorite : Icons.health_and_safety,
             iconHeight: 24,
             iconWidth: 24,
             labelHeight: 12,
@@ -115,9 +121,11 @@ class HealthWidget extends ConsumerWidget {
         if (healthState.isAvailable && healthState.isAuthorized) ...[
           _buildActionButton(
             context,
-            label: AppLocalizations.of(context)!.syncNow,
+            label: isIOS 
+                ? AppLocalizations.of(context)!.syncWithAppleHealth
+                : 'Sync with Health Connect',
             labelColor: Theme.of(context).colorScheme.textPrimary,
-            icon: Icons.sync,
+            icon: isIOS ? Icons.favorite : Icons.health_and_safety,
             iconHeight: 24,
             iconWidth: 24,
             labelHeight: 20,
@@ -125,22 +133,43 @@ class HealthWidget extends ConsumerWidget {
             onPressed: healthState.isSyncing
                 ? null
                 : () => healthNotifier.performTwoWaySync(),
-
             isLoading: healthState.isSyncing,
           ),
 
           const SizedBox(height: 16),
 
-          // Updated explanation text to include BMI
-          // Text(
-          //   '${AppLocalizations.of(context)!.syncingWill}\n'
-          //   '${AppLocalizations.of(context)!.dataSendToHealthApp}\n'
-          //   '${AppLocalizations.of(context)!.importDataFromHealthApp}\n'
-          //   '${AppLocalizations.of(context)!.keepBothSystemsUpToDate}',
-          //   style: AppTypography.bodyLarge(
-          //     context,
-          //   ).copyWith(color: Theme.of(context).colorScheme.textSecondary),
-          // ),
+          // Add explanation about HealthKit data usage
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 20,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    isIOS 
+                        ? AppLocalizations.of(context)!.appleHealthExplanation
+                        : AppLocalizations.of(context)!.healthConnectExplanation,
+                    style: AppTypography.bodySmall(context).copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
 
         if (!healthState.isAvailable) ...[

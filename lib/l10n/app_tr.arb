@@ -213,5 +213,13 @@
   "grantAccess": "Erişim Ver",
   "lastSync": "Son Senkronizasyon",
     "chooseYourLanguage": "Dilinizi seçin",
-  "selectYourPreferredLanguageForTheApp": "Uygulama için tercih ettiğiniz dili seçin. Değişiklikleri uygulamak için uygulama yeniden başlatılacaktır"
+  "selectYourPreferredLanguageForTheApp": "Uygulama için tercih ettiğiniz dili seçin. Değişiklikleri uygulamak için uygulama yeniden başlatılacaktır",
+  "grantAppleHealthAccess": "Apple Health erişimi ver",
+  "syncWithAppleHealth": "Apple Health ile senkronize et",
+  "appleHealthIntegration": "Apple Health Entegrasyonu",
+  "healthConnectIntegration": "Health Connect Entegrasyonu",
+  "appleHealthExplanation": "Bu uygulama kilo ve aktiviteyi takip etmek için Apple Health verilerini kullanır. Bunu Apple Health ayarlarından istediğiniz zaman etkinleştirebilir veya devre dışı bırakabilirsiniz.",
+  "healthConnectExplanation": "Bu uygulama kilo ve aktiviteyi takip etmek için Health Connect verilerini kullanır. Bunu Health Connect ayarlarından istediğiniz zaman etkinleştirebilir veya devre dışı bırakabilirsiniz.",
+  "importWeightFromAppleHealth": "Apple Health'ten kilo içe aktar",
+  "importWeightFromHealthConnect": "Health Connect'ten kilo içe aktar"
 }

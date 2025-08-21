@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Add this import for SystemChrome
 import '../../l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,7 +96,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       title: 'BodyTrack',
       theme: appTheme, // Use the predefined light theme
       darkTheme: appDarkTheme, // Use the predefined dark theme
-      // themeMode: ThemeMode.dark, // or ThemeMode.dark, ThemeMode.system
+      // themeMode: ThemeMode.dark, // Force dark theme
       home: _onboardingComplete == null
           ? const Center(child: CircularProgressIndicator()) // Loading state
           : _onboardingComplete!

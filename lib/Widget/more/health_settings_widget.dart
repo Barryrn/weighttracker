@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import '../../l10n/app_localizations.dart';
 
 import 'package:weigthtracker/View/health_sync_settings.dart';
@@ -19,18 +20,18 @@ class HealthSettingsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isIOS = defaultTargetPlatform == TargetPlatform.iOS;
+    
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.card,
         borderRadius: BorderRadius.circular(10),
       ),
-
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 8,
-        ), // increases internal height
-
+        ),
         leading: Container(
           width: 40,
           height: 40,
@@ -38,14 +39,17 @@ class HealthSettingsWidget extends StatelessWidget {
             color: Colors.grey.shade300,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: HeroIcon(
-            HeroIcons.heart,
-            style: HeroIconStyle.solid,
+          child: Icon(
+            isIOS ? Icons.favorite : Icons.health_and_safety,
             size: 30,
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        title: Text(AppLocalizations.of(context)!.healthIntegration),
+        title: Text(
+          isIOS 
+              ? AppLocalizations.of(context)!.appleHealthIntegration
+              : AppLocalizations.of(context)!.healthConnectIntegration
+        ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
           Navigator.push(

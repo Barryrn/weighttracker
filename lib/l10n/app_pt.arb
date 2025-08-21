@@ -213,5 +213,13 @@
   "grantAccess": "Conceder Acesso",
   "lastSync": "Última Sincronização",
     "chooseYourLanguage": "Escolha o seu idioma",
-  "selectYourPreferredLanguageForTheApp": "Selecione o seu idioma preferido para a aplicação. A aplicação será reiniciada para aplicar as alterações"
+  "selectYourPreferredLanguageForTheApp": "Selecione o seu idioma preferido para a aplicação. A aplicação será reiniciada para aplicar as alterações",
+  "grantAppleHealthAccess": "Conceder acesso ao Apple Health",
+  "syncWithAppleHealth": "Sincronizar com Apple Health",
+  "appleHealthIntegration": "Integração com Apple Health",
+  "healthConnectIntegration": "Integração com Health Connect",
+  "appleHealthExplanation": "Este aplicativo usa dados do Apple Health para rastrear peso e atividade. Você pode habilitar ou desabilitar isso a qualquer momento nas configurações do Apple Health.",
+  "healthConnectExplanation": "Este aplicativo usa dados do Health Connect para rastrear peso e atividade. Você pode habilitar ou desabilitar isso a qualquer momento nas configurações do Health Connect.",
+  "importWeightFromAppleHealth": "Importar peso do Apple Health",
+  "importWeightFromHealthConnect": "Importar peso do Health Connect"
 }

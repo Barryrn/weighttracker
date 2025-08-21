@@ -66,7 +66,7 @@ class WeightProgressWidget extends ConsumerWidget {
                   ),
                 ),
 
-                const SizedBox(width: 8),
+                const SizedBox(width: 4),
 
                 // Goal weight
                 Expanded(
@@ -80,7 +80,7 @@ class WeightProgressWidget extends ConsumerWidget {
                   ),
                 ),
 
-                const SizedBox(width: 8),
+                const SizedBox(width: 4),
 
                 // Remaining weight
                 Expanded(
@@ -158,9 +158,9 @@ class WeightProgressWidget extends ConsumerWidget {
                       ),
                       Text(
                         AppLocalizations.of(context)!.complete,
-                        style: AppTypography.bodyLarge(context).copyWith(
-                          color: Theme.of(context).colorScheme.textSecondary,
-                        ),
+                        style: AppTypography.bodyLarge(
+                          context,
+                        ).copyWith(color: Colors.blueGrey),
                       ),
                     ],
                   ),

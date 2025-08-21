@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weigthtracker/View/health_calculations_sources_view.dart';
+import 'package:weigthtracker/Widget/more/health_calculations_sources_settings_widge.dart';
 import 'package:weigthtracker/Widget/more/language_settings_widget.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -54,6 +56,8 @@ class MorePage extends StatelessWidget {
                 const HealthSettingsWidget(),
                 const SizedBox(height: 16),
                 const LanguageChangeSettignsWidget(),
+                const SizedBox(height: 16),
+                const HealthCalculationsSourcesSettingsWidget(),
 
                 // ElevatedButton(
                 //   onPressed: () {

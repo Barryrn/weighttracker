@@ -1399,6 +1399,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select your preferred language for the app. The app will restart to apply the changes'**
   String get selectYourPreferredLanguageForTheApp;
+
+  /// No description provided for @grantAppleHealthAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Grant Apple Health Access'**
+  String get grantAppleHealthAccess;
+
+  /// No description provided for @syncWithAppleHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync with Apple Health'**
+  String get syncWithAppleHealth;
+
+  /// No description provided for @appleHealthIntegration.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Health Integration'**
+  String get appleHealthIntegration;
+
+  /// No description provided for @healthConnectIntegration.
+  ///
+  /// In en, this message translates to:
+  /// **'Health Connect Integration'**
+  String get healthConnectIntegration;
+
+  /// No description provided for @appleHealthExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'This app uses Apple Health data to track weight and activity. You can enable or disable this anytime in Apple Health settings.'**
+  String get appleHealthExplanation;
+
+  /// No description provided for @healthConnectExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'This app uses Health Connect data to track weight and activity. You can enable or disable this anytime in Health Connect settings.'**
+  String get healthConnectExplanation;
+
+  /// No description provided for @importWeightFromAppleHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Import weight from Apple Health'**
+  String get importWeightFromAppleHealth;
+
+  /// No description provided for @importWeightFromHealthConnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Import weight from Health Connect'**
+  String get importWeightFromHealthConnect;
 }
 
 class _AppLocalizationsDelegate
