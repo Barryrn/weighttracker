@@ -138,7 +138,8 @@ class ImageGalleryViewModel extends StateNotifier<ImageGalleryState> {
 
     // If filters aren't active, use all entries
     if (!filterState.filtersActive) {
-      state = state.copyWith(entries: _allEntries, isLoading: false);
+      final sortedEntries = _applySorting(_allEntries, filterState);
+      state = state.copyWith(entries: sortedEntries, isLoading: false);
       return;
     }
 
@@ -184,8 +185,39 @@ class ImageGalleryViewModel extends StateNotifier<ImageGalleryState> {
       return hasValidImage;
     }).toList();
 
-    // Update state with filtered entries
-    state = state.copyWith(entries: filteredEntries, isLoading: false);
+    // Apply sorting to filtered entries
+    final sortedEntries = _applySorting(filteredEntries, filterState);
+
+    // Update state with filtered and sorted entries
+    state = state.copyWith(entries: sortedEntries, isLoading: false);
+  }
+  
+  /// Apply sorting to entries based on filter state
+  List<BodyEntry> _applySorting(List<BodyEntry> entries, ImageGalleryFilterState filterState) {
+    final sortedEntries = List<BodyEntry>.from(entries);
+    
+    switch (filterState.sortBy) {
+      case SortOption.date:
+        sortedEntries.sort((a, b) {
+          final comparison = a.date.compareTo(b.date);
+          return filterState.sortOrder == SortOrder.ascending ? comparison : -comparison;
+        });
+        break;
+        
+      case SortOption.weight:
+        sortedEntries.sort((a, b) {
+          // Handle null weights by putting them at the end
+          if (a.weight == null && b.weight == null) return 0;
+          if (a.weight == null) return 1;
+          if (b.weight == null) return -1;
+          
+          final comparison = a.weight!.compareTo(b.weight!);
+          return filterState.sortOrder == SortOrder.ascending ? comparison : -comparison;
+        });
+        break;
+    }
+    
+    return sortedEntries;
   }
 
   /// Get all available images from an entry based on filter settings
@@ -300,6 +332,8 @@ class ImageGalleryFilterState {
   final bool showFrontImages;
   final bool showSideImages;
   final bool showBackImages;
+  final SortOption sortBy;
+  final SortOrder sortOrder;
 
   ImageGalleryFilterState({
     this.filtersActive = false, // Start with filters inactive for gallery
@@ -312,6 +346,8 @@ class ImageGalleryFilterState {
     this.showFrontImages = true,
     this.showSideImages = true,
     this.showBackImages = true,
+    this.sortBy = SortOption.date,
+    this.sortOrder = SortOrder.descending, // newest first by default
   });
 
   /// Creates a copy of this state with the given fields replaced with new values
@@ -326,6 +362,8 @@ class ImageGalleryFilterState {
     bool? showFrontImages,
     bool? showSideImages,
     bool? showBackImages,
+    SortOption? sortBy,
+    SortOrder? sortOrder,
   }) {
     return ImageGalleryFilterState(
       filtersActive: filtersActive ?? this.filtersActive,
@@ -338,13 +376,14 @@ class ImageGalleryFilterState {
       showFrontImages: showFrontImages ?? this.showFrontImages,
       showSideImages: showSideImages ?? this.showSideImages,
       showBackImages: showBackImages ?? this.showBackImages,
+      sortBy: sortBy ?? this.sortBy,
+      sortOrder: sortOrder ?? this.sortOrder,
     );
   }
 }
 
 /// Notifier for the image gallery filter state
-class ImageGalleryFilterNotifier
-    extends StateNotifier<ImageGalleryFilterState> {
+class ImageGalleryFilterNotifier extends StateNotifier<ImageGalleryFilterState> {
   ImageGalleryFilterNotifier()
     : super(
         ImageGalleryFilterState(
@@ -397,6 +436,24 @@ class ImageGalleryFilterNotifier
     state = state.copyWith(showBackImages: show, filtersActive: true);
   }
 
+  /// Set sorting option
+  void setSortBy(SortOption sortBy) {
+    state = state.copyWith(sortBy: sortBy);
+  }
+  
+  /// Set sort order
+  void setSortOrder(SortOrder sortOrder) {
+    state = state.copyWith(sortOrder: sortOrder);
+  }
+  
+  /// Toggle sort order between ascending and descending
+  void toggleSortOrder() {
+    final newOrder = state.sortOrder == SortOrder.ascending 
+        ? SortOrder.descending 
+        : SortOrder.ascending;
+    state = state.copyWith(sortOrder: newOrder);
+  }
+
   /// Clear all filters
   void clearFilters() {
     state = state.copyWith(
@@ -407,6 +464,9 @@ class ImageGalleryFilterNotifier
       showFrontImages: true,
       showSideImages: true,
       showBackImages: true,
+      // Reset sorting to default
+      sortBy: SortOption.date,
+      sortOrder: SortOrder.descending,
     );
   }
 
@@ -484,3 +544,14 @@ final imageGalleryFilterProvider =
     StateNotifierProvider<ImageGalleryFilterNotifier, ImageGalleryFilterState>(
       (ref) => ImageGalleryFilterNotifier(),
     );
+
+// Add enums for sorting options
+enum SortOption {
+  date,
+  weight,
+}
+
+enum SortOrder {
+  ascending,
+  descending,
+}

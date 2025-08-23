@@ -51,10 +51,80 @@ class ImageGalleryFilter extends ConsumerWidget {
             _buildTagsFilter(context, filterState, filterNotifier),
           const SizedBox(height: 16),
 
-          // Filter action buttons
+          // Filter action buttons with sorting dropdown
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // Sort dropdown button
+              Container(
+                // decoration: BoxDecoration(
+                //   border: Border.all(
+                //     color: Theme.of(context).colorScheme.primary,
+                //     width: 1.5,
+                //   ),
+                //   borderRadius: BorderRadius.circular(10),
+                // ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: _getSortDisplayValue(
+                      filterState.sortBy,
+                      filterState.sortOrder,
+                    ),
+                    hint: Text(
+                      'Sort by',
+                      style: AppTypography.buttonText(
+                        context,
+                      ).copyWith(color: Theme.of(context).colorScheme.primary),
+                    ),
+                    style: AppTypography.buttonText(
+                      context,
+                    ).copyWith(color: Theme.of(context).colorScheme.primary),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        _handleSortSelection(newValue, filterNotifier);
+                      }
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        value: 'date_ascending',
+                        child: Text(
+                          'Date ascending',
+                          style: AppTypography.buttonText(context).copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: 'date_descending',
+                        child: Text(
+                          'Date descending',
+                          style: AppTypography.buttonText(context).copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: 'weight_ascending',
+                        child: Text(
+                          'Weight ascending',
+                          style: AppTypography.buttonText(context).copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: 'weight_descending',
+                        child: Text(
+                          'Weight descending',
+                          style: AppTypography.buttonText(context).copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               // Clear filters button
               TextButton(
                 onPressed: () => filterNotifier.clearFilters(),
@@ -64,7 +134,7 @@ class ImageGalleryFilter extends ConsumerWidget {
                     width: 1.5,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: Text(
@@ -273,7 +343,7 @@ class ImageGalleryFilter extends ConsumerWidget {
                     width: 1.5,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 onPressed: () =>
@@ -302,7 +372,8 @@ class ImageGalleryFilter extends ConsumerWidget {
     ImageGalleryFilterNotifier filterNotifier,
   ) async {
     // Only provide initial range if dateRange is null - this is just for the picker UI
-    final initialRange = filterState.dateRange ??
+    final initialRange =
+        filterState.dateRange ??
         DateTimeRange(
           start: DateTime.now().subtract(const Duration(days: 365)),
           end: DateTime.now(),
@@ -375,5 +446,44 @@ class ImageGalleryFilter extends ConsumerWidget {
         ),
       ],
     );
+  }
+}
+
+/// Get the current sort display value based on sort option and order
+String _getSortDisplayValue(SortOption sortBy, SortOrder sortOrder) {
+  switch (sortBy) {
+    case SortOption.date:
+      return sortOrder == SortOrder.ascending
+          ? 'date_ascending'
+          : 'date_descending';
+    case SortOption.weight:
+      return sortOrder == SortOrder.ascending
+          ? 'weight_ascending'
+          : 'weight_descending';
+  }
+}
+
+/// Handle sort selection from dropdown
+void _handleSortSelection(
+  String value,
+  ImageGalleryFilterNotifier filterNotifier,
+) {
+  switch (value) {
+    case 'date_ascending':
+      filterNotifier.setSortBy(SortOption.date);
+      filterNotifier.setSortOrder(SortOrder.ascending);
+      break;
+    case 'date_descending':
+      filterNotifier.setSortBy(SortOption.date);
+      filterNotifier.setSortOrder(SortOrder.descending);
+      break;
+    case 'weight_ascending':
+      filterNotifier.setSortBy(SortOption.weight);
+      filterNotifier.setSortOrder(SortOrder.ascending);
+      break;
+    case 'weight_descending':
+      filterNotifier.setSortBy(SortOption.weight);
+      filterNotifier.setSortOrder(SortOrder.descending);
+      break;
   }
 }
