@@ -1,0 +1,8 @@
+# Flutter build files
+build/
+.dart_tool/
+*.aab
+*.so
+*.dill
+*.zip
+*.dSYM
