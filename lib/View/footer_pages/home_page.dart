@@ -11,18 +11,22 @@ import 'package:weigthtracker/Widget/tdee/weight_change_tdee_goal_widget.dart';
 import 'package:weigthtracker/Widget/tdee/weight_change_tdee_widget.dart';
 import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/widget/goals/weight_progress_widget.dart';
+import '../main_container.dart';
 import '../../Widget/footer.dart';
 import '../../l10n/app_localizations.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+/// Content-only version of HomePage for use in PageView
+///
+/// This widget contains only the page content without footer,
+/// designed to be used within MainContainer's PageView.
+class HomePageContent extends StatelessWidget {
+  const HomePageContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // Add GestureDetector to dismiss keyboard when tapping anywhere on the screen
+      // Dismiss keyboard when tapping outside of text fields
       onTap: () {
-        // Hide the keyboard when tapping outside of text fields
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -45,42 +49,28 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 WeightProgressWidget(),
-                // const SizedBox(height: 24),
-                // WeightProgressWidgetCopy(),
                 const SizedBox(height: 24),
                 EnergyExpenditureWidget(),
                 const SizedBox(height: 24),
                 ImageComparisonView(),
-                // WeightChangeTDEEWidget(),
-                // WeightChangeGoalTDEEWidget(),
-
-                // const SizedBox(height: 24),
-                // ElevatedButton.icon(
-                //   onPressed: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => const ImageComparisonView(),
-                //       ),
-                //     );
-                //   },
-                //   icon: const Icon(Icons.compare),
-                //   label: const Text('Compare Progress Pictures'),
-                //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: Theme.of(context).colorScheme.primary,
-                //     foregroundColor: Colors.white,
-                //     padding: const EdgeInsets.symmetric(
-                //       horizontal: 16,
-                //       vertical: 12,
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
         ),
-        bottomNavigationBar: Footer(currentIndex: 0, onTap: (index) {}),
       ),
     );
+  }
+}
+
+/// Original HomePage that now uses MainContainer
+///
+/// This maintains backward compatibility while implementing
+/// the new static footer navigation system.
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const MainContainer();
   }
 }

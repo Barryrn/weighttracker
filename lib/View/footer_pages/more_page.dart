@@ -15,6 +15,62 @@ import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/view/image_comparison_view.dart';
 import '../../Widget/footer.dart';
 
+/// Content-only version of MorePage for use in PageView
+///
+/// This widget contains only the page content without footer,
+/// designed to be used within MainContainer's PageView.
+class MorePageContent extends StatelessWidget {
+  const MorePageContent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // Dismiss keyboard when tapping outside of text fields
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            AppLocalizations.of(context)!.moreSettings,
+            style: AppTypography.headline2(
+              context,
+            ).copyWith(color: Theme.of(context).colorScheme.textTertiary),
+          ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.textPrimary,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background2,
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              children: [
+                ProfileSettingsWidget(),
+                const SizedBox(height: 16),
+                TagsSettingsWidget(),
+                const SizedBox(height: 16),
+                UnitConversionSettingsWidget(),
+                const SizedBox(height: 16),
+                const TDEESettingsWidget(),
+                const SizedBox(height: 16),
+                const HealthSettingsWidget(),
+                const SizedBox(height: 16),
+                const LanguageChangeSettignsWidget(),
+                const SizedBox(height: 16),
+                const HealthCalculationsSourcesSettingsWidget(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Original MorePage with settings and configuration options
 class MorePage extends StatelessWidget {
   const MorePage({Key? key}) : super(key: key);
 
