@@ -221,5 +221,10 @@
   "appleHealthExplanation": "Bu uygulama kilo ve aktiviteyi takip etmek için Apple Health verilerini kullanır. Bunu Apple Health ayarlarından istediğiniz zaman etkinleştirebilir veya devre dışı bırakabilirsiniz.",
   "healthConnectExplanation": "Bu uygulama kilo ve aktiviteyi takip etmek için Health Connect verilerini kullanır. Bunu Health Connect ayarlarından istediğiniz zaman etkinleştirebilir veya devre dışı bırakabilirsiniz.",
   "importWeightFromAppleHealth": "Apple Health'ten kilo içe aktar",
-  "importWeightFromHealthConnect": "Health Connect'ten kilo içe aktar"
+  "importWeightFromHealthConnect": "Health Connect'ten kilo içe aktar",
+  "sortBy": "Sırala",
+  "dateAscending": "Tarih artan",
+  "dateDescending": "Tarih azalan",
+  "weightAscending": "Ağırlık artan",
+  "weightDescending": "Ağırlık azalan"
 }

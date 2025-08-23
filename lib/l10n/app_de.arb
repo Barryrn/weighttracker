@@ -222,5 +222,10 @@
   "appleHealthExplanation": "Diese App verwendet Apple Health Daten zur Verfolgung von Gewicht und Aktivität. Sie können dies jederzeit in den Apple Health Einstellungen aktivieren oder deaktivieren.",
   "healthConnectExplanation": "Diese App verwendet Health Connect Daten zur Verfolgung von Gewicht und Aktivität. Sie können dies jederzeit in den Health Connect Einstellungen aktivieren oder deaktivieren.",
   "importWeightFromAppleHealth": "Gewicht aus Apple Health importieren",
-  "importWeightFromHealthConnect": "Gewicht aus Health Connect importieren"
+  "importWeightFromHealthConnect": "Gewicht aus Health Connect importieren",
+  "sortBy": "Sortieren nach",
+  "dateAscending": "Datum aufsteigend",
+  "dateDescending": "Datum absteigend",
+  "weightAscending": "Gewicht aufsteigend",
+  "weightDescending": "Gewicht absteigend"
 }

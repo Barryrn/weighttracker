@@ -720,4 +720,19 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get importWeightFromHealthConnect => 'Importuj wagę z Health Connect';
+
+  @override
+  String get sortBy => 'Sortuj według';
+
+  @override
+  String get dateAscending => 'Data rosnąco';
+
+  @override
+  String get dateDescending => 'Data malejąco';
+
+  @override
+  String get weightAscending => 'Waga rosnąco';
+
+  @override
+  String get weightDescending => 'Waga malejąco';
 }

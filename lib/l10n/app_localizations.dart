@@ -1447,6 +1447,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Import weight from Health Connect'**
   String get importWeightFromHealthConnect;
+
+  /// No description provided for @sortBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get sortBy;
+
+  /// No description provided for @dateAscending.
+  ///
+  /// In en, this message translates to:
+  /// **'Date ascending'**
+  String get dateAscending;
+
+  /// No description provided for @dateDescending.
+  ///
+  /// In en, this message translates to:
+  /// **'Date descending'**
+  String get dateDescending;
+
+  /// No description provided for @weightAscending.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight ascending'**
+  String get weightAscending;
+
+  /// No description provided for @weightDescending.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight descending'**
+  String get weightDescending;
 }
 
 class _AppLocalizationsDelegate

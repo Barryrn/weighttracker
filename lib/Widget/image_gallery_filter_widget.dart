@@ -55,93 +55,95 @@ class ImageGalleryFilter extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Sort dropdown button
-              Container(
-                // decoration: BoxDecoration(
-                //   border: Border.all(
-                //     color: Theme.of(context).colorScheme.primary,
-                //     width: 1.5,
-                //   ),
-                //   borderRadius: BorderRadius.circular(10),
-                // ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: _getSortDisplayValue(
-                      filterState.sortBy,
-                      filterState.sortOrder,
-                    ),
-                    hint: Text(
-                      'Sort by',
+              // Sort dropdown button - Make it flexible
+              Flexible(
+                flex: 2,
+                child: Container(
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: _getSortDisplayValue(
+                        filterState.sortBy,
+                        filterState.sortOrder,
+                      ),
+                      hint: Text(
+                        AppLocalizations.of(context)!.sortBy,
+                        style: AppTypography.buttonText(context).copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
                       style: AppTypography.buttonText(
                         context,
                       ).copyWith(color: Theme.of(context).colorScheme.primary),
+                      isExpanded:
+                          true, // Make dropdown take full width of its container
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          _handleSortSelection(newValue, filterNotifier);
+                        }
+                      },
+                      items: [
+                        DropdownMenuItem(
+                          value: 'date_ascending',
+                          child: Text(
+                            AppLocalizations.of(context)!.dateAscending,
+                            style: AppTypography.buttonText(context).copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'date_descending',
+                          child: Text(
+                            AppLocalizations.of(context)!.dateDescending,
+                            style: AppTypography.buttonText(context).copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'weight_ascending',
+                          child: Text(
+                            AppLocalizations.of(context)!.weightAscending,
+                            style: AppTypography.buttonText(context).copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'weight_descending',
+                          child: Text(
+                            AppLocalizations.of(context)!.weightDescending,
+                            style: AppTypography.buttonText(context).copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    style: AppTypography.buttonText(
-                      context,
-                    ).copyWith(color: Theme.of(context).colorScheme.primary),
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        _handleSortSelection(newValue, filterNotifier);
-                      }
-                    },
-                    items: [
-                      DropdownMenuItem(
-                        value: 'date_ascending',
-                        child: Text(
-                          'Date ascending',
-                          style: AppTypography.buttonText(context).copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                      DropdownMenuItem(
-                        value: 'date_descending',
-                        child: Text(
-                          'Date descending',
-                          style: AppTypography.buttonText(context).copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                      DropdownMenuItem(
-                        value: 'weight_ascending',
-                        child: Text(
-                          'Weight ascending',
-                          style: AppTypography.buttonText(context).copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                      DropdownMenuItem(
-                        value: 'weight_descending',
-                        child: Text(
-                          'Weight descending',
-                          style: AppTypography.buttonText(context).copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ),
-              // Clear filters button
-              TextButton(
-                onPressed: () => filterNotifier.clearFilters(),
-                style: TextButton.styleFrom(
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 1.5,
+              const SizedBox(width: 8), // Add some spacing
+              // Clear filters button - Make it flexible
+              Flexible(
+                flex: 1,
+                child: TextButton(
+                  onPressed: () => filterNotifier.clearFilters(),
+                  style: TextButton.styleFrom(
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1.5,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                  child: Text(
+                    AppLocalizations.of(context)!.clearFilters,
+                    style: AppTypography.buttonText(
+                      context,
+                    ).copyWith(color: Theme.of(context).colorScheme.primary),
                   ),
-                ),
-                child: Text(
-                  AppLocalizations.of(context)!.clearFilters,
-                  style: AppTypography.buttonText(
-                    context,
-                  ).copyWith(color: Theme.of(context).colorScheme.primary),
                 ),
               ),
             ],

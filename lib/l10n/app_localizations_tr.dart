@@ -717,4 +717,19 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get importWeightFromHealthConnect =>
       'Health Connect\'ten kilo içe aktar';
+
+  @override
+  String get sortBy => 'Sırala';
+
+  @override
+  String get dateAscending => 'Tarih artan';
+
+  @override
+  String get dateDescending => 'Tarih azalan';
+
+  @override
+  String get weightAscending => 'Ağırlık artan';
+
+  @override
+  String get weightDescending => 'Ağırlık azalan';
 }
