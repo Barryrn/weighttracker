@@ -9,16 +9,27 @@ import '../model/weight_entry_model.dart';
 import '../repository/weight_repository.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+/// Enum to represent the active health backend
+enum HealthBackend {
+  healthKit,
+  healthConnect,
+  none,
+}
+
 /// Service class for handling health data integration with Apple Health and Google Health Connect
 class HealthService {
   final Health _health = Health();
   final WeightRepository _weightRepository;
-
+  
+  /// Current active health backend
+  HealthBackend _activeBackend = HealthBackend.none;
+  
   /// Set to track synced entries to prevent duplicate writes
   final Set<String> _syncedEntries = <String>{};
 
   Future<void> initialize() async {
     await _health.configure();
+    await _determineActiveBackend();
   }
 
   // Define the types of data we want to access
@@ -39,10 +50,60 @@ class HealthService {
   HealthService({WeightRepository? weightRepository})
     : _weightRepository = weightRepository ?? WeightRepository();
 
+  /// Get the currently active health backend
+  HealthBackend get activeBackend => _activeBackend;
+  
+  /// Get a human-readable name for the active backend
+  String get activeBackendName {
+    switch (_activeBackend) {
+      case HealthBackend.healthKit:
+        return 'Apple HealthKit';
+      case HealthBackend.healthConnect:
+        return 'Google Health Connect';
+      case HealthBackend.none:
+        return 'No Health Backend Available';
+    }
+  }
+  
+  /// Check if any health backend is available
+  bool get isHealthBackendAvailable => _activeBackend != HealthBackend.none;
+
+  /// Determine which health backend is active
+  Future<void> _determineActiveBackend() async {
+    try {
+      if (defaultTargetPlatform.isIOS) {
+        // On iOS, HealthKit is generally available
+        _activeBackend = HealthBackend.healthKit;
+      } else if (defaultTargetPlatform.isAndroid) {
+        // Check for Health Connect availability
+        final isHealthConnectAvailable = await _checkHealthConnectAvailability();
+        if (isHealthConnectAvailable) {
+          _activeBackend = HealthBackend.healthConnect;
+        } else {
+          // No fallback available since Google Fit is deprecated
+          _activeBackend = HealthBackend.none;
+          debugPrint('Health Connect is not available and Google Fit is deprecated. No health backend available.');
+        }
+      } else {
+        _activeBackend = HealthBackend.none;
+      }
+      
+      debugPrint('Active health backend determined: ${activeBackendName}');
+    } catch (e) {
+      debugPrint('Error determining active backend: $e');
+      _activeBackend = HealthBackend.none;
+    }
+  }
+
   /// Request authorization to access health data
   /// @return Future<bool> Whether authorization was granted
   Future<bool> requestAuthorization() async {
     try {
+      if (_activeBackend == HealthBackend.none) {
+        debugPrint('No health backend available for authorization');
+        return false;
+      }
+      
       // Request authorization for the specified data types
       final authorized = await _health.requestAuthorization(
         _types,
@@ -57,7 +118,7 @@ class HealthService {
 
   /// Check if Health Connect is available on Android
   /// @return Future<bool> Whether Health Connect is available
-  Future<bool> isHealthConnectAvailable() async {
+  Future<bool> _checkHealthConnectAvailability() async {
     if (!defaultTargetPlatform.isAndroid) return false;
     try {
       final status = await _health.getHealthConnectSdkStatus();
@@ -67,6 +128,12 @@ class HealthService {
       return false;
     }
   }
+  
+  /// Public method to check Health Connect availability
+  /// @return Future<bool> Whether Health Connect is available
+  Future<bool> isHealthConnectAvailable() async {
+    return await _checkHealthConnectAvailability();
+  }
 
   /// Check if Health data is available on the device
   /// @return Future<bool> Whether health data is available
@@ -74,13 +141,10 @@ class HealthService {
     try {
       if (defaultTargetPlatform.isIOS) {
         // On iOS, HealthKit is generally available on all iOS devices running iOS 8 or later
-        // We can't directly check for HealthKit availability like we can with Health Connect,
-        // but we can assume it's available and then handle any errors during authorization
-        // This is a more reliable approach than using hasPermissions() which checks authorization, not availability
         return true;
       } else if (defaultTargetPlatform.isAndroid) {
         // For Android, we check if Health Connect is available
-        return await isHealthConnectAvailable();
+        return await _checkHealthConnectAvailability();
       }
       return false;
     } catch (e) {
@@ -88,12 +152,39 @@ class HealthService {
       return false;
     }
   }
+  
+  /// Get detailed availability status for all potential backends
+  /// @return Future<Map<String, bool>> Status of each backend
+  Future<Map<String, bool>> getBackendAvailabilityStatus() async {
+    final status = <String, bool>{};
+    
+    if (defaultTargetPlatform.isIOS) {
+      status['HealthKit'] = true; // Generally available on iOS
+      status['Health Connect'] = false; // Not available on iOS
+    } else if (defaultTargetPlatform.isAndroid) {
+      status['HealthKit'] = false; // Not available on Android
+      status['Health Connect'] = await _checkHealthConnectAvailability();
+    } else {
+      status['HealthKit'] = false;
+      status['Health Connect'] = false;
+    }
+    
+    // Google Fit is deprecated and no longer supported
+    status['Google Fit'] = false;
+    
+    return status;
+  }
 
   /// Sync weight data from the app to health services with duplicate prevention
   /// @param entries List of BodyEntry objects to sync
   /// @return Future<bool> Whether the sync was successful
   Future<bool> syncDataToHealth(List<BodyEntry> entries) async {
     try {
+      if (_activeBackend == HealthBackend.none) {
+        debugPrint('No health backend available for syncing data');
+        return false;
+      }
+      
       final authorized = await requestAuthorization();
       if (!authorized) return false;
 
