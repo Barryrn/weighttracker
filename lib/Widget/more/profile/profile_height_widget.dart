@@ -40,8 +40,9 @@ class ProfileHeightWidget extends ConsumerWidget {
         final heightInInches = height * cmToInchFactor;
         // Convert to feet and inches
         final feet = (heightInInches / inchesInFoot).floor();
-        final inches = (heightInInches % inchesInFoot).round();
-        formattedHeight = "$feet' $inches\"";
+        final inches = heightInInches % inchesInFoot;
+        // Show decimal inches instead of rounding
+        formattedHeight = "$feet' ${inches.toStringAsFixed(1)}\"";
       }
     }
 
@@ -131,7 +132,7 @@ class ProfileHeightWidget extends ConsumerWidget {
                   Text(
                     useMetric
                         ? '${currentHeight.toStringAsFixed(1)} cm'
-                        : '${(currentHeight / inchesInFoot).floor()}\' ${(currentHeight % inchesInFoot).round()}"',
+                        : '${(currentHeight / inchesInFoot).floor()}\' ${(currentHeight % inchesInFoot).toStringAsFixed(1)}"',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),
@@ -154,12 +155,12 @@ class ProfileHeightWidget extends ConsumerWidget {
                       value: currentHeight,
                       min: minHeight,
                       max: maxHeight,
-                      divisions:
-                          (maxHeight - minHeight).toInt() *
-                          2, // 0.5 cm increments
+                      divisions: ((maxHeight - minHeight) * 2)
+                          .round(), // half-step increments
                       onChanged: (value) {
                         setState(() {
-                          currentHeight = value;
+                          // round to nearest 0.5 cm or 0.5 inch depending on unit
+                          currentHeight = (value * 2).round() / 2;
                         });
                       },
                     ),
