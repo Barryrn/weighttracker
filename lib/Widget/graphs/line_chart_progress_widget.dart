@@ -4,6 +4,7 @@ import '../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' show max;
+import 'dart:ui' as ui;
 import '../../ViewModel/date_line_chart.dart';
 import '../../theme.dart';
 import '../../viewmodel/unit_conversion_provider.dart';
@@ -322,15 +323,30 @@ class _LineChartProgressWidgetState
           unit = '%';
         }
 
+        // Create a scroll controller to position at the end
+        final scrollController = ScrollController();
+
+        // Schedule the scroll to end after the widget is built
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (scrollController.hasClients) {
+            scrollController.jumpTo(scrollController.position.maxScrollExtent);
+          }
+        });
+
         return SizedBox(
           height: 300,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: SizedBox(
-              width: chartWidth,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 16, 16, 8),
-                child: LineChart(
+          child: Row(
+            children: [
+              // Scrollable chart area
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  scrollDirection: Axis.horizontal,
+                  child: SizedBox(
+                    width: chartWidth,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 16, 0, 8),
+                      child: LineChart(
                   LineChartData(
                     minX: minX,
                     maxX: maxX,
@@ -414,39 +430,14 @@ class _LineChartProgressWidgetState
                           },
                         ),
                       ),
-                      // Configure Y-axis (left) titles using SideTitles
+                      // Hide left Y-axis titles
                       leftTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: 40,
-                          interval: step,
-                          getTitlesWidget: (value, meta) {
-                            // Only show labels at step intervals
-                            if ((value - displayMin) % step < 0.001 ||
-                                (displayMin +
-                                            step *
-                                                (((displayMax - displayMin) ~/
-                                                    step)) -
-                                            value) %
-                                        step <
-                                    0.001) {
-                              return SideTitleWidget(
-                                meta: meta,
-                                space: 8,
-                                child: Text(
-                                  value.toStringAsFixed(0),
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                  textAlign: TextAlign.right,
-                                ),
-                              );
-                            }
-                            return const SizedBox();
-                          },
-                        ),
+                        sideTitles: SideTitles(showTitles: false),
                       ),
                       topTitles: AxisTitles(
                         sideTitles: SideTitles(showTitles: false),
                       ),
+                      // Hide right Y-axis titles (will be shown separately)
                       rightTitles: AxisTitles(
                         sideTitles: SideTitles(showTitles: false),
                       ),
@@ -475,10 +466,27 @@ class _LineChartProgressWidgetState
                       ),
                     ],
                   ),
-                  duration: Duration.zero,
+                        duration: Duration.zero,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              // Sticky Y-axis on the right
+              Container(
+                width: 50,
+                height: 300,
+                padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+                child: CustomPaint(
+                  painter: YAxisPainter(
+                    min: displayMin,
+                    max: displayMax,
+                    step: step,
+                    textStyle: Theme.of(context).textTheme.bodySmall!,
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -577,5 +585,62 @@ class _LineChartProgressWidgetState
 extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1)}";
+  }
+}
+
+/// Custom painter for drawing Y-axis labels on the sticky right side
+class YAxisPainter extends CustomPainter {
+  final double min;
+  final double max;
+  final double step;
+  final TextStyle textStyle;
+
+  YAxisPainter({
+    required this.min,
+    required this.max,
+    required this.step,
+    required this.textStyle,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Calculate the chart area height (excluding padding)
+    final chartHeight = size.height - 24; // 16 top + 8 bottom padding
+    final chartTop = 16;
+    
+    // Draw Y-axis labels
+    for (double value = min; value <= max; value += step) {
+      // Only show labels at step intervals
+      if ((value - min) % step < 0.001 || (min + step * (((max - min) ~/ step)) - value) % step < 0.001) {
+        // Calculate Y position
+        final normalizedY = (max - value) / (max - min);
+        final yPos = chartTop + (normalizedY * chartHeight);
+        
+        // Create text painter
+        final textPainter = TextPainter(
+          text: TextSpan(
+            text: value.toStringAsFixed(0),
+            style: textStyle,
+          ),
+          textDirection: ui.TextDirection.ltr,
+        );
+        
+        textPainter.layout();
+        
+        // Draw the text
+        textPainter.paint(
+          canvas,
+          Offset(8, yPos - textPainter.height / 2),
+        );
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(YAxisPainter oldDelegate) {
+    return oldDelegate.min != min ||
+        oldDelegate.max != max ||
+        oldDelegate.step != step ||
+        oldDelegate.textStyle != textStyle;
   }
 }
