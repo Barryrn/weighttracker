@@ -368,5 +368,5 @@ final timeAggregationProvider =
 
 /// Provider for the currently selected time period
 final selectedTimePeriodLineChartProvider = StateProvider<TimePeriodLineChart>(
-  (ref) => TimePeriodLineChart.week, // Default to week view
+  (ref) => TimePeriodLineChart.day, // Default to day view
 );
