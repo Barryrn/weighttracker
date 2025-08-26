@@ -4,8 +4,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:weigthtracker/ViewModel/health_provider.dart';
 import 'dart:io';
-import 'body_entry_model.dart';
-import 'profile_settings_storage_model.dart';
+import 'package:weigthtracker/model/body_entry_model.dart';
+import 'package:weigthtracker/model/profile_settings_storage_model.dart';
 
 /// DatabaseHelper class for managing SQLite database operations
 /// Follows singleton pattern to ensure only one instance exists
@@ -19,8 +19,7 @@ class DatabaseHelper {
 
   /// Database name and version constants
   static const String _databaseName = "weight_tracker.db";
-  static const int _databaseVersion =
-      6; // Increased version number for schema update
+  static const int _databaseVersion = 7; // Increment version number
 
   /// Table and column names
   static const String tableBodyEntries = 'body_entries';
@@ -38,6 +37,7 @@ class DatabaseHelper {
   static const String columnBackImagePath = 'back_image_path';
   static const String columnBMI = 'bmi'; // Added BMI column
   static const String columnCalorie = 'calorie'; // Added calorie column
+  static const String columnIsManualEntry = 'is_manual_entry'; // Add this constant
 
   /// Get the database instance, creating it if it doesn't exist
   /// @return Future<Database> The database instance
@@ -93,7 +93,8 @@ class DatabaseHelper {
           $columnSideImagePath TEXT,
           $columnBackImagePath TEXT,
           $columnBMI REAL,
-          $columnCalorie REAL
+          $columnCalorie REAL,
+          $columnIsManualEntry INTEGER DEFAULT 0
         )
       ''');
     } catch (e) {
@@ -106,30 +107,14 @@ class DatabaseHelper {
   /// @param db The database instance
   /// @param oldVersion The old database version
   /// @param newVersion The new database version
-  // Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-  //   try {
-  //     if (oldVersion < 3) {
-  //       // Add BMI column to existing table
-  //       await db.execute('''
-  //         ALTER TABLE $tableBodyEntries ADD COLUMN $columnBMI REAL;
-  //       ''');
-
-  //       // Update existing records with calculated BMI
-  //       await _updateExistingRecordsWithBMI(db);
-  //     }
-
-  //     if (oldVersion < 4) {
-  //       // Add calorie column to existing table
-  //       await db.execute('''
-  //         ALTER TABLE $tableBodyEntries ADD COLUMN $columnCalorie REAL;
-  //       ''');
-  //       print('Added calorie column to database');
-  //     }
-  //   } catch (e) {
-  //     print('Error upgrading database: $e');
-  //     throw e; // Re-throw to allow handling by caller
-  //   }
-  // }
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 7) {
+      // Add the is_manual_entry column
+      await db.execute(
+        'ALTER TABLE $tableBodyEntries ADD COLUMN $columnIsManualEntry INTEGER DEFAULT 0'
+      );
+    }
+  }
 
   /// Update existing records with calculated BMI values
   /// @param db The database instance
@@ -234,7 +219,7 @@ class DatabaseHelper {
       // Convert the BodyEntry object to a map for database storage
       Map<String, dynamic> row = {
         columnWeight: bodyEntry.weight,
-        columnDate: dateMillis, // Use exact date with time
+        columnDate: dateMillis,
         columnFatPercentage: bodyEntry.fatPercentage,
         columnNeckCircumference: bodyEntry.neckCircumference,
         columnWaistCircumference: bodyEntry.waistCircumference,
@@ -244,8 +229,9 @@ class DatabaseHelper {
         columnFrontImagePath: bodyEntry.frontImagePath,
         columnSideImagePath: bodyEntry.sideImagePath,
         columnBackImagePath: bodyEntry.backImagePath,
-        columnBMI: bmi, // Add calculated BMI
+        columnBMI: bmi,
         columnCalorie: bodyEntry.calorie,
+        columnIsManualEntry: bodyEntry.isManualEntry ? 1 : 0, // Add this line
       };
       print('Inserting into DB: $bodyEntry with BMI: $bmi');
 
@@ -321,6 +307,7 @@ class DatabaseHelper {
           backImagePath: maps[i][columnBackImagePath],
           bmi: maps[i][columnBMI], // Added BMI field
           calorie: maps[i][columnCalorie],
+          isManualEntry: (maps[i][columnIsManualEntry] ?? 0) == 1, // Add this line
         );
       });
     } catch (e) {
@@ -442,6 +429,7 @@ class DatabaseHelper {
         sideImagePath: result.first[columnSideImagePath],
         backImagePath: result.first[columnBackImagePath],
         calorie: result.first[columnCalorie],
+        isManualEntry: (result.first[columnIsManualEntry] ?? 0) == 1, // Add this line
       );
     } catch (e) {
       print('Error finding entry by date: $e');

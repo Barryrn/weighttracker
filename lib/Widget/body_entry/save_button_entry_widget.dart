@@ -7,6 +7,7 @@ import 'package:weigthtracker/theme.dart';
 import 'package:weigthtracker/model/database_helper.dart';
 import 'package:weigthtracker/ViewModel/entry_form_provider.dart';
 import 'package:weigthtracker/provider/database_change_provider.dart';
+import 'package:weigthtracker/ViewModel/date_line_chart.dart'; // Add this import
 
 /// A widget that provides a save button for body entry data.
 ///
@@ -49,8 +50,11 @@ class SaveButtonEntryWidget extends ConsumerWidget {
           final dbHelper = DatabaseHelper();
 
           try {
+            // Mark this as a manual entry before saving
+            final manualEntry = bodyEntry.copyWith(isManualEntry: true);
+            
             // Save the entry to the database and check result
-            final result = await dbHelper.insertBodyEntry(bodyEntry);
+            final result = await dbHelper.insertBodyEntry(manualEntry);
             
             // Verify the save was successful (result should be > 0)
             if (result <= 0) {
@@ -68,10 +72,15 @@ class SaveButtonEntryWidget extends ConsumerWidget {
             print('Verified saved entry: $savedEntry');
             
             // Perform health sync
+            // The health service will now respect manual entries and not overwrite them
             await ref.read(healthStateProvider.notifier).performTwoWaySync();
 
             // Notify that database has changed
             ref.read(databaseChangeProvider.notifier).notifyDatabaseChanged();
+
+            // Reload the line chart data with the current time period
+            final currentTimePeriod = ref.read(selectedTimePeriodLineChartProvider);
+            await ref.read(timeAggregationProvider.notifier).aggregateData(currentTimePeriod);
 
             // Show success message only after confirming save
             if (context.mounted) {

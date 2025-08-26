@@ -126,6 +126,30 @@ class TimeAggregationNotifier extends StateNotifier<List<AggregatedBodyData>> {
 
   final DatabaseHelper _dbHelper = DatabaseHelper();
 
+  /// Helper method to get the best value prioritizing manual entries over synced ones
+  /// @param entries List of entries to select from
+  /// @param getValue Function to extract the value from an entry
+  /// @return The best value (manual entry preferred) or null if no valid values
+  double? _getBestValue(List<BodyEntry> entries, double? Function(BodyEntry) getValue) {
+    final entriesWithValues = entries.where((e) => getValue(e) != null).toList();
+    
+    if (entriesWithValues.isEmpty) {
+      return null;
+    }
+    
+    // First, try to find a manual entry with the value
+    final manualEntries = entriesWithValues.where((e) => e.isManualEntry).toList();
+    if (manualEntries.isNotEmpty) {
+      // Return the value from the most recent manual entry
+      manualEntries.sort((a, b) => b.date.compareTo(a.date));
+      return getValue(manualEntries.first);
+    }
+    
+    // If no manual entries, return the most recent synced entry value
+    entriesWithValues.sort((a, b) => b.date.compareTo(a.date));
+    return getValue(entriesWithValues.first);
+  }
+
   /// Fetches and aggregates body entry data based on the specified time period
   Future<void> aggregateData(TimePeriodLineChart period) async {
     try {
@@ -175,50 +199,18 @@ class TimeAggregationNotifier extends StateNotifier<List<AggregatedBodyData>> {
             entriesForDay.first.date.day,
           );
 
-          // Calculate averages
-          double? avgWeight;
-          double? avgBmi;
-          double? avgFatPercentage;
-
-          // Weight average
-          final weightsWithValues = entriesForDay
-              .where((e) => e.weight != null)
-              .map((e) => e.weight!)
-              .toList();
-          if (weightsWithValues.isNotEmpty) {
-            avgWeight =
-                weightsWithValues.reduce((a, b) => a + b) /
-                weightsWithValues.length;
-          }
-
-          // BMI average
-          final bmisWithValues = entriesForDay
-              .where((e) => e.bmi != null)
-              .map((e) => e.bmi!)
-              .toList();
-          if (bmisWithValues.isNotEmpty) {
-            avgBmi =
-                bmisWithValues.reduce((a, b) => a + b) / bmisWithValues.length;
-          }
-
-          // Fat percentage average
-          final fatPercentagesWithValues = entriesForDay
-              .where((e) => e.fatPercentage != null)
-              .map((e) => e.fatPercentage!)
-              .toList();
-          if (fatPercentagesWithValues.isNotEmpty) {
-            avgFatPercentage =
-                fatPercentagesWithValues.reduce((a, b) => a + b) /
-                fatPercentagesWithValues.length;
-          }
+          // Get best values prioritizing manual entries
+          final bestWeight = _getBestValue(entriesForDay, (e) => e.weight);
+          final bestBmi = _getBestValue(entriesForDay, (e) => e.bmi);
+          final bestFatPercentage = _getBestValue(entriesForDay, (e) => e.fatPercentage);
 
           filledData.add(
             AggregatedBodyData(
               periodStart: currentDate,
               periodEnd: currentDate,
-              avgWeight: avgWeight,
-              avgBmi: avgBmi,
-              avgFatPercentage: avgFatPercentage,
+              avgWeight: bestWeight,
+              avgBmi: bestBmi,
+              avgFatPercentage: bestFatPercentage,
               entryCount: entriesForDay.length,
             ),
           );
@@ -280,50 +272,18 @@ class TimeAggregationNotifier extends StateNotifier<List<AggregatedBodyData>> {
               .map((e) => e.date)
               .reduce((a, b) => a.isAfter(b) ? a : b);
 
-          // Calculate averages
-          double? avgWeight;
-          double? avgBmi;
-          double? avgFatPercentage;
-
-          // Weight average
-          final weightsWithValues = entriesInGroup
-              .where((e) => e.weight != null)
-              .map((e) => e.weight!)
-              .toList();
-          if (weightsWithValues.isNotEmpty) {
-            avgWeight =
-                weightsWithValues.reduce((a, b) => a + b) /
-                weightsWithValues.length;
-          }
-
-          // BMI average
-          final bmisWithValues = entriesInGroup
-              .where((e) => e.bmi != null)
-              .map((e) => e.bmi!)
-              .toList();
-          if (bmisWithValues.isNotEmpty) {
-            avgBmi =
-                bmisWithValues.reduce((a, b) => a + b) / bmisWithValues.length;
-          }
-
-          // Fat percentage average
-          final fatPercentagesWithValues = entriesInGroup
-              .where((e) => e.fatPercentage != null)
-              .map((e) => e.fatPercentage!)
-              .toList();
-          if (fatPercentagesWithValues.isNotEmpty) {
-            avgFatPercentage =
-                fatPercentagesWithValues.reduce((a, b) => a + b) /
-                fatPercentagesWithValues.length;
-          }
+          // Get best values prioritizing manual entries
+          final bestWeight = _getBestValue(entriesInGroup, (e) => e.weight);
+          final bestBmi = _getBestValue(entriesInGroup, (e) => e.bmi);
+          final bestFatPercentage = _getBestValue(entriesInGroup, (e) => e.fatPercentage);
 
           // Create aggregated data object
           final aggregated = AggregatedBodyData(
             periodStart: minDate,
             periodEnd: maxDate,
-            avgWeight: avgWeight,
-            avgBmi: avgBmi,
-            avgFatPercentage: avgFatPercentage,
+            avgWeight: bestWeight,
+            avgBmi: bestBmi,
+            avgFatPercentage: bestFatPercentage,
             entryCount: entriesInGroup.length,
           );
 

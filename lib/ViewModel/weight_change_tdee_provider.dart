@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:developer' as developer;
-import '../Model/body_entry_model.dart';
-import '../Model/database_helper.dart';
+import 'package:weigthtracker/model/body_entry_model.dart';
+import 'package:weigthtracker/model/database_helper.dart';
 import '../provider/database_change_provider.dart';
 
 /// A provider that calculates the TDEE based on weight change and calorie intake.

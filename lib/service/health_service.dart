@@ -582,7 +582,7 @@ class HealthService {
           // This is a new entry from health services, add it to our database
           try {
             final insertResult = await DatabaseHelper().insertBodyEntry(
-              healthEntry,
+              healthEntry, // This will have isManualEntry = false by default
             );
             syncSuccess = syncSuccess && insertResult > 0;
           } catch (e) {
@@ -590,12 +590,20 @@ class HealthService {
             syncSuccess = false;
           }
         } else {
-          // This entry already exists, check if values are identical before updating
+          // This entry already exists, check if it's a manual entry
           final existingEntry = await DatabaseHelper().findEntryByDate(
             healthEntry.date,
           );
 
           if (existingEntry != null) {
+            // PRIORITY CHECK: If existing entry is manual, don't overwrite it
+            if (existingEntry.isManualEntry) {
+              debugPrint(
+                'Skipping health sync for date ${healthEntry.date.toIso8601String()} - manual entry takes priority',
+              );
+              continue; // Skip this entry to preserve manual data
+            }
+
             // Check if the values are identical to avoid unnecessary updates
             bool isDuplicate = _isIdenticalEntry(existingEntry, healthEntry);
 
@@ -612,6 +620,8 @@ class HealthService {
                   healthEntry.fatPercentage ?? existingEntry.fatPercentage,
               // Only update BMI if health entry has it
               bmi: healthEntry.bmi ?? existingEntry.bmi,
+              // Keep it as non-manual since it's being updated by health sync
+              isManualEntry: false,
             );
 
             // Use DatabaseHelper's updateBodyEntry method

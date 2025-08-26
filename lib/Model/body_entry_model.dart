@@ -13,8 +13,9 @@ class BodyEntry {
   final String? frontImagePath;
   final String? sideImagePath;
   final String? backImagePath;
-  final double? bmi; // Added BMI field
+  final double? bmi;
   final double? calorie;
+  final bool isManualEntry; // Add this field to track manual entries
 
   BodyEntry({
     required this.date,
@@ -28,8 +29,9 @@ class BodyEntry {
     this.frontImagePath,
     this.sideImagePath,
     this.backImagePath,
-    this.bmi, // Added BMI parameter
+    this.bmi,
     this.calorie,
+    this.isManualEntry = false, // Default to false for health synced entries
   });
 
   /// Creates a copy of this BodyEntry with the given fields replaced with new values
@@ -61,14 +63,23 @@ class BodyEntry {
     String? backImagePath,
     Object? bmi = _sentinel,
     Object? calorie = _sentinel,
+    bool? isManualEntry, // Add this parameter
   }) {
     return BodyEntry(
       date: date ?? this.date,
       weight: weight == _sentinel ? this.weight : weight as double?,
-      fatPercentage: fatPercentage == _sentinel ? this.fatPercentage : fatPercentage as double?,
-      neckCircumference: neckCircumference == _sentinel ? this.neckCircumference : neckCircumference as double?,
-      waistCircumference: waistCircumference == _sentinel ? this.waistCircumference : waistCircumference as double?,
-      hipCircumference: hipCircumference == _sentinel ? this.hipCircumference : hipCircumference as double?,
+      fatPercentage: fatPercentage == _sentinel
+          ? this.fatPercentage
+          : fatPercentage as double?,
+      neckCircumference: neckCircumference == _sentinel
+          ? this.neckCircumference
+          : neckCircumference as double?,
+      waistCircumference: waistCircumference == _sentinel
+          ? this.waistCircumference
+          : waistCircumference as double?,
+      hipCircumference: hipCircumference == _sentinel
+          ? this.hipCircumference
+          : hipCircumference as double?,
       tags: tags == _sentinel ? this.tags : tags as List<String>?,
       notes: notes == _sentinel ? this.notes : notes as String?,
       frontImagePath: setFrontImagePathNull
@@ -82,6 +93,7 @@ class BodyEntry {
           : (backImagePath ?? this.backImagePath),
       bmi: bmi == _sentinel ? this.bmi : bmi as double?,
       calorie: calorie == _sentinel ? this.calorie : calorie as double?,
+      isManualEntry: isManualEntry ?? this.isManualEntry, // Add this line
     );
   }
 
@@ -97,11 +109,12 @@ class BodyEntry {
       'hip_circumference': hipCircumference,
       'tags': tags != null ? tags!.join(',') : null,
       'notes': notes,
-      'front_image_path': frontImagePath, // Changed to snake_case
-      'side_image_path': sideImagePath, // Changed to snake_case
-      'back_image_path': backImagePath, // Changed to snake_case
+      'front_image_path': frontImagePath,
+      'side_image_path': sideImagePath,
+      'back_image_path': backImagePath,
       'bmi': bmi,
       'calorie': calorie,
+      'is_manual_entry': isManualEntry ? 1 : 0, // Add this line
     };
   }
 
@@ -118,20 +131,15 @@ class BodyEntry {
       hipCircumference: map['hip_circumference'],
       tags: map['tags'] != null ? map['tags'].split(',') : null,
       notes: map['notes'],
-      frontImagePath: map['front_image_path'], // Changed to snake_case
-      sideImagePath: map['side_image_path'], // Changed to snake_case
-      backImagePath: map['back_image_path'], // Changed to snake_case
+      frontImagePath: map['front_image_path'],
+      sideImagePath: map['side_image_path'],
+      backImagePath: map['back_image_path'],
       bmi: map['bmi'],
       calorie: map['calorie'],
+      isManualEntry: (map['is_manual_entry'] ?? 0) == 1, // Add this line
     );
   }
-
-  @override
-  String toString() {
-    return 'BodyEntry(date: ${date.toIso8601String()}, weight: $weight, fatPercentage: $fatPercentage, calorie: $calorie)';
-  }
 }
-
 
 /// Represents a single progress image with its metadata
 class ProgressImageEntry {
@@ -152,7 +160,7 @@ class ProgressImageEntry {
   /// Creates a ProgressImageEntry from a BodyEntry and image type
   static ProgressImageEntry? fromBodyEntry(BodyEntry entry, String viewType) {
     String? imagePath;
-    
+
     switch (viewType.toLowerCase()) {
       case 'front':
         imagePath = entry.frontImagePath;
@@ -174,5 +182,10 @@ class ProgressImageEntry {
       viewType: viewType.toLowerCase(),
       tags: entry.tags,
     );
+  }
+
+  @override
+  String toString() {
+    return 'ProgressImageEntry(date: ${date.toIso8601String()}, weight: $weight, imagePath: $imagePath, viewType: $viewType)';
   }
 }
