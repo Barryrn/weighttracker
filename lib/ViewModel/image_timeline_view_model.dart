@@ -89,10 +89,10 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
             entry.backImagePath != null;
       }).toList();
 
-      // Sort by date (oldest first)
+      // Sort by date (earliest first)
       entriesWithImages.sort(
         (a, b) => a.date.compareTo(b.date),
-      ); // oldest first
+      ); // earliest first
 
       // Store all entries for filtering
       _allEntries = entriesWithImages;
@@ -133,7 +133,7 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
       state = state.copyWith(
         entries: _allEntries,
         isLoading: false,
-        selectedIndex: _allEntries.isNotEmpty ? 0 : 0,
+        selectedIndex: _allEntries.isNotEmpty ? _allEntries.length - 1 : 0, // Changed to show latest entry
       );
       return;
     }
@@ -184,15 +184,15 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
     state = state.copyWith(
       entries: filteredEntries,
       isLoading: false,
-      selectedIndex: filteredEntries.isNotEmpty ? 0 : 0,
+      selectedIndex: filteredEntries.isNotEmpty ? filteredEntries.length - 1 : 0, // Changed to show latest entry
     );
 
     // Update selected view if needed
     if (filteredEntries.isNotEmpty) {
-      final entry = filteredEntries[0];
+      final entry = filteredEntries[filteredEntries.length - 1]; // Changed to use last entry
       String? viewToSelect;
 
-      // Select the first available view type for the first entry
+      // Select the first available view type for the last entry
       if (filterState.showFrontImages && entry.frontImagePath != null) {
         viewToSelect = 'front';
       } else if (filterState.showSideImages && entry.sideImagePath != null) {
