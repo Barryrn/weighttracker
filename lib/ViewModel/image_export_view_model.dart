@@ -101,7 +101,7 @@ class ImageExportViewModel extends StateNotifier<ImageExportState> {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('Export to Gallery'),
+                title: Text(AppLocalizations.of(context)!.exportToGallery),
                 onTap: () async {
                   Navigator.pop(context);
                   final success = await exportImageToGallery(imagePath);
@@ -120,7 +120,7 @@ class ImageExportViewModel extends StateNotifier<ImageExportState> {
               ),
               ListTile(
                 leading: const Icon(Icons.cancel),
-                title: const Text('Cancel'),
+                title: Text(AppLocalizations.of(context)!.cancel),
                 onTap: () {
                   Navigator.pop(context);
                 },

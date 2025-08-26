@@ -98,7 +98,9 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
       _allEntries = entriesWithImages;
 
       // Initialize weight range based on actual data
-      ref.read(imageTimelineFilterProvider.notifier).initializeWeightRange(_allEntries);
+      ref
+          .read(imageTimelineFilterProvider.notifier)
+          .initializeWeightRange(_allEntries);
 
       // Load all available tags for filtering
       _loadAllTags();
@@ -130,10 +132,13 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
 
     // If filters aren't active, use all entries
     if (!filterState.filtersActive) {
+      final sortedEntries = _applySorting(_allEntries, filterState);
       state = state.copyWith(
-        entries: _allEntries,
+        entries: sortedEntries,
         isLoading: false,
-        selectedIndex: _allEntries.isNotEmpty ? _allEntries.length - 1 : 0, // Changed to show latest entry
+        selectedIndex: sortedEntries.isNotEmpty
+            ? sortedEntries.length - 1
+            : 0, // Changed to show latest entry
       );
       return;
     }
@@ -180,16 +185,23 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
       return hasValidImage;
     }).toList();
 
-    // Update state with filtered entries
+    // Apply sorting to filtered entries
+    final sortedEntries = _applySorting(filteredEntries, filterState);
+
+    // Update state with filtered and sorted entries
     state = state.copyWith(
-      entries: filteredEntries,
+      entries: sortedEntries,
       isLoading: false,
-      selectedIndex: filteredEntries.isNotEmpty ? filteredEntries.length - 1 : 0, // Changed to show latest entry
+      selectedIndex: sortedEntries.isNotEmpty
+          ? sortedEntries.length - 1
+          : 0, // Changed to show latest entry
     );
 
     // Update selected view if needed
-    if (filteredEntries.isNotEmpty) {
-      final entry = filteredEntries[filteredEntries.length - 1]; // Changed to use last entry
+    if (sortedEntries.isNotEmpty) {
+      final entry =
+          sortedEntries[sortedEntries.length -
+              1]; // Changed to use last entry
       String? viewToSelect;
 
       // Select the first available view type for the last entry
@@ -205,6 +217,34 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
         state = state.copyWith(selectedView: viewToSelect);
       }
     }
+  }
+
+  /// Apply sorting to entries based on filter state
+  List<BodyEntry> _applySorting(List<BodyEntry> entries, ImageTimelineFilterState filterState) {
+    final sortedEntries = List<BodyEntry>.from(entries);
+    
+    switch (filterState.sortBy) {
+      case SortOption.date:
+        sortedEntries.sort((a, b) {
+          final comparison = a.date.compareTo(b.date);
+          return filterState.sortOrder == SortOrder.ascending ? comparison : -comparison;
+        });
+        break;
+        
+      case SortOption.weight:
+        sortedEntries.sort((a, b) {
+          // Handle null weights by putting them at the end
+          if (a.weight == null && b.weight == null) return 0;
+          if (a.weight == null) return 1;
+          if (b.weight == null) return -1;
+          
+          final comparison = a.weight!.compareTo(b.weight!);
+          return filterState.sortOrder == SortOrder.ascending ? comparison : -comparison;
+        });
+        break;
+    }
+    
+    return sortedEntries;
   }
 
   /// Updates the selected index (position in the timeline)
@@ -309,6 +349,8 @@ class ImageTimelineFilterState {
   final bool showFrontImages;
   final bool showSideImages;
   final bool showBackImages;
+  final SortOption sortBy;
+  final SortOrder sortOrder;
 
   ImageTimelineFilterState({
     this.filtersActive = true,
@@ -321,6 +363,8 @@ class ImageTimelineFilterState {
     this.showFrontImages = true,
     this.showSideImages = true,
     this.showBackImages = true,
+    this.sortBy = SortOption.date,
+    this.sortOrder = SortOrder.ascending,
   });
 
   /// Creates a copy of this state with the given fields replaced with new values
@@ -335,6 +379,8 @@ class ImageTimelineFilterState {
     bool? showFrontImages,
     bool? showSideImages,
     bool? showBackImages,
+    SortOption? sortBy,
+    SortOrder? sortOrder,
   }) {
     return ImageTimelineFilterState(
       filtersActive: filtersActive ?? this.filtersActive,
@@ -347,6 +393,8 @@ class ImageTimelineFilterState {
       showFrontImages: showFrontImages ?? this.showFrontImages,
       showSideImages: showSideImages ?? this.showSideImages,
       showBackImages: showBackImages ?? this.showBackImages,
+      sortBy: sortBy ?? this.sortBy,
+      sortOrder: sortOrder ?? this.sortOrder,
     );
   }
 }
@@ -362,6 +410,7 @@ class ImageTimelineFilterNotifier
           maxWeight: 100.0,
           selectedTags: [],
           allTags: [],
+          sortOrder: SortOrder.ascending,
         ),
       );
 
@@ -404,6 +453,16 @@ class ImageTimelineFilterNotifier
   /// Set show back images
   void setShowBackImages(bool show) {
     state = state.copyWith(showBackImages: show, filtersActive: true);
+  }
+
+  /// Set sorting option
+  void setSortBy(SortOption sortBy) {
+    state = state.copyWith(sortBy: sortBy);
+  }
+  
+  /// Set sort order
+  void setSortOrder(SortOrder sortOrder) {
+    state = state.copyWith(sortOrder: sortOrder);
   }
 
   /// Clear all filters
@@ -488,3 +547,14 @@ final imageTimelineFilterProvider =
       ImageTimelineFilterNotifier,
       ImageTimelineFilterState
     >((ref) => ImageTimelineFilterNotifier());
+
+// Add enums for sorting options
+enum SortOption {
+  date,
+  weight,
+}
+
+enum SortOrder {
+  ascending,
+  descending,
+}

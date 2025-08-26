@@ -226,6 +226,13 @@
   "dateAscending": "Data rosnąco",
   "dateDescending": "Data malejąco",
   "weightAscending": "Waga rosnąco",
-  "weightDescending": "Waga malejąco"
+  "weightDescending": "Waga malejąco",
+  "imageOptions": "Opcje obrazu",
+  "saveToGallery": "Zapisz do galerii",
+  "setAsLatestEntry": "Ustaw jako najnowszy wpis",
+  "setAsComparisonEntry": "Ustaw jako wpis porównawczy",
+  "imageSavedToGallery": "Obraz zapisany do galerii",
+  "exportToGallery": "Eksportuj do galerii",
+  "cancel": "Anuluj"
 }
 

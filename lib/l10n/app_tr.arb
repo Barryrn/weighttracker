@@ -226,5 +226,12 @@
   "dateAscending": "Tarih artan",
   "dateDescending": "Tarih azalan",
   "weightAscending": "Ağırlık artan",
-  "weightDescending": "Ağırlık azalan"
+  "weightDescending": "Ağırlık azalan",
+  "imageOptions": "Görsel Seçenekleri",
+  "saveToGallery": "Galeriye kaydet",
+  "setAsLatestEntry": "Son giriş olarak ayarla",
+  "setAsComparisonEntry": "Karşılaştırma girişi olarak ayarla",
+  "imageSavedToGallery": "Görsel galeriye kaydedildi",
+  "exportToGallery": "Galeriye aktar",
+  "cancel": "İptal"
 }

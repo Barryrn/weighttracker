@@ -7,6 +7,9 @@ import 'package:weigthtracker/viewmodel/unit_conversion_provider.dart';
 import '../ViewModel/image_timeline_view_model.dart';
 import '../theme.dart';
 
+// Import enums from the view model
+export '../ViewModel/image_timeline_view_model.dart' show SortOption, SortOrder;
+
 /// A widget that provides filtering options for the image timeline view
 class ImageTimelineFilter extends ConsumerWidget {
   const ImageTimelineFilter({Key? key}) : super(key: key);
@@ -52,27 +55,99 @@ class ImageTimelineFilter extends ConsumerWidget {
             _buildTagsFilter(context, filterState, filterNotifier),
           const SizedBox(height: 16),
 
-          // Filter action buttons
+          // Filter action buttons with sorting dropdown
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Clear filters button
-              TextButton(
-                onPressed: () => filterNotifier.clearFilters(),
-                style: TextButton.styleFrom(
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 1.5,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+              // Sort dropdown button - Make it flexible
+              Flexible(
+                flex: 2,
+                child: Container(
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: _getSortDisplayValue(
+                        filterState.sortBy,
+                        filterState.sortOrder,
+                      ),
+                      hint: Text(
+                        AppLocalizations.of(context)!.sortBy,
+                        style: AppTypography.buttonText(context).copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      style: AppTypography.buttonText(
+                        context,
+                      ).copyWith(color: Theme.of(context).colorScheme.primary),
+                      isExpanded:
+                          true, // Make dropdown take full width of its container
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          _handleSortSelection(newValue, filterNotifier);
+                        }
+                      },
+                      items: [
+                        DropdownMenuItem(
+                          value: 'date_ascending',
+                          child: Text(
+                            AppLocalizations.of(context)!.dateAscending,
+                            style: AppTypography.buttonText(context).copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'date_descending',
+                          child: Text(
+                            AppLocalizations.of(context)!.dateDescending,
+                            style: AppTypography.buttonText(context).copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'weight_ascending',
+                          child: Text(
+                            AppLocalizations.of(context)!.weightAscending,
+                            style: AppTypography.buttonText(context).copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'weight_descending',
+                          child: Text(
+                            AppLocalizations.of(context)!.weightDescending,
+                            style: AppTypography.buttonText(context).copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                child: Text(
-                  AppLocalizations.of(context)!.clearFilters,
-                  style: AppTypography.buttonText(
-                    context,
-                  ).copyWith(color: Theme.of(context).colorScheme.primary),
+              ),
+              const SizedBox(width: 8), // Add some spacing
+              // Clear filters button - Make it flexible
+              Flexible(
+                flex: 1,
+                child: TextButton(
+                  onPressed: () => filterNotifier.clearFilters(),
+                  style: TextButton.styleFrom(
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1.5,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.clearFilters,
+                    style: AppTypography.buttonText(
+                      context,
+                    ).copyWith(color: Theme.of(context).colorScheme.primary),
+                  ),
                 ),
               ),
             ],
@@ -376,5 +451,44 @@ class ImageTimelineFilter extends ConsumerWidget {
         ),
       ],
     );
+  }
+}
+
+/// Get the current sort display value based on sort option and order
+String _getSortDisplayValue(SortOption sortBy, SortOrder sortOrder) {
+  switch (sortBy) {
+    case SortOption.date:
+      return sortOrder == SortOrder.ascending
+          ? 'date_ascending'
+          : 'date_descending';
+    case SortOption.weight:
+      return sortOrder == SortOrder.ascending
+          ? 'weight_ascending'
+          : 'weight_descending';
+  }
+}
+
+/// Handle sort selection from dropdown
+void _handleSortSelection(
+  String value,
+  ImageTimelineFilterNotifier filterNotifier,
+) {
+  switch (value) {
+    case 'date_ascending':
+      filterNotifier.setSortBy(SortOption.date);
+      filterNotifier.setSortOrder(SortOrder.ascending);
+      break;
+    case 'date_descending':
+      filterNotifier.setSortBy(SortOption.date);
+      filterNotifier.setSortOrder(SortOrder.descending);
+      break;
+    case 'weight_ascending':
+      filterNotifier.setSortBy(SortOption.weight);
+      filterNotifier.setSortOrder(SortOrder.ascending);
+      break;
+    case 'weight_descending':
+      filterNotifier.setSortBy(SortOption.weight);
+      filterNotifier.setSortOrder(SortOrder.descending);
+      break;
   }
 }

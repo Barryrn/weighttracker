@@ -257,7 +257,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorLoadingImages.
   ///
   /// In en, this message translates to:
-  /// **'No Image uploaded yet'**
+  /// **'Error loading images'**
   String get errorLoadingImages;
 
   /// No description provided for @myGoals.
@@ -1477,6 +1477,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Weight descending'**
   String get weightDescending;
+
+  /// No description provided for @imageOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Image Options'**
+  String get imageOptions;
+
+  /// No description provided for @saveToGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Gallery'**
+  String get saveToGallery;
+
+  /// No description provided for @setAsLatestEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as Latest Entry'**
+  String get setAsLatestEntry;
+
+  /// No description provided for @setAsComparisonEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as Comparison Entry'**
+  String get setAsComparisonEntry;
 }
 
 class _AppLocalizationsDelegate

@@ -172,7 +172,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get imageTypes => 'Tipos de Imagem';
 
   @override
-  String get exportToGallery => 'Exportar para Galeria';
+  String get exportToGallery => 'Exportar para galeria';
 
   @override
   String get imageSavedToGallery => 'Imagem salva na galeria';
@@ -733,4 +733,16 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get weightDescending => 'Peso decrescente';
+
+  @override
+  String get imageOptions => 'Opções de imagem';
+
+  @override
+  String get saveToGallery => 'Salvar na galeria';
+
+  @override
+  String get setAsLatestEntry => 'Definir como entrada mais recente';
+
+  @override
+  String get setAsComparisonEntry => 'Definir como entrada de comparação';
 }

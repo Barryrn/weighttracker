@@ -82,7 +82,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pic2 => 'Pic 2';
 
   @override
-  String get errorLoadingImages => 'No Image uploaded yet';
+  String get errorLoadingImages => 'Error loading images';
 
   @override
   String get myGoals => 'My Goals';
@@ -731,4 +731,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get weightDescending => 'Weight descending';
+
+  @override
+  String get imageOptions => 'Image Options';
+
+  @override
+  String get saveToGallery => 'Save to Gallery';
+
+  @override
+  String get setAsLatestEntry => 'Set as Latest Entry';
+
+  @override
+  String get setAsComparisonEntry => 'Set as Comparison Entry';
 }

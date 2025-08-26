@@ -226,5 +226,15 @@
   "dateAscending": "Date ascending",
   "dateDescending": "Date descending",
   "weightAscending": "Weight ascending",
-  "weightDescending": "Weight descending"
+  "weightDescending": "Weight descending",
+  "errorLoadingImages": "Error loading images",
+  "noImagesMatchTheCurrentFilters": "No images match the current filters",
+  "noImagesAvailable": "No images available",
+  "imageOptions": "Image Options",
+  "saveToGallery": "Save to Gallery",
+  "setAsLatestEntry": "Set as Latest Entry",
+  "setAsComparisonEntry": "Set as Comparison Entry",
+  "imageSavedToGallery": "Image saved to gallery",
+  "exportToGallery": "Export to Gallery",
+  "cancel": "Cancel"
 }

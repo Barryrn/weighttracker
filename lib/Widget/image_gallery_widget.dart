@@ -13,7 +13,7 @@ import 'image_gallery_filter_widget.dart';
 
 class ImageGalleryWidget extends ConsumerStatefulWidget {
   final bool showFilters;
-  
+
   const ImageGalleryWidget({super.key, this.showFilters = false});
 
   @override
@@ -38,19 +38,18 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
     return Column(
       children: [
         // Filter section (controlled by parent)
-        if (widget.showFilters) 
-          const ImageGalleryFilter(),
-        
+        if (widget.showFilters) const ImageGalleryFilter(),
+
         // Add spacing when filters are shown
-        if (widget.showFilters) 
-          const SizedBox(height: 16),
+        if (widget.showFilters) const SizedBox(height: 16),
 
         // Image grid
         Expanded(
           child: galleryState.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stackTrace) =>
-                Center(child: Text('Error loading images: $error')),
+            error: (error, stackTrace) => Center(
+              child: Text(AppLocalizations.of(context)!.errorLoadingImages),
+            ),
             data: (entries) {
               // Apply filters to entries
               final filteredEntries = ref
@@ -65,7 +64,11 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
 
               if (allImages.isEmpty) {
                 return Center(
-                  child: Text('No images match the current filters'),
+                  child: Text(
+                    AppLocalizations.of(
+                      context,
+                    )!.noImagesMatchTheCurrentFilterCriteria,
+                  ),
                 );
               }
 
@@ -342,13 +345,13 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Image Options'),
+          title: Text(AppLocalizations.of(context)!.imageOptions),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: Text('Save to Gallery'),
+                title: Text(AppLocalizations.of(context)!.saveToGallery),
                 onTap: () {
                   Navigator.pop(context);
                   _saveImageToGallery(progressEntry.imagePath);
@@ -356,7 +359,7 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
               ),
               ListTile(
                 leading: const Icon(Icons.compare_arrows),
-                title: Text('Set as Latest Entry'),
+                title: Text(AppLocalizations.of(context)!.setAsLatestEntry),
                 onTap: () {
                   ref
                       .read(imageComparisonProvider.notifier)
@@ -366,7 +369,7 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
               ),
               ListTile(
                 leading: const Icon(Icons.compare),
-                title: Text('Set as Comparison Entry'),
+                title: Text(AppLocalizations.of(context)!.setAsComparisonEntry),
                 onTap: () {
                   ref
                       .read(imageComparisonProvider.notifier)
@@ -385,8 +388,10 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
   void _saveImageToGallery(String imagePath) {
     // Implementation for saving image to gallery
     // This would typically use a package like image_gallery_saver
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('Image saved to gallery')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.imageSavedToGallery),
+      ),
+    );
   }
 }

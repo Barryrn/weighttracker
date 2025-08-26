@@ -161,10 +161,18 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
       );
 
       if (pickedFile != null) {
-        final appDir = await getApplicationDocumentsDirectory();
+        // Use Application Support Directory instead of Documents Directory
+        final appDir = await getApplicationSupportDirectory();
+
+        // Create images subdirectory if it doesn't exist
+        final imagesDir = Directory('${appDir.path}/images');
+        if (!await imagesDir.exists()) {
+          await imagesDir.create(recursive: true);
+        }
+
         final fileName =
             '${const Uuid().v4()}${path.extension(pickedFile.path)}';
-        final newFilePath = '${appDir.path}/$fileName';
+        final newFilePath = '${imagesDir.path}/$fileName';
         final newImageFile = await File(pickedFile.path).copy(newFilePath);
 
         final bodyEntry = ref.read(bodyEntryProvider);
@@ -281,6 +289,37 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
           break;
       }
       print('No image path set for $viewType');
+    }
+  }
+
+  Future<void> _validateImagePaths() async {
+    final bodyEntry = ref.read(bodyEntryProvider);
+    final notifier = ref.read(bodyEntryProvider.notifier);
+    bool needsUpdate = false;
+
+    // Check front image
+    if (bodyEntry.frontImagePath != null &&
+        !await File(bodyEntry.frontImagePath!).exists()) {
+      notifier.updateFrontImagePath(null);
+      needsUpdate = true;
+    }
+
+    // Check side image
+    if (bodyEntry.sideImagePath != null &&
+        !await File(bodyEntry.sideImagePath!).exists()) {
+      notifier.updateSideImagePath(null);
+      needsUpdate = true;
+    }
+
+    // Check back image
+    if (bodyEntry.backImagePath != null &&
+        !await File(bodyEntry.backImagePath!).exists()) {
+      notifier.updateBackImagePath(null);
+      needsUpdate = true;
+    }
+
+    if (needsUpdate) {
+      print('Cleaned up broken image references');
     }
   }
 

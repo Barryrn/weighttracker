@@ -176,7 +176,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exportToGallery => 'Exportar a galería';
 
   @override
-  String get imageSavedToGallery => 'Imagen guardada en la galería';
+  String get imageSavedToGallery => 'Imagen guardada en galería';
 
   @override
   String get cancel => 'Cancelar';
@@ -735,4 +735,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get weightDescending => 'Peso descendente';
+
+  @override
+  String get imageOptions => 'Opciones de imagen';
+
+  @override
+  String get saveToGallery => 'Guardar en galería';
+
+  @override
+  String get setAsLatestEntry => 'Establecer como última entrada';
+
+  @override
+  String get setAsComparisonEntry => 'Establecer como entrada de comparación';
 }

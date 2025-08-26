@@ -226,5 +226,12 @@
   "dateAscending": "Date croissante",
   "dateDescending": "Date décroissante",
   "weightAscending": "Poids croissant",
-  "weightDescending": "Poids décroissant"
+  "weightDescending": "Poids décroissant",
+  "imageOptions": "Options d'image",
+  "saveToGallery": "Enregistrer dans la galerie",
+  "setAsLatestEntry": "Définir comme dernière entrée",
+  "setAsComparisonEntry": "Définir comme entrée de comparaison",
+  "imageSavedToGallery": "Image enregistrée dans la galerie",
+  "exportToGallery": "Exporter vers la galerie",
+  "cancel": "Annuler"
 }

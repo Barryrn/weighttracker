@@ -171,7 +171,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get imageTypes => 'Görsel Türleri';
 
   @override
-  String get exportToGallery => 'Galeriye Aktar';
+  String get exportToGallery => 'Galeriye aktar';
 
   @override
   String get imageSavedToGallery => 'Görsel galeriye kaydedildi';
@@ -732,4 +732,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get weightDescending => 'Ağırlık azalan';
+
+  @override
+  String get imageOptions => 'Görsel Seçenekleri';
+
+  @override
+  String get saveToGallery => 'Galeriye kaydet';
+
+  @override
+  String get setAsLatestEntry => 'Son giriş olarak ayarla';
+
+  @override
+  String get setAsComparisonEntry => 'Karşılaştırma girişi olarak ayarla';
 }

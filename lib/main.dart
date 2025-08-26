@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Add this import for SystemChrome
+import 'package:weigthtracker/service/image_migration_service.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,6 +34,9 @@ void main() async {
   final dbHelper = DatabaseHelper();
   await dbHelper.database;
   await dbHelper.printDatabasePath();
+
+  // Migrate images to Application Support directory
+  await ImageMigrationService.migrateImagesToSupportDirectory();
 
   // Run the app with ProviderScope and RestartWidget
   runApp(RestartWidget(child: const ProviderScope(child: MyApp())));

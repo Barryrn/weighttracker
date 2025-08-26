@@ -736,4 +736,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get weightDescending => 'Poids décroissant';
+
+  @override
+  String get imageOptions => 'Options d\'image';
+
+  @override
+  String get saveToGallery => 'Enregistrer dans la galerie';
+
+  @override
+  String get setAsLatestEntry => 'Définir comme dernière entrée';
+
+  @override
+  String get setAsComparisonEntry => 'Définir comme entrée de comparaison';
 }
