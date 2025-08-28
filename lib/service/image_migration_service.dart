@@ -65,15 +65,20 @@ class ImageMigrationService {
           }
         }
 
-        // Update database with new paths
+        // Update database with new paths - FIX THE BUG HERE!
         if (needsUpdate) {
           final updatedEntry = entry.copyWith(
             frontImagePath: newFrontPath ?? entry.frontImagePath,
             sideImagePath: newSidePath ?? entry.sideImagePath,
             backImagePath: newBackPath ?? entry.backImagePath,
           );
-          // You'll need to add a method to get entry ID and update
-          // This is a simplified example
+
+          // Get the entry ID and update the database
+          final entryId = await dbHelper.findEntryIdByDate(entry.date);
+          if (entryId != null) {
+            await dbHelper.updateBodyEntry(entryId, updatedEntry);
+            print('Updated entry ID $entryId with new image paths');
+          }
         }
       }
 

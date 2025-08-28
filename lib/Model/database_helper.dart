@@ -65,7 +65,7 @@ class DatabaseHelper {
         path,
         version: _databaseVersion,
         onCreate: _onCreate,
-        // onUpgrade: _onUpgrade,
+        onUpgrade: _onUpgrade, // Uncomment this line
       );
     } catch (e) {
       print('Error initializing database: $e');
