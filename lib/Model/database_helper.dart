@@ -108,11 +108,16 @@ class DatabaseHelper {
   /// @param oldVersion The old database version
   /// @param newVersion The new database version
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 7) {
-      // Add the is_manual_entry column
-      await db.execute(
-        'ALTER TABLE $tableBodyEntries ADD COLUMN $columnIsManualEntry INTEGER DEFAULT 0'
-      );
+    try {
+      if (oldVersion < 7) {
+        // Add the is_manual_entry column
+        await db.execute(
+          'ALTER TABLE $tableBodyEntries ADD COLUMN $columnIsManualEntry INTEGER DEFAULT 0'
+        );
+      }
+    } catch (e) {
+      print('Error during database upgrade: $e');
+      throw e;
     }
   }
 
@@ -344,6 +349,7 @@ class DatabaseHelper {
         columnSideImagePath: bodyEntry.sideImagePath,
         columnBackImagePath: bodyEntry.backImagePath,
         columnCalorie: bodyEntry.calorie,
+        columnIsManualEntry: bodyEntry.isManualEntry ? 1 : 0, // Add this missing line
       };
 
       print(
