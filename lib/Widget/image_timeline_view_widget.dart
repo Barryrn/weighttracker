@@ -10,6 +10,8 @@ import '../ViewModel/image_export_view_model.dart';
 import '../theme.dart';
 import 'image_timeline_filter_widget.dart';
 
+import '../service/image_file_service.dart'; // Add this import
+
 /// A widget that displays the timeline content of progress images.
 /// Does NOT include a Scaffold, so you can use it inside any Scaffold.
 class ImageTimelineViewWidget extends ConsumerStatefulWidget {
@@ -252,7 +254,37 @@ class _ImageTimelineViewWidgetState
             .read(imageExportProvider.notifier)
             .showExportOptions(context, imagePath);
       },
-      child: Image.file(File(imagePath), fit: BoxFit.contain),
+      child: FutureBuilder<File?>(
+        future: ImageFileService.getImageFile(imagePath),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasData && snapshot.data != null) {
+            return Image.file(snapshot.data!, fit: BoxFit.contain);
+          }
+
+          // Fallback for missing image
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.image_not_supported,
+                  size: 100,
+                  color: Colors.grey,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  AppLocalizations.of(context)!.errorLoadingImages,
+                  style: const TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 

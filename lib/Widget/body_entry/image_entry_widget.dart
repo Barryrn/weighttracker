@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 import '../../ViewModel/entry_form_provider.dart';
 import '../../theme.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../service/image_file_service.dart'; // Add this import
 
 /// Enum representing the different view types for body images
 enum ViewType { front, side, back }
@@ -386,22 +387,24 @@ class _ImageEntryState extends ConsumerState<ImageEntry> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: imagePath != null
-              ? FutureBuilder<bool>(
-                  future: File(imagePath).exists(),
+              ? FutureBuilder<File?>(
+                  future: ImageFileService.getImageFile(imagePath), // Use fallback service
                   builder: (context, snapshot) {
-                    final exists = snapshot.data ?? false;
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
-                    } else if (exists) {
+                    }
+                    
+                    final imageFile = snapshot.data;
+                    if (imageFile != null) {
                       return Stack(
                         fit: StackFit.expand,
                         children: [
                           Image.file(
-                            File(imagePath),
+                            imageFile,
                             fit: BoxFit.cover,
                             key: ValueKey(
-                              imagePath,
-                            ), // wichtig: erzwingt Rebuild wenn Pfad sich ändert
+                              imageFile.path,
+                            ), // Force rebuild when path changes
                           ),
                           Positioned(
                             bottom: 0,

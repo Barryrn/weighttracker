@@ -11,6 +11,7 @@ import '../viewmodel/image_comparison_provider.dart';
 import '../viewmodel/unit_conversion_provider.dart'; // Add this import
 import '../theme.dart';
 import 'image_gallery_view.dart';
+import '../service/image_file_service.dart'; // Add this import
 
 /// A view that displays two images side by side for comparison
 class ImageComparisonView extends ConsumerStatefulWidget {

@@ -10,6 +10,7 @@ import 'package:weigthtracker/ViewModel/unit_conversion_provider.dart';
 import '../theme.dart';
 import '../ViewModel/image_gallery_view_model.dart';
 import 'image_gallery_filter_widget.dart';
+import '../service/image_file_service.dart'; // Add this import
 
 class ImageGalleryWidget extends ConsumerStatefulWidget {
   final bool showFilters;
@@ -98,12 +99,12 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
     );
   }
 
-  /// Gets all available images from a body entry
+  /// Gets all available images from a body entry (synchronous version for immediate use)
   List<Map<String, dynamic>> _getAvailableImages(BodyEntry entry) {
     final images = <Map<String, dynamic>>[];
 
-    if (entry.frontImagePath != null &&
-        File(entry.frontImagePath!).existsSync()) {
+    // Check front image
+    if (entry.frontImagePath != null && entry.frontImagePath!.isNotEmpty) {
       images.add({
         'entry': entry,
         'path': entry.frontImagePath!,
@@ -111,8 +112,8 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
       });
     }
 
-    if (entry.sideImagePath != null &&
-        File(entry.sideImagePath!).existsSync()) {
+    // Check side image
+    if (entry.sideImagePath != null && entry.sideImagePath!.isNotEmpty) {
       images.add({
         'entry': entry,
         'path': entry.sideImagePath!,
@@ -120,8 +121,8 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
       });
     }
 
-    if (entry.backImagePath != null &&
-        File(entry.backImagePath!).existsSync()) {
+    // Check back image
+    if (entry.backImagePath != null && entry.backImagePath!.isNotEmpty) {
       images.add({
         'entry': entry,
         'path': entry.backImagePath!,
@@ -174,11 +175,35 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
               ),
-              child: Image.file(
-                File(imagePath),
-                fit: BoxFit.cover,
-                height: 200,
-                width: double.infinity,
+              child: FutureBuilder<File?>(
+                future: ImageFileService.getImageFile(imagePath),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container(
+                      height: 200,
+                      width: double.infinity,
+                      color: Colors.grey[300],
+                      child: const Center(child: CircularProgressIndicator()),
+                    );
+                  }
+                  
+                  if (snapshot.hasData && snapshot.data != null) {
+                    return Image.file(
+                      snapshot.data!,
+                      fit: BoxFit.cover,
+                      height: 200,
+                      width: double.infinity,
+                    );
+                  }
+                  
+                  // Fallback for missing image
+                  return Container(
+                    height: 200,
+                    width: double.infinity,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.image_not_supported, size: 50),
+                  );
+                },
               ),
             ),
           ),
