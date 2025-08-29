@@ -25,6 +25,7 @@ class ImageTimelineViewWidget extends ConsumerStatefulWidget {
 class _ImageTimelineViewWidgetState
     extends ConsumerState<ImageTimelineViewWidget> {
   bool _showFilters = false;
+  final Map<String, File?> _imageCache = {};
 
   @override
   Widget build(BuildContext context) {
@@ -247,15 +248,33 @@ class _ImageTimelineViewWidgetState
       );
     }
 
+    // Check cache first
+    if (_imageCache.containsKey(imagePath)) {
+      final cachedFile = _imageCache[imagePath];
+      if (cachedFile != null) {
+        return GestureDetector(
+          onTap: () {
+            ref
+                .read(imageExportProvider.notifier)
+                .showExportOptions(context, imagePath);
+          },
+          child: Image.file(cachedFile, fit: BoxFit.contain),
+        );
+      } else {
+        // Cached as null (file doesn't exist)
+        return _buildErrorWidget(context);
+      }
+    }
+
+    // Load and cache the image
     return GestureDetector(
       onTap: () {
-        // Show export options when image is tapped
         ref
             .read(imageExportProvider.notifier)
             .showExportOptions(context, imagePath);
       },
       child: FutureBuilder<File?>(
-        future: ImageFileService.getImageFile(imagePath),
+        future: _loadAndCacheImage(imagePath),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -265,25 +284,34 @@ class _ImageTimelineViewWidgetState
             return Image.file(snapshot.data!, fit: BoxFit.contain);
           }
 
-          // Fallback for missing image
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.image_not_supported,
-                  size: 100,
-                  color: Colors.grey,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  AppLocalizations.of(context)!.errorLoadingImages,
-                  style: const TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
-          );
+          return _buildErrorWidget(context);
         },
+      ),
+    );
+  }
+  
+  Future<File?> _loadAndCacheImage(String imagePath) async {
+    final file = await ImageFileService.getImageFile(imagePath);
+    _imageCache[imagePath] = file;
+    return file;
+  }
+  
+  Widget _buildErrorWidget(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.image_not_supported,
+            size: 100,
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            AppLocalizations.of(context)!.errorLoadingImages,
+            style: const TextStyle(color: Colors.grey),
+          ),
+        ],
       ),
     );
   }
