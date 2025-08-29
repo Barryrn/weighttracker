@@ -22,14 +22,14 @@ class SaveButtonEntryWidget extends ConsumerWidget {
       width: double.infinity, // Makes the button full-width
       child: ElevatedButton(
         onPressed: () async {
-          print('Button pressed');
+          print('Button pressed!');
 
           // Get the current body entry from the provider
           final bodyEntry = ref.read(bodyEntryProvider);
-          
+
           // Validate that we have some data to save
-          if (bodyEntry.weight == null && 
-              bodyEntry.fatPercentage == null && 
+          if (bodyEntry.weight == null &&
+              bodyEntry.fatPercentage == null &&
               bodyEntry.calorie == null &&
               (bodyEntry.notes == null || bodyEntry.notes!.isEmpty)) {
             if (context.mounted) {
@@ -37,7 +37,9 @@ class SaveButtonEntryWidget extends ConsumerWidget {
                 SnackBar(
                   content: Text(
                     'Please enter at least one measurement before saving.',
-                    style: AppTypography.bodyMedium(context).copyWith(color: Colors.white),
+                    style: AppTypography.bodyMedium(
+                      context,
+                    ).copyWith(color: Colors.white),
                   ),
                   backgroundColor: Colors.orange,
                 ),
@@ -52,25 +54,25 @@ class SaveButtonEntryWidget extends ConsumerWidget {
           try {
             // Mark this as a manual entry before saving
             final manualEntry = bodyEntry.copyWith(isManualEntry: true);
-            
+
             // Save the entry to the database and check result
             final result = await dbHelper.insertBodyEntry(manualEntry);
-            
+
             // Verify the save was successful (result should be > 0)
             if (result <= 0) {
               throw Exception('Failed to save entry - no rows affected');
             }
-            
+
             // Print all entries for debugging
             await dbHelper.printAllBodyEntries();
-            
+
             // After successful save, verify the data exists
             final savedEntry = await dbHelper.findEntryByDate(bodyEntry.date);
             if (savedEntry == null) {
               throw Exception('Entry was not found after save operation');
             }
             print('Verified saved entry: $savedEntry');
-            
+
             // Perform health sync
             // The health service will now respect manual entries and not overwrite them
             await ref.read(healthStateProvider.notifier).performTwoWaySync();
@@ -79,8 +81,12 @@ class SaveButtonEntryWidget extends ConsumerWidget {
             ref.read(databaseChangeProvider.notifier).notifyDatabaseChanged();
 
             // Reload the line chart data with the current time period
-            final currentTimePeriod = ref.read(selectedTimePeriodLineChartProvider);
-            await ref.read(timeAggregationProvider.notifier).aggregateData(currentTimePeriod);
+            final currentTimePeriod = ref.read(
+              selectedTimePeriodLineChartProvider,
+            );
+            await ref
+                .read(timeAggregationProvider.notifier)
+                .aggregateData(currentTimePeriod);
 
             // Show success message only after confirming save
             if (context.mounted) {
@@ -88,7 +94,9 @@ class SaveButtonEntryWidget extends ConsumerWidget {
                 SnackBar(
                   content: Text(
                     AppLocalizations.of(context)!.entrySavedSuccessfully,
-                    style: AppTypography.bodyMedium(context).copyWith(color: Colors.white),
+                    style: AppTypography.bodyMedium(
+                      context,
+                    ).copyWith(color: Colors.white),
                   ),
                   backgroundColor: Theme.of(context).colorScheme.success,
                   duration: Duration(seconds: 1),
@@ -100,14 +108,16 @@ class SaveButtonEntryWidget extends ConsumerWidget {
             }
           } catch (e) {
             print('Error saving entry: $e');
-            
+
             // Show specific error message
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'Failed to save entry: ${e.toString()}',
-                    style: AppTypography.bodyMedium(context).copyWith(color: Colors.white),
+                    'Failed to save entry',
+                    style: AppTypography.bodyMedium(
+                      context,
+                    ).copyWith(color: Colors.white),
                   ),
                   backgroundColor: Colors.red,
                   duration: Duration(seconds: 3),
@@ -135,4 +145,3 @@ class SaveButtonEntryWidget extends ConsumerWidget {
     );
   }
 }
-

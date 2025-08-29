@@ -23,12 +23,16 @@ class ImageComparisonView extends ConsumerStatefulWidget {
 }
 
 class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
-  // Selected image type for each card
-  String _leftImageType = 'front';
-  String _rightImageType = 'front';
+  // Selected image type for each card - initialize as null to be set dynamically
+  String? _leftImageType;
+  String? _rightImageType;
 
   @override
   Widget build(BuildContext context) {
+    // Initialize image types with localized values if not set
+    _leftImageType ??= AppLocalizations.of(context)!.frontCapital;
+    _rightImageType ??= AppLocalizations.of(context)!.frontCapital;
+    
     final comparisonState = ref.watch(imageComparisonProvider);
     return Card(
       shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
@@ -139,7 +143,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                               title: AppLocalizations.of(context)!.pic1,
                               subtitle: _formatDate(latestEntry.date),
                               weight: latestEntry.weight,
-                              imageType: _leftImageType,
+                              imageType: _leftImageType ?? AppLocalizations.of(context)!.frontCapital,
                               onImageTypeChanged: (type) {
                                 setState(() {
                                   _leftImageType = type;
@@ -157,7 +161,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                                     title: AppLocalizations.of(context)!.pic2,
                                     subtitle: _formatDate(comparisonEntry.date),
                                     weight: comparisonEntry.weight,
-                                    imageType: _rightImageType,
+                                    imageType: _rightImageType ?? AppLocalizations.of(context)!.frontCapital,
                                     onImageTypeChanged: (type) {
                                       setState(() {
                                         _rightImageType = type;
@@ -359,25 +363,27 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
               if (imagePath != null)
                 AspectRatio(
                   aspectRatio: 3 / 4,
-                  child: FutureBuilder<bool>(
-                    future: File(imagePath).exists(),
+                  child: FutureBuilder<File?>(
+                    future: ImageFileService.getImageFile(imagePath),
                     builder: (context, snapshot) {
-                      final exists = snapshot.data ?? false;
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
-                      } else if (exists) {
+                      }
+                      
+                      if (snapshot.hasData && snapshot.data != null) {
                         return ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Image.file(
-                            File(imagePath!),
+                            snapshot.data!,
                             fit: BoxFit.cover,
                           ),
                         );
-                      } else {
-                        return const Center(
-                          child: Icon(Icons.broken_image, size: 64),
-                        );
                       }
+                      
+                      // Fallback for missing image
+                      return const Center(
+                        child: Icon(Icons.broken_image, size: 64),
+                      );
                     },
                   ),
                 )
@@ -531,17 +537,26 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
 
     // Access the entries
     final state = ref.read(imageComparisonProvider);
-    state.whenData((entries) {
-      // Preload images by accessing them
+    state.whenData((entries) async {
+      // Preload images using ImageFileService
       for (final entry in entries) {
         if (entry.frontImagePath != null) {
-          precacheImage(FileImage(File(entry.frontImagePath!)), context);
+          final file = await ImageFileService.getImageFile(entry.frontImagePath!);
+          if (file != null) {
+            precacheImage(FileImage(file), context);
+          }
         }
         if (entry.sideImagePath != null) {
-          precacheImage(FileImage(File(entry.sideImagePath!)), context);
+          final file = await ImageFileService.getImageFile(entry.sideImagePath!);
+          if (file != null) {
+            precacheImage(FileImage(file), context);
+          }
         }
         if (entry.backImagePath != null) {
-          precacheImage(FileImage(File(entry.backImagePath!)), context);
+          final file = await ImageFileService.getImageFile(entry.backImagePath!);
+          if (file != null) {
+            precacheImage(FileImage(file), context);
+          }
         }
       }
     });
