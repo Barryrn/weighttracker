@@ -1,0 +1,97 @@
+# Claude Code Configuration
+# This file configures Claude Code for this Flutter weight tracking app
+
+# Project metadata
+project:
+  name: "BodyTrack - Weight Tracker"
+  description: "Flutter weight tracking application with photo progress, BMI calculations, body fat tracking, and health integration"
+  type: "flutter"
+  version: "1.0.0"
+
+# Development commands
+commands:
+  # Build and run commands
+  build:
+    android: "flutter build apk"
+    ios: "flutter build ios"
+    clean: "flutter clean"
+    
+  run:
+    dev: "flutter run"
+    release: "flutter run --release"
+    
+  # Code quality
+  analyze: "flutter analyze"
+  test: "flutter test"
+  format: "dart format ."
+  
+  # Dependencies
+  deps:
+    get: "flutter pub get"
+    upgrade: "flutter pub upgrade"
+    outdated: "flutter pub outdated"
+    
+  # Localization
+  l10n: "flutter gen-l10n"
+
+# File patterns to include/exclude when working with Claude Code
+files:
+  include:
+    - "lib/**/*.dart"
+    - "test/**/*.dart"
+    - "lib/l10n/**/*.arb"
+    - "pubspec.yaml"
+    - "analysis_options.yaml"
+    - "CLAUDE.md"
+    - "README.md"
+    
+  exclude:
+    - "build/**"
+    - ".dart_tool/**"
+    - "ios/Pods/**"
+    - "android/app/build/**"
+    - ".git/**"
+    - "*.g.dart"
+    - "*.freezed.dart"
+    - "*.mocks.dart"
+
+# Architecture notes for Claude Code
+architecture:
+  pattern: "MVVM"
+  state_management: "Riverpod"
+  database: "SQLite"
+  localization: "ARB files"
+  themes: "Material Design with custom theme"
+  
+# Key directories
+directories:
+  models: "lib/model/"
+  views: "lib/View/"
+  viewmodels: "lib/ViewModel/"
+  widgets: "lib/Widget/"
+  services: "lib/service/"
+  localization: "lib/l10n/"
+
+# Development guidelines
+guidelines:
+  - "Follow MVVM pattern with Riverpod state management"
+  - "Use proper localization for all user-facing strings"
+  - "Maintain consistent theming with custom theme system"
+  - "Store data in SQLite using DatabaseHelper singleton"
+  - "Handle both HealthKit (iOS) and Health Connect (Android)"
+  - "Support portrait orientation only"
+  - "Include proper error handling and validation"
+  - "Follow Flutter/Dart style guidelines"
+  - "Add comments for complex business logic"
+  - "Test calculations thoroughly (BMI, TDEE, body fat)"
+
+# Supported languages
+locales:
+  - "en" # English (default)
+  - "de" # German
+  - "es" # Spanish
+  - "fr" # French
+  - "it" # Italian
+  - "pl" # Polish
+  - "pt" # Portuguese
+  - "tr" # Turkish

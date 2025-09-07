@@ -1,0 +1,68 @@
+# Claude Code Configuration for BodyTrack Weight Tracker
+name: BodyTrack Weight Tracker
+description: Flutter weight tracking application with photo progress, BMI calculations, body fat tracking, and health integration
+
+# Project configuration
+project:
+  type: flutter
+  framework: flutter
+  language: dart
+  architecture: mvvm
+  state_management: riverpod
+
+# Development environment
+environment:
+  sdk: flutter
+  dart: ">=3.0.0 <4.0.0"
+  
+# Key features
+features:
+  - Weight tracking and progress monitoring
+  - Photo timeline for visual progress
+  - BMI and body fat percentage calculations
+  - TDEE (Total Daily Energy Expenditure) estimation
+  - Health app integration (HealthKit/Health Connect)
+  - Multi-language support (8 languages)
+  - Dark/light theme support
+  - Data export capabilities
+
+# Main commands
+commands:
+  install: "flutter pub get"
+  build: "flutter build apk"
+  run: "flutter run"
+  test: "flutter test"
+  analyze: "flutter analyze"
+  format: "dart format ."
+  l10n: "flutter gen-l10n"
+
+# File structure
+structure:
+  lib/
+    - main.dart                    # App entry point
+    - theme.dart                   # Custom theming
+    - View/                        # UI screens and pages
+    - ViewModel/                   # Business logic and state management
+    - Widget/                      # Reusable UI components
+    - model/                       # Data models and database
+    - service/                     # Background services
+    - l10n/                        # Internationalization files
+    - repository/                  # Data access layer
+
+# Important files
+important_files:
+  - "CLAUDE.md"                    # Development guidelines
+  - "lib/main.dart"                # App entry point
+  - "lib/theme.dart"               # Theme configuration
+  - "lib/model/database_helper.dart" # Database management
+  - "lib/l10n/*.arb"              # Localization files
+  - "pubspec.yaml"                # Dependencies
+
+# Development guidelines
+guidelines:
+  code_style: "Follow Flutter/Dart conventions"
+  architecture: "Use MVVM pattern with Riverpod"
+  localization: "All user text must be localized"
+  database: "Use SQLite with DatabaseHelper"
+  calculations: "Validate all health calculations"
+  testing: "Include unit tests for business logic"
