@@ -233,5 +233,7 @@
   "setAsComparisonEntry": "Imposta come voce di confronto",
   "imageSavedToGallery": "Immagine salvata nella galleria",
   "exportToGallery": "Esporta nella galleria",
-  "cancel": "Annulla"
+  "cancel": "Annulla",
+  "genderSelection": "Selezione del Genere",
+  "genderSelectionInfo": "Solo due opzioni di genere sono disponibili perché sono necessarie per calcoli accurati del grasso corporeo e altre metriche di salute che utilizzano formule specifiche per genere come base."
 }

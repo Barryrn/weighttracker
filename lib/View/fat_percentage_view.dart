@@ -54,7 +54,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Fat Percentage Calculator',
+          AppLocalizations.of(context)!.fatPercentageCalculator,
           style: AppTypography.headline3(context),
         ),
 

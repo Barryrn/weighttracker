@@ -747,4 +747,11 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get setAsComparisonEntry => 'Ustaw jako wpis porównawczy';
+
+  @override
+  String get genderSelection => 'Wybór Płci';
+
+  @override
+  String get genderSelectionInfo =>
+      'Tylko dwie opcje płci są dostępne, ponieważ są niezbędne do dokładnych obliczeń tkanki tłuszczowej i innych wskaźników zdrowia, które wykorzystują formuły specyficzne dla płci jako podstawę.';
 }

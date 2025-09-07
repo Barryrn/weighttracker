@@ -233,5 +233,7 @@
   "setAsComparisonEntry": "Definir como entrada de comparação",
   "imageSavedToGallery": "Imagem salva na galeria",
   "exportToGallery": "Exportar para galeria",
-  "cancel": "Cancelar"
+  "cancel": "Cancelar",
+  "genderSelection": "Seleção de Gênero",
+  "genderSelectionInfo": "Apenas duas opções de gênero estão disponíveis porque são necessárias para cálculos precisos de gordura corporal e outras métricas de saúde que utilizam fórmulas específicas de gênero como base."
 }

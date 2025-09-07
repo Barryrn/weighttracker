@@ -1501,6 +1501,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set as Comparison Entry'**
   String get setAsComparisonEntry;
+
+  /// No description provided for @genderSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender Selection'**
+  String get genderSelection;
+
+  /// No description provided for @genderSelectionInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Only two gender options are available because they are necessary for accurate body fat calculations and other health metrics that use gender-specific formulas as their foundation.'**
+  String get genderSelectionInfo;
 }
 
 class _AppLocalizationsDelegate

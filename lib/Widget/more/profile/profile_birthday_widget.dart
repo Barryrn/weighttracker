@@ -43,7 +43,7 @@ class ProfileBirthdayWidget extends ConsumerWidget {
         ),
       ),
       title: Text(
-        'Birthday',
+        AppLocalizations.of(context)!.birthday,
         style: TextStyle(color: Theme.of(context).colorScheme.textPrimary),
       ),
       subtitle: Text(

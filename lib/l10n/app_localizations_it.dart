@@ -746,4 +746,11 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get setAsComparisonEntry => 'Imposta come voce di confronto';
+
+  @override
+  String get genderSelection => 'Selezione del Genere';
+
+  @override
+  String get genderSelectionInfo =>
+      'Solo due opzioni di genere sono disponibili perché sono necessarie per calcoli accurati del grasso corporeo e altre metriche di salute che utilizzano formule specifiche per genere come base.';
 }

@@ -747,4 +747,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get setAsComparisonEntry => 'Establecer como entrada de comparación';
+
+  @override
+  String get genderSelection => 'Selección de Género';
+
+  @override
+  String get genderSelectionInfo =>
+      'Solo dos opciones de género están disponibles porque son necesarias para cálculos precisos de grasa corporal y otras métricas de salud que utilizan fórmulas específicas de género como base.';
 }

@@ -22,8 +22,7 @@ class ImageTimelineViewWidget extends ConsumerStatefulWidget {
       _ImageTimelineViewWidgetState();
 }
 
-class _ImageTimelineViewWidgetState
-    extends ConsumerState<ImageTimelineViewWidget> {
+class _ImageTimelineViewWidgetState extends ConsumerState<ImageTimelineViewWidget> {
   bool _showFilters = false;
   final Map<String, File?> _imageCache = {};
 

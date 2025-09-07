@@ -236,5 +236,7 @@
   "setAsComparisonEntry": "Set as Comparison Entry",
   "imageSavedToGallery": "Image saved to gallery",
   "exportToGallery": "Export to Gallery",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "genderSelection": "Gender Selection",
+  "genderSelectionInfo": "Only two gender options are available because they are necessary for accurate body fat calculations and other health metrics that use gender-specific formulas as their foundation."
 }

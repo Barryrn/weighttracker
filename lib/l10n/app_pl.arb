@@ -233,6 +233,8 @@
   "setAsComparisonEntry": "Ustaw jako wpis porównawczy",
   "imageSavedToGallery": "Obraz zapisany do galerii",
   "exportToGallery": "Eksportuj do galerii",
-  "cancel": "Anuluj"
+  "cancel": "Anuluj",
+  "genderSelection": "Wybór Płci",
+  "genderSelectionInfo": "Tylko dwie opcje płci są dostępne, ponieważ są niezbędne do dokładnych obliczeń tkanki tłuszczowej i innych wskaźników zdrowia, które wykorzystują formuły specyficzne dla płci jako podstawę."
 }
 

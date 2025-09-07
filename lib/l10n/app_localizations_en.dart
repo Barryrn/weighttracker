@@ -743,4 +743,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get setAsComparisonEntry => 'Set as Comparison Entry';
+
+  @override
+  String get genderSelection => 'Gender Selection';
+
+  @override
+  String get genderSelectionInfo =>
+      'Only two gender options are available because they are necessary for accurate body fat calculations and other health metrics that use gender-specific formulas as their foundation.';
 }

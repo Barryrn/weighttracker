@@ -744,4 +744,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get setAsComparisonEntry => 'Karşılaştırma girişi olarak ayarla';
+
+  @override
+  String get genderSelection => 'Cinsiyet Seçimi';
+
+  @override
+  String get genderSelectionInfo =>
+      'Yalnızca iki cinsiyet seçeneği mevcuttur çünkü bunlar doğru vücut yağ hesaplamaları ve cinsiyete özgü formülleri temel alan diğer sağlık metrikleri için gereklidir.';
 }

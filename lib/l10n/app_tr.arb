@@ -233,5 +233,7 @@
   "setAsComparisonEntry": "Karşılaştırma girişi olarak ayarla",
   "imageSavedToGallery": "Görsel galeriye kaydedildi",
   "exportToGallery": "Galeriye aktar",
-  "cancel": "İptal"
+  "cancel": "İptal",
+  "genderSelection": "Cinsiyet Seçimi",
+  "genderSelectionInfo": "Yalnızca iki cinsiyet seçeneği mevcuttur çünkü bunlar doğru vücut yağ hesaplamaları ve cinsiyete özgü formülleri temel alan diğer sağlık metrikleri için gereklidir."
 }

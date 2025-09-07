@@ -748,4 +748,11 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get setAsComparisonEntry => 'Als Vergleichseintrag festlegen';
+
+  @override
+  String get genderSelection => 'Geschlechtsauswahl';
+
+  @override
+  String get genderSelectionInfo =>
+      'Nur zwei Geschlechtsoptionen sind verfügbar, da sie für präzise Körperfettberechnungen und andere Gesundheitsmetriken erforderlich sind, die geschlechtsspezifische Formeln als Grundlage verwenden.';
 }

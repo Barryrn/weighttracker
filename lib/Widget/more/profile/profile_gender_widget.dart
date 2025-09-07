@@ -19,7 +19,17 @@ class ProfileGenderWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get the current profile settings from the provider
     final profileSettings = ref.watch(profileSettingsProvider);
-    final gender = profileSettings.gender ?? 'Not set';
+    final storedGender = profileSettings.gender;
+    
+    // Convert stored gender to localized display string
+    String displayGender;
+    if (storedGender == 'Male') {
+      displayGender = AppLocalizations.of(context)!.male;
+    } else if (storedGender == 'Female') {
+      displayGender = AppLocalizations.of(context)!.female;
+    } else {
+      displayGender = AppLocalizations.of(context)!.notSet;
+    }
 
     return ListTile(
       tileColor: Theme.of(context).colorScheme.card,
@@ -34,11 +44,11 @@ class ProfileGenderWidget extends ConsumerWidget {
         child: Icon(Icons.person, color: Theme.of(context).colorScheme.primary),
       ),
       title: Text(
-        'Gender',
+        AppLocalizations.of(context)!.gender,
         style: TextStyle(color: Theme.of(context).colorScheme.textPrimary),
       ),
       subtitle: Text(
-        gender,
+        displayGender,
         style: TextStyle(color: Theme.of(context).colorScheme.textPrimary),
       ),
       trailing: Icon(
@@ -55,11 +65,26 @@ class ProfileGenderWidget extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            'Select Gender',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: Theme.of(context).colorScheme.textPrimary,
-            ),
+          title: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  AppLocalizations.of(context)!.selectGender,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.textPrimary,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () => _showGenderInfoDialog(context),
+                icon: Icon(
+                  Icons.info_outline,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 20,
+                ),
+                tooltip: 'Information',
+              ),
+            ],
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -74,7 +99,7 @@ class ProfileGenderWidget extends ConsumerWidget {
                   ref: ref,
                   label: AppLocalizations.of(context)!.male,
                   icon: Icons.male,
-                  genderValue: 'Male',
+                  localizedGender: AppLocalizations.of(context)!.male,
                 ),
                 const SizedBox(height: 12),
                 _buildGenderOption(
@@ -82,11 +107,57 @@ class ProfileGenderWidget extends ConsumerWidget {
                   ref: ref,
                   label: AppLocalizations.of(context)!.female,
                   icon: Icons.female,
-                  genderValue: 'Female',
+                  localizedGender: AppLocalizations.of(context)!.female,
                 ),
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  /// Converts localized gender string to standard storage value
+  String _getStandardGenderValue(BuildContext context, String localizedGender) {
+    if (localizedGender == AppLocalizations.of(context)!.male) {
+      return 'Male';
+    } else if (localizedGender == AppLocalizations.of(context)!.female) {
+      return 'Female';
+    }
+    return localizedGender; // fallback
+  }
+
+  /// Shows an information dialog explaining why only two genders are available.
+  void _showGenderInfoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            AppLocalizations.of(context)!.genderSelection,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: Theme.of(context).colorScheme.textPrimary,
+            ),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          content: Text(
+            AppLocalizations.of(context)!.genderSelectionInfo,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.textPrimary,
+              fontSize: 16,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                AppLocalizations.of(context)!.ok,
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
+            ),
+          ],
         );
       },
     );
@@ -97,12 +168,13 @@ class ProfileGenderWidget extends ConsumerWidget {
     required WidgetRef ref,
     required String label,
     required IconData icon,
-    required String genderValue,
+    required String localizedGender,
   }) {
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () {
-        ref.read(profileSettingsProvider.notifier).updateGender(genderValue);
+        final standardGenderValue = _getStandardGenderValue(context, localizedGender);
+        ref.read(profileSettingsProvider.notifier).updateGender(standardGenderValue);
         Navigator.pop(context);
       },
       child: Container(
