@@ -76,7 +76,7 @@ import '../../l10n/app_localizations.dart';
 // //                           //                         ),
 // //                         if (currentEntry.weight != null)
 // //                           Text(
-// //                             'Weight: ${currentEntry.weight!.toStringAsFixed(1)} kg',
+// //                             'Weight: ${currentEntry.weight!.toStringAsFixed(2)} kg',
 // //                             //                           ),
 // //                       ],
 // //                     ),

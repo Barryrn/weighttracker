@@ -154,7 +154,7 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
             ),
             Text(
               displayWeight != null
-                  ? '${displayWeight.toStringAsFixed(1)} $weightUnit'
+                  ? '${displayWeight.toStringAsFixed(2)} $weightUnit'
                   : 'N/A',
             ),
           ],
@@ -207,7 +207,7 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
         children: [
           Text(_formatDate(entry.date), style: const TextStyle(fontSize: 18)),
           const SizedBox(height: 16),
-          Text('${displayWeight.toStringAsFixed(1)} $weightUnit'),
+          Text('${displayWeight.toStringAsFixed(2)} $weightUnit'),
         ],
       ),
     );
@@ -301,7 +301,7 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
                           if (touchedSpot.y.isNaN) return null;
 
                           return LineTooltipItem(
-                            '${_formatDate(entry.date)}\n${touchedSpot.y.toStringAsFixed(1)} $weightUnit',
+                            '${_formatDate(entry.date)}\n${touchedSpot.y.toStringAsFixed(2)} $weightUnit',
                             const TextStyle(color: Colors.white),
                           );
                         }
@@ -346,7 +346,7 @@ class _WeightChartViewState extends ConsumerState<WeightChartView> {
                       showTitles: true,
                       reservedSize: 40,
                       getTitlesWidget: (value, meta) {
-                        return Text(value.toStringAsFixed(1));
+                        return Text(value.toStringAsFixed(2));
                       },
                     ),
                   ),

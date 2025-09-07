@@ -267,7 +267,7 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
                   // Weight
                   Text(
                     entry.weight != null
-                        ? '${(ref.watch(unitConversionProvider).useMetricWeight ? entry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(entry.weight!)).toStringAsFixed(1)} ${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'}'
+                        ? '${(ref.watch(unitConversionProvider).useMetricWeight ? entry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(entry.weight!)).toStringAsFixed(2)} ${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'}'
                         : AppLocalizations.of(context)!.noWeightData,
                     style: AppTypography.bodyMedium(context).copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,

@@ -257,7 +257,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorLoadingImages.
   ///
   /// In en, this message translates to:
-  /// **'Error loading images'**
+  /// **'No Image uploaded yet'**
   String get errorLoadingImages;
 
   /// No description provided for @myGoals.

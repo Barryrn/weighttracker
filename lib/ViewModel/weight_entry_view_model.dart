@@ -188,15 +188,15 @@ class WeightEntryViewModel extends StateNotifier<WeightEntryData> {
   }
 
   /// Format weight to avoid automatic decimal point for whole numbers
-  /// Format weight to always show at most one decimal place
+  /// Format weight to always show at most two decimal places
   String _formatWeight(double weight) {
-    double rounded = (weight * 10).round() / 10;
+    double rounded = (weight * 100).round() / 100;
 
-    // Remove unnecessary ".0", e.g. 82.0 → "82"
+    // Remove unnecessary decimals, e.g. 82.00 → "82", 82.10 → "82.1", 82.15 → "82.15"
     if (rounded == rounded.roundToDouble()) {
       return rounded.toInt().toString();
     } else {
-      return rounded.toStringAsFixed(1);
+      return rounded.toStringAsFixed(2).replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
     }
   }
 

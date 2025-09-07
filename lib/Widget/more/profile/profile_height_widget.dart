@@ -34,7 +34,7 @@ class ProfileHeightWidget extends ConsumerWidget {
     String formattedHeight = 'Not set';
     if (height != null) {
       if (useMetric) {
-        formattedHeight = '${height.toStringAsFixed(1)} cm';
+        formattedHeight = '${height.toStringAsFixed(2)} cm';
       } else {
         // Convert cm to inches
         final heightInInches = height * cmToInchFactor;
@@ -42,7 +42,7 @@ class ProfileHeightWidget extends ConsumerWidget {
         final feet = (heightInInches / inchesInFoot).floor();
         final inches = heightInInches % inchesInFoot;
         // Show decimal inches instead of rounding
-        formattedHeight = "$feet' ${inches.toStringAsFixed(1)}\"";
+        formattedHeight = "$feet' ${inches.toStringAsFixed(2)}\"";
       }
     }
 
@@ -131,8 +131,8 @@ class ProfileHeightWidget extends ConsumerWidget {
 
                   Text(
                     useMetric
-                        ? '${currentHeight.toStringAsFixed(1)} cm'
-                        : '${(currentHeight / inchesInFoot).floor()}\' ${(currentHeight % inchesInFoot).toStringAsFixed(1)}"',
+                        ? '${currentHeight.toStringAsFixed(2)} cm'
+                        : '${(currentHeight / inchesInFoot).floor()}\' ${(currentHeight % inchesInFoot).toStringAsFixed(2)}"',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: Theme.of(context).colorScheme.textPrimary,
                     ),

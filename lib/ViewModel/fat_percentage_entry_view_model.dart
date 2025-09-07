@@ -170,7 +170,7 @@ class FatPercentageEntryViewModel
 
   /// Updates the fat percentage with a calculated value
   void updateCalculatedFatPercentage(double value) {
-    state.fatPercentageController.text = value.toStringAsFixed(1);
+    state.fatPercentageController.text = value.toStringAsFixed(2);
     ref.read(bodyEntryProvider.notifier).updateFatPercentage(value);
   }
 }

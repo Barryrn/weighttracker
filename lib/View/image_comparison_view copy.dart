@@ -342,7 +342,7 @@ import '../../l10n/app_localizations.dart';
 // //               ),
 // //               child: Text(
 // //                 weight != null
-// //                     ? '${weight.toStringAsFixed(1)} kg'
+// //                     ? '${weight.toStringAsFixed(2)} kg'
 // //                     : 'No weight data',
 // //                 textAlign: TextAlign.center,
 // //                 //               ),

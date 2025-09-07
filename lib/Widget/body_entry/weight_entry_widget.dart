@@ -66,12 +66,12 @@ class WeightEntry extends ConsumerWidget {
                   return oldValue;
                 }
 
-                // Limit to one decimal place
+                // Limit to two decimal places
                 if (text.contains('.')) {
                   final parts = text.split('.');
-                  if (parts[1].length > 1) {
-                    // Truncate to one decimal place
-                    text = '${parts[0]}.${parts[1].substring(0, 1)}';
+                  if (parts[1].length > 2) {
+                    // Truncate to two decimal places
+                    text = '${parts[0]}.${parts[1].substring(0, 2)}';
                     return newValue.copyWith(
                       text: text,
                       selection: TextSelection.collapsed(offset: text.length),
@@ -113,7 +113,7 @@ class WeightEntry extends ConsumerWidget {
               }
             },
             decoration: InputDecoration(
-              hintText: '0.0',
+              hintText: '0.00',
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 12,

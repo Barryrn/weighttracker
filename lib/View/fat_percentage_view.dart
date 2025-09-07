@@ -366,7 +366,7 @@ class FatPercentageViewState extends ConsumerState<FatPercentageView> {
                                   const Text('Calculated Body Fat Percentage'),
                                   const SizedBox(height: 8),
                                   Text(
-                                    '${viewModelState.calculatedFatPercentage!.toStringAsFixed(1)}%',
+                                    '${viewModelState.calculatedFatPercentage!.toStringAsFixed(2)}%',
                                   ),
                                   const SizedBox(height: 16),
                                   // Add a save button below the result

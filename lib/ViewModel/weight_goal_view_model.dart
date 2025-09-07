@@ -85,7 +85,7 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
       // Format without decimal if it's a whole number
       state.goalController.text = displayWeight % 1 == 0
           ? displayWeight.toInt().toString()
-          : displayWeight.toStringAsFixed(1);
+          : displayWeight.toStringAsFixed(2).replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
     }
 
     // Initialize start controller
@@ -96,7 +96,7 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
       // Format without decimal if it's a whole number
       state.startController.text = displayWeight % 1 == 0
           ? displayWeight.toInt().toString()
-          : displayWeight.toStringAsFixed(1);
+          : displayWeight.toStringAsFixed(2).replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
     }
 
     // Update state
@@ -126,7 +126,7 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
       // Format without decimal if it's a whole number
       state.goalController.text = displayWeight % 1 == 0
           ? displayWeight.toInt().toString()
-          : displayWeight.toStringAsFixed(1);
+          : displayWeight.toStringAsFixed(2).replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
     } else {
       state.goalController.text = '';
     }
@@ -139,7 +139,7 @@ class WeightGoalViewModel extends StateNotifier<WeightGoalData> {
       // Format without decimal if it's a whole number
       state.startController.text = displayWeight % 1 == 0
           ? displayWeight.toInt().toString()
-          : displayWeight.toStringAsFixed(1);
+          : displayWeight.toStringAsFixed(2).replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
     } else {
       state.startController.text = '';
     }

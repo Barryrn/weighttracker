@@ -122,7 +122,7 @@ import '../../l10n/app_localizations.dart';
 // ,
 // //                     ),
 // //                     child: Text(
-// //                       'Weight: ${currentEntry.weight!.toStringAsFixed(1)} kg',
+// //                       'Weight: ${currentEntry.weight!.toStringAsFixed(2)} kg',
 // //                       //                     ),
 // //                   ),
 // //               ],

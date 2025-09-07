@@ -38,7 +38,7 @@ class FatPercentageViewModel extends StateNotifier<FatPercentageState> {
 
       state = state.copyWith(
         height: displayHeight,
-        heightText: displayHeight.toStringAsFixed(1),
+        heightText: displayHeight.toStringAsFixed(2),
       );
     }
 
@@ -153,7 +153,7 @@ class FatPercentageViewModel extends StateNotifier<FatPercentageState> {
 
       state = state.copyWith(
         height: currentValue,
-        heightText: currentValue.toStringAsFixed(1),
+        heightText: currentValue.toStringAsFixed(2),
       );
     }
 
@@ -174,7 +174,7 @@ class FatPercentageViewModel extends StateNotifier<FatPercentageState> {
 
       state = state.copyWith(
         neck: currentValue,
-        neckText: currentValue.toStringAsFixed(1),
+        neckText: currentValue.toStringAsFixed(2),
       );
     }
 
@@ -195,7 +195,7 @@ class FatPercentageViewModel extends StateNotifier<FatPercentageState> {
 
       state = state.copyWith(
         waist: currentValue,
-        waistText: currentValue.toStringAsFixed(1),
+        waistText: currentValue.toStringAsFixed(2),
       );
     }
 
@@ -216,7 +216,7 @@ class FatPercentageViewModel extends StateNotifier<FatPercentageState> {
 
       state = state.copyWith(
         hip: currentValue,
-        hipText: currentValue.toStringAsFixed(1),
+        hipText: currentValue.toStringAsFixed(2),
       );
     }
 

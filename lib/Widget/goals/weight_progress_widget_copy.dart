@@ -60,7 +60,7 @@ import '../../l10n/app_localizations.dart';
 //                     const SizedBox(height: 4),
 //                     Text(
 //                       progressData.displayCurrentWeight != null
-//                           ? '${progressData.displayCurrentWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
+//                           ? '${progressData.displayCurrentWeight!.toStringAsFixed(2)} ${progressData.unitSuffix}'
 //                           : '-- ${progressData.unitSuffix}',
 //                       //                     ),
 //                   ],
@@ -76,7 +76,7 @@ import '../../l10n/app_localizations.dart';
 //                     const SizedBox(height: 4),
 //                     Text(
 //                       progressData.displayGoalWeight != null
-//                           ? '${progressData.displayGoalWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
+//                           ? '${progressData.displayGoalWeight!.toStringAsFixed(2)} ${progressData.unitSuffix}'
 //                           : '-- ${progressData.unitSuffix}',
 //                       //                     ),
 //                   ],
@@ -155,7 +155,7 @@ import '../../l10n/app_localizations.dart';
 //                       Text(
 //                         progressData.currentWeight != null &&
 //                                 progressData.goalWeight != null
-//                             ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
+//                             ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(2)} ${progressData.unitSuffix}'
 //                             : '-- ${progressData.unitSuffix}',
 //                         //                       ),
 //                     ],

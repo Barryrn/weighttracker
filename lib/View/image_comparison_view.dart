@@ -405,7 +405,7 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                 ),
                 child: Text(
                   weight != null
-                      ? '${(ref.watch(unitConversionProvider).useMetricWeight ? weight : ref.read(unitConversionProvider.notifier).kgToLb(weight)).toStringAsFixed(1)} ${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'}'
+                      ? '${(ref.watch(unitConversionProvider).useMetricWeight ? weight : ref.read(unitConversionProvider.notifier).kgToLb(weight)).toStringAsFixed(2)} ${ref.watch(unitConversionProvider).useMetricWeight ? 'kg' : 'lb'}'
                       : AppLocalizations.of(context)!.noWeightData,
                   textAlign: TextAlign.center,
                 ),

@@ -366,7 +366,7 @@ class _LineChartProgressWidgetState
                             final index = spot.x.toInt();
                             if (index >= 0 && index < reversedData.length) {
                               final data = reversedData[index];
-                              final value = spot.y.toStringAsFixed(1);
+                              final value = spot.y.toStringAsFixed(2);
 
                               // Get the unit based on selected data type
                               String unit = '';

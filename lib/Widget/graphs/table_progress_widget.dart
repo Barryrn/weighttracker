@@ -116,19 +116,19 @@ class _TableProgressWidgetState extends ConsumerState<TableProgressWidget> {
                             _buildDataColumn(
                               AppLocalizations.of(context)!.weight,
                               displayWeight != null
-                                  ? '${displayWeight.toStringAsFixed(1)} $weightUnit'
+                                  ? '${displayWeight.toStringAsFixed(2)} $weightUnit'
                                   : '--',
                             ),
                             _buildDataColumn(
                               AppLocalizations.of(context)!.bmi,
                               data.avgBmi != null
-                                  ? data.avgBmi!.toStringAsFixed(1)
+                                  ? data.avgBmi!.toStringAsFixed(2)
                                   : '--',
                             ),
                             _buildDataColumn(
                               AppLocalizations.of(context)!.bodyFat,
                               data.avgFatPercentage != null
-                                  ? '${data.avgFatPercentage!.toStringAsFixed(1)}%'
+                                  ? '${data.avgFatPercentage!.toStringAsFixed(2)}%'
                                   : '--',
                             ),
                           ],

@@ -120,7 +120,7 @@ class _ImageTimelineViewWidgetState extends ConsumerState<ImageTimelineViewWidge
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
-                            '${AppLocalizations.of(context)!.weight}: ${(unitPreferences.useMetricWeight ? currentEntry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(currentEntry.weight!)).toStringAsFixed(1)} ${unitPreferences.useMetricWeight ? 'kg' : 'lb'}',
+                            '${AppLocalizations.of(context)!.weight}: ${(unitPreferences.useMetricWeight ? currentEntry.weight! : ref.read(unitConversionProvider.notifier).kgToLb(currentEntry.weight!)).toStringAsFixed(2)} ${unitPreferences.useMetricWeight ? 'kg' : 'lb'}',
                             style: AppTypography.subtitle2(context).copyWith(
                               color: Theme.of(context).colorScheme.textPrimary,
                             ),

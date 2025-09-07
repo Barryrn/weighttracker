@@ -274,7 +274,7 @@ class ImageGalleryFilter extends ConsumerWidget {
                       : ref
                             .read(unitConversionProvider.notifier)
                             .kgToLb(filterState.weightRange.start))
-                  .toStringAsFixed(1),
+                  .toStringAsFixed(2),
               style: AppTypography.bodyLarge(
                 context,
               ).copyWith(color: Theme.of(context).colorScheme.textPrimary),
@@ -295,8 +295,8 @@ class ImageGalleryFilter extends ConsumerWidget {
                   max: maxWeight,
                   divisions: ((maxWeight - minWeight) * 10).round(),
                   labels: RangeLabels(
-                    filterState.weightRange.start.toStringAsFixed(1),
-                    filterState.weightRange.end.toStringAsFixed(1),
+                    filterState.weightRange.start.toStringAsFixed(2),
+                    filterState.weightRange.end.toStringAsFixed(2),
                   ),
                   onChanged: (values) => filterNotifier.setWeightRange(values),
                 ),
@@ -308,7 +308,7 @@ class ImageGalleryFilter extends ConsumerWidget {
                       : ref
                             .read(unitConversionProvider.notifier)
                             .kgToLb(filterState.weightRange.end))
-                  .toStringAsFixed(1),
+                  .toStringAsFixed(2),
               style: AppTypography.bodyLarge(
                 context,
               ).copyWith(color: Theme.of(context).colorScheme.textPrimary),

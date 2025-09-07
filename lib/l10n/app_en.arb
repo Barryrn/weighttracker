@@ -227,7 +227,6 @@
   "dateDescending": "Date descending",
   "weightAscending": "Weight ascending",
   "weightDescending": "Weight descending",
-  "errorLoadingImages": "Error loading images",
   "noImagesMatchTheCurrentFilters": "No images match the current filters",
   "noImagesAvailable": "No images available",
   "imageOptions": "Image Options",

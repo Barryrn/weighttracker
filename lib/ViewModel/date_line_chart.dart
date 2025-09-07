@@ -116,7 +116,7 @@ class AggregatedBodyData {
 
   @override
   String toString() {
-    return 'AggregatedBodyData(period: $periodLabel, weight: ${avgWeight?.toStringAsFixed(1)}, bmi: ${avgBmi?.toStringAsFixed(1)}, fat: ${avgFatPercentage?.toStringAsFixed(1)}, entries: $entryCount)';
+    return 'AggregatedBodyData(period: $periodLabel, weight: ${avgWeight?.toStringAsFixed(2)}, bmi: ${avgBmi?.toStringAsFixed(2)}, fat: ${avgFatPercentage?.toStringAsFixed(2)}, entries: $entryCount)';
   }
 }
 

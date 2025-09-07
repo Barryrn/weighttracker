@@ -59,7 +59,7 @@ class WeightProgressWidget extends ConsumerWidget {
                   child: _buildWeightInfoColumn(
                     AppLocalizations.of(context)!.current,
                     progressData.displayCurrentWeight != null
-                        ? '${progressData.displayCurrentWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
+                        ? '${progressData.displayCurrentWeight!.toStringAsFixed(2)} ${progressData.unitSuffix}'
                         : '-- ${progressData.unitSuffix}',
                     Theme.of(context).colorScheme.primary,
                     context,
@@ -73,7 +73,7 @@ class WeightProgressWidget extends ConsumerWidget {
                   child: _buildWeightInfoColumn(
                     AppLocalizations.of(context)!.goal,
                     progressData.displayGoalWeight != null
-                        ? '${progressData.displayGoalWeight!.toStringAsFixed(1)} ${progressData.unitSuffix}'
+                        ? '${progressData.displayGoalWeight!.toStringAsFixed(2)} ${progressData.unitSuffix}'
                         : '-- ${progressData.unitSuffix}',
                     Theme.of(context).colorScheme.error,
                     context,
@@ -88,7 +88,7 @@ class WeightProgressWidget extends ConsumerWidget {
                     AppLocalizations.of(context)!.remaining,
                     progressData.currentWeight != null &&
                             progressData.goalWeight != null
-                        ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(1)} ${progressData.unitSuffix}'
+                        ? '${progressData.displayRemainingWeight.abs().toStringAsFixed(2)} ${progressData.unitSuffix}'
                         : '-- ${progressData.unitSuffix}',
                     Theme.of(context).colorScheme.warning,
                     context,

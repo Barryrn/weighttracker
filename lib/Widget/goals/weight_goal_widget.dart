@@ -78,7 +78,7 @@ class WeightGoalWidget extends ConsumerWidget {
                       if (text.split('.').length > 2) return oldValue;
                       if (text.contains('.')) {
                         final decimals = text.split('.')[1];
-                        if (decimals.length > 1) return oldValue;
+                        if (decimals.length > 2) return oldValue;
                       }
                       double.parse(text);
                       return newValue.copyWith(text: text);
@@ -89,7 +89,7 @@ class WeightGoalWidget extends ConsumerWidget {
                 ],
                 onChanged: viewModel.onStartWeightChanged,
                 decoration: InputDecoration(
-                  hintText: '0.0',
+                  hintText: '0.00',
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 12,
@@ -135,7 +135,7 @@ class WeightGoalWidget extends ConsumerWidget {
                       if (text.split('.').length > 2) return oldValue;
                       if (text.contains('.')) {
                         final decimals = text.split('.')[1];
-                        if (decimals.length > 1) return oldValue;
+                        if (decimals.length > 2) return oldValue;
                       }
                       double.parse(text);
                       return newValue.copyWith(text: text);
@@ -146,7 +146,7 @@ class WeightGoalWidget extends ConsumerWidget {
                 ],
                 onChanged: viewModel.onWeightGoalChanged,
                 decoration: InputDecoration(
-                  hintText: '0.0',
+                  hintText: '0.00',
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 12,
