@@ -257,6 +257,27 @@ class ImageTimelineViewModel extends StateNotifier<ImageTimelineState> {
   /// Updates the selected view type (front, side, or back)
   void updateSelectedView(String viewType) {
     if (viewType == 'front' || viewType == 'side' || viewType == 'back') {
+      // Check if this view type is enabled in the filter
+      final filterState = ref.read(imageTimelineFilterProvider);
+      bool isViewEnabled = false;
+
+      switch (viewType) {
+        case 'front':
+          isViewEnabled = filterState.showFrontImages;
+          break;
+        case 'side':
+          isViewEnabled = filterState.showSideImages;
+          break;
+        case 'back':
+          isViewEnabled = filterState.showBackImages;
+          break;
+      }
+
+      // Only update if this view type is enabled
+      if (!isViewEnabled) {
+        return; // Don't allow switching to a disabled view type
+      }
+
       state = state.copyWith(selectedView: viewType);
 
       // After changing the view type, find the first entry that has an image for this view

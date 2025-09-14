@@ -228,21 +228,21 @@ class ImageGalleryViewModel extends StateNotifier<ImageGalleryState> {
     if (filterState.showFrontImages && entry.frontImagePath != null) {
       images.add({
         'path': entry.frontImagePath!,
-        'type': 'Front',
+        'type': 'front',
         'entry': entry,
       });
     }
     if (filterState.showSideImages && entry.sideImagePath != null) {
       images.add({
         'path': entry.sideImagePath!,
-        'type': 'Side',
+        'type': 'side',
         'entry': entry,
       });
     }
     if (filterState.showBackImages && entry.backImagePath != null) {
       images.add({
         'path': entry.backImagePath!,
-        'type': 'Back',
+        'type': 'back',
         'entry': entry,
       });
     }

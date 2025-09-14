@@ -147,17 +147,31 @@ class _ImageTimelineViewWidgetState extends ConsumerState<ImageTimelineViewWidge
     String selectedView,
     ImageTimelineViewModel viewModel,
   ) {
-    // Define the segments
-    final segments = [
-      {'label': 'Front', 'value': 'front'},
-      {'label': 'Side', 'value': 'side'},
-      {'label': 'Back', 'value': 'back'},
+    // Get filter state to check which views are enabled
+    final filterState = ref.watch(imageTimelineFilterProvider);
+
+    // Define the segments based on filter settings
+    final allSegments = [
+      if (filterState.showFrontImages) {'label': 'Front', 'value': 'front'},
+      if (filterState.showSideImages) {'label': 'Side', 'value': 'side'},
+      if (filterState.showBackImages) {'label': 'Back', 'value': 'back'},
     ];
+
+    // If no segments are enabled, show all (fallback)
+    final segments = allSegments.isNotEmpty
+        ? allSegments
+        : [
+            {'label': 'Front', 'value': 'front'},
+            {'label': 'Side', 'value': 'side'},
+            {'label': 'Back', 'value': 'back'},
+          ];
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Calculate button width based on available space
-        final buttonWidth = (constraints.maxWidth - 32) / 3; // 32 for padding
+        // Calculate button width based on available space and number of segments
+        final buttonWidth = segments.isNotEmpty
+            ? (constraints.maxWidth - 32) / segments.length
+            : (constraints.maxWidth - 32) / 3; // fallback
         final buttonHeight = 40.0; // Fixed reasonable height for buttons
         // Find the selected index
         final selectedIndex = segments.indexWhere(

@@ -60,7 +60,7 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
               // Get all available images from filtered entries
               final allImages = <Map<String, dynamic>>[];
               for (final entry in filteredEntries) {
-                allImages.addAll(_getAvailableImages(entry));
+                allImages.addAll(ref.read(imageGalleryViewModelProvider.notifier).getAvailableImages(entry));
               }
 
               if (allImages.isEmpty) {
@@ -99,39 +99,6 @@ class _ImageGalleryWidgetState extends ConsumerState<ImageGalleryWidget> {
     );
   }
 
-  /// Gets all available images from a body entry (synchronous version for immediate use)
-  List<Map<String, dynamic>> _getAvailableImages(BodyEntry entry) {
-    final images = <Map<String, dynamic>>[];
-
-    // Check front image
-    if (entry.frontImagePath != null && entry.frontImagePath!.isNotEmpty) {
-      images.add({
-        'entry': entry,
-        'path': entry.frontImagePath!,
-        'type': 'front',
-      });
-    }
-
-    // Check side image
-    if (entry.sideImagePath != null && entry.sideImagePath!.isNotEmpty) {
-      images.add({
-        'entry': entry,
-        'path': entry.sideImagePath!,
-        'type': 'side',
-      });
-    }
-
-    // Check back image
-    if (entry.backImagePath != null && entry.backImagePath!.isNotEmpty) {
-      images.add({
-        'entry': entry,
-        'path': entry.backImagePath!,
-        'type': 'back',
-      });
-    }
-
-    return images;
-  }
 
   /// Builds an individual image card
   Widget _buildImageCard(

@@ -337,21 +337,21 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                   children: [
                     _buildImageTypeButton(
                       AppLocalizations.of(context)!.frontCapital,
-                      AppLocalizations.of(context)!.front,
+                      AppLocalizations.of(context)!.frontCapital,
                       imageType,
                       entry.frontImagePath != null,
                       onImageTypeChanged,
                     ),
                     _buildImageTypeButton(
                       AppLocalizations.of(context)!.sideCapital,
-                      AppLocalizations.of(context)!.side,
+                      AppLocalizations.of(context)!.sideCapital,
                       imageType,
                       entry.sideImagePath != null,
                       onImageTypeChanged,
                     ),
                     _buildImageTypeButton(
                       AppLocalizations.of(context)!.backCapital,
-                      AppLocalizations.of(context)!.back,
+                      AppLocalizations.of(context)!.backCapital,
                       imageType,
                       entry.backImagePath != null,
                       onImageTypeChanged,
