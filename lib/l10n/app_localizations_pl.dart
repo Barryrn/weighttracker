@@ -36,8 +36,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get noImagesAvailable => 'Brak dostępnych zdjęć';
 
   @override
-  String get pleaseUploadImagesToTrackYourProgress =>
-      'Prześlij zdjęcia, aby śledzić swój postęp';
+  String get pleaseUploadImagesToTrackYourProgress => 'Prześlij zdjęcia, aby śledzić swój postęp';
 
   @override
   String get uploadImages => 'Prześlij zdjęcia';
@@ -55,8 +54,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get addMoreEntries => 'Dodaj więcej wpisów';
 
   @override
-  String get noSimilarWeightEntryFound =>
-      'Nie znaleziono podobnego wpisu wagowego';
+  String get noSimilarWeightEntryFound => 'Nie znaleziono podobnego wpisu wagowego';
 
   @override
   String get front => 'przód';
@@ -98,8 +96,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get addWeightEntry => 'Dodaj wpis';
 
   @override
-  String get fatPercentageCalculator =>
-      'Kalkulator procentu tkanki tłuszczowej';
+  String get fatPercentageCalculator => 'Kalkulator procentu tkanki tłuszczowej';
 
   @override
   String get neckCircumference => 'Obwód szyi';
@@ -123,15 +120,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get other => 'Inne';
 
   @override
-  String get errorCalculatingBodyFatPercentage =>
-      'Błąd obliczania procentu tkanki tłuszczowej';
+  String get errorCalculatingBodyFatPercentage => 'Błąd obliczania procentu tkanki tłuszczowej';
 
   @override
   String get calculateBodyFat => 'Oblicz procent tłuszczu';
 
   @override
-  String get calculatedBodyFatPercentage =>
-      'Obliczony procent tkanki tłuszczowej';
+  String get calculatedBodyFatPercentage => 'Obliczony procent tkanki tłuszczowej';
 
   @override
   String get useThisResult => 'Użyj tego wyniku';
@@ -149,8 +144,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get imageGallery => 'Galeria zdjęć';
 
   @override
-  String get noImagesMatchTheCurrentFilters =>
-      'Brak zdjęć pasujących do bieżących filtrów';
+  String get noImagesMatchTheCurrentFilters => 'Brak zdjęć pasujących do bieżących filtrów';
 
   @override
   String get clearFilters => 'Wyczyść filtry';
@@ -204,38 +198,31 @@ class AppLocalizationsPl extends AppLocalizations {
   String get welcomeToWeightTracker => 'Witamy w Weight Tracker';
 
   @override
-  String get trackYourWeightSetGoalsAndMonitorYourProgressOverTime =>
-      'Śledź swoją wagę, ustalaj cele i monitoruj postępy w czasie';
+  String get trackYourWeightSetGoalsAndMonitorYourProgressOverTime => 'Śledź swoją wagę, ustalaj cele i monitoruj postępy w czasie';
 
   @override
-  String get letsSetupYourProfileToGetStarted =>
-      'Skonfigurujmy Twój profil, aby rozpocząć';
+  String get letsSetupYourProfileToGetStarted => 'Skonfigurujmy Twój profil, aby rozpocząć';
 
   @override
   String get chooseYourUnits => 'Wybierz jednostki';
 
   @override
-  String get selectYourPreferredUnitsForWeightAndHeightMeasurements =>
-      'Wybierz preferowane jednostki do pomiaru wagi i wzrostu';
+  String get selectYourPreferredUnitsForWeightAndHeightMeasurements => 'Wybierz preferowane jednostki do pomiaru wagi i wzrostu';
 
   @override
   String get yourInformation => 'Twoje dane';
 
   @override
-  String get weNeedSomeBasicInformationToCalculateYourGoalsAccurately =>
-      'Potrzebujemy podstawowych informacji, aby dokładnie obliczyć Twoje cele';
+  String get weNeedSomeBasicInformationToCalculateYourGoalsAccurately => 'Potrzebujemy podstawowych informacji, aby dokładnie obliczyć Twoje cele';
 
   @override
-  String get pleaseFillInAllFieldsToContinue =>
-      'Wypełnij wszystkie pola, aby kontynuować';
+  String get pleaseFillInAllFieldsToContinue => 'Wypełnij wszystkie pola, aby kontynuować';
 
   @override
-  String get yourDailyEnergyNeeds =>
-      'Twoje dzienne zapotrzebowanie energetyczne';
+  String get yourDailyEnergyNeeds => 'Twoje dzienne zapotrzebowanie energetyczne';
 
   @override
-  String get basedOnYourInformationWeCanEstimateYourDailyCalorieNeeds =>
-      'Na podstawie Twoich danych możemy oszacować dzienne zapotrzebowanie kaloryczne';
+  String get basedOnYourInformationWeCanEstimateYourDailyCalorieNeeds => 'Na podstawie Twoich danych możemy oszacować dzienne zapotrzebowanie kaloryczne';
 
   @override
   String get profile => 'Profil';
@@ -256,19 +243,16 @@ class AppLocalizationsPl extends AppLocalizations {
   String get retry => 'Ponów próbę';
 
   @override
-  String get noTagsFoundAddTagsWhenEnteringWeightData =>
-      'Nie znaleziono tagów. Dodaj tagi podczas wprowadzania danych wagowych';
+  String get noTagsFoundAddTagsWhenEnteringWeightData => 'Nie znaleziono tagów. Dodaj tagi podczas wprowadzania danych wagowych';
 
   @override
   String get deleteTag => 'Usuń tag';
 
   @override
-  String get areYouSureYouWantToDeleteTheTag =>
-      'Czy na pewno chcesz usunąć ten tag';
+  String get areYouSureYouWantToDeleteTheTag => 'Czy na pewno chcesz usunąć ten tag';
 
   @override
-  String get thisWillRemoveItFromAllEntriesInTheDatabase =>
-      'To usunie go ze wszystkich wpisów w bazie danych';
+  String get thisWillRemoveItFromAllEntriesInTheDatabase => 'To usunie go ze wszystkich wpisów w bazie danych';
 
   @override
   String get delete => 'Usuń';
@@ -304,8 +288,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get deleteEntry => 'Usuń wpis';
 
   @override
-  String get deleteEntryConfirmation =>
-      'Czy na pewno chcesz usunąć ten wpis? Tej operacji nie można cofnąć';
+  String get deleteEntryConfirmation => 'Czy na pewno chcesz usunąć ten wpis? Tej operacji nie można cofnąć';
 
   @override
   String get bodyFatPercentage => 'Procent tkanki tłuszczowej (%)';
@@ -323,12 +306,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get deletePhoto => 'Usuń zdjęcie';
 
   @override
-  String get cameraPermissionIsRequiredToTakePhotos =>
-      'Wymagane jest zezwolenie na użycie aparatu';
+  String get cameraPermissionIsRequiredToTakePhotos => 'Wymagane jest zezwolenie na użycie aparatu';
 
   @override
-  String get photosPermissionIsRequiredToSelectImages =>
-      'Wymagane jest zezwolenie na dostęp do zdjęć';
+  String get photosPermissionIsRequiredToSelectImages => 'Wymagane jest zezwolenie na dostęp do zdjęć';
 
   @override
   String get errorDeletingImage => 'Błąd usuwania zdjęcia';
@@ -352,8 +333,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get tdeeInformation => 'Informacje o TDEE';
 
   @override
-  String get needToTrackYourInformation =>
-      'Musisz śledzić swoją wagę i spożycie kalorii przez 7 kolejnych dni, aby TDEE było dostępne';
+  String get needToTrackYourInformation => 'Musisz śledzić swoją wagę i spożycie kalorii przez 7 kolejnych dni, aby TDEE było dostępne';
 
   @override
   String get ok => 'OK';
@@ -368,15 +348,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get setYourGoalWeight => 'Ustaw wagę docelową';
 
   @override
-  String get yourProgressWillBeTrackedAgainstThisGoal =>
-      'Twój postęp będzie porównywany do tego celu';
+  String get yourProgressWillBeTrackedAgainstThisGoal => 'Twój postęp będzie porównywany do tego celu';
 
   @override
   String get noDataAvailable => 'Brak dostępnych danych';
 
   @override
-  String get noDataAvailableForSelectedMetric =>
-      'Brak danych dla wybranej metryki';
+  String get noDataAvailableForSelectedMetric => 'Brak danych dla wybranej metryki';
 
   @override
   String get noDataAvailableForThisPeriod => 'Brak danych dla tego okresu';
@@ -427,38 +405,31 @@ class AppLocalizationsPl extends AppLocalizations {
   String get weightChangeGoalTdee => 'TDEE dla zmiany wagi docelowej';
 
   @override
-  String get pleaseEnterAValidPositiveNumber =>
-      'Wprowadź prawidłową dodatnią liczbę';
+  String get pleaseEnterAValidPositiveNumber => 'Wprowadź prawidłową dodatnią liczbę';
 
   @override
-  String get insufficientDataToCalculateGoalTdee =>
-      'Niewystarczające dane do obliczenia TDEE celu';
+  String get insufficientDataToCalculateGoalTdee => 'Niewystarczające dane do obliczenia TDEE celu';
 
   @override
   String get weightChangeTdee => 'TDEE dla zmiany wagi';
 
   @override
-  String get basedOnYourWeightChangeAndCalorieIntakeOverTime =>
-      'Na podstawie zmiany wagi i spożycia kalorii w czasie';
+  String get basedOnYourWeightChangeAndCalorieIntakeOverTime => 'Na podstawie zmiany wagi i spożycia kalorii w czasie';
 
   @override
-  String get calculationFormulaText =>
-      'To obliczenie wykorzystuje wzór: TDEE = (SpożyteKalorie + (ZmianaWagi_kg × 7700)) / Dni';
+  String get calculationFormulaText => 'To obliczenie wykorzystuje wzór: TDEE = (SpożyteKalorie + (ZmianaWagi_kg × 7700)) / Dni';
 
   @override
   String get calories => 'kalorie';
 
   @override
-  String get yourEstimatedDailyCalorieNeeds =>
-      'Twoje szacowane dzienne zapotrzebowanie kaloryczne';
+  String get yourEstimatedDailyCalorieNeeds => 'Twoje szacowane dzienne zapotrzebowanie kaloryczne';
 
   @override
-  String get infoNoteCalorieTimeCalculation =>
-      'Uwaga: To obliczenie wymaga co najmniej 7 kolejnych dni danych o wadze i kaloriach. Może użyć do 14 dni ciągłych danych dla większej dokładności';
+  String get infoNoteCalorieTimeCalculation => 'Uwaga: To obliczenie wymaga co najmniej 7 kolejnych dni danych o wadze i kaloriach. Może użyć do 14 dni ciągłych danych dla większej dokładności';
 
   @override
-  String get thisCalculationAutomaticallyUpdatesWhenYouAddNewEntries =>
-      'To obliczenie aktualizuje się automatycznie po dodaniu nowych wpisów';
+  String get thisCalculationAutomaticallyUpdatesWhenYouAddNewEntries => 'To obliczenie aktualizuje się automatycznie po dodaniu nowych wpisów';
 
   @override
   String get home => 'Start';
@@ -479,39 +450,31 @@ class AppLocalizationsPl extends AppLocalizations {
   String get syncingWill => 'Synchronizacja spowoduje';
 
   @override
-  String get dataSendToHealthApp =>
-      'Wysłanie danych o wadze, procencie tkanki tłuszczowej i BMI do aplikacji Zdrowie';
+  String get dataSendToHealthApp => 'Wysłanie danych o wadze, procencie tkanki tłuszczowej i BMI do aplikacji Zdrowie';
 
   @override
-  String get importDataFromHealthApp =>
-      'Importowanie pomiarów wagi, procentu tkanki tłuszczowej i BMI z usług zdrowotnych';
+  String get importDataFromHealthApp => 'Importowanie pomiarów wagi, procentu tkanki tłuszczowej i BMI z usług zdrowotnych';
 
   @override
-  String get keepBothSystemsUpToDate =>
-      'Utrzymuj oba systemy w aktualnym stanie';
+  String get keepBothSystemsUpToDate => 'Utrzymuj oba systemy w aktualnym stanie';
 
   @override
-  String get infoHealthServicesNotAvailable =>
-      'Usługi zdrowotne nie są dostępne na tym urządzeniu. Wymagane jest Apple Health na iOS lub Health Connect na Androidzie';
+  String get infoHealthServicesNotAvailable => 'Usługi zdrowotne nie są dostępne na tym urządzeniu. Wymagane jest Apple Health na iOS lub Health Connect na Androidzie';
 
   @override
-  String get noImagesMatchTheCurrentFilterCriteria =>
-      'Brak zdjęć spełniających bieżące kryteria filtrów';
+  String get noImagesMatchTheCurrentFilterCriteria => 'Brak zdjęć spełniających bieżące kryteria filtrów';
 
   @override
   String get noImageAvailableForThisView => 'Brak zdjęcia dla tego widoku';
 
   @override
-  String get noImagesAvailableForThisView =>
-      'Brak dostępnych zdjęć dla tego widoku';
+  String get noImagesAvailableForThisView => 'Brak dostępnych zdjęć dla tego widoku';
 
   @override
-  String get onlyOneImageAvailableForThisView =>
-      'Dostępne jest tylko jedno zdjęcie dla tego widoku';
+  String get onlyOneImageAvailableForThisView => 'Dostępne jest tylko jedno zdjęcie dla tego widoku';
 
   @override
-  String get totalDailyEnergyExpenditureTdee =>
-      'Całkowite dzienne wydatkowanie energii (TDEE)';
+  String get totalDailyEnergyExpenditureTdee => 'Całkowite dzienne wydatkowanie energii (TDEE)';
 
   @override
   String get kcalPerDay => 'kcal/dzień';
@@ -523,8 +486,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get activityLevel => 'Poziom aktywności';
 
   @override
-  String get infoTextTdeeEstimate =>
-      'To jest wstępne oszacowanie Twojego TDEE na podstawie wieku, wagi, płci i poziomu aktywności.\nAby uzyskać dokładniejszy wynik, śledź wagę i spożycie kalorii przez co najmniej 7 kolejnych dni';
+  String get infoTextTdeeEstimate => 'To jest wstępne oszacowanie Twojego TDEE na podstawie wieku, wagi, płci i poziomu aktywności.\nAby uzyskać dokładniejszy wynik, śledź wagę i spożycie kalorii przez co najmniej 7 kolejnych dni';
 
   @override
   String get bmi => 'BMI';
@@ -608,16 +570,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get lightlyActive => 'Lekko aktywny (1-3 dni w tygodniu)';
 
   @override
-  String get moderatelyActive =>
-      'Umiarkowanie aktywny (umiarkowane ćwiczenia 3-5 dni w tygodniu)';
+  String get moderatelyActive => 'Umiarkowanie aktywny (umiarkowane ćwiczenia 3-5 dni w tygodniu)';
 
   @override
-  String get veryActive =>
-      'Bardzo aktywny (intensywne ćwiczenia 6-7 dni w tygodniu)';
+  String get veryActive => 'Bardzo aktywny (intensywne ćwiczenia 6-7 dni w tygodniu)';
 
   @override
-  String get extraActive =>
-      'Bardzo intensywnie aktywny (bardzo ciężkie ćwiczenia i praca fizyczna lub trening 2x dziennie)';
+  String get extraActive => 'Bardzo intensywnie aktywny (bardzo ciężkie ćwiczenia i praca fizyczna lub trening 2x dziennie)';
 
   @override
   String get language => 'Język';
@@ -692,8 +651,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get chooseYourLanguage => 'Wybierz język';
 
   @override
-  String get selectYourPreferredLanguageForTheApp =>
-      'Wybierz preferowany język aplikacji. Aplikacja zostanie ponownie uruchomiona, aby zastosować zmiany';
+  String get selectYourPreferredLanguageForTheApp => 'Wybierz preferowany język aplikacji. Aplikacja zostanie ponownie uruchomiona, aby zastosować zmiany';
 
   @override
   String get grantAppleHealthAccess => 'Udziel dostępu do Apple Health';
@@ -708,12 +666,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get healthConnectIntegration => 'Integracja z Health Connect';
 
   @override
-  String get appleHealthExplanation =>
-      'Ta aplikacja używa danych Apple Health do śledzenia wagi i aktywności. Możesz to włączyć lub wyłączyć w dowolnym momencie w ustawieniach Apple Health.';
+  String get appleHealthExplanation => 'Ta aplikacja używa danych Apple Health do śledzenia wagi i aktywności. Możesz to włączyć lub wyłączyć w dowolnym momencie w ustawieniach Apple Health.';
 
   @override
-  String get healthConnectExplanation =>
-      'Ta aplikacja używa danych Health Connect do śledzenia wagi i aktywności. Możesz to włączyć lub wyłączyć w dowolnym momencie w ustawieniach Health Connect.';
+  String get healthConnectExplanation => 'Ta aplikacja używa danych Health Connect do śledzenia wagi i aktywności. Możesz to włączyć lub wyłączyć w dowolnym momencie w ustawieniach Health Connect.';
 
   @override
   String get importWeightFromAppleHealth => 'Importuj wagę z Apple Health';
@@ -752,8 +708,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get genderSelection => 'Wybór Płci';
 
   @override
-  String get genderSelectionInfo =>
-      'Tylko dwie opcje płci są dostępne, ponieważ są niezbędne do dokładnych obliczeń tkanki tłuszczowej i innych wskaźników zdrowia, które wykorzystują formuły specyficzne dla płci jako podstawę.';
+  String get genderSelectionInfo => 'Tylko dwie opcje płci są dostępne, ponieważ są niezbędne do dokładnych obliczeń tkanki tłuszczowej i innych wskaźników zdrowia, które wykorzystują formuły specyficzne dla płci jako podstawę.';
 
   @override
   String get comparisonMode => 'Tryb Porównania';
@@ -765,10 +720,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get longestTimeDifference => 'Najdłuższa Różnica Czasu';
 
   @override
-  String get shortestTimeDifferenceDescription =>
-      'Porównaj z najbliższą wagą z najnowszego okresu';
+  String get shortestTimeDifferenceDescription => 'Porównaj z najbliższą wagą z najnowszego okresu';
 
   @override
-  String get longestTimeDifferenceDescription =>
-      'Porównaj z najbliższą wagą z najdalszego okresu';
+  String get longestTimeDifferenceDescription => 'Porównaj z najbliższą wagą z najdalszego okresu';
 }

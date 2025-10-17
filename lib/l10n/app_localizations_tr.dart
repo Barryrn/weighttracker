@@ -36,8 +36,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noImagesAvailable => 'Görsel mevcut değil';
 
   @override
-  String get pleaseUploadImagesToTrackYourProgress =>
-      'İlerlemenizi takip etmek için lütfen görseller yükleyin';
+  String get pleaseUploadImagesToTrackYourProgress => 'İlerlemenizi takip etmek için lütfen görseller yükleyin';
 
   @override
   String get uploadImages => 'Görselleri Yükle';
@@ -121,8 +120,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get other => 'Diğer';
 
   @override
-  String get errorCalculatingBodyFatPercentage =>
-      'Vücut yağ oranı hesaplanırken hata oluştu';
+  String get errorCalculatingBodyFatPercentage => 'Vücut yağ oranı hesaplanırken hata oluştu';
 
   @override
   String get calculateBodyFat => 'Vücut Yağını Hesapla';
@@ -146,8 +144,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get imageGallery => 'Görsel Galerisi';
 
   @override
-  String get noImagesMatchTheCurrentFilters =>
-      'Geçerli filtrelerle eşleşen görsel yok';
+  String get noImagesMatchTheCurrentFilters => 'Geçerli filtrelerle eşleşen görsel yok';
 
   @override
   String get clearFilters => 'Filtreleri Temizle';
@@ -201,37 +198,31 @@ class AppLocalizationsTr extends AppLocalizations {
   String get welcomeToWeightTracker => 'Kilo Takipçisine Hoş Geldiniz';
 
   @override
-  String get trackYourWeightSetGoalsAndMonitorYourProgressOverTime =>
-      'Kilonuzu takip edin, hedefler belirleyin ve zaman içinde ilerlemenizi izleyin.';
+  String get trackYourWeightSetGoalsAndMonitorYourProgressOverTime => 'Kilonuzu takip edin, hedefler belirleyin ve zaman içinde ilerlemenizi izleyin.';
 
   @override
-  String get letsSetupYourProfileToGetStarted =>
-      'Başlamak için profilinizi oluşturalım!';
+  String get letsSetupYourProfileToGetStarted => 'Başlamak için profilinizi oluşturalım!';
 
   @override
   String get chooseYourUnits => 'Birimlerinizi Seçin';
 
   @override
-  String get selectYourPreferredUnitsForWeightAndHeightMeasurements =>
-      'Kilo ve boy ölçümleri için tercih ettiğiniz birimleri seçin.';
+  String get selectYourPreferredUnitsForWeightAndHeightMeasurements => 'Kilo ve boy ölçümleri için tercih ettiğiniz birimleri seçin.';
 
   @override
   String get yourInformation => 'Bilgileriniz';
 
   @override
-  String get weNeedSomeBasicInformationToCalculateYourGoalsAccurately =>
-      'Hedeflerinizi doğru şekilde hesaplamak için bazı temel bilgilere ihtiyacımız var.';
+  String get weNeedSomeBasicInformationToCalculateYourGoalsAccurately => 'Hedeflerinizi doğru şekilde hesaplamak için bazı temel bilgilere ihtiyacımız var.';
 
   @override
-  String get pleaseFillInAllFieldsToContinue =>
-      'Devam etmek için lütfen tüm alanları doldurun';
+  String get pleaseFillInAllFieldsToContinue => 'Devam etmek için lütfen tüm alanları doldurun';
 
   @override
   String get yourDailyEnergyNeeds => 'Günlük Enerji İhtiyacınız';
 
   @override
-  String get basedOnYourInformationWeCanEstimateYourDailyCalorieNeeds =>
-      'Bilgilerinize dayanarak günlük kalori ihtiyacınızı tahmin edebiliriz.';
+  String get basedOnYourInformationWeCanEstimateYourDailyCalorieNeeds => 'Bilgilerinize dayanarak günlük kalori ihtiyacınızı tahmin edebiliriz.';
 
   @override
   String get profile => 'Profil';
@@ -252,19 +243,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get retry => 'Tekrar Dene';
 
   @override
-  String get noTagsFoundAddTagsWhenEnteringWeightData =>
-      'Etiket bulunamadı. Kilo verisi girerken etiket ekleyin.';
+  String get noTagsFoundAddTagsWhenEnteringWeightData => 'Etiket bulunamadı. Kilo verisi girerken etiket ekleyin.';
 
   @override
   String get deleteTag => 'Etiketi Sil';
 
   @override
-  String get areYouSureYouWantToDeleteTheTag =>
-      'Bu etiketi silmek istediğinizden emin misiniz';
+  String get areYouSureYouWantToDeleteTheTag => 'Bu etiketi silmek istediğinizden emin misiniz';
 
   @override
-  String get thisWillRemoveItFromAllEntriesInTheDatabase =>
-      'Bu işlem, etiketi veritabanındaki tüm girdilerden kaldıracaktır';
+  String get thisWillRemoveItFromAllEntriesInTheDatabase => 'Bu işlem, etiketi veritabanındaki tüm girdilerden kaldıracaktır';
 
   @override
   String get delete => 'Sil';
@@ -300,8 +288,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deleteEntry => 'Girdiyi Sil';
 
   @override
-  String get deleteEntryConfirmation =>
-      'Bu girdiyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
+  String get deleteEntryConfirmation => 'Bu girdiyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
 
   @override
   String get bodyFatPercentage => 'Vücut Yağ Oranı (%)';
@@ -319,12 +306,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deletePhoto => 'Fotoğrafı Sil';
 
   @override
-  String get cameraPermissionIsRequiredToTakePhotos =>
-      'Fotoğraf çekmek için kamera izni gereklidir';
+  String get cameraPermissionIsRequiredToTakePhotos => 'Fotoğraf çekmek için kamera izni gereklidir';
 
   @override
-  String get photosPermissionIsRequiredToSelectImages =>
-      'Görsel seçmek için fotoğraf izni gereklidir';
+  String get photosPermissionIsRequiredToSelectImages => 'Görsel seçmek için fotoğraf izni gereklidir';
 
   @override
   String get errorDeletingImage => 'Görsel silinirken hata oluştu';
@@ -348,8 +333,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tdeeInformation => 'TDEE Bilgisi';
 
   @override
-  String get needToTrackYourInformation =>
-      'TDEE\'nin hesaplanabilmesi için 7 gün boyunca kilonuzu ve kalori alımınızı takip etmeniz gerekir.';
+  String get needToTrackYourInformation => 'TDEE\'nin hesaplanabilmesi için 7 gün boyunca kilonuzu ve kalori alımınızı takip etmeniz gerekir.';
 
   @override
   String get ok => 'Tamam';
@@ -364,19 +348,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get setYourGoalWeight => 'Hedef kilonuzu belirleyin';
 
   @override
-  String get yourProgressWillBeTrackedAgainstThisGoal =>
-      'İlerlemeniz bu hedefe göre takip edilecektir';
+  String get yourProgressWillBeTrackedAgainstThisGoal => 'İlerlemeniz bu hedefe göre takip edilecektir';
 
   @override
   String get noDataAvailable => 'Veri mevcut değil';
 
   @override
-  String get noDataAvailableForSelectedMetric =>
-      'Seçilen ölçüt için veri mevcut değil';
+  String get noDataAvailableForSelectedMetric => 'Seçilen ölçüt için veri mevcut değil';
 
   @override
-  String get noDataAvailableForThisPeriod =>
-      'Bu zaman dilimi için veri mevcut değil';
+  String get noDataAvailableForThisPeriod => 'Bu zaman dilimi için veri mevcut değil';
 
   @override
   String get day => 'Gün';
@@ -424,38 +405,31 @@ class AppLocalizationsTr extends AppLocalizations {
   String get weightChangeGoalTdee => 'Kilo Değişim Hedefi TDEE';
 
   @override
-  String get pleaseEnterAValidPositiveNumber =>
-      'Lütfen geçerli bir pozitif sayı girin';
+  String get pleaseEnterAValidPositiveNumber => 'Lütfen geçerli bir pozitif sayı girin';
 
   @override
-  String get insufficientDataToCalculateGoalTdee =>
-      'Hedef TDEE\'yi hesaplamak için yetersiz veri';
+  String get insufficientDataToCalculateGoalTdee => 'Hedef TDEE\'yi hesaplamak için yetersiz veri';
 
   @override
   String get weightChangeTdee => 'Kilo Değişim TDEE';
 
   @override
-  String get basedOnYourWeightChangeAndCalorieIntakeOverTime =>
-      'Kilo değişiminiz ve zaman içindeki kalori alımınıza dayalı olarak';
+  String get basedOnYourWeightChangeAndCalorieIntakeOverTime => 'Kilo değişiminiz ve zaman içindeki kalori alımınıza dayalı olarak';
 
   @override
-  String get calculationFormulaText =>
-      'Bu hesaplama şu formülü kullanır: TDEE = (Alınan Kaloriler + (KiloDeğişimi_kg × 7700)) / Gün';
+  String get calculationFormulaText => 'Bu hesaplama şu formülü kullanır: TDEE = (Alınan Kaloriler + (KiloDeğişimi_kg × 7700)) / Gün';
 
   @override
   String get calories => 'kalori';
 
   @override
-  String get yourEstimatedDailyCalorieNeeds =>
-      'Tahmini günlük kalori ihtiyacınız';
+  String get yourEstimatedDailyCalorieNeeds => 'Tahmini günlük kalori ihtiyacınız';
 
   @override
-  String get infoNoteCalorieTimeCalculation =>
-      'Not: Bu hesaplama en az 7 gün boyunca sürekli kilo ve kalori verisi gerektirir. Daha doğru sonuç için 14 güne kadar veri kullanılabilir.';
+  String get infoNoteCalorieTimeCalculation => 'Not: Bu hesaplama en az 7 gün boyunca sürekli kilo ve kalori verisi gerektirir. Daha doğru sonuç için 14 güne kadar veri kullanılabilir.';
 
   @override
-  String get thisCalculationAutomaticallyUpdatesWhenYouAddNewEntries =>
-      'Yeni girişler eklediğinizde bu hesaplama otomatik olarak güncellenir.';
+  String get thisCalculationAutomaticallyUpdatesWhenYouAddNewEntries => 'Yeni girişler eklediğinizde bu hesaplama otomatik olarak güncellenir.';
 
   @override
   String get home => 'Ana Sayfa';
@@ -476,39 +450,31 @@ class AppLocalizationsTr extends AppLocalizations {
   String get syncingWill => 'Senkronizasyon işlemi';
 
   @override
-  String get dataSendToHealthApp =>
-      'Kilo, vücut yağ oranı ve BMI verilerinizi Sağlık Uygulamasına gönderin';
+  String get dataSendToHealthApp => 'Kilo, vücut yağ oranı ve BMI verilerinizi Sağlık Uygulamasına gönderin';
 
   @override
-  String get importDataFromHealthApp =>
-      'Sağlık hizmetlerinden kilo, vücut yağ oranı ve BMI ölçümlerini içe aktarın';
+  String get importDataFromHealthApp => 'Sağlık hizmetlerinden kilo, vücut yağ oranı ve BMI ölçümlerini içe aktarın';
 
   @override
   String get keepBothSystemsUpToDate => 'Her iki sistemi güncel tutun';
 
   @override
-  String get infoHealthServicesNotAvailable =>
-      'Cihazınızda sağlık hizmetleri mevcut değil. Bu özellik iOS\'ta Apple Health veya Android\'de Health Connect gerektirir.';
+  String get infoHealthServicesNotAvailable => 'Cihazınızda sağlık hizmetleri mevcut değil. Bu özellik iOS\'ta Apple Health veya Android\'de Health Connect gerektirir.';
 
   @override
-  String get noImagesMatchTheCurrentFilterCriteria =>
-      'Geçerli filtre kriterleriyle eşleşen görsel yok';
+  String get noImagesMatchTheCurrentFilterCriteria => 'Geçerli filtre kriterleriyle eşleşen görsel yok';
 
   @override
-  String get noImageAvailableForThisView =>
-      'Bu görünüm için görsel mevcut değil';
+  String get noImageAvailableForThisView => 'Bu görünüm için görsel mevcut değil';
 
   @override
-  String get noImagesAvailableForThisView =>
-      'Bu görünüm için görseller mevcut değil';
+  String get noImagesAvailableForThisView => 'Bu görünüm için görseller mevcut değil';
 
   @override
-  String get onlyOneImageAvailableForThisView =>
-      'Bu görünüm için yalnızca bir görsel mevcut';
+  String get onlyOneImageAvailableForThisView => 'Bu görünüm için yalnızca bir görsel mevcut';
 
   @override
-  String get totalDailyEnergyExpenditureTdee =>
-      'Toplam Günlük Enerji Harcaması (TDEE)';
+  String get totalDailyEnergyExpenditureTdee => 'Toplam Günlük Enerji Harcaması (TDEE)';
 
   @override
   String get kcalPerDay => 'kcal/gün';
@@ -520,8 +486,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get activityLevel => 'Aktivite Seviyesi';
 
   @override
-  String get infoTextTdeeEstimate =>
-      'Bu, yaş, kilo, cinsiyet ve aktivite seviyesine dayalı olarak TDEE\'nizin ilk tahminidir.\nDaha doğru bir sonuç için en az 7 gün boyunca kilonuzu ve kalori alımınızı takip edin.';
+  String get infoTextTdeeEstimate => 'Bu, yaş, kilo, cinsiyet ve aktivite seviyesine dayalı olarak TDEE\'nizin ilk tahminidir.\nDaha doğru bir sonuç için en az 7 gün boyunca kilonuzu ve kalori alımınızı takip edin.';
 
   @override
   String get bmi => 'BMI';
@@ -605,15 +570,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get lightlyActive => 'Hafif aktif (haftada 1-3 gün egzersiz)';
 
   @override
-  String get moderatelyActive =>
-      'Orta düzeyde aktif (haftada 3-5 gün orta egzersiz)';
+  String get moderatelyActive => 'Orta düzeyde aktif (haftada 3-5 gün orta egzersiz)';
 
   @override
   String get veryActive => 'Çok aktif (haftada 6-7 gün yoğun egzersiz)';
 
   @override
-  String get extraActive =>
-      'Aşırı aktif (çok yoğun egzersiz ve fiziksel iş veya günde 2 kez antrenman)';
+  String get extraActive => 'Aşırı aktif (çok yoğun egzersiz ve fiziksel iş veya günde 2 kez antrenman)';
 
   @override
   String get language => 'Dil';
@@ -688,8 +651,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get chooseYourLanguage => 'Dilinizi seçin';
 
   @override
-  String get selectYourPreferredLanguageForTheApp =>
-      'Uygulama için tercih ettiğiniz dili seçin. Değişiklikleri uygulamak için uygulama yeniden başlatılacaktır';
+  String get selectYourPreferredLanguageForTheApp => 'Uygulama için tercih ettiğiniz dili seçin. Değişiklikleri uygulamak için uygulama yeniden başlatılacaktır';
 
   @override
   String get grantAppleHealthAccess => 'Apple Health erişimi ver';
@@ -704,19 +666,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get healthConnectIntegration => 'Health Connect Entegrasyonu';
 
   @override
-  String get appleHealthExplanation =>
-      'Bu uygulama kilo ve aktiviteyi takip etmek için Apple Health verilerini kullanır. Bunu Apple Health ayarlarından istediğiniz zaman etkinleştirebilir veya devre dışı bırakabilirsiniz.';
+  String get appleHealthExplanation => 'Bu uygulama kilo ve aktiviteyi takip etmek için Apple Health verilerini kullanır. Bunu Apple Health ayarlarından istediğiniz zaman etkinleştirebilir veya devre dışı bırakabilirsiniz.';
 
   @override
-  String get healthConnectExplanation =>
-      'Bu uygulama kilo ve aktiviteyi takip etmek için Health Connect verilerini kullanır. Bunu Health Connect ayarlarından istediğiniz zaman etkinleştirebilir veya devre dışı bırakabilirsiniz.';
+  String get healthConnectExplanation => 'Bu uygulama kilo ve aktiviteyi takip etmek için Health Connect verilerini kullanır. Bunu Health Connect ayarlarından istediğiniz zaman etkinleştirebilir veya devre dışı bırakabilirsiniz.';
 
   @override
   String get importWeightFromAppleHealth => 'Apple Health\'ten kilo içe aktar';
 
   @override
-  String get importWeightFromHealthConnect =>
-      'Health Connect\'ten kilo içe aktar';
+  String get importWeightFromHealthConnect => 'Health Connect\'ten kilo içe aktar';
 
   @override
   String get sortBy => 'Sırala';
@@ -749,8 +708,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get genderSelection => 'Cinsiyet Seçimi';
 
   @override
-  String get genderSelectionInfo =>
-      'Yalnızca iki cinsiyet seçeneği mevcuttur çünkü bunlar doğru vücut yağ hesaplamaları ve cinsiyete özgü formülleri temel alan diğer sağlık metrikleri için gereklidir.';
+  String get genderSelectionInfo => 'Yalnızca iki cinsiyet seçeneği mevcuttur çünkü bunlar doğru vücut yağ hesaplamaları ve cinsiyete özgü formülleri temel alan diğer sağlık metrikleri için gereklidir.';
 
   @override
   String get comparisonMode => 'Karşılaştırma Modu';
@@ -762,10 +720,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get longestTimeDifference => 'En Uzun Zaman Farkı';
 
   @override
-  String get shortestTimeDifferenceDescription =>
-      'En yakın dönemdeki en yakın kiloyla karşılaştırın';
+  String get shortestTimeDifferenceDescription => 'En yakın dönemdeki en yakın kiloyla karşılaştırın';
 
   @override
-  String get longestTimeDifferenceDescription =>
-      'En uzak dönemdeki en yakın kiloyla karşılaştırın';
+  String get longestTimeDifferenceDescription => 'En uzak dönemdeki en yakın kiloyla karşılaştırın';
 }
