@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weigthtracker/Widget/test_widget.dart';
 import 'package:weigthtracker/theme.dart';
 import '../../../ViewModel/profile_settings_provider.dart';
 
@@ -75,7 +74,7 @@ class ProfileHeightWidget extends ConsumerWidget {
     );
   }
 
-  /// Shows a dialog with a slider to adjust height.
+  /// Shows a dialog with a wheel selector to adjust height.
   void _showHeightSlider(BuildContext context, WidgetRef ref) {
     final useMetric = ref.read(heightUnitProvider); // true = cm, false = inches
 
@@ -93,15 +92,31 @@ class ProfileHeightWidget extends ConsumerWidget {
     double currentHeight = ref.read(profileSettingsProvider).height ?? 170.0;
 
     // Convert to inches if using imperial
-    if (!useMetric && currentHeight != null) {
+    if (!useMetric) {
       currentHeight = currentHeight * cmToInchFactor;
     }
 
     // Ensure the current height is within our slider range
     currentHeight = currentHeight.clamp(minHeight, maxHeight);
 
+    // Create list of height values (0.5 increments)
+    final List<double> heightValues = [];
+    for (double i = minHeight; i <= maxHeight; i += 0.5) {
+      heightValues.add(i);
+    }
+
+    // Find initial index
+    int initialIndex = heightValues.indexWhere(
+      (h) => (h - currentHeight).abs() < 0.25,
+    );
+    if (initialIndex == -1) initialIndex = (heightValues.length / 2).floor();
+
     // Get the screen width to calculate dialog width
     final screenWidth = MediaQuery.of(context).size.width;
+
+    // Controller for the wheel
+    final FixedExtentScrollController scrollController =
+        FixedExtentScrollController(initialItem: initialIndex);
 
     showDialog(
       context: context,
@@ -118,117 +133,111 @@ class ProfileHeightWidget extends ConsumerWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 16),
-                  Text(
-                    AppLocalizations.of(context)!.adjustHeight,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 8),
-
-                  Text(
-                    useMetric
-                        ? '${currentHeight.toStringAsFixed(2)} cm'
-                        : '${(currentHeight / inchesInFoot).floor()}\' ${(currentHeight % inchesInFoot).toStringAsFixed(2)}"',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.textPrimary,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.adjustHeight,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  SliderTheme(
-                    data: SliderTheme.of(context).copyWith(
-                      activeTrackColor: Theme.of(context).colorScheme.primary,
-                      inactiveTrackColor: Theme.of(
-                        context,
-                      ).colorScheme.primaryLight,
-                      thumbColor: Theme.of(context).colorScheme.primaryLight,
-                      overlayColor: Theme.of(
-                        context,
-                      ).colorScheme.primaryLight.withOpacity(0.2),
-                      // Make the track thicker for better visibility
-                      trackHeight: 6.0,
+                    const SizedBox(height: 8),
+                    Text(
+                      useMetric
+                          ? '${currentHeight.toStringAsFixed(1)} cm'
+                          : '${(currentHeight / inchesInFoot).floor()}\' ${(currentHeight % inchesInFoot).toStringAsFixed(1)}"',
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    child: Slider(
-                      value: currentHeight,
-                      min: minHeight,
-                      max: maxHeight,
-                      divisions: ((maxHeight - minHeight) * 2)
-                          .round(), // half-step increments
-                      onChanged: (value) {
-                        setState(() {
-                          // round to nearest 0.5 cm or 0.5 inch depending on unit
-                          currentHeight = (value * 2).round() / 2;
-                        });
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          useMetric
-                              ? '${minHeight.toInt()} cm'
-                              : '${(minHeight / inchesInFoot).floor()}\' ${(minHeight % inchesInFoot).round()}"',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.textPrimary,
-                              ),
+                    const SizedBox(height: 20),
+                    // Wheel selector
+                    Container(
+                      height: 200,
+                      decoration: BoxDecoration(
+                        border: Border.symmetric(
+                          horizontal: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2.0,
+                          ),
                         ),
-                        Text(
-                          useMetric
-                              ? '${maxHeight.toInt()} cm'
-                              : '${(maxHeight / inchesInFoot).floor()}\' ${(maxHeight % inchesInFoot).round()}"',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.textPrimary,
+                      ),
+                      child: ListWheelScrollView.useDelegate(
+                        controller: scrollController,
+                        itemExtent: 50,
+                        perspective: 0.003,
+                        diameterRatio: 1.5,
+                        physics: const FixedExtentScrollPhysics(),
+                        onSelectedItemChanged: (index) {
+                          setState(() {
+                            currentHeight = heightValues[index];
+                          });
+                        },
+                        childDelegate: ListWheelChildBuilderDelegate(
+                          childCount: heightValues.length,
+                          builder: (context, index) {
+                            final height = heightValues[index];
+                            final isSelected = (height - currentHeight).abs() < 0.25;
+
+                            return Center(
+                              child: Text(
+                                useMetric
+                                    ? '${height.toStringAsFixed(1)} cm'
+                                    : '${(height / inchesInFoot).floor()}\' ${(height % inchesInFoot).toStringAsFixed(1)}"',
+                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  color: isSelected
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context).colorScheme.textPrimary.withValues(alpha: 0.5),
+                                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                  fontSize: isSelected ? 20 : 16,
+                                ),
                               ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            scrollController.dispose();
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.cancel,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        TextButton(
+                          onPressed: () {
+                            // Convert back to cm if using inches before saving
+                            double heightToSave = currentHeight;
+                            if (!useMetric) {
+                              heightToSave = currentHeight * inchToCmFactor;
+                            }
+
+                            // Update provider with selected height
+                            ref
+                                .read(profileSettingsProvider.notifier)
+                                .updateHeight(heightToSave);
+
+                            scrollController.dispose();
+                            Navigator.pop(context);
+                          },
+                          child: Text(AppLocalizations.of(context)!.save),
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(
-                          AppLocalizations.of(context)!.cancel,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.error,
-                              ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      TextButton(
-                        onPressed: () {
-                          // Convert back to cm if using inches before saving
-                          double heightToSave = currentHeight;
-                          if (!useMetric) {
-                            heightToSave = currentHeight * inchToCmFactor;
-                          }
-
-                          // Update provider with selected height
-                          ref
-                              .read(profileSettingsProvider.notifier)
-                              .updateHeight(heightToSave);
-                          Navigator.pop(context);
-                        },
-                        child: Text(AppLocalizations.of(context)!.save),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
