@@ -750,4 +750,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get genderSelectionInfo =>
       'Only two gender options are available because they are necessary for accurate body fat calculations and other health metrics that use gender-specific formulas as their foundation.';
+
+  @override
+  String get comparisonMode => 'Comparison Mode';
+
+  @override
+  String get shortestTimeDifference => 'Shortest Time Difference';
+
+  @override
+  String get longestTimeDifference => 'Longest Time Difference';
+
+  @override
+  String get shortestTimeDifferenceDescription =>
+      'Compare with the closest weight from the most recent time period';
+
+  @override
+  String get longestTimeDifferenceDescription =>
+      'Compare with the closest weight from the furthest time period';
 }

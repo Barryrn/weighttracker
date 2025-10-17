@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 
 import 'body_entry_model.dart';
+import 'comparison_mode_model.dart';
 
 /// Model class for handling image comparison logic
 class ImageComparisonModel {
   /// Finds the image with the closest weight to the reference image
   /// @param referenceEntry The reference body entry
   /// @param allEntries List of all body entries
+  /// @param comparisonMode The mode to use for comparison (shortest or longest time difference)
   /// @return The body entry with the closest weight to the reference entry
   static BodyEntry? findClosestWeightImage(
     BodyEntry referenceEntry,
-    List<BodyEntry> allEntries,
-  ) {
+    List<BodyEntry> allEntries, {
+    ComparisonMode comparisonMode = ComparisonMode.closestWeightShortestTime,
+  }) {
     if (referenceEntry.weight == null || allEntries.isEmpty) {
       return null;
     }
@@ -34,11 +37,29 @@ class ImageComparisonModel {
       return null;
     }
 
-    // Sort by weight difference (absolute value)
+    // Sort by weight difference (absolute value), then by time difference
     entriesWithImages.sort((a, b) {
       final aDiff = (a.weight! - referenceEntry.weight!).abs();
       final bDiff = (b.weight! - referenceEntry.weight!).abs();
-      return aDiff.compareTo(bDiff);
+
+      // First, compare by weight difference
+      final weightComparison = aDiff.compareTo(bDiff);
+
+      // If weights are equal (or very close), use time difference as tie-breaker
+      if (weightComparison == 0) {
+        final aTimeDiff = referenceEntry.date.difference(a.date).abs();
+        final bTimeDiff = referenceEntry.date.difference(b.date).abs();
+
+        // For shortest time mode, prefer smaller time differences
+        // For longest time mode, prefer larger time differences
+        if (comparisonMode == ComparisonMode.closestWeightShortestTime) {
+          return aTimeDiff.compareTo(bTimeDiff);
+        } else {
+          return bTimeDiff.compareTo(aTimeDiff);
+        }
+      }
+
+      return weightComparison;
     });
 
     // Return the entry with the closest weight

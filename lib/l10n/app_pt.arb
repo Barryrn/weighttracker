@@ -235,5 +235,10 @@
   "exportToGallery": "Exportar para galeria",
   "cancel": "Cancelar",
   "genderSelection": "Seleção de Gênero",
-  "genderSelectionInfo": "Apenas duas opções de gênero estão disponíveis porque são necessárias para cálculos precisos de gordura corporal e outras métricas de saúde que utilizam fórmulas específicas de gênero como base."
+  "genderSelectionInfo": "Apenas duas opções de gênero estão disponíveis porque são necessárias para cálculos precisos de gordura corporal e outras métricas de saúde que utilizam fórmulas específicas de gênero como base.",
+  "comparisonMode": "Modo de Comparação",
+  "shortestTimeDifference": "Menor Diferença de Tempo",
+  "longestTimeDifference": "Maior Diferença de Tempo",
+  "shortestTimeDifferenceDescription": "Comparar com o peso mais próximo do período mais recente",
+  "longestTimeDifferenceDescription": "Comparar com o peso mais próximo do período mais distante"
 }

@@ -751,4 +751,21 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get genderSelectionInfo =>
       'Yalnızca iki cinsiyet seçeneği mevcuttur çünkü bunlar doğru vücut yağ hesaplamaları ve cinsiyete özgü formülleri temel alan diğer sağlık metrikleri için gereklidir.';
+
+  @override
+  String get comparisonMode => 'Karşılaştırma Modu';
+
+  @override
+  String get shortestTimeDifference => 'En Kısa Zaman Farkı';
+
+  @override
+  String get longestTimeDifference => 'En Uzun Zaman Farkı';
+
+  @override
+  String get shortestTimeDifferenceDescription =>
+      'En yakın dönemdeki en yakın kiloyla karşılaştırın';
+
+  @override
+  String get longestTimeDifferenceDescription =>
+      'En uzak dönemdeki en yakın kiloyla karşılaştırın';
 }

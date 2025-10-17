@@ -755,4 +755,21 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get genderSelectionInfo =>
       'Seulement deux options de genre sont disponibles car elles sont nécessaires pour des calculs précis de graisse corporelle et d\'autres métriques de santé qui utilisent des formules spécifiques au genre comme fondement.';
+
+  @override
+  String get comparisonMode => 'Mode de Comparaison';
+
+  @override
+  String get shortestTimeDifference => 'Différence de Temps la Plus Courte';
+
+  @override
+  String get longestTimeDifference => 'Différence de Temps la Plus Longue';
+
+  @override
+  String get shortestTimeDifferenceDescription =>
+      'Comparer avec le poids le plus proche de la période la plus récente';
+
+  @override
+  String get longestTimeDifferenceDescription =>
+      'Comparer avec le poids le plus proche de la période la plus éloignée';
 }

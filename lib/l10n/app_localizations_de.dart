@@ -755,4 +755,21 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get genderSelectionInfo =>
       'Nur zwei Geschlechtsoptionen sind verfügbar, da sie für präzise Körperfettberechnungen und andere Gesundheitsmetriken erforderlich sind, die geschlechtsspezifische Formeln als Grundlage verwenden.';
+
+  @override
+  String get comparisonMode => 'Vergleichsmodus';
+
+  @override
+  String get shortestTimeDifference => 'Kürzeste Zeitdifferenz';
+
+  @override
+  String get longestTimeDifference => 'Längste Zeitdifferenz';
+
+  @override
+  String get shortestTimeDifferenceDescription =>
+      'Vergleichen Sie mit dem nächsten Gewicht aus dem aktuellsten Zeitraum';
+
+  @override
+  String get longestTimeDifferenceDescription =>
+      'Vergleichen Sie mit dem nächsten Gewicht aus dem entferntesten Zeitraum';
 }

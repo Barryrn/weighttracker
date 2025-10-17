@@ -1513,6 +1513,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Only two gender options are available because they are necessary for accurate body fat calculations and other health metrics that use gender-specific formulas as their foundation.'**
   String get genderSelectionInfo;
+
+  /// No description provided for @comparisonMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparison Mode'**
+  String get comparisonMode;
+
+  /// No description provided for @shortestTimeDifference.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortest Time Difference'**
+  String get shortestTimeDifference;
+
+  /// No description provided for @longestTimeDifference.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest Time Difference'**
+  String get longestTimeDifference;
+
+  /// No description provided for @shortestTimeDifferenceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare with the closest weight from the most recent time period'**
+  String get shortestTimeDifferenceDescription;
+
+  /// No description provided for @longestTimeDifferenceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare with the closest weight from the furthest time period'**
+  String get longestTimeDifferenceDescription;
 }
 
 class _AppLocalizationsDelegate

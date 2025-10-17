@@ -236,5 +236,10 @@
   "exportToGallery": "In Galerie exportieren",
   "cancel": "Abbrechen",
   "genderSelection": "Geschlechtsauswahl",
-  "genderSelectionInfo": "Nur zwei Geschlechtsoptionen sind verfügbar, da sie für präzise Körperfettberechnungen und andere Gesundheitsmetriken erforderlich sind, die geschlechtsspezifische Formeln als Grundlage verwenden."
+  "genderSelectionInfo": "Nur zwei Geschlechtsoptionen sind verfügbar, da sie für präzise Körperfettberechnungen und andere Gesundheitsmetriken erforderlich sind, die geschlechtsspezifische Formeln als Grundlage verwenden.",
+  "comparisonMode": "Vergleichsmodus",
+  "shortestTimeDifference": "Kürzeste Zeitdifferenz",
+  "longestTimeDifference": "Längste Zeitdifferenz",
+  "shortestTimeDifferenceDescription": "Vergleichen Sie mit dem nächsten Gewicht aus dem aktuellsten Zeitraum",
+  "longestTimeDifferenceDescription": "Vergleichen Sie mit dem nächsten Gewicht aus dem entferntesten Zeitraum"
 }

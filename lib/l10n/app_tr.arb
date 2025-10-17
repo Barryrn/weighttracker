@@ -235,5 +235,10 @@
   "exportToGallery": "Galeriye aktar",
   "cancel": "İptal",
   "genderSelection": "Cinsiyet Seçimi",
-  "genderSelectionInfo": "Yalnızca iki cinsiyet seçeneği mevcuttur çünkü bunlar doğru vücut yağ hesaplamaları ve cinsiyete özgü formülleri temel alan diğer sağlık metrikleri için gereklidir."
+  "genderSelectionInfo": "Yalnızca iki cinsiyet seçeneği mevcuttur çünkü bunlar doğru vücut yağ hesaplamaları ve cinsiyete özgü formülleri temel alan diğer sağlık metrikleri için gereklidir.",
+  "comparisonMode": "Karşılaştırma Modu",
+  "shortestTimeDifference": "En Kısa Zaman Farkı",
+  "longestTimeDifference": "En Uzun Zaman Farkı",
+  "shortestTimeDifferenceDescription": "En yakın dönemdeki en yakın kiloyla karşılaştırın",
+  "longestTimeDifferenceDescription": "En uzak dönemdeki en yakın kiloyla karşılaştırın"
 }

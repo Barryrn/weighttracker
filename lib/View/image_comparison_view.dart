@@ -12,6 +12,7 @@ import '../viewmodel/unit_conversion_provider.dart'; // Add this import
 import '../theme.dart';
 import 'image_gallery_view.dart';
 import '../service/image_file_service.dart'; // Add this import
+import '../Widget/comparison_mode_settings_widget.dart';
 
 /// A view that displays two images side by side for comparison
 class ImageComparisonView extends ConsumerStatefulWidget {
@@ -26,6 +27,9 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
   // Selected image type for each card - initialize as null to be set dynamically
   String? _leftImageType;
   String? _rightImageType;
+
+  // Track whether settings are expanded
+  bool _settingsExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +133,39 @@ class _ImageComparisonViewState extends ConsumerState<ImageComparisonView> {
                         AppLocalizations.of(context)!.compareYourProgress,
                         style: AppTypography.headline3(context),
                         textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Comparison Mode Settings
+                      ExpansionTile(
+                        title: Row(
+                          children: [
+                            Icon(
+                              Icons.settings,
+                              size: 20,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              AppLocalizations.of(context)!.comparisonMode,
+                              style: AppTypography.bodyMedium(context).copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        initiallyExpanded: _settingsExpanded,
+                        onExpansionChanged: (expanded) {
+                          setState(() {
+                            _settingsExpanded = expanded;
+                          });
+                        },
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                            child: ComparisonModeSettingsWidget(),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 16),
 

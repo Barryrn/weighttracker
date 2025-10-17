@@ -754,4 +754,21 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get genderSelectionInfo =>
       'Tylko dwie opcje płci są dostępne, ponieważ są niezbędne do dokładnych obliczeń tkanki tłuszczowej i innych wskaźników zdrowia, które wykorzystują formuły specyficzne dla płci jako podstawę.';
+
+  @override
+  String get comparisonMode => 'Tryb Porównania';
+
+  @override
+  String get shortestTimeDifference => 'Najkrótsza Różnica Czasu';
+
+  @override
+  String get longestTimeDifference => 'Najdłuższa Różnica Czasu';
+
+  @override
+  String get shortestTimeDifferenceDescription =>
+      'Porównaj z najbliższą wagą z najnowszego okresu';
+
+  @override
+  String get longestTimeDifferenceDescription =>
+      'Porównaj z najbliższą wagą z najdalszego okresu';
 }

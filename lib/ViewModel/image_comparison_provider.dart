@@ -5,8 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../model/body_entry_model.dart';
 import '../model/database_helper.dart';
 import '../model/image_comparison_model.dart';
+import '../model/comparison_mode_model.dart';
 import '../repository/weight_repository.dart';
 import '../provider/database_change_provider.dart';
+import 'comparison_mode_provider.dart';
 
 /// Provider for managing the state of image comparison
 class ImageComparisonNotifier
@@ -32,6 +34,13 @@ class ImageComparisonNotifier
 
     // Listen for database changes
     ref.listen(databaseChangeProvider, (previous, next) {
+      if (previous != next) {
+        loadEntries();
+      }
+    });
+
+    // Listen for comparison mode changes
+    ref.listen(comparisonModeProvider, (previous, next) {
       if (previous != next) {
         loadEntries();
       }
@@ -68,11 +77,15 @@ class ImageComparisonNotifier
       // Find the latest entry with images
       _latestEntry = _findLatestEntryWithImages(entries);
 
-      // Find the comparison entry (closest weight)
+      // Get the current comparison mode
+      final comparisonMode = ref.read(comparisonModeProvider);
+
+      // Find the comparison entry (closest weight) using the selected mode
       if (_latestEntry != null) {
         _comparisonEntry = ImageComparisonModel.findClosestWeightImage(
           _latestEntry!,
           entries,
+          comparisonMode: comparisonMode,
         );
       }
 

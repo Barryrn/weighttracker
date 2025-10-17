@@ -235,6 +235,11 @@
   "exportToGallery": "Eksportuj do galerii",
   "cancel": "Anuluj",
   "genderSelection": "Wybór Płci",
-  "genderSelectionInfo": "Tylko dwie opcje płci są dostępne, ponieważ są niezbędne do dokładnych obliczeń tkanki tłuszczowej i innych wskaźników zdrowia, które wykorzystują formuły specyficzne dla płci jako podstawę."
+  "genderSelectionInfo": "Tylko dwie opcje płci są dostępne, ponieważ są niezbędne do dokładnych obliczeń tkanki tłuszczowej i innych wskaźników zdrowia, które wykorzystują formuły specyficzne dla płci jako podstawę.",
+  "comparisonMode": "Tryb Porównania",
+  "shortestTimeDifference": "Najkrótsza Różnica Czasu",
+  "longestTimeDifference": "Najdłuższa Różnica Czasu",
+  "shortestTimeDifferenceDescription": "Porównaj z najbliższą wagą z najnowszego okresu",
+  "longestTimeDifferenceDescription": "Porównaj z najbliższą wagą z najdalszego okresu"
 }
 
