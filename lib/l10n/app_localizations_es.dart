@@ -36,7 +36,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noImagesAvailable => 'No hay imágenes disponibles';
 
   @override
-  String get pleaseUploadImagesToTrackYourProgress => 'Por favor, sube imágenes para seguir tu progreso';
+  String get pleaseUploadImagesToTrackYourProgress =>
+      'Por favor, sube imágenes para seguir tu progreso';
 
   @override
   String get uploadImages => 'Subir imágenes';
@@ -54,7 +55,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addMoreEntries => 'Agregar más registros';
 
   @override
-  String get noSimilarWeightEntryFound => 'No se encontró un registro de peso similar';
+  String get noSimilarWeightEntryFound =>
+      'No se encontró un registro de peso similar';
 
   @override
   String get front => 'frente';
@@ -120,13 +122,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get other => 'Otro';
 
   @override
-  String get errorCalculatingBodyFatPercentage => 'Error al calcular el porcentaje de grasa corporal';
+  String get errorCalculatingBodyFatPercentage =>
+      'Error al calcular el porcentaje de grasa corporal';
 
   @override
   String get calculateBodyFat => 'Calcular grasa corporal';
 
   @override
-  String get calculatedBodyFatPercentage => 'Porcentaje de grasa corporal calculado';
+  String get calculatedBodyFatPercentage =>
+      'Porcentaje de grasa corporal calculado';
 
   @override
   String get useThisResult => 'Usar este resultado';
@@ -144,7 +148,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get imageGallery => 'Galería de imágenes';
 
   @override
-  String get noImagesMatchTheCurrentFilters => 'Ninguna imagen coincide con los filtros actuales';
+  String get noImagesMatchTheCurrentFilters =>
+      'Ninguna imagen coincide con los filtros actuales';
 
   @override
   String get clearFilters => 'Limpiar filtros';
@@ -180,7 +185,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get failedToSaveImage => 'No se pudo guardar la imagen';
 
   @override
-  String get permissionDeniedToSaveImages => 'Permiso denegado para guardar imágenes';
+  String get permissionDeniedToSaveImages =>
+      'Permiso denegado para guardar imágenes';
 
   @override
   String get errorSavingImage => 'Error al guardar la imagen';
@@ -198,31 +204,37 @@ class AppLocalizationsEs extends AppLocalizations {
   String get welcomeToWeightTracker => 'Bienvenido a Weight Tracker';
 
   @override
-  String get trackYourWeightSetGoalsAndMonitorYourProgressOverTime => 'Registra tu peso, establece metas y supervisa tu progreso a lo largo del tiempo.';
+  String get trackYourWeightSetGoalsAndMonitorYourProgressOverTime =>
+      'Registra tu peso, establece metas y supervisa tu progreso a lo largo del tiempo.';
 
   @override
-  String get letsSetupYourProfileToGetStarted => '¡Vamos a configurar tu perfil para comenzar!';
+  String get letsSetupYourProfileToGetStarted =>
+      '¡Vamos a configurar tu perfil para comenzar!';
 
   @override
   String get chooseYourUnits => 'Elige tus unidades';
 
   @override
-  String get selectYourPreferredUnitsForWeightAndHeightMeasurements => 'Selecciona tus unidades preferidas para las mediciones de peso y altura.';
+  String get selectYourPreferredUnitsForWeightAndHeightMeasurements =>
+      'Selecciona tus unidades preferidas para las mediciones de peso y altura.';
 
   @override
   String get yourInformation => 'Tu información';
 
   @override
-  String get weNeedSomeBasicInformationToCalculateYourGoalsAccurately => 'Necesitamos información básica para calcular tus metas con precisión.';
+  String get weNeedSomeBasicInformationToCalculateYourGoalsAccurately =>
+      'Necesitamos información básica para calcular tus metas con precisión.';
 
   @override
-  String get pleaseFillInAllFieldsToContinue => 'Por favor, completa todos los campos para continuar';
+  String get pleaseFillInAllFieldsToContinue =>
+      'Por favor, completa todos los campos para continuar';
 
   @override
   String get yourDailyEnergyNeeds => 'Tus necesidades energéticas diarias';
 
   @override
-  String get basedOnYourInformationWeCanEstimateYourDailyCalorieNeeds => 'Según tu información, podemos estimar tus necesidades calóricas diarias.';
+  String get basedOnYourInformationWeCanEstimateYourDailyCalorieNeeds =>
+      'Según tu información, podemos estimar tus necesidades calóricas diarias.';
 
   @override
   String get profile => 'Perfil';
@@ -243,16 +255,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get retry => 'Reintentar';
 
   @override
-  String get noTagsFoundAddTagsWhenEnteringWeightData => 'No se encontraron etiquetas. Agrega etiquetas al introducir datos de peso.';
+  String get noTagsFoundAddTagsWhenEnteringWeightData =>
+      'No se encontraron etiquetas. Agrega etiquetas al introducir datos de peso.';
 
   @override
   String get deleteTag => 'Eliminar etiqueta';
 
   @override
-  String get areYouSureYouWantToDeleteTheTag => '¿Estás seguro de que quieres eliminar la etiqueta?';
+  String get areYouSureYouWantToDeleteTheTag =>
+      '¿Estás seguro de que quieres eliminar la etiqueta?';
 
   @override
-  String get thisWillRemoveItFromAllEntriesInTheDatabase => 'Esto la eliminará de todos los registros en la base de datos';
+  String get thisWillRemoveItFromAllEntriesInTheDatabase =>
+      'Esto la eliminará de todos los registros en la base de datos';
 
   @override
   String get delete => 'Eliminar';
@@ -288,7 +303,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteEntry => 'Eliminar registro';
 
   @override
-  String get deleteEntryConfirmation => '¿Estás seguro de que quieres eliminar este registro? Esta acción no se puede deshacer.';
+  String get deleteEntryConfirmation =>
+      '¿Estás seguro de que quieres eliminar este registro? Esta acción no se puede deshacer.';
 
   @override
   String get bodyFatPercentage => 'Porcentaje de grasa corporal (%)';
@@ -306,10 +322,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deletePhoto => 'Eliminar foto';
 
   @override
-  String get cameraPermissionIsRequiredToTakePhotos => 'Se requiere permiso de cámara para tomar fotos';
+  String get cameraPermissionIsRequiredToTakePhotos =>
+      'Se requiere permiso de cámara para tomar fotos';
 
   @override
-  String get photosPermissionIsRequiredToSelectImages => 'Se requiere permiso de fotos para seleccionar imágenes';
+  String get photosPermissionIsRequiredToSelectImages =>
+      'Se requiere permiso de fotos para seleccionar imágenes';
 
   @override
   String get errorDeletingImage => 'Error al eliminar la imagen';
@@ -333,7 +351,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tdeeInformation => 'Información de TDEE';
 
   @override
-  String get needToTrackYourInformation => 'Debes registrar tu peso y consumo de calorías durante 7 días consecutivos antes de que el TDEE esté disponible.';
+  String get needToTrackYourInformation =>
+      'Debes registrar tu peso y consumo de calorías durante 7 días consecutivos antes de que el TDEE esté disponible.';
 
   @override
   String get ok => 'OK';
@@ -348,16 +367,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get setYourGoalWeight => 'Establece tu peso objetivo';
 
   @override
-  String get yourProgressWillBeTrackedAgainstThisGoal => 'Tu progreso se medirá con respecto a esta meta';
+  String get yourProgressWillBeTrackedAgainstThisGoal =>
+      'Tu progreso se medirá con respecto a esta meta';
 
   @override
   String get noDataAvailable => 'No hay datos disponibles';
 
   @override
-  String get noDataAvailableForSelectedMetric => 'No hay datos disponibles para la métrica seleccionada';
+  String get noDataAvailableForSelectedMetric =>
+      'No hay datos disponibles para la métrica seleccionada';
 
   @override
-  String get noDataAvailableForThisPeriod => 'No hay datos disponibles para este período';
+  String get noDataAvailableForThisPeriod =>
+      'No hay datos disponibles para este período';
 
   @override
   String get day => 'Día';
@@ -405,31 +427,38 @@ class AppLocalizationsEs extends AppLocalizations {
   String get weightChangeGoalTdee => 'TDEE de meta de cambio de peso';
 
   @override
-  String get pleaseEnterAValidPositiveNumber => 'Por favor, introduce un número positivo válido';
+  String get pleaseEnterAValidPositiveNumber =>
+      'Por favor, introduce un número positivo válido';
 
   @override
-  String get insufficientDataToCalculateGoalTdee => 'Datos insuficientes para calcular el TDEE de la meta';
+  String get insufficientDataToCalculateGoalTdee =>
+      'Datos insuficientes para calcular el TDEE de la meta';
 
   @override
   String get weightChangeTdee => 'TDEE de cambio de peso';
 
   @override
-  String get basedOnYourWeightChangeAndCalorieIntakeOverTime => 'Basado en tu cambio de peso y consumo de calorías a lo largo del tiempo.';
+  String get basedOnYourWeightChangeAndCalorieIntakeOverTime =>
+      'Basado en tu cambio de peso y consumo de calorías a lo largo del tiempo.';
 
   @override
-  String get calculationFormulaText => 'Este cálculo utiliza la fórmula: TDEE = (CaloríasConsumidas + (CambioDePeso_kg × 7700)) / Días';
+  String get calculationFormulaText =>
+      'Este cálculo utiliza la fórmula: TDEE = (CaloríasConsumidas + (CambioDePeso_kg × 7700)) / Días';
 
   @override
   String get calories => 'calorías';
 
   @override
-  String get yourEstimatedDailyCalorieNeeds => 'Tus necesidades calóricas diarias estimadas';
+  String get yourEstimatedDailyCalorieNeeds =>
+      'Tus necesidades calóricas diarias estimadas';
 
   @override
-  String get infoNoteCalorieTimeCalculation => 'Nota: Este cálculo requiere al menos 7 días consecutivos de datos de peso y calorías. Usará hasta 14 días de datos continuos para mayor precisión.';
+  String get infoNoteCalorieTimeCalculation =>
+      'Nota: Este cálculo requiere al menos 7 días consecutivos de datos de peso y calorías. Usará hasta 14 días de datos continuos para mayor precisión.';
 
   @override
-  String get thisCalculationAutomaticallyUpdatesWhenYouAddNewEntries => 'Este cálculo se actualiza automáticamente cuando agregas nuevos registros.';
+  String get thisCalculationAutomaticallyUpdatesWhenYouAddNewEntries =>
+      'Este cálculo se actualiza automáticamente cuando agregas nuevos registros.';
 
   @override
   String get home => 'Inicio';
@@ -450,31 +479,39 @@ class AppLocalizationsEs extends AppLocalizations {
   String get syncingWill => 'La sincronización';
 
   @override
-  String get dataSendToHealthApp => 'Enviar tu peso, porcentaje de grasa corporal y datos de IMC a la app de salud';
+  String get dataSendToHealthApp =>
+      'Enviar tu peso, porcentaje de grasa corporal y datos de IMC a la app de salud';
 
   @override
-  String get importDataFromHealthApp => 'Importar peso, porcentaje de grasa corporal y mediciones de IMC desde servicios de salud';
+  String get importDataFromHealthApp =>
+      'Importar peso, porcentaje de grasa corporal y mediciones de IMC desde servicios de salud';
 
   @override
   String get keepBothSystemsUpToDate => 'Mantener ambos sistemas actualizados';
 
   @override
-  String get infoHealthServicesNotAvailable => 'Los servicios de salud no están disponibles en tu dispositivo. Esta función requiere Apple Health en iOS o Health Connect en Android.';
+  String get infoHealthServicesNotAvailable =>
+      'Los servicios de salud no están disponibles en tu dispositivo. Esta función requiere Apple Health en iOS o Health Connect en Android.';
 
   @override
-  String get noImagesMatchTheCurrentFilterCriteria => 'Ninguna imagen coincide con los criterios de filtro actuales';
+  String get noImagesMatchTheCurrentFilterCriteria =>
+      'Ninguna imagen coincide con los criterios de filtro actuales';
 
   @override
-  String get noImageAvailableForThisView => 'No hay imagen disponible para esta vista';
+  String get noImageAvailableForThisView =>
+      'No hay imagen disponible para esta vista';
 
   @override
-  String get noImagesAvailableForThisView => 'No hay imágenes disponibles para esta vista';
+  String get noImagesAvailableForThisView =>
+      'No hay imágenes disponibles para esta vista';
 
   @override
-  String get onlyOneImageAvailableForThisView => 'Solo hay una imagen disponible para esta vista';
+  String get onlyOneImageAvailableForThisView =>
+      'Solo hay una imagen disponible para esta vista';
 
   @override
-  String get totalDailyEnergyExpenditureTdee => 'Gasto energético diario total (TDEE)';
+  String get totalDailyEnergyExpenditureTdee =>
+      'Gasto energético diario total (TDEE)';
 
   @override
   String get kcalPerDay => 'kcal/día';
@@ -486,7 +523,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get activityLevel => 'Nivel de actividad';
 
   @override
-  String get infoTextTdeeEstimate => 'Esta es una primera estimación de tu TDEE basada en edad, peso, género y nivel de actividad.\nPara un resultado más preciso, registra tu peso corporal y consumo de calorías durante al menos 7 días continuos.';
+  String get infoTextTdeeEstimate =>
+      'Esta es una primera estimación de tu TDEE basada en edad, peso, género y nivel de actividad.\nPara un resultado más preciso, registra tu peso corporal y consumo de calorías durante al menos 7 días continuos.';
 
   @override
   String get bmi => 'IMC';
@@ -570,13 +608,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get lightlyActive => 'Ligeramente activo (1-3 días por semana)';
 
   @override
-  String get moderatelyActive => 'Moderadamente activo (ejercicio moderado 3-5 días por semana)';
+  String get moderatelyActive =>
+      'Moderadamente activo (ejercicio moderado 3-5 días por semana)';
 
   @override
   String get veryActive => 'Muy activo (ejercicio intenso 6-7 días por semana)';
 
   @override
-  String get extraActive => 'Extra activo (ejercicio muy intenso y trabajo físico o entrenamiento doble)';
+  String get extraActive =>
+      'Extra activo (ejercicio muy intenso y trabajo físico o entrenamiento doble)';
 
   @override
   String get language => 'Idioma';
@@ -651,7 +691,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get chooseYourLanguage => 'Elige tu idioma';
 
   @override
-  String get selectYourPreferredLanguageForTheApp => 'Elige tu idioma preferido para la app. La app se reiniciará para aplicar los cambios';
+  String get selectYourPreferredLanguageForTheApp =>
+      'Elige tu idioma preferido para la app. La app se reiniciará para aplicar los cambios';
 
   @override
   String get grantAppleHealthAccess => 'Conceder acceso a Apple Health';
@@ -666,16 +707,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get healthConnectIntegration => 'Integración con Health Connect';
 
   @override
-  String get appleHealthExplanation => 'Esta aplicación utiliza datos de Apple Health para rastrear el peso y la actividad. Puedes habilitar o deshabilitar esto en cualquier momento en la configuración de Apple Health.';
+  String get appleHealthExplanation =>
+      'Esta aplicación utiliza datos de Apple Health para rastrear el peso y la actividad. Puedes habilitar o deshabilitar esto en cualquier momento en la configuración de Apple Health.';
 
   @override
-  String get healthConnectExplanation => 'Esta aplicación utiliza datos de Health Connect para rastrear el peso y la actividad. Puedes habilitar o deshabilitar esto en cualquier momento en la configuración de Health Connect.';
+  String get healthConnectExplanation =>
+      'Esta aplicación utiliza datos de Health Connect para rastrear el peso y la actividad. Puedes habilitar o deshabilitar esto en cualquier momento en la configuración de Health Connect.';
 
   @override
   String get importWeightFromAppleHealth => 'Importar peso desde Apple Health';
 
   @override
-  String get importWeightFromHealthConnect => 'Importar peso desde Health Connect';
+  String get importWeightFromHealthConnect =>
+      'Importar peso desde Health Connect';
 
   @override
   String get sortBy => 'Ordenar por';
@@ -708,7 +752,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get genderSelection => 'Selección de Género';
 
   @override
-  String get genderSelectionInfo => 'Solo dos opciones de género están disponibles porque son necesarias para cálculos precisos de grasa corporal y otras métricas de salud que utilizan fórmulas específicas de género como base.';
+  String get genderSelectionInfo =>
+      'Solo dos opciones de género están disponibles porque son necesarias para cálculos precisos de grasa corporal y otras métricas de salud que utilizan fórmulas específicas de género como base.';
 
   @override
   String get comparisonMode => 'Modo de Comparación';
@@ -720,8 +765,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get longestTimeDifference => 'Mayor Diferencia de Tiempo';
 
   @override
-  String get shortestTimeDifferenceDescription => 'Comparar con el peso más cercano del período de tiempo más reciente';
+  String get shortestTimeDifferenceDescription =>
+      'Comparar con el peso más cercano del período de tiempo más reciente';
 
   @override
-  String get longestTimeDifferenceDescription => 'Comparar con el peso más cercano del período de tiempo más lejano';
+  String get longestTimeDifferenceDescription =>
+      'Comparar con el peso más cercano del período de tiempo más lejano';
 }
